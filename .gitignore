@@ -1,0 +1,65 @@
+# ============================================================
+# Separate-garbage: files that must not be committed
+# ============================================================
+
+# --- Secrets / credentials ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+.npmrc
+.pypirc
+credentials*.json
+client_secret*.json
+service-account*.json
+secrets/
+private/
+
+# --- Dependencies / generated caches ---
+node_modules/
+coverage/
+.cache/
+.parcel-cache/
+.vite/
+
+# --- Python helpers / research scripts ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# --- Logs / temporary files ---
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+tmp/
+temp/
+.local/
+scratch/
+
+# --- OS metadata ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# --- IDE / editor local settings ---
+.idea/
+.vscode/
+
+# --- Office lock files ---
+~$*
+
+# NOTE:
+# Do NOT broadly ignore CSV/JSON/PDF files. Official municipality source data
+# and app data are project artifacts and should remain trackable unless they
+# contain secrets or personal information.
