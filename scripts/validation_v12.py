@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared structural and two-gate validation for Schema v1.2.1."""
+"""Shared structural and two-gate validation for Schema v1.2.2."""
 
 from __future__ import annotations
 
@@ -11,7 +11,8 @@ from urllib.parse import urlparse
 
 from schema_v12 import (
     CATEGORY_FIELDS, CHECK_STATUS, COUNT_STATUS, COVERAGE_FIELDS, MAPPING_FIELDS, MASTER,
-    MUNICIPALITY_FIELDS, QA_FIELDS, RESEARCH, ROOT, SOURCE_FIELDS, compute_qa, read_csv, ui_role_valid,
+    MUNICIPALITY_FIELDS, QA_FIELDS, RESEARCH, ROOT, SOURCE_FIELDS, compute_qa,
+    counted_category_total, read_csv, ui_role_valid,
 )
 
 BOOL = {"TRUE", "FALSE", "CONDITIONAL", "UNKNOWN"}
@@ -66,6 +67,21 @@ def validate_optional_check(errors: list[str], row: dict[str, str], *, url_field
             errors.append(f"CHECKED_ABSENT lacks official search evidence: {mid} {status_field}")
     elif url or evidence:
         errors.append(f"NOT_CHECKED must not claim URL/evidence: {mid} {status_field}")
+
+
+def validate_item_evidence(errors: list[str], row: dict[str, str], *, mid: str,
+                           source_by_key: dict, context: str) -> None:
+    source_id = row.get("item_evidence_source_id", "")
+    url = row.get("item_evidence_url", "")
+    locator = row.get("item_evidence_locator", "")
+    source = source_by_key.get((mid, source_id))
+    if not source_id or not url or not locator:
+        errors.append(f"{context} lacks item-specific source/url/locator")
+        return
+    if source is None or source.get("official_verified") != "TRUE":
+        errors.append(f"{context} item evidence is not an official dataset source")
+    elif url != source.get("公式URL"):
+        errors.append(f"{context} item evidence URL differs from source")
 
 
 def validate_dataset(*, label: str, municipality_path: Path, category_path: Path, source_path: Path,
@@ -155,15 +171,27 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
         if count_status not in COUNT_STATUS:
             errors.append(f"bad category count check status: {mid}")
         elif count_status == "NOT_REVIEWED":
-            if verified != "FALSE" or any(row.get(f) for f in ["category_count_evidence_source_id", "category_count_reviewed_date", "category_count_reviewed_by"]):
+            if verified != "FALSE" or any(row.get(f) for f in [
+                "reviewed_category_count", "category_count_evidence_source_id",
+                "category_count_reviewed_date", "category_count_reviewed_by",
+            ]):
                 errors.append(f"NOT_REVIEWED claims category-count evidence: {mid}")
         else:
             if verified != "TRUE" or not row.get("category_count_basis") or source_key not in source_by_key:
                 errors.append(f"verified category count lacks evidence source/basis: {mid}")
             if not iso_date(row.get("category_count_reviewed_date", "")) or not row.get("category_count_reviewed_by"):
                 errors.append(f"verified category count lacks reviewer/date: {mid}")
-            if not row.get("official_category_count", "").isdigit():
-                errors.append(f"verified category count is not numeric: {mid}")
+            official_count = row.get("official_category_count", "")
+            reviewed_count = row.get("reviewed_category_count", "")
+            if count_status == "OFFICIAL_COUNT_MATCHED" and not official_count.isdigit():
+                errors.append(f"OFFICIAL_COUNT_MATCHED lacks numeric official count: {mid}")
+            if count_status == "OFFICIAL_COUNT_MATCHED" and reviewed_count:
+                errors.append(f"OFFICIAL_COUNT_MATCHED must not claim a manual reviewed count: {mid}")
+            if count_status == "MANUAL_INDEX_REVIEW":
+                if not reviewed_count.isdigit():
+                    errors.append(f"MANUAL_INDEX_REVIEW lacks numeric reviewed count: {mid}")
+                if official_count and not official_count.isdigit():
+                    errors.append(f"MANUAL_INDEX_REVIEW has non-numeric optional official count: {mid}")
         validate_optional_check(errors, row, url_field="品目検索URL", status_field="search_service_check_status", evidence_field="search_service_check_evidence")
         validate_optional_check(errors, row, url_field="やさしい日本語URL", status_field="easy_japanese_check_status", evidence_field="easy_japanese_check_evidence")
         validate_optional_check(errors, row, url_field="多言語資料URL", status_field="multilingual_check_status", evidence_field="multilingual_check_evidence")
@@ -215,10 +243,27 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
         mid = municipality["municipality_id"]
         if not any(r["municipality_id"] == mid and r.get("rule_status") == "CURRENT" and r.get("ui_role") == "SORT_BUCKET" for r in categories):
             errors.append(f"no current learner SORT_BUCKET: {mid}")
-        if municipality.get("category_count_check_status") != "NOT_REVIEWED":
-            actual = sum(r["municipality_id"] == mid and r.get("rule_status") == "CURRENT" and r.get("ui_role") != "EXCLUDED_NOTICE" for r in categories)
-            if int(municipality.get("official_category_count") or -1) != actual:
-                errors.append(f"official category count mismatch: {mid} stated={municipality.get('official_category_count')} data={actual}")
+        count_status = municipality.get("category_count_check_status")
+        actual = counted_category_total(mid, categories)
+        if count_status == "OFFICIAL_COUNT_MATCHED":
+            official_count = municipality.get("official_category_count", "")
+            if not official_count.isdigit() or int(official_count) != actual:
+                errors.append(
+                    f"official category count mismatch: {mid} "
+                    f"stated={official_count} data={actual}"
+                )
+        elif count_status == "MANUAL_INDEX_REVIEW":
+            reviewed_count = municipality.get("reviewed_category_count", "")
+            if not reviewed_count.isdigit() or int(reviewed_count) != actual:
+                errors.append(
+                    f"manual reviewed category count mismatch: {mid} "
+                    f"reviewed={reviewed_count} data={actual}"
+                )
+            official_count = municipality.get("official_category_count", "")
+            if official_count and (not official_count.isdigit() or int(official_count) != actual):
+                errors.append(
+                    f"optional official category count mismatch: {mid} stated={official_count} data={actual}"
+                )
 
     if len(items) != 40:
         errors.append(f"common item master must contain exactly 40 rows: {len(items)}")
@@ -251,7 +296,12 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
         if category is None:
             errors.append(f"mapping has unknown category: {mapping_id}")
         else:
-            comparisons = {"分別区分正式名称": "自治体正式名称", "rule_status": "rule_status", "effective_from": "effective_from", "effective_to": "effective_to", "source_id": "source_id", "出典URL": "出典URL", "出典ページ・該当箇所": "出典ページ・該当箇所"}
+            comparisons = {
+                "分別区分正式名称": "自治体正式名称", "rule_status": "rule_status",
+                "effective_from": "effective_from", "effective_to": "effective_to",
+                "category_source_id": "source_id", "category_source_url": "出典URL",
+                "category_source_locator": "出典ページ・該当箇所",
+            }
             for mapping_field, category_field in comparisons.items():
                 if row.get(mapping_field, "") != category.get(category_field, ""):
                     errors.append(f"mapping/category mismatch: {mapping_id} {mapping_field}")
@@ -260,13 +310,25 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
         if row.get("mapping_status") not in MAPPING_STATUS or row.get("evidence_scope") not in EVIDENCE_SCOPE or row.get("branch_review_status") not in BRANCH_REVIEW:
             errors.append(f"bad mapping review enum: {mapping_id}")
         if row.get("mapping_status") == "VERIFIED":
-            if row.get("evidence_scope") == "NONE" or not iso_date(row.get("reviewed_date", "")) or not row.get("reviewed_by"):
+            if row.get("evidence_scope") != "ITEM_SPECIFIC" or not iso_date(row.get("reviewed_date", "")) or not row.get("reviewed_by"):
                 errors.append(f"VERIFIED mapping lacks review evidence: {mapping_id}")
+            validate_item_evidence(
+                errors, row, mid=pair[0], source_by_key=source_by_key,
+                context=f"VERIFIED mapping {mapping_id}",
+            )
         if row.get("mapping_status") == "APP_READY":
             if row.get("evidence_scope") != "ITEM_SPECIFIC" or row.get("branch_review_status") != "COMPLETE":
                 errors.append(f"APP_READY mapping lacks item-specific complete branch review: {mapping_id}")
             if not iso_date(row.get("reviewed_date", "")) or not row.get("reviewed_by") or not row.get("自治体での品目表記") or row.get("自治体での品目表記") == "既存category代表品目から抽出":
                 errors.append(f"APP_READY mapping lacks human/item evidence: {mapping_id}")
+            validate_item_evidence(
+                errors, row, mid=pair[0], source_by_key=source_by_key,
+                context=f"APP_READY mapping {mapping_id}",
+            )
+        if row.get("mapping_status") == "INITIAL_REVIEW_REQUIRED" and any(
+            row.get(field) for field in ["item_evidence_source_id", "item_evidence_url", "item_evidence_locator"]
+        ):
+            errors.append(f"initial mapping must not claim item evidence: {mapping_id}")
     for pair, branches in mappings_by_pair.items():
         try:
             actual = sorted(int(row.get("branch_order", "")) for row in branches)
@@ -298,10 +360,17 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
             errors.append(f"NOT_RESEARCHED makes an evidence claim: {pair}")
         if status == "MAPPED_INITIAL" and (not branches or row.get("evidence_scope") != "CATEGORY_LEVEL" or row.get("branch_completeness_confirmed") != "FALSE"):
             errors.append(f"MAPPED_INITIAL is inconsistent: {pair}")
+        if status in {"NOT_RESEARCHED", "MAPPED_INITIAL"} and any(
+            row.get(field) for field in ["item_evidence_source_id", "item_evidence_url", "item_evidence_locator"]
+        ):
+            errors.append(f"unreviewed coverage must not claim item evidence: {pair}")
         if status in {"VERIFIED", "APP_READY", "VERIFIED_NOT_APPLICABLE"}:
-            source = source_by_key.get((pair[0], row.get("source_id", "")))
-            if row.get("evidence_scope") != "ITEM_SPECIFIC" or source is None or not iso_date(row.get("reviewed_date", "")) or not row.get("reviewed_by"):
+            if row.get("evidence_scope") != "ITEM_SPECIFIC" or not iso_date(row.get("reviewed_date", "")) or not row.get("reviewed_by"):
                 errors.append(f"reviewed coverage lacks item-specific official evidence: {pair}")
+            validate_item_evidence(
+                errors, row, mid=pair[0], source_by_key=source_by_key,
+                context=f"reviewed coverage {pair}",
+            )
         if status == "VERIFIED_NOT_APPLICABLE" and (branches or row.get("branch_completeness_confirmed") != "TRUE"):
             errors.append(f"VERIFIED_NOT_APPLICABLE must prove zero complete branches: {pair}")
         if status == "APP_READY":

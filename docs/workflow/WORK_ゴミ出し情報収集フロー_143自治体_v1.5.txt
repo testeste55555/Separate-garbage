@@ -1,0 +1,216 @@
+WORK ゴミ出し情報収集フロー 143自治体 v1.5
+制定日: 2026-08-17
+適用Schema: v1.2.2
+
+==================================================
+0. 目的・現状
+==================================================
+
+中心Can-do:
+「名前が分からないごみでも、自分が住む自治体のルールを調べて、
+仲間と相談しながら、正しく分別ができる。」
+
+対象は家庭ごみの分別判断。曜日、時刻、地区別カレンダーは対象外。
+NEXT_BATCH_GATEとAPP_READINESS_GATEは分離する。
+13自治体の実資料レビューとBatch 02は本修正完了後まで開始しない。
+
+==================================================
+1. 対象・固定ID・版管理
+==================================================
+
+1. data/master/01_municipalities_master.csv の143自治体だけを対象とする。
+2. municipality_idは固定する。
+3. 過去Schema・Workflowを削除・上書きしない。
+4. 新規作業はSchema v1.2.2と本Workflowを使用する。
+5. Batch名、canonical件数、区分数、出典数を固定正常値にしない。
+
+==================================================
+2. CORE / REFERENCE・公式性
+==================================================
+
+CORE:
+- 自治体・区分ID、正式名称、group、level、表示順、ui_role
+- 代表品目、入れてはいけない物、分類を変える条件、条件外、前処理
+- 自治体収集外、安全注意、source、URL、locator、確認日
+- rule_status、effective dates
+
+REFERENCE:
+- collection_channel
+- 指定袋、透明袋、結束等の袋・容器ルール
+- 粗大ごみ、予約、料金、直接搬入、回収拠点、代替処分経路
+
+分類結果を変える袋・処理条件はCOREへ記録する。
+sourceは公式ドメイン台帳で検証し、外部サービスは自治体公式導線を保持する。
+
+==================================================
+3. 任意機能・ui_role
+==================================================
+
+品目検索、やさしい日本語、多言語:
+- CHECKED_PRESENT: URLと確認日の証跡必須
+- CHECKED_ABSENT: 調査した公式URL・範囲・確認日の証跡必須
+- NOT_CHECKED: 未確認。空URLを不存在に変換しない
+
+ui_roleは独立指定する。collection_channel等から再推論しない。
+非CURRENTはHIDDEN、収集外はSORT_BUCKETにしない。
+
+==================================================
+4. 区分網羅性レビュー
+==================================================
+
+A. 公式総数が明記されている場合: OFFICIAL_COUNT_MATCHED
+
+1. official_category_countへ公式総数を記録する。
+2. category_count_evidence_source_idへ総数記載sourceを記録する。
+3. category_count_basisへページ・章・記載位置を記録する。
+4. CURRENTかつ非EXCLUDED_NOTICEの構造化件数と一致させる。
+5. reviewerとreview日を記録する。
+
+B. 公式総数が明記されていない場合: MANUAL_INDEX_REVIEW
+
+1. official_category_countは空欄にする。
+2. 公式目次・見出し・索引を先頭から末尾まで全件照合する。
+3. reviewed_category_countへ照合した対象見出し件数を記録する。
+4. category_count_evidence_source_idへ照合した公式sourceを記録する。
+5. category_count_basisへページ、章、開始・終了見出し、除外判断を記録する。
+6. reviewed_category_countとCURRENTかつ非EXCLUDED_NOTICEの構造化件数を一致させる。
+7. reviewerとreview日を記録する。
+
+公式総数がない場合、構造化件数をofficial_category_countへ転記しない。
+照合未完はNOT_REVIEWED、category_count_verified=FALSEとする。
+
+==================================================
+5. QA状態
+==================================================
+
+1. QAテーブルを元データから機械再計算する。
+2. municipalitiesの確認ステータスはQA結果から自動同期する。
+3. QAログとの不一致は構造validationを失敗させる。
+4. 調査進捗をQA語彙で代用しない。
+
+==================================================
+6. 各Batchの必須6成果物
+==================================================
+
+data/research/batches/<batch_name>/ に次を保存する。
+
+1. <batch_name>_municipalities.csv
+2. <batch_name>_categories.csv
+3. <batch_name>_sources.csv
+4. <batch_name>_qa.csv
+5. <batch_name>_item_mapping.csv
+6. <batch_name>_item_coverage.csv
+
+6成果物すべてを持つものだけを完成Batchとする。
+4調査入力だけのbundleはmigration候補であり、完成Batchではない。
+各Batchはmerge前に自身の6ファイルでvalidationする。
+
+==================================================
+7. 共通40品目・2種類の根拠
+==================================================
+
+全自治体×40品目のcoverage行を必須とする。
+
+mappingのcategory根拠:
+- category_source_id
+- category_source_url
+- category_source_locator
+
+参照categoryの根拠と完全一致させる。
+
+mappingの品目別根拠:
+- item_evidence_source_id
+- item_evidence_url
+- item_evidence_locator
+
+品目辞典、50音索引、個別注意ページ等、品目判断を直接確認できる同一自治体の
+公式sourceを使用する。category sourceと異なってよい。URLはsourceの公式URLと一致し、
+locatorには品目行、索引語、ページ、見出し等を記録する。
+
+mapping状態:
+- INITIAL_REVIEW_REQUIRED: category根拠のみ。item根拠は空欄
+- VERIFIED: ITEM_SPECIFIC、item根拠、reviewer/date必須
+- APP_READY: 上記＋全条件枝COMPLETE＋公式品目表記
+
+coverage状態:
+- NOT_RESEARCHED: 未調査。item根拠は空欄
+- MAPPED_INITIAL: 区分レベル機械抽出。item根拠は空欄
+- VERIFIED: 品目別レビュー済み
+- VERIFIED_NOT_APPLICABLE: 公式証拠で該当なし
+- APP_READY: 全条件枝がアプリ投入可能
+
+reviewed coverageはitem evidence 3列、reviewer、review日を必須とする。
+
+==================================================
+8. migration・merge・冪等性
+==================================================
+
+1. 旧mapping引用はcategory_source_*へ移す。
+2. 未レビュー行にitem evidenceを自動生成しない。
+3. 既存ITEM_SPECIFIC手動review証跡だけをitem evidenceへ引き継ぐ。
+4. mappingはmapping_id、coverageは自治体・品目pairでmergeする。
+5. 手動VERIFIED/APP_READYを優先保持する。
+6. migration、build、mergeを各2回実行し、件数・主キー・SHA-256不変を確認する。
+
+==================================================
+9. 構造validation
+==================================================
+
+- header、enum、主キー、MASTER参照
+- 公式domain/source、category参照
+- OFFICIAL_COUNT_MATCHEDの公式総数一致
+- MANUAL_INDEX_REVIEWのreviewed count一致と証跡
+- category_source_*とcategoryの一致
+- item_evidence_*の公式source、URL、locator
+- mapping条件枝とreview状態
+- 自治体×40品目coverage直積
+- QA再計算とmunicipalities同期
+
+構造破損は終了コード1。未完をNOT_REVIEWED / NOT_RESEARCHED / QA_REQUIREDで
+正直に表現した状態は構造PASSとする。
+
+==================================================
+10. Gate
+==================================================
+
+NEXT_BATCH_GATE:
+- Pilot・全完成Batch・canonical構造PASS
+- canonical no-loss union
+- 全自治体QA_PASSED（区分網羅性含む）
+- coverage直積完備
+- merge冪等性
+- RED TEAM PASS
+
+40品目APP_READYは要求しない。
+標準コマンド: python3 scripts/check_next_batch_gate.py
+
+APP_READINESS_GATE:
+- QA_PASSED
+- 40品目すべてAPP_READYまたはVERIFIED_NOT_APPLICABLE
+- 全品目根拠・条件枝・reviewer・日付完備
+
+標準コマンド: python3 scripts/validate_research.py --app-readiness-gate
+
+未完は終了コード2のHOLDとする。
+
+==================================================
+11. 2026-08-17時点
+==================================================
+
+- 構造validation: PASS
+- RED TEAM: 17/17 PASS
+- QA: 2 QA_PASSED / 13 QA_REQUIRED
+- coverage: 244 MAPPED_INITIAL / 356 NOT_RESEARCHED
+- APP_READY: 0/15自治体
+- NEXT_BATCH_GATE: HOLD
+- APP_READINESS_GATE: HOLD
+- 13自治体の実資料レビュー: 未開始
+- Batch 02: 未開始
+
+==================================================
+12. 変更管理
+==================================================
+
+列、enum、主キー、証跡、Gate変更時はSchema、Data Dictionary、migration、
+validator、RED TEAM、Workflowを同時更新する。自治体固有ルールをコード分岐にせず、
+データと公式証跡で表現する。

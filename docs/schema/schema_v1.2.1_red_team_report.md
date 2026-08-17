@@ -1,5 +1,7 @@
 # Schema v1.2.1 RED TEAM Report
 
+> 履歴版。追加2観点を含む現行結果はv1.2.2の17/17 PASSである。
+
 実施日：2026-08-17  
 自動判定：15/15 PASS  
 NEXT_BATCH_GATE：HOLD  

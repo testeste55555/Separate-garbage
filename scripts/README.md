@@ -2,15 +2,15 @@
 
 | スクリプト | 役割 |
 |---|---|
-| `migrate_schema_v12.py` | 全既存bundleをSchema v1.2.1へ冪等移行し、QA状態を同期、mappingを状態保持更新、40品目coverageを生成 |
-| `schema_v12.py` | v1.2.1列定義、QA再計算、完成Batch判定、mapping reconciliation、coverage生成 |
+| `migrate_schema_v12.py` | 全既存bundleをSchema v1.2.2へ冪等移行し、QA・網羅性・根拠列を状態保持更新 |
+| `schema_v12.py` | v1.2.2列定義、QA再計算、手動目次照合、category/item根拠分離、mapping reconciliation |
 | `build_batch_01.py` | Batch 01を再構築し、手動レビュー証跡を保持してv1.2へ正規化 |
 | `validate_pilot.py` | `data/research/pilot/pilot_qa.csv` を使う独立Pilot検証 |
 | `validate_research.py` | batchまたはcanonical検証 |
 | `validation_v12.py` | 構造検証、NEXT_BATCH_GATE、APP_READINESS_GATEを分離した共通validator |
 | `merge_research.py` | Pilotと完成batchの6成果物をmergeし、`mapping_id` 単位で手動VERIFIED/APP_READY枝を保持 |
 | `check_next_batch_gate.py` | 全bundle、canonical union、二重merge冪等性、RED TEAMを統合した次Batch判定 |
-| `red_team_schema_v12.py` | バッチ数・件数に依存しない15観点RED TEAM |
+| `red_team_schema_v12.py` | バッチ数・件数に依存しない17観点RED TEAM |
 | `*_v11.py` | 破壊的な旧処理を再実行しないv1.2互換entrypoint |
 
 標準検証：

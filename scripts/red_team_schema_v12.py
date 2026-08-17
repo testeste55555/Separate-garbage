@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Adversarial, batch-count-independent checks for the Schema v1.2.1 pipeline."""
+"""Adversarial, batch-count-independent checks for the Schema v1.2.2 pipeline."""
 
 from __future__ import annotations
 
@@ -10,8 +10,9 @@ from pathlib import Path
 
 from schema_v12 import (
     BATCH_MIGRATION_INPUT_SUFFIXES, BATCH_REQUIRED_SUFFIXES, COVERAGE_FIELDS, MAPPING_FIELDS,
-    RESEARCH, ROOT, batch_dirs_for_migration, candidate_initial_mappings, completed_batch_dirs,
-    read_csv, reconcile_mappings, write_csv,
+    MUNICIPALITY_FIELDS, QA_FIELDS, RESEARCH, ROOT, batch_dirs_for_migration,
+    candidate_initial_mappings, completed_batch_dirs, compute_qa, counted_category_total,
+    read_csv, reconcile_mappings, sync_municipality_qa_status, write_csv,
 )
 from merge_research import merge_review_table
 from validate_research import compare_canonical_union
@@ -97,6 +98,50 @@ def main() -> int:
     checks.add("municipality QA status is a synchronized QA-log mirror", all(
         row["確認ステータス"] == qa_status.get(row["municipality_id"]) for row in municipalities
     ))
+
+    _, pilot_municipalities = read_csv(pilot_paths["municipality_path"])
+    _, pilot_categories = read_csv(pilot_paths["category_path"])
+    _, pilot_sources = read_csv(pilot_paths["source_path"])
+    _, pilot_qa = read_csv(pilot_paths["qa_path"])
+    manual_review_ok = False
+    manual_count_mismatch_rejected = False
+    if pilot_municipalities and pilot_sources:
+        manual_rows = [dict(row) for row in pilot_municipalities]
+        target = manual_rows[0]
+        mid = target["municipality_id"]
+        source = next(row for row in pilot_sources if row["municipality_id"] == mid)
+        target.update({
+            "official_category_count": "", "reviewed_category_count": str(counted_category_total(mid, pilot_categories)),
+            "category_count_basis": "公式目次・見出しを全件手動照合", "category_count_verified": "TRUE",
+            "category_count_check_status": "MANUAL_INDEX_REVIEW",
+            "category_count_evidence_source_id": source["source_id"],
+            "category_count_reviewed_date": "2026-08-17", "category_count_reviewed_by": "RED_TEAM_REVIEWER",
+        })
+        manual_qa = compute_qa(manual_rows, pilot_categories, pilot_sources, pilot_qa)
+        sync_municipality_qa_status(manual_rows, manual_qa)
+        with tempfile.TemporaryDirectory(prefix="redteam_manual_count_", dir=ROOT) as tmp:
+            tmp_path = Path(tmp)
+            municipality_path, qa_path = tmp_path / "municipalities.csv", tmp_path / "qa.csv"
+            write_csv(municipality_path, MUNICIPALITY_FIELDS, manual_rows)
+            write_csv(qa_path, QA_FIELDS, manual_qa)
+            manual_paths = dict(pilot_paths)
+            manual_paths.update({"municipality_path": municipality_path, "qa_path": qa_path})
+            manual_errors, _, _ = validate_dataset(label="MANUAL_INDEX", **manual_paths)
+            manual_review_ok = not manual_errors
+
+            bad_rows = [dict(row) for row in manual_rows]
+            bad_target = next(row for row in bad_rows if row["municipality_id"] == mid)
+            bad_target["reviewed_category_count"] = str(int(target["reviewed_category_count"]) + 1)
+            bad_qa = compute_qa(bad_rows, pilot_categories, pilot_sources, manual_qa)
+            sync_municipality_qa_status(bad_rows, bad_qa)
+            write_csv(municipality_path, MUNICIPALITY_FIELDS, bad_rows)
+            write_csv(qa_path, QA_FIELDS, bad_qa)
+            bad_errors, _, _ = validate_dataset(label="BAD_MANUAL_INDEX", **manual_paths)
+            manual_count_mismatch_rejected = any("manual reviewed category count mismatch" in error for error in bad_errors)
+    checks.add(
+        "MANUAL_INDEX_REVIEW permits an empty official total and verifies the reviewed count",
+        manual_review_ok and manual_count_mismatch_rejected,
+    )
     _, items = read_csv(ROOT / "data" / "master" / "04_common_items_master.csv")
     _, coverage = read_csv(canonical_paths["coverage_path"])
     expected_pairs = {(m["municipality_id"], i["internal_item_id"]) for m in municipalities for i in items}
@@ -142,6 +187,9 @@ def main() -> int:
         reviewed.update({
             "mapping_status": "APP_READY", "evidence_scope": "ITEM_SPECIFIC", "branch_review_status": "COMPLETE",
             "reviewed_date": "2026-08-17", "reviewed_by": "RED_TEAM_FIXTURE", "自治体での品目表記": "品目別公式表記",
+            "item_evidence_source_id": reviewed["category_source_id"],
+            "item_evidence_url": reviewed["category_source_url"],
+            "item_evidence_locator": reviewed["category_source_locator"],
         })
         reviewed_alt = dict(reviewed)
         reviewed_alt.update({
@@ -168,6 +216,61 @@ def main() -> int:
                 reviewed_branches[0]["mapping_id"], reviewed_branches[1]["mapping_id"]
             }
     checks.add("mapping_id key preserves two reviewed branches to the same category", preserved_ok and merge_preserved)
+
+    separate_item_evidence_ok = False
+    missing_coverage_locator_rejected = False
+    _, pilot_mappings = read_csv(pilot_paths["mapping_path"])
+    _, pilot_coverage = read_csv(pilot_paths["coverage_path"])
+    evidence_fixture = None
+    for mapping in pilot_mappings:
+        alternate = next((source for source in pilot_sources if (
+            source["municipality_id"] == mapping["municipality_id"]
+            and source["source_id"] != mapping["category_source_id"]
+        )), None)
+        if alternate:
+            evidence_fixture = (mapping, alternate)
+            break
+    if evidence_fixture:
+        original_mapping, alternate = evidence_fixture
+        mapping_rows = [dict(row) for row in pilot_mappings]
+        mapping = next(row for row in mapping_rows if row["mapping_id"] == original_mapping["mapping_id"])
+        mapping.update({
+            "mapping_status": "VERIFIED", "evidence_scope": "ITEM_SPECIFIC",
+            "branch_review_status": "INCOMPLETE", "reviewed_date": "2026-08-17",
+            "reviewed_by": "RED_TEAM_REVIEWER", "item_evidence_source_id": alternate["source_id"],
+            "item_evidence_url": alternate["公式URL"], "item_evidence_locator": "品目辞典の該当品目行",
+        })
+        coverage_rows = [dict(row) for row in pilot_coverage]
+        pair = (mapping["municipality_id"], mapping["internal_item_id"])
+        coverage_row = next(row for row in coverage_rows if (
+            row["municipality_id"], row["internal_item_id"]
+        ) == pair)
+        coverage_row.update({
+            "coverage_status": "VERIFIED", "evidence_scope": "ITEM_SPECIFIC",
+            "branch_completeness_confirmed": "FALSE", "item_evidence_source_id": alternate["source_id"],
+            "item_evidence_url": alternate["公式URL"], "item_evidence_locator": "品目辞典の該当品目行",
+            "reviewed_date": "2026-08-17", "reviewed_by": "RED_TEAM_REVIEWER",
+        })
+        with tempfile.TemporaryDirectory(prefix="redteam_item_evidence_", dir=ROOT) as tmp:
+            tmp_path = Path(tmp)
+            mapping_path, coverage_path = tmp_path / "mapping.csv", tmp_path / "coverage.csv"
+            write_csv(mapping_path, MAPPING_FIELDS, mapping_rows)
+            write_csv(coverage_path, COVERAGE_FIELDS, coverage_rows)
+            evidence_paths = dict(pilot_paths)
+            evidence_paths.update({"mapping_path": mapping_path, "coverage_path": coverage_path})
+            evidence_errors, _, _ = validate_dataset(label="SEPARATE_ITEM_EVIDENCE", **evidence_paths)
+            separate_item_evidence_ok = not evidence_errors and mapping["item_evidence_source_id"] != mapping["category_source_id"]
+
+            coverage_row["item_evidence_locator"] = ""
+            write_csv(coverage_path, COVERAGE_FIELDS, coverage_rows)
+            missing_errors, _, _ = validate_dataset(label="MISSING_ITEM_LOCATOR", **evidence_paths)
+            missing_coverage_locator_rejected = any(
+                "lacks item-specific source/url/locator" in error for error in missing_errors
+            )
+    checks.add(
+        "item evidence may differ from category evidence and coverage requires URL/locator",
+        separate_item_evidence_ok and missing_coverage_locator_rejected,
+    )
 
     direct_edit_rejected = False
     with tempfile.TemporaryDirectory(prefix="schema_v12_redteam_") as tmp:

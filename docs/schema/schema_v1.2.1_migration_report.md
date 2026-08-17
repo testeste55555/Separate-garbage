@@ -1,5 +1,7 @@
 # Schema v1.2.1 Migration Report
 
+> 履歴版。証跡列移行後の結果は `schema_v1.2.2_migration_report.md` を参照する。
+
 実施日：2026-08-17  
 結果：構造validation PASS / 両運用Gate HOLD
 

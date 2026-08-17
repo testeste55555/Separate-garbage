@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Idempotently migrate all existing research bundles to Schema v1.2.1."""
+"""Idempotently migrate all existing research bundles to Schema v1.2.2."""
 
 from __future__ import annotations
 

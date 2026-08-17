@@ -313,11 +313,11 @@ def write_csv(path: Path, fields: list[str], rows: list[list[str]]) -> None:
 
 
 def main() -> None:
-    # Preserve v1.2 review evidence when regenerating the immutable research
+    # Preserve v1.2.2 review evidence when regenerating the immutable research
     # notes below.  The builder may refresh research rows, but it must never
     # erase a later category-count or optional-resource review decision.
     review_fields = [
-        "official_category_count", "category_count_basis", "category_count_verified",
+        "official_category_count", "reviewed_category_count", "category_count_basis", "category_count_verified",
         "category_count_check_status", "category_count_evidence_source_id",
         "category_count_reviewed_date", "category_count_reviewed_by",
         "search_service_check_status", "search_service_check_evidence",

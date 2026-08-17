@@ -2,7 +2,7 @@
 
 Schema v1.0はPilot時点の履歴として `docs/07_schema_v1.0.md` と `docs/08_data_dictionary_v1.0.md` に保持しています。
 
-2026-08-17にv1.1を作成後、拡張性RED TEAMの指摘を反映してv1.2へ改訂し、追加RED TEAMの3件をv1.2.1で修正しました。v1.0〜v1.2成果物は履歴として保持します。
+2026-08-17にv1.1を作成後、拡張性RED TEAMを反映してv1.2、v1.2.1へ改訂しました。追加RED TEAMで判明した網羅性レビューと品目証拠の矛盾をv1.2.2で修正しました。旧版は履歴として保持します。
 
 - `07_schema_v1.1.md`：テーブル構成、状態管理、参照・投影規則
 - `08_data_dictionary_v1.1.md`：列単位の型、必須性、列挙値
@@ -16,5 +16,9 @@ Schema v1.0はPilot時点の履歴として `docs/07_schema_v1.0.md` と `docs/0
 - `12_data_dictionary_v1.2.1.md`：v1.2.1で明確化した列・キー・Gate
 - `schema_v1.2.1_migration_report.md`：既存15自治体の同期・冪等移行結果
 - `schema_v1.2.1_red_team_report.md`：15観点RED TEAM結果
+- `13_schema_v1.2.2.md`：手動目次照合とcategory/item証拠分離
+- `14_data_dictionary_v1.2.2.md`：追加・名称変更列とvalidation規則
+- `schema_v1.2.2_migration_report.md`：既存15自治体の非破壊移行結果
+- `schema_v1.2.2_red_team_report.md`：17観点RED TEAM結果
 
-今後の調査はv1.2.1を使用します。`NEXT_BATCH_GATE` と `APP_READINESS_GATE` は別判定です。2026-08-17時点では前者もHOLDのため、Batch 02は開始していません。
+今後の調査はv1.2.2を使用します。2026-08-17時点では `NEXT_BATCH_GATE` がHOLDのため、13自治体の実資料レビューとBatch 02は開始していません。

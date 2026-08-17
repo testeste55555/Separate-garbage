@@ -73,7 +73,7 @@ def main() -> int:
 
     red_team_code = red_team_main()
     if red_team_code:
-        structural_errors.append("Schema v1.2 RED TEAM failed")
+        structural_errors.append("Schema v1.2.2 RED TEAM failed")
 
     if structural_errors:
         print("NEXT_BATCH_GATE_FAILED")

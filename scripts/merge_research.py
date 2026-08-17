@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Idempotently merge Pilot and completed Schema v1.2 batches."""
+"""Idempotently merge Pilot and completed Schema v1.2.2 batches."""
 
 from __future__ import annotations
 
