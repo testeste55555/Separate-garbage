@@ -3,8 +3,9 @@ import csv
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "data"
-PILOT = DATA / "pilot"
+MASTER = ROOT / "data" / "master"
+RESEARCH = ROOT / "data" / "research"
+PILOT = RESEARCH / "pilot"
 
 
 def read_csv(path):
@@ -17,11 +18,11 @@ def require(condition, message):
         raise AssertionError(message)
 
 
-master = read_csv(DATA / "01_municipalities_master.csv")
+master = read_csv(MASTER / "01_municipalities_master.csv")
 municipalities = read_csv(PILOT / "pilot_municipalities.csv")
 categories = read_csv(PILOT / "pilot_categories.csv")
 sources = read_csv(PILOT / "pilot_sources.csv")
-qa = read_csv(DATA / "06_qa_log.csv")
+qa = read_csv(RESEARCH / "06_qa_log.csv")
 
 master_ids = {row["municipality_id"] for row in master}
 pilot_ids = {row["municipality_id"] for row in municipalities}
@@ -66,4 +67,3 @@ require(all(r["確認ステータス"] == "QA_PASSED" for r in qa), "Pilot conta
 counts = {mid: sum(r["municipality_id"] == mid for r in categories) for mid in sorted(pilot_ids)}
 print(f"PASS master={len(master)} pilot={len(municipalities)} categories={len(categories)} sources={len(sources)}")
 print("category_counts", counts)
-
