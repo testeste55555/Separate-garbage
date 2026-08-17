@@ -305,6 +305,11 @@ def main() -> None:
     write_csv(OUT / "batch_01_categories.csv", CAT_FIELDS, cats)
     write_csv(OUT / "batch_01_sources.csv", SOURCE_FIELDS, sources)
     write_csv(OUT / "batch_01_qa.csv", QA_FIELDS, qa_rows)
+    # Keep the original verified research notes above as the rebuild source,
+    # then normalize every regenerated file to the current schema.
+    from migrate_schema_v11 import migrate_batch_dir
+
+    migrate_batch_dir(OUT)
     print(f"municipalities={len(municipalities)} categories={len(cats)} sources={len(sources)} qa={len(qa_rows)}")
 
 

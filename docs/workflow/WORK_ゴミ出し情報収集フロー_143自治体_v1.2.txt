@@ -1,0 +1,246 @@
+WORK ゴミ出し情報収集フロー 143自治体 v1.2
+制定日: 2026-08-17
+適用Schema: v1.1
+
+==================================================
+0. 目的と不変条件
+==================================================
+
+中心Can-doは変更しない。
+
+「名前が分からないごみでも、自分が住む自治体のルールを調べて、
+仲間と相談しながら、正しく分別ができる。」
+
+対象は家庭ごみの分別判断である。
+収集曜日、収集時間、地区別日程、地区別カレンダーは構造化対象外とする。
+自治体の正式名称、条件、前処理、袋・容器、収集外、公式根拠を保持する。
+不明値を推測で補わない。
+
+==================================================
+1. 入力・固定ID・版管理
+==================================================
+
+1. data/master/01_municipalities_master.csv の143自治体を対象とする。
+2. municipality_idは固定し、並べ替えや再調査で変更しない。
+3. Schema v1.0とWorkflow v1.1は履歴として削除・上書きしない。
+4. 現行作業はSchema v1.1と本Workflow v1.2を使用する。
+5. 公式情報の確認日と適用年度を必ず記録する。
+
+==================================================
+2. 調査範囲 CORE / REFERENCE
+==================================================
+
+COREは分別判断に直接必要な情報である。
+
+CORE必須:
+- 自治体・区分ID
+- 自治体正式名称、category_group、classification_level、表示順、ui_role
+- 代表品目、入れてはいけない物、条件外の扱い
+- 出す前の処理、袋・容器のルール、自治体収集外か
+- source_id、出典URL、該当箇所、確認日
+- rule_status
+
+CORE条件付き:
+- parent_category_id
+- 適用条件、サイズ・条件、注意事項
+- PLANNEDのeffective_from
+- RETIREDのeffective_to
+
+REFERENCE:
+- collection_channel
+- 粗大ごみ扱い、予約、有料、料金
+- 直接搬入、代替処分経路、回収拠点、メーカー・販売店回収
+
+REFERENCEは既存値を保持するが、今後の全自治体で一律必須としない。
+分別判断、安全説明、重要な代替経路に必要な場合は収集する。
+
+==================================================
+3. 公式情報の判定
+==================================================
+
+情報源の優先順:
+1. 自治体公式Web/PDF
+2. 自治体がごみ処理を委託・共同実施する一部事務組合等の公式Web/PDF
+3. 自治体公式ページから案内された外部検索サービス
+
+各sourceで以下を記録する。
+- official_verified
+- official_basis
+- official_linking_url
+
+official_basis:
+- MUNICIPAL_DOMAIN
+- INTERMUNICIPAL_AUTHORITY_DOMAIN
+- MUNICIPAL_LINKED_SERVICE
+
+source URLとcategory出典URLのhostは
+data/master/02_official_domain_registry.csv に登録し、検証根拠URLと確認日を持つ。
+
+外部サービスはサービスURLだけで公式扱いしない。
+自治体公式ページからの導線URLをofficial_linking_urlへ保持する。
+QA_PASSEDの根拠sourceはofficial_verified=TRUEを必須とする。
+
+==================================================
+4. 分別区分の収集
+==================================================
+
+1. 自治体公式の区分見出しを、正式名称のまま全件転記する。
+2. 親区分だけで下位区分を落とさない。
+3. 汚れ、材質、用途、色、サイズ、地域、電池着脱などの条件を分離する。
+4. 条件不成立時の正式な分別先を記録する。
+5. 洗浄、分解、絶縁、使い切り等の前処理を記録する。
+6. 指定袋、透明袋、ネット、結束等を記録する。
+7. 自治体収集外・処理不可はEXCLUDED_NOTICEとして分離する。
+8. 公式区分数が明示される場合はofficial_category_countへ記録する。
+9. 公式総数がない場合は件数を推測せず、category_count_basisに網羅性の確認根拠を書く。
+10. 固定の最小区分数を合否条件にしない。
+
+==================================================
+5. 将来施行・終了ルール
+==================================================
+
+rule_status:
+- CURRENT: 現在適用
+- PLANNED: 将来施行
+- RETIRED: 適用終了
+
+PLANNEDはeffective_from必須、RETIREDはeffective_to必須。
+PLANNED/RETIREDのui_roleはHIDDENとする。
+現行の学習者用箱は rule_status=CURRENT かつ ui_role=SORT_BUCKET のみ。
+
+状態判定は自治体IDに依存したvalidator分岐で実装しない。
+公式sourceの現行性、適用条件、施行日、終了日を使用する。
+施行日到来だけで自動的にCURRENTへ昇格させず、公式施行確認と確認日更新を行う。
+
+==================================================
+6. ui_role
+==================================================
+
+- SORT_BUCKET: 現行の学習者用仕分け箱
+- REFERENCE_ONLY: 搬入、拠点回収、代替経路等の参照
+- HIDDEN: 将来・終了ルール等
+- EXCLUDED_NOTICE: 自治体収集外・処理不可の注意
+
+UIはclassification_levelから箱を推測せず、ui_roleを使用する。
+各自治体に少なくとも1つのCURRENT + SORT_BUCKETが必要。
+
+==================================================
+7. 共通品目・item mappingの並行収集
+==================================================
+
+共通品目は30〜50品目を先に確定し、各バッチと並行してmappingを更新する。
+現行初期集合はdata/master/04_common_items_master.csvの40品目。
+
+各自治体・共通品目について、必要なら複数の条件枝を作る。
+各枝に以下を保持する。
+- branch_order
+- 自治体での品目表記
+- category_idと正式名称
+- 条件
+- 前処理
+- 例外分別先
+- 自治体収集外
+- rule_status/effective dates
+- source、該当箇所、確認日
+
+区分レベルからの機械抽出はINITIAL_REVIEW_REQUIREDとする。
+品目別公式確認後にVERIFIED、アプリ投入条件を満たした場合だけAPP_READYへ進める。
+
+==================================================
+8. 教材安全
+==================================================
+
+各共通品目にhandling_safetyとsafety_noteを必須とする。
+
+- SAFE_REAL: 通常の清潔な実物を使用可
+- EMPTY_CLEAN_ONLY: 空・洗浄・乾燥済みのみ
+- TEACHER_ONLY: 教員管理下のみ
+- MOCK_ONLY: 実物を使わず模造品・写真のみ
+
+刃物、割れ物、電池、薬品残留、加圧容器、感染・汚染のおそれを保守的に判断する。
+自治体の廃棄前処理と、教室で触れてよいかは別問題として管理する。
+
+==================================================
+9. QA_PASSED
+==================================================
+
+必須チェック:
+- ごみトップ
+- 現行ルール
+- 全分別区分
+- 正式名称
+- 代表品目
+- 前処理
+- 袋容器
+- 危険有害
+- 収集しない物
+- 公式出典
+- 参照整合性
+- Schema検証
+- category_count_verified
+- rule_status検証
+- ui_role検証
+
+必須チェックはすべてTRUE、UNKNOWNなしとする。
+保存済みQAを信用せず、validatorが元データから再計算し、保存値と照合する。
+
+検索サービス、やさしい日本語、多言語は、
+「確認済み」と「存在」を別フィールドにする。
+存在FALSEだけではQA不合格にしない。
+
+==================================================
+10. バッチ終了時の必須処理
+==================================================
+
+1. batch CSVをv1.1へ正規化する。
+2. batch validatorを実行する。
+3. Pilotと完成batchからcanonicalをmergeする。
+4. canonical validatorを実行する。
+5. 共通品目mappingを更新・検証する。
+6. QAとRED TEAMを実行する。
+7. QA report、Schema観察、残余リスクを更新する。
+8. GitHubへ一貫したcommitとして保存する。
+
+標準コマンド:
+
+python3 scripts/validate_pilot.py
+python3 scripts/validate_research.py --batch <batch_name>
+python3 scripts/merge_research.py
+python3 scripts/validate_research.py
+python3 scripts/red_team_schema_v11.py
+
+mergeは2回連続実行し、canonicalの件数・主キー・ハッシュが不変であることを確認する。
+
+==================================================
+11. 次バッチ前Gate
+==================================================
+
+次の全条件を満たすまで次バッチの自治体調査を開始しない。
+
+[ ] Pilot validation PASS
+[ ] 対象batch validation PASS
+[ ] canonical validation PASS
+[ ] 全対象自治体のQA_PASSEDを機械再計算
+[ ] CURRENT/PLANNED/RETIREDとui_roleの整合
+[ ] 公式ドメイン・外部サービス導線の整合
+[ ] municipality/category/source/item/mappingの参照整合
+[ ] common itemsの安全区分とnote完備
+[ ] merge二重実行の冪等性
+[ ] validatorに自治体個別ハードコードなし
+[ ] README再現コマンド成功
+[ ] RED TEAM 12観点PASS
+[ ] 残余リスクとmapping_statusを報告
+
+2026-08-17時点:
+Schema v1.1修正対象のGateはPASS。
+ただし本作業ではBatch 02の自治体公式情報収集を開始しない。
+
+==================================================
+12. 変更管理
+==================================================
+
+1. 既存Schema/Workflow版を削除・上書きしない。
+2. 列・enum・必須性を変える場合はSchemaとData Dictionaryを同時更新する。
+3. migration scriptは冪等にし、Legacy列・行・根拠・備考を失わない。
+4. 自治体固有ルールはデータで表現し、validatorコードへID分岐を書かない。
+5. 公式情報の再確認時はsource、category、mapping、QAを同じ確認日で整合させる。

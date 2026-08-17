@@ -1,0 +1,19 @@
+municipality_id,host,authority_type,authority_name,verification_url,verified_date,notes
+M001,www.town.yamada.iwate.jp,MUNICIPAL_DOMAIN,山田町,https://www.town.yamada.iwate.jp/kurashi/gomi/,2026-08-17,
+M001,www.miyako-kouiki.jp,INTERMUNICIPAL_AUTHORITY_DOMAIN,宮古地区広域行政組合,https://www.town.yamada.iwate.jp/docs/8354.html,2026-08-17,山田町公式案内から処理主体へ到達
+M002,www.city.oshu.iwate.jp,MUNICIPAL_DOMAIN,奥州市,https://www.city.oshu.iwate.jp/kurashi_tetsuzuki/gomi_recycle/2/index.html,2026-08-17,
+M003,www.town.nishiwaga.lg.jp,MUNICIPAL_DOMAIN,西和賀町,https://www.town.nishiwaga.lg.jp/mokutekibetsudesagasu/gomi/2256.html,2026-08-17,
+M004,www.town.shiwa.iwate.jp,MUNICIPAL_DOMAIN,紫波町,https://www.town.shiwa.iwate.jp/kurashi/gomi/1_bunebetsu/17749649372176/,2026-08-17,
+M005,www.city.ishinomaki.lg.jp,MUNICIPAL_DOMAIN,石巻市,https://www.city.ishinomaki.lg.jp/d0010/d0030/d0010/d010/index.html,2026-08-17,
+M006,www.town.ogawara.miyagi.jp,MUNICIPAL_DOMAIN,大河原町,https://www.town.ogawara.miyagi.jp/1406.htm,2026-08-17,
+M006,www.az9.or.jp,INTERMUNICIPAL_AUTHORITY_DOMAIN,仙南地域広域行政事務組合,https://www.town.ogawara.miyagi.jp/1406.htm,2026-08-17,大河原町公式案内から分別ページへ到達
+M007,www.town.kami.miyagi.jp,MUNICIPAL_DOMAIN,加美町,https://www.town.kami.miyagi.jp/soshikikarasagasu/chominka/kankyoeisei/847.html,2026-08-17,
+M008,www.town.shirataka.lg.jp,MUNICIPAL_DOMAIN,白鷹町,https://www.town.shirataka.lg.jp/1204.htm,2026-08-17,
+M009,www.town.oe.yamagata.jp,MUNICIPAL_DOMAIN,大江町,https://www.town.oe.yamagata.jp/news/1275,2026-08-17,
+M010,www.city.utsunomiya.lg.jp,MUNICIPAL_DOMAIN,宇都宮市,https://www.city.utsunomiya.lg.jp/kurashi/gomi/kateigomi/dashikata/index.html,2026-08-17,
+M011,www.town.oizumi.gunma.jp,MUNICIPAL_DOMAIN,大泉町,https://www.town.oizumi.gunma.jp/li/kurashi/040/010/,2026-08-17,
+M013,www.city.minato.tokyo.jp,MUNICIPAL_DOMAIN,港区,https://www.city.minato.tokyo.jp/jigyoukeikaku/kurashi/gomi/kate/,2026-08-17,
+M030,www.city.yonago.lg.jp,MUNICIPAL_DOMAIN,米子市,https://www.city.yonago.lg.jp/1879.htm,2026-08-17,
+M094,www.city.hiroshima.lg.jp,MUNICIPAL_DOMAIN,広島市,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/index.html,2026-08-17,
+M102,www.city.shobara.hiroshima.jp,MUNICIPAL_DOMAIN,庄原市,https://www.city.shobara.hiroshima.jp/main/life/waste/,2026-08-17,
+M102,www.gomisaku.jp,MUNICIPAL_LINKED_SERVICE,ごみサク 庄原市,https://www.city.shobara.hiroshima.jp/main/life/waste/post_502.html,2026-08-17,自治体公式ページからリンクされた外部検索サービス
