@@ -25,6 +25,7 @@ sources = read_csv(PILOT / "pilot_sources.csv")
 qa = read_csv(RESEARCH / "06_qa_log.csv")
 
 master_ids = {row["municipality_id"] for row in master}
+master_by_id = {row["municipality_id"]: row for row in master}
 pilot_ids = {row["municipality_id"] for row in municipalities}
 source_keys = {(row["municipality_id"], row["source_id"]) for row in sources}
 category_keys = {(row["municipality_id"], row["category_id"]) for row in categories}
@@ -34,6 +35,10 @@ require(len(master_ids) == 143, "Duplicate municipality_id in MASTER")
 require(len({(r['都道府県'], r['市町村']) for r in master}) == 143, "Duplicate municipality in MASTER")
 require(pilot_ids == {"M001", "M013", "M030", "M094", "M102"}, f"Unexpected Pilot IDs: {pilot_ids}")
 require(pilot_ids <= master_ids, "Pilot municipality missing from MASTER")
+for row in municipalities:
+    base = master_by_id[row["municipality_id"]]
+    for field in ("都道府県", "市町村", "実装区分"):
+        require(row[field] == base[field], f"Pilot {field} differs from MASTER: {row['municipality_id']}")
 require(len(category_keys) == len(categories), "Duplicate category key")
 require(len(source_keys) == len(sources), "Duplicate source key")
 
