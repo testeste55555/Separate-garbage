@@ -14,13 +14,15 @@
 - Pilot：5自治体完了
 - Batch 01：10自治体完了
 - 調査・再validation済み：計15自治体、194分別区分、57公式出典
-- Schema：v1.1へ移行済み
-- QA：15/15 `QA_PASSED`（必須条件を機械再計算）
+- Schema：v1.2へ移行済み
+- 構造validation：Pilot / Batch 01 / canonicalすべてPASS
+- QA：2 `QA_PASSED` / 13 `QA_REQUIRED`（区分網羅性の証跡を再判定）
 - 共通品目：40品目、安全区分付き
-- 初期item mapping：283条件枝（`INITIAL_REVIEW_REQUIRED`）
-- Schema/QA修正後のRED TEAM：12/12 PASS
+- item mapping：283条件枝（現状は全枝 `INITIAL_REVIEW_REQUIRED`）
+- 40品目coverage：600自治体品目pair（244 `MAPPED_INITIAL` / 356 `NOT_RESEARCHED`）
+- Schema v1.2 RED TEAM：12/12 PASS
 
-Batch 02の自治体調査は、このSchema/QA修正作業では実施していません。次バッチ前Gateは技術的にはPASSですが、初期item mappingは品目別公式確認前のため `APP_READY` ではありません。
+Batch 02の自治体調査は実施していません。構造はPASSしていますが、アプリ実装準備Gateは `HOLD` です。理由は13自治体の区分網羅性レビューと、15自治体×40品目の品目別公式確認が未完了であるためです。
 
 ## ディレクトリ
 
@@ -34,8 +36,9 @@ Batch 02の自治体調査は、このSchema/QA修正作業では実施してい
 - `data/research/04_municipalities_research.csv`：統合自治体調査
 - `data/research/05_item_mapping_master.csv`：初期品目対応・条件枝
 - `data/research/06_qa_log.csv`：機械再計算済みQA
+- `data/research/07_item_mapping_coverage.csv`：全自治体×40品目の調査・実装準備状態
 - `docs/schema/`：Schema、Data Dictionary、移行・RED TEAM報告
-- `docs/workflow/`：作業フロー（v1.1を保持し、v1.2を追加）
+- `docs/workflow/`：作業フロー（旧版を保持し、現行v1.3を追加）
 
 ## 再現コマンド
 
@@ -46,7 +49,8 @@ python3 scripts/validate_pilot.py
 python3 scripts/validate_research.py --batch batch_01
 python3 scripts/merge_research.py
 python3 scripts/validate_research.py
-python3 scripts/red_team_schema_v11.py
+python3 scripts/validate_research.py --gate  # 現状はHOLDを示す終了コード2
+python3 scripts/red_team_schema_v12.py
 ```
 
 Batch 01の生成元から再構築する場合：
@@ -58,12 +62,14 @@ python3 scripts/merge_research.py
 python3 scripts/validate_research.py
 ```
 
-mergeの冪等性は、2回連続実行後にcanonical 5 CSVのSHA-256が不変であることを確認済みです。
+buildとmergeの冪等性は、2回連続実行後にBatch 01およびcanonical 6 CSVのSHA-256が不変であることを確認済みです。
 
 ## 運用上の重要事項
 
 - `rule_status=CURRENT` かつ `ui_role=SORT_BUCKET` の行だけを、学習者用の現在の仕分け箱として投影します。
 - `PLANNED` / `RETIRED` は `HIDDEN` とし、現行ルールへ混入させません。
 - `official_verified=TRUE` は公式ドメイン台帳との一致を意味します。外部サービスは自治体公式ページからの導線も保持します。
-- REFERENCE項目は既存値を保持しますが、今後の全自治体調査では一律必須にしません。
-- item mappingは条件分岐を複数行で保持します。`INITIAL_REVIEW_REQUIRED` はアプリ投入可を意味しません。
+- `ui_role` は独立した教材UI指定です。`collection_channel` や `classification_level` から再推論しません。
+- 袋・容器、収集経路、粗大・予約・料金はREFERENCEです。分類結果に影響する条件だけCORE側へ記録します。
+- 空URLは「確認済み・不存在」ではありません。任意機能は `CHECKED_PRESENT / CHECKED_ABSENT / NOT_CHECKED` と証跡を保持します。
+- item mappingは条件分岐を複数行で保持します。`APP_READY` は40品目coverage、品目別公式証跡、全条件枝レビューが揃わない限りvalidatorが拒否します。

@@ -1,0 +1,188 @@
+WORK ゴミ出し情報収集フロー 143自治体 v1.3
+制定日: 2026-08-17
+適用Schema: v1.2
+
+==================================================
+0. 目的と現状Gate
+==================================================
+
+中心Can-do:
+「名前が分からないごみでも、自分が住む自治体のルールを調べて、
+仲間と相談しながら、正しく分別ができる。」
+
+対象は家庭ごみの分別判断。曜日、時刻、地区別カレンダーは対象外。
+Schema v1.1 / Workflow v1.2のGate PASS記載は撤回する。
+現状は構造validation PASS、APP readiness Gate HOLD、Batch 02開始禁止。
+
+==================================================
+1. 版・入力・固定ID
+==================================================
+
+1. data/master/01_municipalities_master.csv の143自治体だけを対象とする。
+2. municipality_idは固定する。
+3. 過去Schema・Workflowを削除、上書きしない。
+4. 新規作業はSchema v1.2と本Workflowを使用する。
+5. Batch名、canonical自治体数、区分数、出典数をvalidatorの固定正常値にしない。
+
+==================================================
+2. CORE / REFERENCE
+==================================================
+
+CORE:
+- 自治体・区分ID、正式名称、group、level、表示順、ui_role
+- 代表品目、入れてはいけない物、適用条件、条件外の扱い、前処理
+- 自治体収集外、安全に必要な注意
+- source、URL、該当箇所、確認日、rule_status、effective dates
+
+REFERENCE:
+- collection_channel
+- 指定袋、透明袋、結束等の袋・容器ルール
+- 粗大ごみ、予約、料金、直接搬入、回収拠点、代替処分経路
+
+袋や処理の情報が分類結果を変える場合、その条件はCOREの適用条件、
+条件外の扱い、前処理へ記録する。REFERENCE欠損だけでQA不合格にしない。
+
+==================================================
+3. 公式性・任意機能
+==================================================
+
+sourceは公式ドメイン台帳で検証する。
+外部サービスは自治体公式導線をofficial_linking_urlへ保持する。
+
+品目検索、やさしい日本語、多言語は次を使用する。
+- CHECKED_PRESENT: URLと確認日の証跡必須
+- CHECKED_ABSENT: 調査した公式URL・範囲・確認日の証跡必須
+- NOT_CHECKED: 未確認。空URLを不存在に変換しない
+
+存在の有無と確認済み状態は分離する。任意機能の不存在・未確認は、
+分別COREのQA_PASSEDを単独では妨げない。
+
+==================================================
+4. 分別区分・網羅性・ui_role
+==================================================
+
+公式見出しを正式名称のまま全件転記し、条件枝と前処理を保持する。
+
+category_count_check_status:
+- OFFICIAL_COUNT_MATCHED: 公式総数と構造化件数を機械一致
+- MANUAL_INDEX_REVIEW: 公式目次・見出しを人が全件照合
+- NOT_REVIEWED: 未確認。category_count_verified=FALSE
+
+verified状態はsource_id、根拠、review日、reviewer必須。
+一般文だけでcategory_count_verified=TRUEにしない。
+
+ui_roleは独立指定で、collection_channelやclassification_levelから再推論しない。
+非CURRENTはHIDDEN。収集外はSORT_BUCKETにしない。
+
+==================================================
+5. 各Batchの必須6成果物
+==================================================
+
+data/research/batches/<batch_name>/ に以下を保存する。
+
+1. <batch_name>_municipalities.csv
+2. <batch_name>_categories.csv
+3. <batch_name>_sources.csv
+4. <batch_name>_qa.csv
+5. <batch_name>_item_mapping.csv
+6. <batch_name>_item_coverage.csv
+
+各Batchはmerge前に自身の6ファイルでvalidationする。
+canonical mappingを参照してBatchを合格させてはならない。
+
+==================================================
+6. 共通40品目mapping
+==================================================
+
+全自治体×40品目のcoverage行を必須とする。
+
+- NOT_RESEARCHED: 未調査。不存在ではない
+- MAPPED_INITIAL: 区分レベル機械抽出
+- VERIFIED: 品目別レビュー済み、APP条件未達
+- VERIFIED_NOT_APPLICABLE: 公式証跡で該当なし
+- APP_READY: 全条件枝、品目別公式証跡、reviewer/date完備
+
+mapping APP_READY要件:
+- evidence_scope=ITEM_SPECIFIC
+- branch_review_status=COMPLETE
+- 品目別の公式source・該当箇所
+- reviewed_date / reviewed_by
+- 公式品目表記
+- coverage枝数とmapping枝数一致
+
+自治体APP_READY要件:
+40 coverage行がAPP_READYまたはVERIFIED_NOT_APPLICABLE。
+
+==================================================
+7. merge・再実行
+==================================================
+
+1. Pilotと必要6成果物が揃った全batchを動的発見する。
+2. municipalities/categories/sources/qa/mapping/coverageをmergeする。
+3. merge中にcategoryからmappingを全面再生成しない。
+4. 同一キーの手動VERIFIED/APP_READYは初期行より優先保持する。
+5. migrationも手動review列とstatusを上書きしない。
+6. buildとmergeを2回実行し、対象CSVの件数・主キー・SHA-256不変を確認する。
+
+==================================================
+8. validationとGate
+==================================================
+
+構造validation:
+- Schema/header/enum
+- MASTER、公式台帳、source/category参照
+- rule_status/ui_role不変条件
+- 任意機能と区分網羅性の証跡
+- mapping条件枝、review証跡
+- 自治体×40品目coverage直積
+- QA機械再計算と保存値一致
+
+未完了をNOT_RESEARCHED / NOT_REVIEWED / QA_REQUIREDで正しく表現すれば
+構造validationはPASSできる。
+
+APP readiness Gate:
+- 全自治体QA_PASSED
+- 全自治体40品目APP_READYまたはVERIFIED_NOT_APPLICABLE
+
+未完了はAPP_READINESS_GATE_HOLD、終了コード2とする。
+
+標準コマンド:
+
+python3 scripts/validate_pilot.py
+python3 scripts/validate_research.py --batch <batch_name>
+python3 scripts/merge_research.py
+python3 scripts/validate_research.py
+python3 scripts/validate_research.py --gate
+python3 scripts/red_team_schema_v12.py
+
+==================================================
+9. 次Batch前Gate
+==================================================
+
+[ ] Pilot構造validation PASS
+[ ] 全完成batch構造validation PASS
+[ ] canonical no-loss union PASS
+[ ] canonical構造validation PASS
+[ ] 全自治体の区分網羅性証跡完備
+[ ] 全自治体QA_PASSED
+[ ] 全自治体×40品目coverage完備
+[ ] 全40品目のAPP readiness完備
+[ ] build/merge冪等性
+[ ] バッチ数・件数・自治体IDのvalidatorハードコードなし
+[ ] RED TEAM PASS
+[ ] APP readiness Gate PASS
+
+2026-08-17時点:
+- 構造validation: PASS
+- RED TEAM: 12/12 PASS
+- APP readiness: 0/15自治体
+- Gate: HOLD
+- Batch 02: 開始しない
+
+==================================================
+10. 変更管理
+==================================================
+
+列・enum・必須性変更時はSchema、Data Dictionary、migration、validator、
+RED TEAM、Workflowを同時更新する。自治体固有ルールをコード分岐にせず
+データと公式証跡で表現する。

@@ -1,16 +1,65 @@
 #!/usr/bin/env python3
-"""Validate a completed research batch or the canonical 15-municipality set."""
+"""Validate a completed research batch or the scalable canonical union."""
 
 from __future__ import annotations
 
 import argparse
 
-from validation_v11 import ROOT, print_result, validate_dataset
+from schema_v12 import completed_batch_dirs, read_csv
+from validation_v12 import RESEARCH, ROOT, print_result, validate_dataset
+
+
+def compare_canonical_union() -> list[str]:
+    """Check canonical identity against Pilot + every completed batch."""
+    errors = []
+    pilot = RESEARCH / "pilot"
+    bundles = [(pilot, "pilot_")] + [(path, path.name + "_") for path in completed_batch_dirs()]
+    specs = [
+        ("municipalities", RESEARCH / "04_municipalities_research.csv", ["municipality_id"]),
+        ("categories", RESEARCH / "02_categories_master.csv", ["municipality_id", "category_id"]),
+        ("sources", RESEARCH / "03_sources_master.csv", ["municipality_id", "source_id"]),
+        ("qa", RESEARCH / "06_qa_log.csv", ["municipality_id"]),
+    ]
+    for suffix, canonical_path, key_fields in specs:
+        _, canonical_rows = read_csv(canonical_path)
+        canonical = {tuple(row[field] for field in key_fields): row for row in canonical_rows}
+        union = {}
+        for base, prefix in bundles:
+            path = base / f"{prefix}{suffix}.csv"
+            if not path.exists():
+                errors.append(f"completed bundle lacks {path.relative_to(ROOT)}")
+                continue
+            _, rows = read_csv(path)
+            for row in rows:
+                key = tuple(row[field] for field in key_fields)
+                if key in union:
+                    errors.append(f"duplicate bundle key in {suffix}: {key}")
+                union[key] = row
+        if canonical != union:
+            errors.append(f"canonical {suffix} differs from Pilot + completed-batch union")
+    for suffix, canonical_path, key_fields in [
+        ("item_mapping", RESEARCH / "05_item_mapping_master.csv", ["municipality_id", "internal_item_id", "category_id"]),
+        ("item_coverage", RESEARCH / "07_item_mapping_coverage.csv", ["municipality_id", "internal_item_id"]),
+    ]:
+        _, canonical_rows = read_csv(canonical_path)
+        canonical_keys = {tuple(row[field] for field in key_fields) for row in canonical_rows}
+        union_keys = set()
+        for base, prefix in bundles:
+            path = base / f"{prefix}{suffix}.csv"
+            if not path.exists():
+                errors.append(f"completed bundle lacks {path.relative_to(ROOT)}")
+                continue
+            _, rows = read_csv(path)
+            union_keys.update(tuple(row[field] for field in key_fields) for row in rows)
+        if not union_keys.issubset(canonical_keys):
+            errors.append(f"canonical {suffix} loses bundle keys: missing={len(union_keys - canonical_keys)}")
+    return errors
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--batch", help="batch directory under data/research/batches")
+    parser.add_argument("--gate", action="store_true", help="also require QA and all 40 mappings to be app-ready")
     args = parser.parse_args()
     if args.batch:
         base = ROOT / "data" / "research" / "batches" / args.batch
@@ -20,9 +69,10 @@ def main() -> int:
             "category_path": base / f"{prefix}categories.csv",
             "source_path": base / f"{prefix}sources.csv",
             "qa_path": base / f"{prefix}qa.csv",
+            "mapping_path": base / f"{prefix}item_mapping.csv",
+            "coverage_path": base / f"{prefix}item_coverage.csv",
         }
         label = args.batch.upper()
-        expected = None
     else:
         base = ROOT / "data" / "research"
         paths = {
@@ -30,11 +80,14 @@ def main() -> int:
             "category_path": base / "02_categories_master.csv",
             "source_path": base / "03_sources_master.csv",
             "qa_path": base / "06_qa_log.csv",
+            "mapping_path": base / "05_item_mapping_master.csv",
+            "coverage_path": base / "07_item_mapping_coverage.csv",
         }
         label = "CANONICAL"
-        expected = 15
-    errors, summary = validate_dataset(label=label, expected_municipality_count=expected, **paths)
-    return print_result(label, errors, summary)
+    errors, gate_errors, summary = validate_dataset(label=label, gate=args.gate, **paths)
+    if not args.batch:
+        errors.extend(compare_canonical_union())
+    return print_result(label, errors, gate_errors, summary, args.gate)
 
 
 if __name__ == "__main__":

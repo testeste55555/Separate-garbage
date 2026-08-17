@@ -21,8 +21,20 @@ CAT_FIELDS = [
     "classification_level", "表示順", "collection_channel", "代表品目", "入れてはいけない物",
     "適用条件", "条件外の扱い", "出す前の処理", "袋・容器のルール", "サイズ・条件",
     "粗大ごみ扱いか", "予約が必要か", "有料か", "料金ルール", "自治体収集外か", "注意事項",
-    "source_id", "出典URL", "出典ページ・該当箇所", "確認日",
+    "source_id", "出典URL", "出典ページ・該当箇所", "確認日", "ui_role", "rule_status",
+    "effective_from", "effective_to",
 ]
+
+# Explicit instructional UI choices for Batch 01.  They are data maintained by
+# the builder, not validator deductions from collection_channel.
+REFERENCE_CATEGORY_KEYS = {
+    ("M002", "粗大ごみ"), ("M002", "電池類・蛍光管"), ("M002", "小型充電式電池"),
+    ("M002", "使用済小型家電"), ("M003", "燃えるごみの粗大ごみ"), ("M003", "燃えない粗大ごみ"),
+    ("M004", "直接搬入ごみ"), ("M005", "粗大ごみ"), ("M006", "粗大ごみ"),
+    ("M006", "使用済小型電子機器等"), ("M007", "小型家電・乾電池"),
+    ("M007", "燃やせる粗大ごみ"), ("M007", "使用済み食用油"), ("M008", "粗大ごみ"),
+    ("M009", "粗大ごみ"), ("M010", "粗大ごみ"), ("M011", "粗大ごみ"), ("M011", "剪定枝"),
+}
 SOURCE_FIELDS = [
     "municipality_id", "source_id", "資料名", "資料種別", "公式URL", "発行主体", "対象年度",
     "ページ更新日", "取得確認日", "使用した情報", "優先度", "現行性", "備考",
@@ -247,7 +259,7 @@ def build_categories():
     for mid, spec in category_specs.items():
         for pos, row in enumerate(spec["rows"], 1):
             (name, group, reps, prohibited, condition, fallback, prep, bag, size, bulky) = row
-            is_out = "TRUE" if "収集しない" in name or "収集・受入" in name or "ステーションに出せない" in name else "FALSE"
+            is_out = "TRUE" if group == "収集外" or "収集しない" in name or "収集・受入" in name or "ステーションに出せない" in name else "FALSE"
             channel = "CURBSIDE"
             if is_out == "TRUE": channel = "NOT_COLLECTED"
             elif name == "粗大ごみ" and mid in {"M005", "M008", "M009", "M010"}: channel = "BOOKED_PICKUP"
@@ -269,10 +281,11 @@ def build_categories():
             if mid == "M007" and name in {"有害ごみ", "プラスチック"}: source, url = "S-M007-02", "https://www.town.kami.miyagi.jp/soshikikarasagasu/chominka/kankyoeisei/4014.html"
             if mid == "M007" and name == "小型家電・乾電池": source, url = "S-M007-03", "https://www.town.kami.miyagi.jp/soshikikarasagasu/chominka/kankyoeisei/3552.html"
             if mid == "M010" and name == "市では収集しないごみ・処理できないごみ": source, url = "S-M010-04", "https://www.city.utsunomiya.lg.jp/kurashi/gomi/kateigomi/dashikata/1004978.html"
+            ui_role = "EXCLUDED_NOTICE" if is_out == "TRUE" else "REFERENCE_ONLY" if (mid, name) in REFERENCE_CATEGORY_KEYS else "SORT_BUCKET"
             result.append([
                 mid, f"C-{mid}-{pos:02d}", name, group, "", "PRIMARY", pos, channel, reps, prohibited,
                 condition, fallback, prep, bag, size, bulky, reserve, paid, fee, is_out, notes, source, url,
-                name, CHECKED,
+                name, CHECKED, ui_role, "", "", "",
             ])
     return result
 
@@ -300,14 +313,39 @@ def write_csv(path: Path, fields: list[str], rows: list[list[str]]) -> None:
 
 
 def main() -> None:
+    # Preserve v1.2 review evidence when regenerating the immutable research
+    # notes below.  The builder may refresh research rows, but it must never
+    # erase a later category-count or optional-resource review decision.
+    review_fields = [
+        "official_category_count", "category_count_basis", "category_count_verified",
+        "category_count_check_status", "category_count_evidence_source_id",
+        "category_count_reviewed_date", "category_count_reviewed_by",
+        "search_service_check_status", "search_service_check_evidence",
+        "easy_japanese_check_status", "easy_japanese_check_evidence",
+        "multilingual_check_status", "multilingual_check_evidence",
+    ]
+    review_state = {}
+    municipality_path = OUT / "batch_01_municipalities.csv"
+    if municipality_path.exists():
+        with municipality_path.open(newline="", encoding="utf-8-sig") as fh:
+            review_state = {
+                row["municipality_id"]: {field: row.get(field, "") for field in review_fields}
+                for row in csv.DictReader(fh)
+            }
     cats = build_categories()
-    write_csv(OUT / "batch_01_municipalities.csv", MUNI_FIELDS, municipalities)
+    write_csv(municipality_path, MUNI_FIELDS, municipalities)
     write_csv(OUT / "batch_01_categories.csv", CAT_FIELDS, cats)
     write_csv(OUT / "batch_01_sources.csv", SOURCE_FIELDS, sources)
     write_csv(OUT / "batch_01_qa.csv", QA_FIELDS, qa_rows)
     # Keep the original verified research notes above as the rebuild source,
     # then normalize every regenerated file to the current schema.
-    from migrate_schema_v11 import migrate_batch_dir
+    from schema_v12 import MUNICIPALITY_FIELDS, migrate_batch_dir, read_csv, write_csv as write_schema_csv
+
+    if review_state:
+        _, rebuilt = read_csv(municipality_path)
+        for row in rebuilt:
+            row.update(review_state.get(row["municipality_id"], {}))
+        write_schema_csv(municipality_path, MUNICIPALITY_FIELDS, rebuilt)
 
     migrate_batch_dir(OUT)
     print(f"municipalities={len(municipalities)} categories={len(cats)} sources={len(sources)} qa={len(qa_rows)}")

@@ -1,5 +1,7 @@
 # Schema v1.1 RED TEAM Report
 
+> 履歴注記：本報告のGate PASSは、Batch拡張性を追加検査したSchema v1.2 RED TEAMにより撤回。現行判定はAPP readiness Gate HOLD。
+
 実施日：2026-08-17  
 結果：12/12 PASS
 

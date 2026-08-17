@@ -1,5 +1,7 @@
 # Schema v1.1 Migration / Revalidation Report
 
+> 履歴注記：15/15 PASSはv1.1当時の判定。区分網羅性証跡と40品目coverageを導入したv1.2では2 PASS / 13 REQUIRED、APP readiness Gate HOLDへ是正。
+
 実施日：2026-08-17  
 対象：Pilot 5自治体 + Batch 01 10自治体（計15自治体）
 
