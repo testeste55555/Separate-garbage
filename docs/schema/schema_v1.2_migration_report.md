@@ -1,5 +1,7 @@
 # Schema v1.2 Migration Report
 
+> 履歴版。追加修正後の結果は `schema_v1.2.1_migration_report.md` を参照する。
+
 実施日：2026-08-17  
 結果：構造validation PASS / APP readiness Gate HOLD
 
@@ -38,4 +40,3 @@ CANONICAL_APP_READINESS_GATE_HOLD
 ```
 
 HOLDは構造エラーではない。未完了を明示した正常な状態である。
-

@@ -3,15 +3,13 @@
 
 from __future__ import annotations
 
-import csv
 from pathlib import Path
 
-from schema_v12 import read_csv, write_csv
+from schema_v12 import completed_batch_dirs, read_csv, write_csv
 
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / "data" / "research"
-BATCH_ROOT = RESEARCH / "batches"
 
 
 def merge(target: Path, inputs: list[Path], key_fields: list[str]) -> None:
@@ -31,23 +29,6 @@ def merge(target: Path, inputs: list[Path], key_fields: list[str]) -> None:
     rows = sorted(merged.values(), key=lambda row: tuple(row[field] for field in key_fields))
     write_csv(target, fields, rows)
     print(f"{target.relative_to(ROOT)}={len(rows)}")
-
-
-def completed_batches() -> list[Path]:
-    result = []
-    for directory in sorted(path for path in BATCH_ROOT.iterdir() if path.is_dir()):
-        prefix = directory.name + "_"
-        expected = [
-            directory / f"{prefix}municipalities.csv",
-            directory / f"{prefix}categories.csv",
-            directory / f"{prefix}sources.csv",
-            directory / f"{prefix}qa.csv",
-            directory / f"{prefix}item_mapping.csv",
-            directory / f"{prefix}item_coverage.csv",
-        ]
-        if all(path.exists() for path in expected):
-            result.append(directory)
-    return result
 
 
 def merge_review_table(target: Path, inputs: list[Path], key_fields: list[str], status_field: str,
@@ -87,7 +68,7 @@ def main() -> None:
     qa_inputs = [pilot / "pilot_qa.csv"]
     mapping_inputs = [pilot / "pilot_item_mapping.csv"]
     coverage_inputs = [pilot / "pilot_item_coverage.csv"]
-    for batch in completed_batches():
+    for batch in completed_batch_dirs():
         prefix = batch.name + "_"
         municipality_inputs.append(batch / f"{prefix}municipalities.csv")
         category_inputs.append(batch / f"{prefix}categories.csv")
@@ -103,7 +84,7 @@ def main() -> None:
 
     merge_review_table(
         RESEARCH / "05_item_mapping_master.csv", mapping_inputs,
-        ["municipality_id", "internal_item_id", "category_id"], "mapping_status", {"VERIFIED", "APP_READY"},
+        ["mapping_id"], "mapping_status", {"VERIFIED", "APP_READY"},
     )
     merge_review_table(
         RESEARCH / "07_item_mapping_coverage.csv", coverage_inputs,

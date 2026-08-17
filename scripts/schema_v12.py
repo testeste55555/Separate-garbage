@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Schema v1.2 migration and mapping reconciliation helpers.
+"""Schema v1.2.1 migration and mapping reconciliation helpers.
 
-Schema v1.2 keeps the researched category/source rows intact, records what has
+Schema v1.2.1 keeps the researched category/source rows intact, records what has
 not been checked, and separates structural validity from application readiness.
 """
 
@@ -66,6 +66,8 @@ COUNT_STATUS = {"OFFICIAL_COUNT_MATCHED", "MANUAL_INDEX_REVIEW", "NOT_REVIEWED"}
 UI_ROLE = {"SORT_BUCKET", "REFERENCE_ONLY", "HIDDEN", "EXCLUDED_NOTICE"}
 MANUAL_MAPPING_STATUS = {"VERIFIED", "APP_READY"}
 MANUAL_COVERAGE_STATUS = {"VERIFIED", "VERIFIED_NOT_APPLICABLE", "APP_READY"}
+BATCH_MIGRATION_INPUT_SUFFIXES = ("municipalities", "categories", "sources", "qa")
+BATCH_REQUIRED_SUFFIXES = (*BATCH_MIGRATION_INPUT_SUFFIXES, "item_mapping", "item_coverage")
 
 ITEM_PATTERNS = {
     "I001": ("name", r"ペットボトル|^PET$"), "I002": ("representative", r"キャップ"),
@@ -322,6 +324,14 @@ def compute_qa(municipalities, categories, sources, old_qa=None):
     return rows
 
 
+def sync_municipality_qa_status(municipalities, qa):
+    """Make municipalities.確認ステータス a read-only mirror of computed QA."""
+    qa_status = {row["municipality_id"]: row["確認ステータス"] for row in qa}
+    for municipality in municipalities:
+        municipality["確認ステータス"] = qa_status.get(municipality["municipality_id"], "QA_REQUIRED")
+    return municipalities
+
+
 def candidate_initial_mappings(categories: list[dict[str, str]]) -> list[dict[str, str]]:
     by_pair: dict[tuple[str, str], list[dict[str, str]]] = defaultdict(list)
     for category in categories:
@@ -338,7 +348,7 @@ def candidate_initial_mappings(categories: list[dict[str, str]]) -> list[dict[st
         cats.sort(key=lambda row: (row.get("rule_status") != "CURRENT", int(row.get("表示順") or 0)))
         for branch, category in enumerate(cats, 1):
             result.append({
-                "mapping_id": f"MAP-{mid}-{item_id}-{branch:02d}", "municipality_id": mid,
+                "mapping_id": f"MAP-{mid}-{item_id}-{category['category_id']}", "municipality_id": mid,
                 "internal_item_id": item_id, "branch_order": str(branch),
                 "自治体での品目表記": "既存category代表品目から抽出", "category_id": category["category_id"],
                 "分別区分正式名称": category["自治体正式名称"], "条件": category.get("適用条件") or "要品目別確認",
@@ -356,26 +366,63 @@ def candidate_initial_mappings(categories: list[dict[str, str]]) -> list[dict[st
 
 def reconcile_mappings(categories: list[dict[str, str]], existing: list[dict[str, str]]) -> list[dict[str, str]]:
     category_keys = {(r["municipality_id"], r["category_id"]) for r in categories}
-    existing_by_key = {(r.get("municipality_id", ""), r.get("internal_item_id", ""), r.get("category_id", "")): r for r in existing}
-    result, seen = [], set()
+    existing_by_id = {r.get("mapping_id", ""): r for r in existing if r.get("mapping_id")}
+    existing_by_semantic_key: dict[tuple[str, str, str], list[dict[str, str]]] = defaultdict(list)
+    for row in existing:
+        existing_by_semantic_key[(
+            row.get("municipality_id", ""), row.get("internal_item_id", ""), row.get("category_id", "")
+        )].append(row)
+    result: list[dict[str, str]] = []
+    used_mapping_ids: set[str] = set()
+    reserved_mapping_ids = set(existing_by_id)
     for generated in candidate_initial_mappings(categories):
-        key = (generated["municipality_id"], generated["internal_item_id"], generated["category_id"])
-        previous = existing_by_key.get(key)
+        semantic_key = (generated["municipality_id"], generated["internal_item_id"], generated["category_id"])
+        previous = existing_by_id.get(generated["mapping_id"])
+        if previous and (
+            previous.get("municipality_id"), previous.get("internal_item_id"), previous.get("category_id")
+        ) != semantic_key:
+            previous = None
+        if previous is None:
+            candidates = [
+                row for row in existing_by_semantic_key.get(semantic_key, [])
+                if row.get("mapping_id") not in used_mapping_ids
+            ]
+            candidates.sort(key=lambda row: (
+                row.get("mapping_status") in MANUAL_MAPPING_STATUS,
+                int(row.get("branch_order") or 0), row.get("mapping_id", ""),
+            ))
+            previous = candidates[0] if candidates else None
         if previous:
             generated["mapping_id"] = previous.get("mapping_id") or generated["mapping_id"]
+            used_mapping_ids.add(generated["mapping_id"])
             if previous.get("mapping_status") in MANUAL_MAPPING_STATUS:
                 generated = {**generated, **previous}
-            else:
-                for field in ("備考",):
-                    if previous.get(field):
-                        generated[field] = previous[field]
+            elif previous.get("備考"):
+                generated["備考"] = previous["備考"]
+        elif generated["mapping_id"] in reserved_mapping_ids or generated["mapping_id"] in used_mapping_ids:
+            base_id = generated["mapping_id"]
+            suffix = 2
+            while f"{base_id}-AUTO-{suffix:02d}" in reserved_mapping_ids | used_mapping_ids:
+                suffix += 1
+            generated["mapping_id"] = f"{base_id}-AUTO-{suffix:02d}"
         result.append(generated)
-        seen.add(key)
+        used_mapping_ids.add(generated["mapping_id"])
     for previous in existing:
-        key = (previous.get("municipality_id", ""), previous.get("internal_item_id", ""), previous.get("category_id", ""))
-        if key not in seen and previous.get("mapping_status") in MANUAL_MAPPING_STATUS and (key[0], key[2]) in category_keys:
+        mapping_id = previous.get("mapping_id", "")
+        category_key = (previous.get("municipality_id", ""), previous.get("category_id", ""))
+        if mapping_id not in used_mapping_ids and previous.get("mapping_status") in MANUAL_MAPPING_STATUS and category_key in category_keys:
             result.append(previous)
-    return sorted(result, key=lambda r: (r.get("municipality_id", ""), r.get("internal_item_id", ""), int(r.get("branch_order") or 0), r.get("category_id", "")))
+            used_mapping_ids.add(mapping_id)
+    by_pair: dict[tuple[str, str], list[dict[str, str]]] = defaultdict(list)
+    for row in result:
+        by_pair[(row.get("municipality_id", ""), row.get("internal_item_id", ""))].append(row)
+    normalized = []
+    for pair in sorted(by_pair):
+        branches = sorted(by_pair[pair], key=lambda row: (int(row.get("branch_order") or 0), row.get("mapping_id", "")))
+        for branch_order, row in enumerate(branches, 1):
+            row["branch_order"] = str(branch_order)
+            normalized.append(row)
+    return normalized
 
 
 def build_coverage(municipalities, items, mappings, existing=None):
@@ -427,6 +474,7 @@ def migrate_bundle(municipality_path: Path, category_path: Path, source_path: Pa
     mappings = reconcile_mappings(categories, existing_mappings)
     coverage = build_coverage(municipalities, items, mappings, existing_coverage)
     qa = compute_qa(municipalities, categories, sources, old_qa)
+    municipalities = sync_municipality_qa_status(municipalities, qa)
     write_csv(municipality_path, MUNICIPALITY_FIELDS, municipalities)
     write_csv(category_path, CATEGORY_FIELDS, categories)
     write_csv(source_path, SOURCE_FIELDS, sources)
@@ -445,11 +493,20 @@ def migrate_batch_dir(batch_dir: Path) -> dict[str, int]:
     )
 
 
-def completed_batch_dirs() -> list[Path]:
-    root = RESEARCH / "batches"
+def batch_dirs_with_files(suffixes: tuple[str, ...], root: Path | None = None) -> list[Path]:
+    root = root or RESEARCH / "batches"
     if not root.exists():
         return []
     return [path for path in sorted(root.iterdir()) if path.is_dir() and all(
-        (path / f"{path.name}_{suffix}.csv").exists() for suffix in ["municipalities", "categories", "sources", "qa"]
+        (path / f"{path.name}_{suffix}.csv").exists() for suffix in suffixes
     )]
 
+
+def batch_dirs_for_migration(root: Path | None = None) -> list[Path]:
+    """Return candidate bundles with the four research inputs needed to generate v1.2 artifacts."""
+    return batch_dirs_with_files(BATCH_MIGRATION_INPUT_SUFFIXES, root)
+
+
+def completed_batch_dirs(root: Path | None = None) -> list[Path]:
+    """Return completed bundles; the definition is exactly the six Workflow artifacts."""
+    return batch_dirs_with_files(BATCH_REQUIRED_SUFFIXES, root)

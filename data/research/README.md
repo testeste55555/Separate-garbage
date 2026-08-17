@@ -1,6 +1,6 @@
 # Research data
 
-Schema v1.2の調査成果物です。
+Schema v1.2.1の調査成果物です。
 
 - `pilot/`：Pilot 5自治体。QA、item mapping、40品目coverageを独立検証します。
 - `batches/batch_01/`：Batch 01 10自治体。QA、item mapping、40品目coverageを自身のbundleから検証します。
@@ -14,3 +14,7 @@ Schema v1.2の調査成果物です。
 `data/` 直下の同名CSVと `data/pilot/` はSchema v1.0時点の履歴です。現行処理は `data/master/` と `data/research/` を参照します。
 
 `NOT_RESEARCHED` は不存在を意味しません。`MAPPED_INITIAL` は区分レベルの機械抽出で、品目別公式確認済みではありません。アプリはcoverageと全条件枝がともに `APP_READY` のpairだけを利用してください。
+
+municipalitiesの `確認ステータス` は同一bundleのQAログから毎回自動同期します。現在はcanonicalで2 `QA_PASSED` / 13 `QA_REQUIRED` であり、自治体テーブルとQAログは一致します。
+
+item mappingの主キーは `mapping_id` です。同一 `(municipality_id, internal_item_id, category_id)` に複数の条件枝を許可し、merge/reconciliationも `mapping_id` で識別します。`branch_order` は同一自治体・品目内の表示順です。

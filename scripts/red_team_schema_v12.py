@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Adversarial, batch-count-independent checks for the Schema v1.2 pipeline."""
+"""Adversarial, batch-count-independent checks for the Schema v1.2.1 pipeline."""
 
 from __future__ import annotations
 
@@ -9,7 +9,8 @@ from collections import Counter
 from pathlib import Path
 
 from schema_v12 import (
-    COVERAGE_FIELDS, MAPPING_FIELDS, RESEARCH, ROOT, candidate_initial_mappings, completed_batch_dirs,
+    BATCH_MIGRATION_INPUT_SUFFIXES, BATCH_REQUIRED_SUFFIXES, COVERAGE_FIELDS, MAPPING_FIELDS,
+    RESEARCH, ROOT, batch_dirs_for_migration, candidate_initial_mappings, completed_batch_dirs,
     read_csv, reconcile_mappings, write_csv,
 )
 from merge_research import merge_review_table
@@ -74,7 +75,28 @@ def main() -> int:
     checks.add("canonical is a no-loss union of Pilot and completed batches", not union_errors,
                "; ".join(union_errors[:3]))
 
+    completed_definition_ok = False
+    with tempfile.TemporaryDirectory(prefix="redteam_batches_", dir=ROOT) as tmp:
+        batch_root = Path(tmp)
+        incomplete = batch_root / "batch_incomplete"
+        complete = batch_root / "batch_complete"
+        incomplete.mkdir()
+        complete.mkdir()
+        for suffix in BATCH_MIGRATION_INPUT_SUFFIXES:
+            (incomplete / f"{incomplete.name}_{suffix}.csv").touch()
+        for suffix in BATCH_REQUIRED_SUFFIXES:
+            (complete / f"{complete.name}_{suffix}.csv").touch()
+        migration_names = {path.name for path in batch_dirs_for_migration(batch_root)}
+        completed_names = {path.name for path in completed_batch_dirs(batch_root)}
+        completed_definition_ok = migration_names == {"batch_complete", "batch_incomplete"} and completed_names == {"batch_complete"}
+    checks.add("completed-batch definition is centralized at six artifacts", completed_definition_ok)
+
     _, municipalities = read_csv(canonical_paths["municipality_path"])
+    _, qa_rows = read_csv(canonical_paths["qa_path"])
+    qa_status = {row["municipality_id"]: row["確認ステータス"] for row in qa_rows}
+    checks.add("municipality QA status is a synchronized QA-log mirror", all(
+        row["確認ステータス"] == qa_status.get(row["municipality_id"]) for row in municipalities
+    ))
     _, items = read_csv(ROOT / "data" / "master" / "04_common_items_master.csv")
     _, coverage = read_csv(canonical_paths["coverage_path"])
     expected_pairs = {(m["municipality_id"], i["internal_item_id"]) for m in municipalities for i in items}
@@ -114,34 +136,38 @@ def main() -> int:
 
     initial = candidate_initial_mappings(categories)
     preserved_ok = False
+    reviewed_branches = []
     if initial:
         reviewed = dict(initial[0])
         reviewed.update({
             "mapping_status": "APP_READY", "evidence_scope": "ITEM_SPECIFIC", "branch_review_status": "COMPLETE",
             "reviewed_date": "2026-08-17", "reviewed_by": "RED_TEAM_FIXTURE", "自治体での品目表記": "品目別公式表記",
         })
-        reconciled = reconcile_mappings(categories, [reviewed])
-        matching = [row for row in reconciled if row["mapping_id"] == reviewed["mapping_id"]]
-        preserved_ok = bool(matching) and matching[0]["mapping_status"] == "APP_READY" and matching[0]["reviewed_by"] == "RED_TEAM_FIXTURE"
+        reviewed_alt = dict(reviewed)
+        reviewed_alt.update({
+            "mapping_id": reviewed["mapping_id"] + "-ALT", "branch_order": "2",
+            "条件": reviewed["条件"] + "（別条件枝）", "mapping_status": "VERIFIED",
+        })
+        reviewed_branches = [reviewed, reviewed_alt]
+        reconciled = reconcile_mappings(categories, reviewed_branches)
+        matching = [row for row in reconciled if row["mapping_id"] in {reviewed["mapping_id"], reviewed_alt["mapping_id"]}]
+        preserved_ok = len(matching) == 2 and len({row["条件"] for row in matching}) == 2
     merge_preserved = False
-    if initial:
-        reviewed = dict(initial[0])
-        reviewed.update({
-            "mapping_status": "APP_READY", "evidence_scope": "ITEM_SPECIFIC", "branch_review_status": "COMPLETE",
-            "reviewed_date": "2026-08-17", "reviewed_by": "RED_TEAM_FIXTURE", "自治体での品目表記": "品目別公式表記",
-        })
+    if initial and reviewed_branches:
         with tempfile.TemporaryDirectory(prefix="redteam_merge_", dir=ROOT) as tmp:
             tmp_path = Path(tmp)
             target, source = tmp_path / "target.csv", tmp_path / "source.csv"
-            write_csv(target, MAPPING_FIELDS, [reviewed])
+            write_csv(target, MAPPING_FIELDS, reviewed_branches)
             write_csv(source, MAPPING_FIELDS, [initial[0]])
             merge_review_table(
-                target, [source], ["municipality_id", "internal_item_id", "category_id"],
+                target, [source], ["mapping_id"],
                 "mapping_status", {"VERIFIED", "APP_READY"},
             )
             _, after_merge = read_csv(target)
-            merge_preserved = after_merge[0]["mapping_status"] == "APP_READY" and after_merge[0]["reviewed_by"] == "RED_TEAM_FIXTURE"
-    checks.add("migration reconciliation and merge preserve manual APP_READY", preserved_ok and merge_preserved)
+            merge_preserved = {row["mapping_id"] for row in after_merge} >= {
+                reviewed_branches[0]["mapping_id"], reviewed_branches[1]["mapping_id"]
+            }
+    checks.add("mapping_id key preserves two reviewed branches to the same category", preserved_ok and merge_preserved)
 
     direct_edit_rejected = False
     with tempfile.TemporaryDirectory(prefix="schema_v12_redteam_") as tmp:
@@ -164,10 +190,16 @@ def main() -> int:
             direct_edit_rejected = any("APP_READY" in error for error in tamper_errors)
     checks.add("unsupported direct APP_READY edit is rejected", direct_edit_rejected)
 
-    _, gate_errors, summary = validate_dataset(label="CANONICAL", gate=True, **canonical_paths)
+    _, next_gate_errors, summary = validate_dataset(label="CANONICAL", gate_mode="next_batch", **canonical_paths)
+    qa_required = summary.get("qa_required", 0)
+    next_gate_consistent = (not next_gate_errors and qa_required == 0) or (bool(next_gate_errors) and qa_required > 0)
+    checks.add("NEXT_BATCH_GATE is derived from structural QA without APP_READY", next_gate_consistent,
+               f"qa_required={qa_required} gate_issues={len(next_gate_errors)}")
+
+    _, gate_errors, summary = validate_dataset(label="CANONICAL", gate_mode="app_readiness", **canonical_paths)
     ready_count = summary.get("app_ready_municipalities", 0)
     gate_consistent = (not gate_errors and ready_count == len(municipalities)) or (bool(gate_errors) and ready_count < len(municipalities))
-    checks.add("readiness Gate reports PASS or HOLD from data, not batch number", gate_consistent,
+    checks.add("APP_READINESS_GATE reports PASS or HOLD from data, not batch number", gate_consistent,
                f"ready={ready_count}/{len(municipalities)} gate_issues={len(gate_errors)}")
 
     ready_rows = sum(row["coverage_status"] in READY_COVERAGE for row in coverage)

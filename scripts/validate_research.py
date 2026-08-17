@@ -38,7 +38,7 @@ def compare_canonical_union() -> list[str]:
         if canonical != union:
             errors.append(f"canonical {suffix} differs from Pilot + completed-batch union")
     for suffix, canonical_path, key_fields in [
-        ("item_mapping", RESEARCH / "05_item_mapping_master.csv", ["municipality_id", "internal_item_id", "category_id"]),
+        ("item_mapping", RESEARCH / "05_item_mapping_master.csv", ["mapping_id"]),
         ("item_coverage", RESEARCH / "07_item_mapping_coverage.csv", ["municipality_id", "internal_item_id"]),
     ]:
         _, canonical_rows = read_csv(canonical_path)
@@ -59,7 +59,10 @@ def compare_canonical_union() -> list[str]:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--batch", help="batch directory under data/research/batches")
-    parser.add_argument("--gate", action="store_true", help="also require QA and all 40 mappings to be app-ready")
+    gate_group = parser.add_mutually_exclusive_group()
+    gate_group.add_argument("--next-batch-gate", action="store_true", help="require structural validity and QA_PASSED; mapping readiness is not required")
+    gate_group.add_argument("--app-readiness-gate", action="store_true", help="require QA_PASSED and all 40 mappings to be app-ready")
+    gate_group.add_argument("--gate", action="store_true", help="deprecated alias for --app-readiness-gate")
     args = parser.parse_args()
     if args.batch:
         base = ROOT / "data" / "research" / "batches" / args.batch
@@ -84,10 +87,11 @@ def main() -> int:
             "coverage_path": base / "07_item_mapping_coverage.csv",
         }
         label = "CANONICAL"
-    errors, gate_errors, summary = validate_dataset(label=label, gate=args.gate, **paths)
+    gate_mode = "next_batch" if args.next_batch_gate else "app_readiness" if args.app_readiness_gate or args.gate else None
+    errors, gate_errors, summary = validate_dataset(label=label, gate_mode=gate_mode, **paths)
     if not args.batch:
         errors.extend(compare_canonical_union())
-    return print_result(label, errors, gate_errors, summary, args.gate)
+    return print_result(label, errors, gate_errors, summary, gate_mode)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,7 @@
 # Schema v1.2 RED TEAM Report
 
+> 履歴版。12/12判定は後続RED TEAMで置換済み。現行結果はv1.2.1の15/15 PASSである。
+
 実施日：2026-08-17  
 自動判定：12/12 PASS  
 アプリ実装準備Gate：HOLD
@@ -39,4 +41,3 @@ RED TEAM PASSは現在データのAPP_READYを意味しない。検出器と拡�
 - APP_READY coverageは0、APP_READY自治体は0/15。
 
 したがってBatch 02は開始しない。
-

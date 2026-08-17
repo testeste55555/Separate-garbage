@@ -1,5 +1,7 @@
 # Schema v1.2
 
+> 履歴版。QA状態、完成Batch、mapping枝identity、Gateの運用定義はv1.2.1を優先する。
+
 確定日：2026-08-17  
 対象：143自治体へ拡張可能な家庭ごみ分別データ基盤
 
@@ -116,4 +118,3 @@ CSVのenumだけを直接変更してもvalidatorは通らない。
 - mergeはmappingを再生成せず、bundleをmergeする。
 - 既存canonicalの手動 `VERIFIED` / `APP_READY` は同一キーで優先保持する。
 - migrationの機械抽出は手動レビュー行を上書きしない。
-

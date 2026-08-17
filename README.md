@@ -14,15 +14,15 @@
 - Pilot：5自治体完了
 - Batch 01：10自治体完了
 - 調査・再validation済み：計15自治体、194分別区分、57公式出典
-- Schema：v1.2へ移行済み
+- Schema：v1.2.1へ移行済み（v1.2互換の運用修正版）
 - 構造validation：Pilot / Batch 01 / canonicalすべてPASS
 - QA：2 `QA_PASSED` / 13 `QA_REQUIRED`（区分網羅性の証跡を再判定）
 - 共通品目：40品目、安全区分付き
 - item mapping：283条件枝（現状は全枝 `INITIAL_REVIEW_REQUIRED`）
 - 40品目coverage：600自治体品目pair（244 `MAPPED_INITIAL` / 356 `NOT_RESEARCHED`）
-- Schema v1.2 RED TEAM：12/12 PASS
+- Schema v1.2.1 RED TEAM：15/15 PASS
 
-Batch 02の自治体調査は実施していません。構造はPASSしていますが、アプリ実装準備Gateは `HOLD` です。理由は13自治体の区分網羅性レビューと、15自治体×40品目の品目別公式確認が未完了であるためです。
+Batch 02の自治体調査は実施していません。`NEXT_BATCH_GATE` は13自治体の区分網羅性QAが未完了のため `HOLD`、`APP_READINESS_GATE` はそれに加えて15自治体×40品目の品目別公式確認が未完了のため `HOLD` です。前者は次自治体の調査開始条件、後者は教材アプリへの公開条件であり、相互に代用しません。
 
 ## ディレクトリ
 
@@ -38,7 +38,7 @@ Batch 02の自治体調査は実施していません。構造はPASSしてい�
 - `data/research/06_qa_log.csv`：機械再計算済みQA
 - `data/research/07_item_mapping_coverage.csv`：全自治体×40品目の調査・実装準備状態
 - `docs/schema/`：Schema、Data Dictionary、移行・RED TEAM報告
-- `docs/workflow/`：作業フロー（旧版を保持し、現行v1.3を追加）
+- `docs/workflow/`：作業フロー（旧版を保持し、現行v1.4を追加）
 
 ## 再現コマンド
 
@@ -49,7 +49,8 @@ python3 scripts/validate_pilot.py
 python3 scripts/validate_research.py --batch batch_01
 python3 scripts/merge_research.py
 python3 scripts/validate_research.py
-python3 scripts/validate_research.py --gate  # 現状はHOLDを示す終了コード2
+python3 scripts/check_next_batch_gate.py  # 現状はHOLDを示す終了コード2
+python3 scripts/validate_research.py --app-readiness-gate  # 現状はHOLDを示す終了コード2
 python3 scripts/red_team_schema_v12.py
 ```
 
@@ -72,4 +73,6 @@ buildとmergeの冪等性は、2回連続実行後にBatch 01およびcanonical 
 - `ui_role` は独立した教材UI指定です。`collection_channel` や `classification_level` から再推論しません。
 - 袋・容器、収集経路、粗大・予約・料金はREFERENCEです。分類結果に影響する条件だけCORE側へ記録します。
 - 空URLは「確認済み・不存在」ではありません。任意機能は `CHECKED_PRESENT / CHECKED_ABSENT / NOT_CHECKED` と証跡を保持します。
-- item mappingは条件分岐を複数行で保持します。`APP_READY` は40品目coverage、品目別公式証跡、全条件枝レビューが揃わない限りvalidatorが拒否します。
+- municipalitiesの `確認ステータス` はQAログから自動同期する読取専用ミラーです。手入力の別ステータスとして使用しません。
+- item mappingは不変な `mapping_id` を条件枝の主キーにし、同じ品目・同じ分別先でも異なる条件枝を複数行で保持します。`branch_order` は表示順でありidentityではありません。
+- `APP_READY` は40品目coverage、品目別公式証跡、全条件枝レビューが揃わない限りvalidatorが拒否します。

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared structural and application-readiness validation for Schema v1.2."""
+"""Shared structural and two-gate validation for Schema v1.2.1."""
 
 from __future__ import annotations
 
@@ -69,7 +69,7 @@ def validate_optional_check(errors: list[str], row: dict[str, str], *, url_field
 
 
 def validate_dataset(*, label: str, municipality_path: Path, category_path: Path, source_path: Path,
-                     qa_path: Path, mapping_path: Path, coverage_path: Path, gate: bool = False):
+                     qa_path: Path, mapping_path: Path, coverage_path: Path, gate_mode: str | None = None):
     errors: list[str] = []
     gate_errors: list[str] = []
     try:
@@ -337,14 +337,23 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
         for field in QA_FIELDS:
             if field != "備考" and row.get(field) != recalculated.get(mid, {}).get(field):
                 errors.append(f"stored QA differs from recomputation: {mid} {field}")
+        municipality_status = next(
+            (item.get("確認ステータス") for item in municipalities if item.get("municipality_id") == mid), None
+        )
+        if municipality_status != row.get("確認ステータス"):
+            errors.append(
+                f"municipality QA status mirror differs from QA log: {mid} "
+                f"municipality={municipality_status} qa={row.get('確認ステータス')}"
+            )
 
-    if gate:
+    if gate_mode in {"next_batch", "app_readiness"}:
         for mid in sorted(mid_set):
             if qa_by_id.get(mid, {}).get("確認ステータス") != "QA_PASSED":
                 gate_errors.append(f"QA not passed: {mid}")
-            not_ready = [item_id for item_id in item_ids if coverage_by_pair.get((mid, item_id), {}).get("coverage_status") not in READY_COVERAGE]
-            if not_ready:
-                gate_errors.append(f"40-item mapping not APP_READY: {mid} remaining={len(not_ready)}")
+            if gate_mode == "app_readiness":
+                not_ready = [item_id for item_id in item_ids if coverage_by_pair.get((mid, item_id), {}).get("coverage_status") not in READY_COVERAGE]
+                if not_ready:
+                    gate_errors.append(f"40-item mapping not APP_READY: {mid} remaining={len(not_ready)}")
 
     summary = {
         "municipalities": len(municipalities), "categories": len(categories), "sources": len(sources),
@@ -358,7 +367,8 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
     return errors, gate_errors, summary
 
 
-def print_result(label: str, errors: list[str], gate_errors: list[str], summary: dict, gate: bool = False) -> int:
+def print_result(label: str, errors: list[str], gate_errors: list[str], summary: dict,
+                 gate_mode: str | None = None) -> int:
     if errors:
         print(f"{label}_STRUCTURAL_VALIDATION_FAILED")
         for error in errors:
@@ -368,11 +378,12 @@ def print_result(label: str, errors: list[str], gate_errors: list[str], summary:
     print(" ".join(f"{key}={value}" for key, value in summary.items() if key != "category_counts"))
     if summary.get("category_counts"):
         print("category_counts=" + ",".join(f"{mid}:{count}" for mid, count in summary["category_counts"].items()))
-    if gate:
+    if gate_mode:
+        gate_label = "NEXT_BATCH_GATE" if gate_mode == "next_batch" else "APP_READINESS_GATE"
         if gate_errors:
-            print(f"{label}_APP_READINESS_GATE_HOLD")
+            print(f"{label}_{gate_label}_HOLD")
             for error in gate_errors:
                 print(f"- {error}")
             return 2
-        print(f"{label}_APP_READINESS_GATE_PASSED")
+        print(f"{label}_{gate_label}_PASSED")
     return 0

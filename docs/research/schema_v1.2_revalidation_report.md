@@ -1,5 +1,7 @@
 # Schema v1.2 Revalidation / QA Report
 
+> 履歴版。QA状態同期とGate分離後の結果は `schema_v1.2.1_revalidation_report.md` を参照する。
+
 実施日：2026-08-17  
 Batch 02調査：未実施
 

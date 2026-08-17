@@ -1,5 +1,7 @@
 # Data Dictionary v1.2
 
+> 履歴版。v1.2.1の明確化は `12_data_dictionary_v1.2.1.md` を参照する。
+
 確定日：2026-08-17  
 本書はv1.1からの変更・追加を定義する。未記載列はv1.1を継承する。
 
@@ -66,4 +68,3 @@
 - 任意機能の `存在` は TRUE / FALSE / UNKNOWN。未確認はUNKNOWNである。
 - 任意機能の `確認済み` は元のcheck_statusから算出するが、分別QA Gateにはしない。
 - `全分別区分` と `category_count_verified` は網羅性証跡から再計算する。
-

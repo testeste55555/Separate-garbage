@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Idempotently migrate all existing research bundles to Schema v1.2."""
+"""Idempotently migrate all existing research bundles to Schema v1.2.1."""
 
 from __future__ import annotations
 
-from schema_v12 import RESEARCH, completed_batch_dirs, migrate_batch_dir, migrate_bundle
+from schema_v12 import RESEARCH, batch_dirs_for_migration, migrate_batch_dir, migrate_bundle
 
 
 def main() -> None:
@@ -14,7 +14,7 @@ def main() -> None:
             pilot / "pilot_qa.csv", pilot / "pilot_item_mapping.csv", pilot / "pilot_item_coverage.csv",
         )
     }
-    for batch in completed_batch_dirs():
+    for batch in batch_dirs_for_migration():
         results[batch.name] = migrate_batch_dir(batch)
     results["canonical"] = migrate_bundle(
         RESEARCH / "04_municipalities_research.csv", RESEARCH / "02_categories_master.csv",
