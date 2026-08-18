@@ -13,17 +13,18 @@
 - MASTER：143自治体、固定ID済み
 - Pilot：5自治体完了
 - Batch 01：10自治体完了
-- 調査・再validation済み：計15自治体、205 category行（公式葉187区分）、58公式出典
+- Batch 02：10自治体完了
+- 調査・再validation済み：計25自治体、356 category行（公式葉325区分）、86公式出典
 - Schema：v1.2.3へ移行済み
-- 構造validation：Pilot / Batch 01 / canonicalすべてPASS
-- QA：15 `QA_PASSED` / 0 `QA_REQUIRED`
+- 構造validation：Pilot / Batch 01 / Batch 02 / canonicalすべてPASS
+- QA：25 `QA_PASSED` / 0 `QA_REQUIRED`
 - 共通品目：40品目、安全区分付き
-- item mapping：245条件枝（現状は全枝 `INITIAL_REVIEW_REQUIRED`）
-- 40品目coverage：600自治体品目pair（230 `MAPPED_INITIAL` / 370 `NOT_RESEARCHED`）
-- category review evidence：22行
-- Schema v1.2.3 RED TEAM：23/23 PASS
+- item mapping：397条件枝（現状は全枝 `INITIAL_REVIEW_REQUIRED`）
+- 40品目coverage：1,000自治体品目pair（381 `MAPPED_INITIAL` / 619 `NOT_RESEARCHED`）
+- category review evidence：50行
+- Schema v1.2.3 RED TEAM：24/24 PASS
 
-QA_REQUIREDだった13自治体は公式目次・見出しを全件照合しました。既存7補正に石巻市あきびん4公式子区分を加え、QA日付と複数source証拠も正規化しました。`NEXT_BATCH_GATE` は `PASS`、`APP_READINESS_GATE` は15自治体×40品目の品目別公式確認が未完了のため `HOLD` です。Batch 02は未実施です。
+Batch 02はMASTER順のM012・M014〜M022を対象に、公式ガイドの目次・分別見出しを全件照合しました。全10自治体を`MANUAL_INDEX_REVIEW`で記録し、公式粒度と教材UI投影を分離しています。`NEXT_BATCH_GATE` は `PASS`、`APP_READINESS_GATE` は25自治体×40品目の品目別公式確認が未完了のため `HOLD` です。
 
 ## ディレクトリ
 
@@ -32,6 +33,7 @@ QA_REQUIREDだった13自治体は公式目次・見出しを全件照合しま�
 - `data/master/04_common_items_master.csv`：共通40品目と教材安全区分
 - `data/research/pilot/`：Pilot 5自治体の独立成果物・QA
 - `data/research/batches/batch_01/`：Batch 01 10自治体
+- `data/research/batches/batch_02/`：Batch 02 10自治体
 - `data/research/02_categories_master.csv`：統合分別区分
 - `data/research/03_sources_master.csv`：統合出典
 - `data/research/04_municipalities_research.csv`：統合自治体調査
@@ -40,7 +42,7 @@ QA_REQUIREDだった13自治体は公式目次・見出しを全件照合しま�
 - `data/research/07_item_mapping_coverage.csv`：全自治体×40品目の調査・実装準備状態
 - `data/research/08_category_review_evidence.csv`：区分網羅性レビューの複数公式source証拠
 - `docs/schema/`：Schema、Data Dictionary、移行・RED TEAM報告
-- `docs/workflow/`：作業フロー（旧版を保持し、現行v1.8を追加）
+- `docs/workflow/`：作業フロー（旧版を保持し、現行v1.9を追加）
 
 ## 再現コマンド
 
@@ -49,6 +51,7 @@ QA_REQUIREDだった13自治体は公式目次・見出しを全件照合しま�
 ```bash
 python3 scripts/validate_pilot.py
 python3 scripts/validate_research.py --batch batch_01
+python3 scripts/validate_research.py --batch batch_02
 python3 scripts/merge_research.py
 python3 scripts/validate_research.py
 python3 scripts/check_next_batch_gate.py  # 現状はPASS（終了コード0）
@@ -65,7 +68,16 @@ python3 scripts/merge_research.py
 python3 scripts/validate_research.py
 ```
 
-migrationとmergeの冪等性は、2回連続実行後にBatch 01およびcanonical 7 CSVのSHA-256が不変であることを確認済みです。
+Batch 02の生成元から再構築する場合：
+
+```bash
+python3 scripts/build_batch_02.py
+python3 scripts/validate_research.py --batch batch_02 --next-batch-gate
+python3 scripts/merge_research.py
+python3 scripts/validate_research.py
+```
+
+migrationとmergeの冪等性は、2回連続実行後に完成bundleおよびcanonical 7 CSVのSHA-256が不変であることを確認済みです。
 
 ## 運用上の重要事項
 

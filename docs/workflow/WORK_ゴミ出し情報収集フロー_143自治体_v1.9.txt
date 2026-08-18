@@ -1,0 +1,188 @@
+WORK ゴミ出し情報収集フロー 143自治体 v1.9
+制定日: 2026-08-18
+適用Schema: v1.2.3
+
+==================================================
+0. 目的・現在地
+==================================================
+
+中心Can-do:
+「名前が分からないごみでも、自分が住む自治体のルールを調べて、
+仲間と相談しながら、正しく分別ができる。」
+
+家庭ごみの分別判断を対象とし、曜日、時刻、地区別カレンダーは構造化しない。
+Pilot、Batch 01、Batch 02の計25自治体は公式資料レビュー・QA・mergeを完了した。
+NEXT_BATCH_GATEとAPP_READINESS_GATEは分離する。
+
+==================================================
+1. 対象・ID・版管理
+==================================================
+
+1. data/master/01_municipalities_master.csvの143自治体だけを対象にする。
+2. municipality_idは固定し、MASTER順で未調査自治体をBatchへ割り当てる。
+3. 過去Schema・Workflowを削除・上書きしない。
+4. 新規作業はSchema v1.2.3と本Workflowを使用する。
+5. validatorに自治体数、区分数、出典数、Batch名の固定正常値を置かない。
+
+==================================================
+2. CORE / REFERENCE・公式性
+==================================================
+
+CORE:
+- 自治体・区分ID、正式名称、group、level、親、表示順、ui_role
+- 代表品目、入れてはいけない物、分類条件、条件外、前処理
+- 自治体収集外、安全注意、source、URL、locator、確認日
+- rule_status、effective dates
+
+REFERENCE:
+- collection_channel
+- 袋・容器、粗大、予約、料金、直接搬入、回収拠点、代替処分経路
+
+sourceは公式ドメイン台帳で検証する。外部サービスは自治体公式導線も保持する。
+
+==================================================
+3. 任意機能・QA日付
+==================================================
+
+品目検索、やさしい日本語、多言語は次の状態と証跡を保持する。
+- CHECKED_PRESENT: URLと確認日必須
+- CHECKED_ABSENT: 調査した公式URL・範囲・確認日必須
+- NOT_CHECKED: URL・証跡とも空欄。空URLを不存在へ自動変換しない
+
+QA確認日は固定値や実行日を使わず、自治体の次の最大ISO日付から導出する。
+- 最終確認日
+- category_count_reviewed_date
+- categoryの確認日
+- sourceの取得確認日
+
+QAは元データから再計算し、municipalities.確認ステータスへ同期する。
+
+==================================================
+4. 区分網羅性・複数source
+==================================================
+
+category_count_review_idを安定IDとし、証拠をcategory_review_evidenceへ1 source 1行で記録する。
+別自治体source、非公式source、存在しないsource、locator欠落、孤立reviewは禁止する。
+
+OFFICIAL_COUNT_MATCHED:
+- official_category_count、OFFICIAL_TOTAL証拠、対応根拠、reviewer、review日が必須
+- 公式葉区分数と一致させる
+
+MANUAL_INDEX_REVIEW:
+- official_category_countは空欄可
+- 公式目次・見出し・索引を先頭から末尾まで全件照合する
+- reviewed_category_count、PRIMARY_INDEX、必要なSUPPLEMENTAL_INDEX、対応根拠、reviewer、review日が必須
+
+未完はNOT_REVIEWED、category_count_verified=FALSEとする。
+
+==================================================
+5. 公式粒度と教材UI粒度
+==================================================
+
+公式件数はCURRENTかつ非EXCLUDED_NOTICEの公式葉区分を数える。
+CURRENT子を持つ投影親は重複計上しない。
+
+教材で親1箱へ束ねる公式子区分:
+- classification_level=SUBCATEGORY
+- parent_category_id必須
+- 子はui_role=REFERENCE_ONLY
+- 親はCURRENTかつui_role=SORT_BUCKET
+
+初期mappingは投影親を飛ばし、公式葉から生成する。
+
+==================================================
+6. 各Batchの必須7成果物
+==================================================
+
+data/research/batches/<batch_name>/へ保存する。
+1. <batch_name>_municipalities.csv
+2. <batch_name>_categories.csv
+3. <batch_name>_sources.csv
+4. <batch_name>_qa.csv
+5. <batch_name>_item_mapping.csv
+6. <batch_name>_item_coverage.csv
+7. <batch_name>_category_review_evidence.csv
+
+7ファイルすべてを持つものだけを完成Batchとする。
+各Batchはmerge前に自身の7成果物でvalidationする。
+
+==================================================
+7. 初期mapping・共通40品目
+==================================================
+
+候補生成のPositive evidenceは自治体正式名称と代表品目だけとする。
+入れてはいけない物、条件外、前処理、注意事項の語だけで生成しない。
+複合語collision guardと40品目fixtureを継続する。
+
+全自治体×40品目のcoverage行を必須とする。
+- category_source_*: 区分体系の根拠
+- item_evidence_*: 品目別判断の根拠
+
+初期候補はINITIAL_REVIEW_REQUIRED、coverageはMAPPED_INITIALとし、item evidenceを空欄にする。
+APP_READYはITEM_SPECIFIC、全条件枝COMPLETE、品目別公式source・URL・locator、reviewer・日付を必須とする。
+
+==================================================
+8. merge・冪等性
+==================================================
+
+1. mappingはmapping_id、coverageは自治体・品目pairでmergeする。
+2. 手動VERIFIED/APP_READYを候補外でも保持する。
+3. canonicalはPilot＋全完成Batchのno-loss unionとする。
+4. 同一mergeを2回実行し、canonical 7 CSVのSHA-256不変を確認する。
+5. 未レビュー行に品目別証拠を自動生成しない。
+
+==================================================
+9. validation・Gate
+==================================================
+
+構造validation:
+- header、enum、主キー、MASTER参照
+- 公式domain/source、category参照、親子投影
+- 区分網羅性、複数source証拠
+- QA日付再計算とmunicipalities同期
+- mapping証拠・条件枝・review状態
+- 自治体×40品目coverage直積
+
+NEXT_BATCH_GATE:
+- Pilot・全完成Batch・canonical構造PASS
+- canonical no-loss union
+- 全自治体QA_PASSED
+- merge冪等性
+- RED TEAM PASS
+
+標準コマンド: python3 scripts/check_next_batch_gate.py
+
+APP_READINESS_GATE:
+- QA_PASSED
+- 40品目すべてAPP_READYまたはVERIFIED_NOT_APPLICABLE
+- 品目別公式根拠・条件枝・reviewer・日付完備
+
+標準コマンド: python3 scripts/validate_research.py --app-readiness-gate
+未完は終了コード2のHOLDとする。
+
+==================================================
+10. 2026-08-18時点
+==================================================
+
+- 完了: Pilot 5自治体、Batch 01 10自治体、Batch 02 10自治体
+- 構造validation: 全bundle・canonical PASS
+- RED TEAM: 24/24 PASS
+- QA: 25 QA_PASSED / 0 QA_REQUIRED
+- category行: 356（公式葉325区分）
+- source: 86
+- category review evidence: 50
+- mapping: 397 INITIAL_REVIEW_REQUIRED枝
+- coverage: 381 MAPPED_INITIAL / 619 NOT_RESEARCHED
+- APP_READY: 0/25自治体
+- NEXT_BATCH_GATE: PASS
+- APP_READINESS_GATE: HOLD
+- 区分網羅性: 22 MANUAL_INDEX_REVIEW / 3 OFFICIAL_COUNT_MATCHED
+- Batch 03: NEXT_BATCH_GATE上は開始可能
+
+==================================================
+11. 変更管理
+==================================================
+
+列、enum、主キー、証拠、公式件数の数え方、UI投影、Gateを変更する場合は、
+Schema、Data Dictionary、migration、validator、RED TEAM、Workflowを同時更新する。
+自治体固有ルールはコード分岐ではなく、階層データと公式証拠で表現する。

@@ -77,6 +77,39 @@ def main() -> int:
     checks.add("all discovered bundles pass structural validation", not any(structural_errors.values()),
                "; ".join(f"{label}={len(errors)}" for label, errors in structural_errors.items()))
 
+    batch_02 = RESEARCH / "batches" / "batch_02"
+    batch_02_targets = {"M012", "M014", "M015", "M016", "M017", "M018", "M019", "M020", "M021", "M022"}
+    batch_02_ok = False
+    batch_02_detail = "missing"
+    if batch_02 in completed_batch_dirs():
+        batch_02_paths = paths_for(batch_02, "batch_02_")
+        _, batch_02_municipalities = read_csv(batch_02_paths["municipality_path"])
+        _, batch_02_categories = read_csv(batch_02_paths["category_path"])
+        _, batch_02_qa = read_csv(batch_02_paths["qa_path"])
+        _, batch_02_evidence = read_csv(batch_02_paths["review_evidence_path"])
+        actual_targets = {row["municipality_id"] for row in batch_02_municipalities}
+        evidence_counts = Counter(row["municipality_id"] for row in batch_02_evidence)
+        batch_02_ok = (
+            actual_targets == batch_02_targets
+            and all(row["確認ステータス"] == "QA_PASSED" for row in batch_02_qa)
+            and all(row["category_count_check_status"] == "MANUAL_INDEX_REVIEW" for row in batch_02_municipalities)
+            and all(
+                row["reviewed_category_count"].isdigit()
+                and int(row["reviewed_category_count"]) == counted_category_total(row["municipality_id"], batch_02_categories)
+                and evidence_counts[row["municipality_id"]] >= 2
+                for row in batch_02_municipalities
+            )
+        )
+        batch_02_detail = (
+            f"targets={len(actual_targets)}/10 qa_passed="
+            f"{sum(row['確認ステータス'] == 'QA_PASSED' for row in batch_02_qa)}/10 "
+            f"official_leaves={sum(counted_category_total(mid, batch_02_categories) for mid in actual_targets)}"
+        )
+    checks.add(
+        "Batch 02 is the exact next MASTER set with complete manual-index evidence",
+        batch_02_ok, batch_02_detail,
+    )
+
     union_errors = compare_canonical_union()
     checks.add("canonical is a no-loss union of Pilot and completed batches", not union_errors,
                "; ".join(union_errors[:3]))
