@@ -17,6 +17,7 @@ CANONICAL_FILES = [
     RESEARCH / "04_municipalities_research.csv", RESEARCH / "02_categories_master.csv",
     RESEARCH / "03_sources_master.csv", RESEARCH / "06_qa_log.csv",
     RESEARCH / "05_item_mapping_master.csv", RESEARCH / "07_item_mapping_coverage.csv",
+    RESEARCH / "08_category_review_evidence.csv",
 ]
 
 
@@ -28,6 +29,7 @@ def bundle_paths(base: Path, prefix: str) -> dict[str, Path]:
         "qa_path": base / f"{prefix}qa.csv",
         "mapping_path": base / f"{prefix}item_mapping.csv",
         "coverage_path": base / f"{prefix}item_coverage.csv",
+        "review_evidence_path": base / f"{prefix}category_review_evidence.csv",
     }
 
 
@@ -39,6 +41,7 @@ def canonical_paths() -> dict[str, Path]:
         "qa_path": RESEARCH / "06_qa_log.csv",
         "mapping_path": RESEARCH / "05_item_mapping_master.csv",
         "coverage_path": RESEARCH / "07_item_mapping_coverage.csv",
+        "review_evidence_path": RESEARCH / "08_category_review_evidence.csv",
     }
 
 
@@ -73,7 +76,7 @@ def main() -> int:
 
     red_team_code = red_team_main()
     if red_team_code:
-        structural_errors.append("Schema v1.2.2 RED TEAM failed")
+        structural_errors.append("Schema v1.2.3 RED TEAM failed")
 
     if structural_errors:
         print("NEXT_BATCH_GATE_FAILED")

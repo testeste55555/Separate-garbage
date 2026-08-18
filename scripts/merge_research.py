@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Idempotently merge Pilot and completed Schema v1.2.2 batches."""
+"""Idempotently merge Pilot and completed Schema v1.2.3 batches."""
 
 from __future__ import annotations
 
@@ -68,6 +68,7 @@ def main() -> None:
     qa_inputs = [pilot / "pilot_qa.csv"]
     mapping_inputs = [pilot / "pilot_item_mapping.csv"]
     coverage_inputs = [pilot / "pilot_item_coverage.csv"]
+    review_evidence_inputs = [pilot / "pilot_category_review_evidence.csv"]
     for batch in completed_batch_dirs():
         prefix = batch.name + "_"
         municipality_inputs.append(batch / f"{prefix}municipalities.csv")
@@ -76,11 +77,16 @@ def main() -> None:
         qa_inputs.append(batch / f"{prefix}qa.csv")
         mapping_inputs.append(batch / f"{prefix}item_mapping.csv")
         coverage_inputs.append(batch / f"{prefix}item_coverage.csv")
+        review_evidence_inputs.append(batch / f"{prefix}category_review_evidence.csv")
 
     merge(RESEARCH / "04_municipalities_research.csv", municipality_inputs, ["municipality_id"])
     merge(RESEARCH / "02_categories_master.csv", category_inputs, ["municipality_id", "category_id"])
     merge(RESEARCH / "03_sources_master.csv", source_inputs, ["municipality_id", "source_id"])
     merge(RESEARCH / "06_qa_log.csv", qa_inputs, ["municipality_id"])
+    merge(
+        RESEARCH / "08_category_review_evidence.csv", review_evidence_inputs,
+        ["review_evidence_id"],
+    )
 
     merge_review_table(
         RESEARCH / "05_item_mapping_master.csv", mapping_inputs,

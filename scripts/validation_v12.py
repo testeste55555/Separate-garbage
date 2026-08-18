@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared structural and two-gate validation for Schema v1.2.2."""
+"""Shared structural and two-gate validation for Schema v1.2.3."""
 
 from __future__ import annotations
 
@@ -10,9 +10,10 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from schema_v12 import (
-    CATEGORY_FIELDS, CHECK_STATUS, COUNT_STATUS, COVERAGE_FIELDS, MAPPING_FIELDS, MASTER,
+    CATEGORY_FIELDS, CATEGORY_REVIEW_EVIDENCE_FIELDS, CHECK_STATUS, COUNT_STATUS, COVERAGE_FIELDS,
+    MAPPING_FIELDS, MASTER,
     MUNICIPALITY_FIELDS, QA_FIELDS, RESEARCH, ROOT, SOURCE_FIELDS, compute_qa,
-    counted_category_total, read_csv, ui_role_valid,
+    counted_category_total, latest_qa_evidence_date, read_csv, REVIEW_EVIDENCE_ROLE, ui_role_valid,
 )
 
 BOOL = {"TRUE", "FALSE", "CONDITIONAL", "UNKNOWN"}
@@ -85,7 +86,8 @@ def validate_item_evidence(errors: list[str], row: dict[str, str], *, mid: str,
 
 
 def validate_dataset(*, label: str, municipality_path: Path, category_path: Path, source_path: Path,
-                     qa_path: Path, mapping_path: Path, coverage_path: Path, gate_mode: str | None = None):
+                     qa_path: Path, mapping_path: Path, coverage_path: Path,
+                     review_evidence_path: Path, gate_mode: str | None = None):
     errors: list[str] = []
     gate_errors: list[str] = []
     try:
@@ -95,6 +97,7 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
         qa_fields, qa = read_csv(qa_path)
         mapping_fields, mappings = read_csv(mapping_path)
         coverage_fields, coverage = read_csv(coverage_path)
+        review_evidence_fields, review_evidence = read_csv(review_evidence_path)
         master_fields, master = read_csv(MASTER / "01_municipalities_master.csv")
         registry_fields, registry = read_csv(MASTER / "02_official_domain_registry.csv")
         item_fields, items = read_csv(MASTER / "04_common_items_master.csv")
@@ -105,6 +108,7 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
         (municipality_path, municipality_fields, MUNICIPALITY_FIELDS), (category_path, category_fields, CATEGORY_FIELDS),
         (source_path, source_fields, SOURCE_FIELDS), (qa_path, qa_fields, QA_FIELDS),
         (mapping_path, mapping_fields, MAPPING_FIELDS), (coverage_path, coverage_fields, COVERAGE_FIELDS),
+        (review_evidence_path, review_evidence_fields, CATEGORY_REVIEW_EVIDENCE_FIELDS),
         (MASTER / "02_official_domain_registry.csv", registry_fields, REGISTRY_FIELDS),
         (MASTER / "04_common_items_master.csv", item_fields, COMMON_ITEM_FIELDS),
     ]:
@@ -154,6 +158,31 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
             if registry_map.get((key[0], link_host), {}).get("authority_type") == "MUNICIPAL_LINKED_SERVICE":
                 errors.append(f"linked service lacks municipal linking evidence: {key}")
 
+    review_evidence_ids = set()
+    review_owner = {}
+    review_rows_by_id: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for row in review_evidence:
+        evidence_id = row.get("review_evidence_id", "")
+        review_id = row.get("review_id", "")
+        mid = row.get("municipality_id", "")
+        source_id = row.get("source_id", "")
+        if not evidence_id or evidence_id in review_evidence_ids:
+            errors.append(f"duplicate or empty category review evidence ID: {evidence_id}")
+        review_evidence_ids.add(evidence_id)
+        if not review_id or not mid:
+            errors.append(f"category review evidence lacks review/municipality ID: {evidence_id}")
+        if review_id in review_owner and review_owner[review_id] != mid:
+            errors.append(f"category review ID crosses municipalities: {review_id}")
+        review_owner[review_id] = mid
+        review_rows_by_id[review_id].append(row)
+        source = source_by_key.get((mid, source_id))
+        if source is None or source.get("official_verified") != "TRUE":
+            errors.append(f"category review evidence source is missing, foreign, or unofficial: {evidence_id}")
+        if row.get("evidence_role") not in REVIEW_EVIDENCE_ROLE:
+            errors.append(f"bad category review evidence role: {evidence_id}")
+        if not row.get("locator"):
+            errors.append(f"category review evidence lacks locator: {evidence_id}")
+
     for row in municipalities:
         mid = row.get("municipality_id", "")
         if mid not in master_by_id:
@@ -167,34 +196,52 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
                 errors.append(f"non-HTTPS required municipality URL: {mid} {field}")
         count_status = row.get("category_count_check_status", "")
         verified = row.get("category_count_verified", "")
-        source_key = (mid, row.get("category_count_evidence_source_id", ""))
+        review_id = row.get("category_count_review_id", "")
+        evidence_rows = review_rows_by_id.get(review_id, [])
         if count_status not in COUNT_STATUS:
             errors.append(f"bad category count check status: {mid}")
         elif count_status == "NOT_REVIEWED":
             if verified != "FALSE" or any(row.get(f) for f in [
-                "reviewed_category_count", "category_count_evidence_source_id",
+                "reviewed_category_count", "category_count_review_id",
                 "category_count_reviewed_date", "category_count_reviewed_by",
             ]):
                 errors.append(f"NOT_REVIEWED claims category-count evidence: {mid}")
         else:
-            if verified != "TRUE" or not row.get("category_count_basis") or source_key not in source_by_key:
-                errors.append(f"verified category count lacks evidence source/basis: {mid}")
+            if (
+                verified != "TRUE" or not row.get("category_count_basis") or not review_id
+                or not evidence_rows or any(item.get("municipality_id") != mid for item in evidence_rows)
+            ):
+                errors.append(f"verified category count lacks formal review evidence/basis: {mid}")
             if not iso_date(row.get("category_count_reviewed_date", "")) or not row.get("category_count_reviewed_by"):
                 errors.append(f"verified category count lacks reviewer/date: {mid}")
             official_count = row.get("official_category_count", "")
             reviewed_count = row.get("reviewed_category_count", "")
             if count_status == "OFFICIAL_COUNT_MATCHED" and not official_count.isdigit():
                 errors.append(f"OFFICIAL_COUNT_MATCHED lacks numeric official count: {mid}")
+            if count_status == "OFFICIAL_COUNT_MATCHED" and not any(
+                item.get("evidence_role") == "OFFICIAL_TOTAL" for item in evidence_rows
+            ):
+                errors.append(f"OFFICIAL_COUNT_MATCHED lacks OFFICIAL_TOTAL evidence: {mid}")
             if count_status == "OFFICIAL_COUNT_MATCHED" and reviewed_count:
                 errors.append(f"OFFICIAL_COUNT_MATCHED must not claim a manual reviewed count: {mid}")
             if count_status == "MANUAL_INDEX_REVIEW":
                 if not reviewed_count.isdigit():
                     errors.append(f"MANUAL_INDEX_REVIEW lacks numeric reviewed count: {mid}")
+                if not any(item.get("evidence_role") == "PRIMARY_INDEX" for item in evidence_rows):
+                    errors.append(f"MANUAL_INDEX_REVIEW lacks PRIMARY_INDEX evidence: {mid}")
                 if official_count and not official_count.isdigit():
                     errors.append(f"MANUAL_INDEX_REVIEW has non-numeric optional official count: {mid}")
         validate_optional_check(errors, row, url_field="品目検索URL", status_field="search_service_check_status", evidence_field="search_service_check_evidence")
         validate_optional_check(errors, row, url_field="やさしい日本語URL", status_field="easy_japanese_check_status", evidence_field="easy_japanese_check_evidence")
         validate_optional_check(errors, row, url_field="多言語資料URL", status_field="multilingual_check_status", evidence_field="multilingual_check_evidence")
+
+    referenced_review_ids = {
+        row.get("category_count_review_id") for row in municipalities
+        if row.get("category_count_review_id")
+    }
+    orphan_review_ids = set(review_rows_by_id) - referenced_review_ids
+    if orphan_review_ids:
+        errors.append(f"orphan category review evidence: {sorted(orphan_review_ids)}")
 
     category_by_key = {}
     category_counts = Counter()
@@ -237,8 +284,20 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
             errors.append(f"bad category confirmation date: {key}")
     for row in categories:
         parent = row.get("parent_category_id", "")
-        if parent and (row["municipality_id"], parent) not in category_by_key:
+        if not parent:
+            continue
+        parent_row = category_by_key.get((row["municipality_id"], parent))
+        if parent_row is None:
             errors.append(f"missing parent category: {row['municipality_id']} {row['category_id']} -> {parent}")
+            continue
+        if row.get("classification_level") != "SUBCATEGORY":
+            errors.append(f"category with parent must be SUBCATEGORY: {row['municipality_id']} {row['category_id']}")
+        if row.get("rule_status") == "CURRENT" and row.get("ui_role") == "REFERENCE_ONLY":
+            if parent_row.get("rule_status") != "CURRENT" or parent_row.get("ui_role") != "SORT_BUCKET":
+                errors.append(
+                    f"reference-only subcategory lacks current SORT_BUCKET projection parent: "
+                    f"{row['municipality_id']} {row['category_id']}"
+                )
     for municipality in municipalities:
         mid = municipality["municipality_id"]
         if not any(r["municipality_id"] == mid and r.get("rule_status") == "CURRENT" and r.get("ui_role") == "SORT_BUCKET" for r in categories):
@@ -396,7 +455,10 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
     qa_by_id = {row.get("municipality_id", ""): row for row in qa}
     if len(qa_by_id) != len(qa) or set(qa_by_id) != mid_set:
         errors.append("municipality and QA ID sets differ or QA IDs duplicate")
-    recalculated = {row["municipality_id"]: row for row in compute_qa(municipalities, categories, sources, qa)}
+    recalculated = {
+        row["municipality_id"]: row
+        for row in compute_qa(municipalities, categories, sources, review_evidence, qa)
+    }
     for mid, row in qa_by_id.items():
         if row.get("確認ステータス") not in {"QA_PASSED", "QA_REQUIRED"}:
             errors.append(f"bad QA status: {mid}")
@@ -406,6 +468,10 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
         for field in QA_FIELDS:
             if field != "備考" and row.get(field) != recalculated.get(mid, {}).get(field):
                 errors.append(f"stored QA differs from recomputation: {mid} {field}")
+        municipality = next(item for item in municipalities if item.get("municipality_id") == mid)
+        expected_qa_date = latest_qa_evidence_date(municipality, categories, sources)
+        if row.get("確認日") != expected_qa_date:
+            errors.append(f"QA date is not newest evidence date: {mid} {row.get('確認日')}!={expected_qa_date}")
         municipality_status = next(
             (item.get("確認ステータス") for item in municipalities if item.get("municipality_id") == mid), None
         )
@@ -427,6 +493,7 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
     summary = {
         "municipalities": len(municipalities), "categories": len(categories), "sources": len(sources),
         "qa": len(qa), "mappings": len(mappings), "coverage": len(coverage),
+        "review_evidence": len(review_evidence),
         "qa_passed": sum(row.get("確認ステータス") == "QA_PASSED" for row in qa),
         "qa_required": sum(row.get("確認ステータス") == "QA_REQUIRED" for row in qa),
         "coverage_status": dict(Counter(row.get("coverage_status") for row in coverage)),

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Adversarial, batch-count-independent checks for the Schema v1.2.2 pipeline."""
+"""Adversarial, batch-count-independent checks for the Schema v1.2.3 pipeline."""
 
 from __future__ import annotations
 
@@ -9,12 +9,13 @@ from collections import Counter
 from pathlib import Path
 
 from schema_v12 import (
-    BATCH_MIGRATION_INPUT_SUFFIXES, BATCH_REQUIRED_SUFFIXES, COVERAGE_FIELDS, MAPPING_FIELDS,
-    ITEM_PATTERNS, MANUAL_MAPPING_STATUS, MUNICIPALITY_FIELDS, NEGATIVE_CONTEXT_FIELDS, QA_FIELDS,
-    RESEARCH, ROOT,
+    BATCH_MIGRATION_INPUT_SUFFIXES, BATCH_REQUIRED_SUFFIXES, CATEGORY_REVIEW_EVIDENCE_FIELDS,
+    COVERAGE_FIELDS, MAPPING_FIELDS, ITEM_PATTERNS, MANUAL_MAPPING_STATUS, MUNICIPALITY_FIELDS,
+    NEGATIVE_CONTEXT_FIELDS, QA_FIELDS, RESEARCH, ROOT,
     batch_dirs_for_migration,
     candidate_initial_mappings, completed_batch_dirs, compute_qa, counted_category_total,
-    item_pattern_matches, read_csv, reconcile_mappings, sync_municipality_qa_status, write_csv,
+    item_pattern_matches, latest_qa_evidence_date, read_csv, reconcile_mappings,
+    sync_municipality_qa_status, write_csv,
 )
 from merge_research import merge_review_table
 from validate_research import compare_canonical_union
@@ -48,6 +49,7 @@ def paths_for(base: Path, prefix: str) -> dict[str, Path]:
         "qa_path": base / f"{prefix}qa.csv",
         "mapping_path": base / f"{prefix}item_mapping.csv",
         "coverage_path": base / f"{prefix}item_coverage.csv",
+        "review_evidence_path": base / f"{prefix}category_review_evidence.csv",
     }
 
 
@@ -61,6 +63,7 @@ def main() -> int:
         "qa_path": RESEARCH / "06_qa_log.csv",
         "mapping_path": RESEARCH / "05_item_mapping_master.csv",
         "coverage_path": RESEARCH / "07_item_mapping_coverage.csv",
+        "review_evidence_path": RESEARCH / "08_category_review_evidence.csv",
     }
     datasets = [("PILOT", pilot_paths)]
     for batch in completed_batch_dirs():
@@ -92,7 +95,7 @@ def main() -> int:
         migration_names = {path.name for path in batch_dirs_for_migration(batch_root)}
         completed_names = {path.name for path in completed_batch_dirs(batch_root)}
         completed_definition_ok = migration_names == {"batch_complete", "batch_incomplete"} and completed_names == {"batch_complete"}
-    checks.add("completed-batch definition is centralized at six artifacts", completed_definition_ok)
+    checks.add("completed-batch definition is centralized at seven artifacts", completed_definition_ok)
 
     _, municipalities = read_csv(canonical_paths["municipality_path"])
     _, qa_rows = read_csv(canonical_paths["qa_path"])
@@ -105,6 +108,7 @@ def main() -> int:
     _, pilot_categories = read_csv(pilot_paths["category_path"])
     _, pilot_sources = read_csv(pilot_paths["source_path"])
     _, pilot_qa = read_csv(pilot_paths["qa_path"])
+    _, pilot_review_evidence = read_csv(pilot_paths["review_evidence_path"])
     manual_review_ok = False
     manual_count_mismatch_rejected = False
     if pilot_municipalities and pilot_sources:
@@ -116,10 +120,12 @@ def main() -> int:
             "official_category_count": "", "reviewed_category_count": str(counted_category_total(mid, pilot_categories)),
             "category_count_basis": "公式目次・見出しを全件手動照合", "category_count_verified": "TRUE",
             "category_count_check_status": "MANUAL_INDEX_REVIEW",
-            "category_count_evidence_source_id": source["source_id"],
+            "category_count_review_id": target["category_count_review_id"],
             "category_count_reviewed_date": "2026-08-17", "category_count_reviewed_by": "RED_TEAM_REVIEWER",
         })
-        manual_qa = compute_qa(manual_rows, pilot_categories, pilot_sources, pilot_qa)
+        manual_qa = compute_qa(
+            manual_rows, pilot_categories, pilot_sources, pilot_review_evidence, pilot_qa
+        )
         sync_municipality_qa_status(manual_rows, manual_qa)
         with tempfile.TemporaryDirectory(prefix="redteam_manual_count_", dir=ROOT) as tmp:
             tmp_path = Path(tmp)
@@ -134,7 +140,9 @@ def main() -> int:
             bad_rows = [dict(row) for row in manual_rows]
             bad_target = next(row for row in bad_rows if row["municipality_id"] == mid)
             bad_target["reviewed_category_count"] = str(int(target["reviewed_category_count"]) + 1)
-            bad_qa = compute_qa(bad_rows, pilot_categories, pilot_sources, manual_qa)
+            bad_qa = compute_qa(
+                bad_rows, pilot_categories, pilot_sources, pilot_review_evidence, manual_qa
+            )
             sync_municipality_qa_status(bad_rows, bad_qa)
             write_csv(municipality_path, MUNICIPALITY_FIELDS, bad_rows)
             write_csv(qa_path, QA_FIELDS, bad_qa)
@@ -145,10 +153,63 @@ def main() -> int:
         manual_review_ok and manual_count_mismatch_rejected,
     )
     _, categories = read_csv(canonical_paths["category_path"])
+    _, sources = read_csv(canonical_paths["source_path"])
+    _, review_evidence = read_csv(canonical_paths["review_evidence_path"])
     _, items = read_csv(ROOT / "data" / "master" / "04_common_items_master.csv")
 
+    expected_qa_dates = {
+        row["municipality_id"]: latest_qa_evidence_date(row, categories, sources)
+        for row in municipalities
+    }
+    qa_dates_dynamic = all(
+        row.get("確認日") == expected_qa_dates.get(row["municipality_id"])
+        for row in qa_rows
+    ) and all(expected_qa_dates.values()) and 'CHECKED = "2026-08-17"' not in (
+        ROOT / "scripts" / "schema_v12.py"
+    ).read_text(encoding="utf-8")
+    stale_qa_rejected = False
+    with tempfile.TemporaryDirectory(prefix="redteam_qa_date_", dir=ROOT) as tmp:
+        tampered_qa = [dict(row) for row in qa_rows]
+        target_qa = next(row for row in tampered_qa if row["municipality_id"] == "M005")
+        target_qa["確認日"] = "2026-08-17"
+        qa_path = Path(tmp) / "qa.csv"
+        write_csv(qa_path, QA_FIELDS, tampered_qa)
+        stale_paths = dict(canonical_paths)
+        stale_paths["qa_path"] = qa_path
+        stale_errors, _, _ = validate_dataset(label="STALE_QA_DATE", **stale_paths)
+        stale_qa_rejected = any("確認日" in error or "QA date" in error for error in stale_errors)
+    checks.add(
+        "QA dates derive from each municipality's newest persisted evidence date",
+        qa_dates_dynamic and stale_qa_rejected,
+        f"dates={sorted(set(expected_qa_dates.values()))} stale_rejected={stale_qa_rejected}",
+    )
+
+    multi_source_ok = all(
+        len([row for row in review_evidence if row["municipality_id"] == mid]) >= 4
+        for mid in ("M002", "M004")
+    )
+    foreign_source_rejected = False
+    with tempfile.TemporaryDirectory(prefix="redteam_review_evidence_", dir=ROOT) as tmp:
+        tampered_evidence = [dict(row) for row in review_evidence]
+        target_evidence = next(
+            row for row in tampered_evidence
+            if row["municipality_id"] == "M002" and row["evidence_role"] == "SUPPLEMENTAL_INDEX"
+        )
+        target_evidence["source_id"] = "S-M001-01"
+        evidence_path = Path(tmp) / "category_review_evidence.csv"
+        write_csv(evidence_path, CATEGORY_REVIEW_EVIDENCE_FIELDS, tampered_evidence)
+        evidence_paths = dict(canonical_paths)
+        evidence_paths["review_evidence_path"] = evidence_path
+        evidence_errors, _, _ = validate_dataset(label="FOREIGN_REVIEW_SOURCE", **evidence_paths)
+        foreign_source_rejected = any("category review evidence source" in error for error in evidence_errors)
+    checks.add(
+        "category completeness reviews retain and validate multiple official sources",
+        multi_source_ok and foreign_source_rejected,
+        f"multi_source={multi_source_ok} foreign_source_rejected={foreign_source_rejected}",
+    )
+
     reviewed_counts = {
-        "M001": 14, "M002": 20, "M003": 13, "M004": 12, "M005": 16, "M006": 16,
+        "M001": 14, "M002": 20, "M003": 13, "M004": 12, "M006": 16,
         "M007": 8, "M008": 9, "M009": 8, "M011": 14, "M013": 9, "M030": 10, "M094": 8,
     }
     municipality_by_id = {row["municipality_id"]: row for row in municipalities}
@@ -160,6 +221,10 @@ def main() -> int:
         "C-M005-16": "古着・布類",
         "C-M005-17": "紙パック",
         "C-M005-18": "使用済小型家電",
+        "C-M005-19": "一升びん・ビールびん・リターナブルびん",
+        "C-M005-20": "無色透明びん",
+        "C-M005-21": "茶色びん",
+        "C-M005-22": "その他色びん",
         "C-M006-17": "布類",
     }
     manual_review_regression_ok = all(
@@ -175,11 +240,37 @@ def main() -> int:
     m005_hazardous = category_by_id.get("C-M005-04", {})
     m005_split_ok = "スプレー缶" not in m005_hazardous.get("代表品目", "")
     checks.add(
-        "13 manual index reviews and seven official-heading corrections resist regression",
+        "12 manual index reviews and eleven official-heading corrections resist regression",
         manual_review_regression_ok and correction_regression_ok and m005_split_ok,
         f"manual_reviews={sum(mid in municipality_by_id for mid in reviewed_counts)}/{len(reviewed_counts)} "
         f"corrections={sum(category_by_id.get(cid, {}).get('自治体正式名称') == name for cid, name in required_corrections.items())}/{len(required_corrections)} "
         f"m005_spray_split={m005_split_ok}",
+    )
+
+    m005 = municipality_by_id.get("M005", {})
+    bottle_parent = category_by_id.get("C-M005-10", {})
+    bottle_children = [category_by_id.get(f"C-M005-{number}", {}) for number in range(19, 23)]
+    m005_hierarchy_ok = (
+        m005.get("category_count_check_status") == "OFFICIAL_COUNT_MATCHED"
+        and m005.get("official_category_count") == "19"
+        and counted_category_total("M005", categories) == 19
+        and bottle_parent.get("ui_role") == "SORT_BUCKET"
+        and all(
+            child.get("parent_category_id") == "C-M005-10"
+            and child.get("classification_level") == "SUBCATEGORY"
+            and child.get("ui_role") == "REFERENCE_ONLY"
+            for child in bottle_children
+        )
+        and sum(
+            row.get("municipality_id") == "M005"
+            and row.get("category_group") == "資源物（あきびん）"
+            and row.get("ui_role") == "SORT_BUCKET"
+            for row in categories
+        ) == 1
+    )
+    checks.add(
+        "Ishinomaki keeps 19 official leaves while projecting bottle subcategories to one UI bucket",
+        m005_hierarchy_ok,
     )
 
     def fixture_category(category_id: str, positive_text: str = "") -> dict[str, str]:

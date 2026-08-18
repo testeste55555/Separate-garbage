@@ -1,0 +1,6 @@
+﻿review_evidence_id,review_id,municipality_id,source_id,locator,evidence_role,notes
+CRE-M001-01,CR-M001-CATEGORY-COVERAGE,M001,S-M001-02,1ページポスターの全分別見出し,PRIMARY_INDEX,2026-08-18 category completeness review
+CRE-M013-01,CR-M013-CATEGORY-COVERAGE,M013,S-M013-01,目次P3とP4〜26の分別章,PRIMARY_INDEX,2026-08-18 category completeness review
+CRE-M030-01,CR-M030-CATEGORY-COVERAGE,M030,S-M030-01,本文索引の可燃ごみ〜市で収集処理しないごみ,PRIMARY_INDEX,2026-08-18 category completeness review
+CRE-M094-01,CR-M094-CATEGORY-COVERAGE,M094,S-M094-01,ページ内公式索引の可燃ごみ〜大型ごみ,PRIMARY_INDEX,2026-08-18 category completeness review
+CRE-M102-01,CR-M102-CATEGORY-COVERAGE,M102,S-M102-01,ごみの分別：13種類,OFFICIAL_TOTAL,2026-08-18 category completeness review

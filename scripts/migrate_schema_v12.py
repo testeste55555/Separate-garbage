@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Idempotently migrate all existing research bundles to Schema v1.2.2."""
+"""Idempotently migrate all existing research bundles to Schema v1.2.3."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ def main() -> None:
         "pilot": migrate_bundle(
             pilot / "pilot_municipalities.csv", pilot / "pilot_categories.csv", pilot / "pilot_sources.csv",
             pilot / "pilot_qa.csv", pilot / "pilot_item_mapping.csv", pilot / "pilot_item_coverage.csv",
+            pilot / "pilot_category_review_evidence.csv",
         )
     }
     for batch in batch_dirs_for_migration():
@@ -20,8 +21,9 @@ def main() -> None:
         RESEARCH / "04_municipalities_research.csv", RESEARCH / "02_categories_master.csv",
         RESEARCH / "03_sources_master.csv", RESEARCH / "06_qa_log.csv",
         RESEARCH / "05_item_mapping_master.csv", RESEARCH / "07_item_mapping_coverage.csv",
+        RESEARCH / "08_category_review_evidence.csv",
     )
-    print("SCHEMA_V12_MIGRATION_COMPLETED")
+    print("SCHEMA_V123_MIGRATION_COMPLETED")
     for label, counts in results.items():
         print(label + " " + " ".join(f"{key}={value}" for key, value in counts.items()))
 

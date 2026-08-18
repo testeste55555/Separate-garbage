@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Schema v1.2.2 migration and mapping reconciliation helpers.
+"""Schema v1.2.3 migration and mapping reconciliation helpers.
 
-Schema v1.2.2 keeps the researched category/source rows intact, records what has
-not been checked, and separates structural validity from application readiness.
+Schema v1.2.3 adds dated QA derivation, multi-source category-review evidence,
+and official-leaf counting independent from learner-facing UI projection.
 """
 
 from __future__ import annotations
@@ -10,6 +10,7 @@ from __future__ import annotations
 import csv
 import re
 from collections import defaultdict
+from datetime import date
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -17,7 +18,6 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parents[1]
 MASTER = ROOT / "data" / "master"
 RESEARCH = ROOT / "data" / "research"
-CHECKED = "2026-08-17"
 
 CATEGORY_FIELDS = [
     "municipality_id", "category_id", "自治体正式名称", "category_group", "parent_category_id",
@@ -37,7 +37,7 @@ MUNICIPALITY_FIELDS = [
     "分別ガイドURL", "品目検索URL", "やさしい日本語URL", "多言語資料URL", "対象年度",
     "最終確認日", "確認ステータス", "備考", "official_category_count", "reviewed_category_count",
     "category_count_basis",
-    "category_count_verified", "category_count_check_status", "category_count_evidence_source_id",
+    "category_count_verified", "category_count_check_status", "category_count_review_id",
     "category_count_reviewed_date", "category_count_reviewed_by",
     "search_service_check_status", "search_service_check_evidence",
     "easy_japanese_check_status", "easy_japanese_check_evidence",
@@ -63,14 +63,21 @@ COVERAGE_FIELDS = [
     "branch_completeness_confirmed", "evidence_scope", "item_evidence_source_id",
     "item_evidence_url", "item_evidence_locator", "reviewed_date", "reviewed_by", "notes",
 ]
+CATEGORY_REVIEW_EVIDENCE_FIELDS = [
+    "review_evidence_id", "review_id", "municipality_id", "source_id", "locator",
+    "evidence_role", "notes",
+]
 
 CHECK_STATUS = {"CHECKED_PRESENT", "CHECKED_ABSENT", "NOT_CHECKED"}
 COUNT_STATUS = {"OFFICIAL_COUNT_MATCHED", "MANUAL_INDEX_REVIEW", "NOT_REVIEWED"}
+REVIEW_EVIDENCE_ROLE = {"OFFICIAL_TOTAL", "PRIMARY_INDEX", "SUPPLEMENTAL_INDEX"}
 UI_ROLE = {"SORT_BUCKET", "REFERENCE_ONLY", "HIDDEN", "EXCLUDED_NOTICE"}
 MANUAL_MAPPING_STATUS = {"VERIFIED", "APP_READY"}
 MANUAL_COVERAGE_STATUS = {"VERIFIED", "VERIFIED_NOT_APPLICABLE", "APP_READY"}
 BATCH_MIGRATION_INPUT_SUFFIXES = ("municipalities", "categories", "sources", "qa")
-BATCH_REQUIRED_SUFFIXES = (*BATCH_MIGRATION_INPUT_SUFFIXES, "item_mapping", "item_coverage")
+BATCH_REQUIRED_SUFFIXES = (
+    *BATCH_MIGRATION_INPUT_SUFFIXES, "item_mapping", "item_coverage", "category_review_evidence",
+)
 
 POSITIVE_EVIDENCE_FIELDS = {
     "name": ("自治体正式名称",),
@@ -222,21 +229,79 @@ def migrate_check(url: str, status: str, evidence: str, checked_date: str) -> tu
     if status in CHECK_STATUS:
         return status, evidence
     if url:
-        return "CHECKED_PRESENT", f"URL:{url}; checked:{checked_date or CHECKED}"
+        return "CHECKED_PRESENT", f"URL:{url}; checked:{checked_date}"
     return "NOT_CHECKED", ""
 
 
-def counted_category_total(mid: str, categories: list[dict[str, str]]) -> int:
-    return sum(
-        row.get("municipality_id") == mid
+def current_official_leaf_rows(mid: str, categories: list[dict[str, str]]) -> list[dict[str, str]]:
+    """Return official current leaf divisions, independent from UI projection parents."""
+    current = [
+        row for row in categories
+        if row.get("municipality_id") == mid
         and row.get("rule_status") == "CURRENT"
         and row.get("ui_role") != "EXCLUDED_NOTICE"
-        for row in categories
+    ]
+    current_parent_ids = {row.get("parent_category_id") for row in current if row.get("parent_category_id")}
+    return [row for row in current if row.get("category_id") not in current_parent_ids]
+
+
+def counted_category_total(mid: str, categories: list[dict[str, str]]) -> int:
+    return len(current_official_leaf_rows(mid, categories))
+
+
+def stable_category_review_id(mid: str) -> str:
+    return f"CR-{mid}-CATEGORY-COVERAGE"
+
+
+def migrate_category_review_evidence(municipalities: list[dict[str, str]],
+                                     existing: list[dict[str, str]]) -> list[dict[str, str]]:
+    """Migrate legacy single-source evidence without inventing additional sources."""
+    by_id = {row.get("review_evidence_id", ""): dict(row) for row in existing if row.get("review_evidence_id")}
+    for municipality in municipalities:
+        mid = municipality.get("municipality_id", "")
+        status = municipality.get("category_count_check_status", "")
+        if status == "NOT_REVIEWED":
+            continue
+        review_id = municipality.get("category_count_review_id") or stable_category_review_id(mid)
+        municipality["category_count_review_id"] = review_id
+        legacy_source = municipality.get("category_count_evidence_source_id", "")
+        if legacy_source and not any(
+            row.get("review_id") == review_id and row.get("source_id") == legacy_source
+            for row in by_id.values()
+        ):
+            evidence_id = f"CRE-{mid}-{legacy_source}"
+            by_id[evidence_id] = {
+                "review_evidence_id": evidence_id,
+                "review_id": review_id,
+                "municipality_id": mid,
+                "source_id": legacy_source,
+                "locator": municipality.get("category_count_basis", ""),
+                "evidence_role": "OFFICIAL_TOTAL" if status == "OFFICIAL_COUNT_MATCHED" else "PRIMARY_INDEX",
+                "notes": "Schema v1.2.3 migration from legacy single-source category review evidence.",
+            }
+    valid_review_ids = {
+        row.get("category_count_review_id") for row in municipalities
+        if row.get("category_count_check_status") != "NOT_REVIEWED"
+    }
+    return sorted(
+        (row for row in by_id.values() if row.get("review_id") in valid_review_ids),
+        key=lambda row: (row.get("municipality_id", ""), row.get("review_id", ""), row.get("review_evidence_id", "")),
     )
 
 
+def category_review_rows(municipality: dict[str, str],
+                         review_evidence: list[dict[str, str]]) -> list[dict[str, str]]:
+    review_id = municipality.get("category_count_review_id", "")
+    mid = municipality.get("municipality_id", "")
+    return [
+        row for row in review_evidence
+        if row.get("review_id") == review_id and row.get("municipality_id") == mid
+    ]
+
+
 def category_count_review_valid(municipality: dict[str, str], categories: list[dict[str, str]],
-                                sources: list[dict[str, str]]) -> bool:
+                                sources: list[dict[str, str]],
+                                review_evidence: list[dict[str, str]]) -> bool:
     """Validate count evidence without requiring an official total for manual index review."""
     mid = municipality.get("municipality_id", "")
     status = municipality.get("category_count_check_status", "")
@@ -244,10 +309,16 @@ def category_count_review_valid(municipality: dict[str, str], categories: list[d
         return False
     if municipality.get("category_count_verified") != "TRUE":
         return False
-    source = next((row for row in sources if (
-        row.get("municipality_id"), row.get("source_id")
-    ) == (mid, municipality.get("category_count_evidence_source_id"))), None)
-    if not source or source.get("official_verified") != "TRUE":
+    evidence_rows = category_review_rows(municipality, review_evidence)
+    source_by_key = {(row.get("municipality_id"), row.get("source_id")): row for row in sources}
+    if not municipality.get("category_count_review_id") or not evidence_rows:
+        return False
+    if any(
+        row.get("evidence_role") not in REVIEW_EVIDENCE_ROLE
+        or not row.get("locator")
+        or source_by_key.get((mid, row.get("source_id")), {}).get("official_verified") != "TRUE"
+        for row in evidence_rows
+    ):
         return False
     if not all(municipality.get(field) for field in [
         "category_count_basis", "category_count_reviewed_date", "category_count_reviewed_by",
@@ -257,10 +328,16 @@ def category_count_review_valid(municipality: dict[str, str], categories: list[d
     official_count = municipality.get("official_category_count", "")
     reviewed_count = municipality.get("reviewed_category_count", "")
     if status == "OFFICIAL_COUNT_MATCHED":
-        return official_count.isdigit() and int(official_count) == actual
+        return (
+            official_count.isdigit() and int(official_count) == actual
+            and any(row.get("evidence_role") == "OFFICIAL_TOTAL" for row in evidence_rows)
+        )
     if not reviewed_count.isdigit() or int(reviewed_count) != actual:
         return False
-    return not official_count or (official_count.isdigit() and int(official_count) == actual)
+    return (
+        any(row.get("evidence_role") == "PRIMARY_INDEX" for row in evidence_rows)
+        and (not official_count or (official_count.isdigit() and int(official_count) == actual))
+    )
 
 
 def migrate_municipalities(rows: list[dict[str, str]], sources: list[dict[str, str]],
@@ -277,12 +354,14 @@ def migrate_municipalities(rows: list[dict[str, str]], sources: list[dict[str, s
             source_id = select_count_source(mid, count, sources) if count.isdigit() else ""
             if count.isdigit() and source_id and basis:
                 status = "OFFICIAL_COUNT_MATCHED"
-                row["category_count_reviewed_date"] = row.get("最終確認日") or CHECKED
+                row["category_count_reviewed_date"] = row.get("最終確認日", "")
                 row["category_count_reviewed_by"] = "AUTOMATED_OFFICIAL_COUNT_MATCH"
             else:
                 status = "NOT_REVIEWED"
         row["category_count_check_status"] = status
-        row["category_count_evidence_source_id"] = source_id if status != "NOT_REVIEWED" else ""
+        row["category_count_review_id"] = (
+            row.get("category_count_review_id") or stable_category_review_id(mid)
+        ) if status != "NOT_REVIEWED" else ""
         if status == "NOT_REVIEWED":
             row["category_count_verified"] = "FALSE"
             row["reviewed_category_count"] = ""
@@ -309,6 +388,29 @@ def migrate_municipalities(rows: list[dict[str, str]], sources: list[dict[str, s
     return result
 
 
+def valid_iso_date(value: str) -> bool:
+    try:
+        date.fromisoformat(value)
+        return bool(re.fullmatch(r"\d{4}-\d{2}-\d{2}", value or ""))
+    except (TypeError, ValueError):
+        return False
+
+
+def latest_qa_evidence_date(municipality: dict[str, str], categories: list[dict[str, str]],
+                            sources: list[dict[str, str]]) -> str:
+    """Derive QA date from the newest persisted evidence date for one municipality."""
+    mid = municipality.get("municipality_id", "")
+    values = [municipality.get("最終確認日", ""), municipality.get("category_count_reviewed_date", "")]
+    values.extend(
+        row.get("確認日", "") for row in categories if row.get("municipality_id") == mid
+    )
+    values.extend(
+        row.get("取得確認日", "") for row in sources if row.get("municipality_id") == mid
+    )
+    dates = [value for value in values if valid_iso_date(value)]
+    return max(dates) if dates else ""
+
+
 def ui_role_valid(row: dict[str, str]) -> bool:
     role = row.get("ui_role", "")
     if role not in UI_ROLE:
@@ -330,7 +432,7 @@ def check_to_qa(status: str) -> tuple[str, str]:
     return "FALSE", "UNKNOWN"
 
 
-def compute_qa(municipalities, categories, sources, old_qa=None):
+def compute_qa(municipalities, categories, sources, review_evidence, old_qa=None):
     old_by_id = {row["municipality_id"]: row for row in (old_qa or [])}
     source_by_key = {(row["municipality_id"], row["source_id"]): row for row in sources}
     all_category_keys = [(row["municipality_id"], row["category_id"]) for row in categories]
@@ -362,9 +464,9 @@ def compute_qa(municipalities, categories, sources, old_qa=None):
         search_checked, search_exists = check_to_qa(municipality.get("search_service_check_status", ""))
         easy_checked, easy_exists = check_to_qa(municipality.get("easy_japanese_check_status", ""))
         multi_checked, multi_exists = check_to_qa(municipality.get("multilingual_check_status", ""))
-        count_ok = category_count_review_valid(municipality, categories, sources)
+        count_ok = category_count_review_valid(municipality, categories, sources, review_evidence)
         row = {
-            "municipality_id": mid, "確認日": CHECKED,
+            "municipality_id": mid, "確認日": latest_qa_evidence_date(municipality, categories, sources),
             "ごみトップ": "TRUE" if municipality.get("自治体ごみトップURL", "").startswith("https://") else "FALSE",
             "現行ルール": "TRUE" if current and any(src.get("現行性") in {"現行", "現行案内中"} for src in srcs) else "FALSE",
             "全分別区分": "TRUE" if cats and count_ok else "FALSE",
@@ -380,7 +482,7 @@ def compute_qa(municipalities, categories, sources, old_qa=None):
             "やさしい日本語確認済み": easy_checked, "やさしい日本語存在": easy_exists,
             "多言語確認済み": multi_checked, "多言語存在": multi_exists,
             "粗大ごみ": "TRUE" if bulky else "NOT_APPLICABLE",
-            "備考": old_by_id.get(mid, {}).get("備考", "Schema v1.2.2で機械再計算"),
+            "備考": old_by_id.get(mid, {}).get("備考", "Schema v1.2.3で機械再計算"),
         }
         required = [
             "ごみトップ", "現行ルール", "全分別区分", "正式名称", "代表品目", "前処理", "危険有害",
@@ -417,7 +519,14 @@ def item_pattern_matches(item_id: str, category: dict[str, str]) -> bool:
 
 def candidate_initial_mappings(categories: list[dict[str, str]]) -> list[dict[str, str]]:
     by_pair: dict[tuple[str, str], list[dict[str, str]]] = defaultdict(list)
+    current_parent_ids = {
+        (row.get("municipality_id", ""), row.get("parent_category_id", ""))
+        for row in categories
+        if row.get("rule_status") == "CURRENT" and row.get("parent_category_id")
+    }
     for category in categories:
+        if (category.get("municipality_id", ""), category.get("category_id", "")) in current_parent_ids:
+            continue
         for item_id in ITEM_PATTERNS:
             if item_pattern_matches(item_id, category):
                 by_pair[(category["municipality_id"], item_id)].append(category)
@@ -579,7 +688,8 @@ def build_coverage(municipalities, items, mappings, existing=None):
 
 
 def migrate_bundle(municipality_path: Path, category_path: Path, source_path: Path, qa_path: Path,
-                   mapping_path: Path, coverage_path: Path, registry=None) -> dict[str, int]:
+                   mapping_path: Path, coverage_path: Path, review_evidence_path: Path,
+                   registry=None) -> dict[str, int]:
     registry = registry or load_registry()
     _, municipalities = read_csv(municipality_path)
     _, categories = read_csv(category_path)
@@ -587,15 +697,17 @@ def migrate_bundle(municipality_path: Path, category_path: Path, source_path: Pa
     _, old_qa = read_csv(qa_path) if qa_path.exists() else ([], [])
     _, existing_mappings = read_csv(mapping_path) if mapping_path.exists() else ([], [])
     _, existing_coverage = read_csv(coverage_path) if coverage_path.exists() else ([], [])
+    _, existing_review_evidence = read_csv(review_evidence_path) if review_evidence_path.exists() else ([], [])
     _, items = read_csv(MASTER / "04_common_items_master.csv")
     sources = migrate_sources(sources, registry)
     categories = migrate_categories(categories, sources)
     municipalities = migrate_municipalities(municipalities, sources, categories)
+    review_evidence = migrate_category_review_evidence(municipalities, existing_review_evidence)
     existing_mappings = migrate_mapping_evidence(existing_mappings)
     existing_coverage = migrate_coverage_evidence(existing_coverage)
     mappings = reconcile_mappings(categories, existing_mappings)
     coverage = build_coverage(municipalities, items, mappings, existing_coverage)
-    qa = compute_qa(municipalities, categories, sources, old_qa)
+    qa = compute_qa(municipalities, categories, sources, review_evidence, old_qa)
     municipalities = sync_municipality_qa_status(municipalities, qa)
     write_csv(municipality_path, MUNICIPALITY_FIELDS, municipalities)
     write_csv(category_path, CATEGORY_FIELDS, categories)
@@ -603,7 +715,12 @@ def migrate_bundle(municipality_path: Path, category_path: Path, source_path: Pa
     write_csv(qa_path, QA_FIELDS, qa)
     write_csv(mapping_path, MAPPING_FIELDS, mappings)
     write_csv(coverage_path, COVERAGE_FIELDS, coverage)
-    return {"municipalities": len(municipalities), "categories": len(categories), "sources": len(sources), "qa": len(qa), "mappings": len(mappings), "coverage": len(coverage)}
+    write_csv(review_evidence_path, CATEGORY_REVIEW_EVIDENCE_FIELDS, review_evidence)
+    return {
+        "municipalities": len(municipalities), "categories": len(categories), "sources": len(sources),
+        "qa": len(qa), "mappings": len(mappings), "coverage": len(coverage),
+        "review_evidence": len(review_evidence),
+    }
 
 
 def migrate_batch_dir(batch_dir: Path) -> dict[str, int]:
@@ -612,6 +729,7 @@ def migrate_batch_dir(batch_dir: Path) -> dict[str, int]:
         batch_dir / f"{prefix}municipalities.csv", batch_dir / f"{prefix}categories.csv",
         batch_dir / f"{prefix}sources.csv", batch_dir / f"{prefix}qa.csv",
         batch_dir / f"{prefix}item_mapping.csv", batch_dir / f"{prefix}item_coverage.csv",
+        batch_dir / f"{prefix}category_review_evidence.csv",
     )
 
 
@@ -630,5 +748,5 @@ def batch_dirs_for_migration(root: Path | None = None) -> list[Path]:
 
 
 def completed_batch_dirs(root: Path | None = None) -> list[Path]:
-    """Return completed bundles; the definition is exactly the six Workflow artifacts."""
+    """Return completed bundles; the definition is exactly the seven Workflow artifacts."""
     return batch_dirs_with_files(BATCH_REQUIRED_SUFFIXES, root)

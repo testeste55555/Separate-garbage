@@ -13,16 +13,17 @@
 - MASTER：143自治体、固定ID済み
 - Pilot：5自治体完了
 - Batch 01：10自治体完了
-- 調査・再validation済み：計15自治体、201分別区分、57公式出典
-- Schema：v1.2.2へ移行済み（v1.2系の証跡分離修正版）
+- 調査・再validation済み：計15自治体、205 category行（公式葉187区分）、58公式出典
+- Schema：v1.2.3へ移行済み
 - 構造validation：Pilot / Batch 01 / canonicalすべてPASS
 - QA：15 `QA_PASSED` / 0 `QA_REQUIRED`
 - 共通品目：40品目、安全区分付き
-- item mapping：242条件枝（現状は全枝 `INITIAL_REVIEW_REQUIRED`）
+- item mapping：245条件枝（現状は全枝 `INITIAL_REVIEW_REQUIRED`）
 - 40品目coverage：600自治体品目pair（230 `MAPPED_INITIAL` / 370 `NOT_RESEARCHED`）
-- Schema v1.2.2 RED TEAM：20/20 PASS
+- category review evidence：22行
+- Schema v1.2.3 RED TEAM：23/23 PASS
 
-QA_REQUIREDだった13自治体は公式目次・見出しを全件照合し、7件の未構造化区分を補正しました。`NEXT_BATCH_GATE` は `PASS`、`APP_READINESS_GATE` は15自治体×40品目の品目別公式確認が未完了のため `HOLD` です。Batch 02の自治体調査はまだ実施していません。
+QA_REQUIREDだった13自治体は公式目次・見出しを全件照合しました。既存7補正に石巻市あきびん4公式子区分を加え、QA日付と複数source証拠も正規化しました。`NEXT_BATCH_GATE` は `PASS`、`APP_READINESS_GATE` は15自治体×40品目の品目別公式確認が未完了のため `HOLD` です。Batch 02は未実施です。
 
 ## ディレクトリ
 
@@ -37,8 +38,9 @@ QA_REQUIREDだった13自治体は公式目次・見出しを全件照合し、7
 - `data/research/05_item_mapping_master.csv`：初期品目対応・条件枝
 - `data/research/06_qa_log.csv`：機械再計算済みQA
 - `data/research/07_item_mapping_coverage.csv`：全自治体×40品目の調査・実装準備状態
+- `data/research/08_category_review_evidence.csv`：区分網羅性レビューの複数公式source証拠
 - `docs/schema/`：Schema、Data Dictionary、移行・RED TEAM報告
-- `docs/workflow/`：作業フロー（旧版を保持し、現行v1.7を追加）
+- `docs/workflow/`：作業フロー（旧版を保持し、現行v1.8を追加）
 
 ## 再現コマンド
 
@@ -63,7 +65,7 @@ python3 scripts/merge_research.py
 python3 scripts/validate_research.py
 ```
 
-buildとmergeの冪等性は、2回連続実行後にBatch 01およびcanonical 6 CSVのSHA-256が不変であることを確認済みです。
+migrationとmergeの冪等性は、2回連続実行後にBatch 01およびcanonical 7 CSVのSHA-256が不変であることを確認済みです。
 
 ## 運用上の重要事項
 
@@ -75,6 +77,7 @@ buildとmergeの冪等性は、2回連続実行後にBatch 01およびcanonical 
 - 空URLは「確認済み・不存在」ではありません。任意機能は `CHECKED_PRESENT / CHECKED_ABSENT / NOT_CHECKED` と証跡を保持します。
 - municipalitiesの `確認ステータス` はQAログから自動同期する読取専用ミラーです。手入力の別ステータスとして使用しません。
 - `OFFICIAL_COUNT_MATCHED` は公式総数を必須とし、`MANUAL_INDEX_REVIEW` は公式総数を要求せず `reviewed_category_count` と公式目次の照合証跡を必須とします。
+- 区分網羅性の複数sourceは `category_review_evidence` へ正規化し、公式件数はCURRENTの公式葉区分を数えます。教材投影親は重複計上しません。
 - item mappingは不変な `mapping_id` を条件枝の主キーにし、同じ品目・同じ分別先でも異なる条件枝を複数行で保持します。`branch_order` は表示順でありidentityではありません。
 - mappingの `category_source_*` は区分体系の根拠、`item_evidence_*` は品目別判断の根拠です。両者は別の同一自治体公式sourceを使用できます。
 - 初期mapping候補は `自治体正式名称` と `代表品目` だけをPositive evidenceとして生成します。`入れてはいけない物`、`条件外の扱い`、`出す前の処理`、`注意事項` の語だけで候補を生成しません。

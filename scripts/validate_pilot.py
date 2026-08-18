@@ -25,6 +25,7 @@ def main() -> int:
         qa_path=pilot / "pilot_qa.csv",
         mapping_path=pilot / "pilot_item_mapping.csv",
         coverage_path=pilot / "pilot_item_coverage.csv",
+        review_evidence_path=pilot / "pilot_category_review_evidence.csv",
         gate_mode=gate_mode,
     )
     return print_result("PILOT", errors, gate_errors, summary, gate_mode)

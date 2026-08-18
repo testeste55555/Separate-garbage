@@ -19,6 +19,7 @@ def compare_canonical_union() -> list[str]:
         ("categories", RESEARCH / "02_categories_master.csv", ["municipality_id", "category_id"]),
         ("sources", RESEARCH / "03_sources_master.csv", ["municipality_id", "source_id"]),
         ("qa", RESEARCH / "06_qa_log.csv", ["municipality_id"]),
+        ("category_review_evidence", RESEARCH / "08_category_review_evidence.csv", ["review_evidence_id"]),
     ]
     for suffix, canonical_path, key_fields in specs:
         _, canonical_rows = read_csv(canonical_path)
@@ -74,6 +75,7 @@ def main() -> int:
             "qa_path": base / f"{prefix}qa.csv",
             "mapping_path": base / f"{prefix}item_mapping.csv",
             "coverage_path": base / f"{prefix}item_coverage.csv",
+            "review_evidence_path": base / f"{prefix}category_review_evidence.csv",
         }
         label = args.batch.upper()
     else:
@@ -85,6 +87,7 @@ def main() -> int:
             "qa_path": base / "06_qa_log.csv",
             "mapping_path": base / "05_item_mapping_master.csv",
             "coverage_path": base / "07_item_mapping_coverage.csv",
+            "review_evidence_path": base / "08_category_review_evidence.csv",
         }
         label = "CANONICAL"
     gate_mode = "next_batch" if args.next_batch_gate else "app_readiness" if args.app_readiness_gate or args.gate else None

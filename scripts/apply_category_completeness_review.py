@@ -1,21 +1,25 @@
 #!/usr/bin/env python3
-"""Apply the 2026-08-18 manual category-index review to the existing 15 municipalities.
+"""Apply the 2026-08-18 category-completeness review to the existing 15 municipalities.
 
-This script is intentionally limited to Pilot and Batch 01.  It adds the seven
-official headings found during the review, records auditable MANUAL_INDEX_REVIEW
-evidence for the 13 previously unreviewed municipalities, and leaves Batch 02
-untouched.
+This script is intentionally limited to Pilot and Batch 01. It preserves the
+original seven corrections, adds Ishinomaki's four official bottle leaves,
+records multi-source review evidence, and leaves Batch 02 untouched.
 """
 
 from __future__ import annotations
 
 from pathlib import Path
 
-from schema_v12 import CATEGORY_FIELDS, MUNICIPALITY_FIELDS, RESEARCH, SOURCE_FIELDS, read_csv, write_csv
+from schema_v12 import (
+    CATEGORY_FIELDS, CATEGORY_REVIEW_EVIDENCE_FIELDS, MUNICIPALITY_FIELDS, RESEARCH,
+    SOURCE_FIELDS, read_csv, stable_category_review_id, write_csv,
+)
 
 
 REVIEWED_DATE = "2026-08-18"
 REVIEWER = "OPENAI_WORK_MANUAL_INDEX_REVIEW"
+OFFICIAL_COUNT_REVIEWER = "OPENAI_WORK_OFFICIAL_COUNT_MATCH"
+ISHINOMAKI_PLAN_URL = "https://www.city.ishinomaki.lg.jp/cont/10301000/030/3974/kihonkeikaku2.pdf"
 
 
 REVIEW = {
@@ -40,10 +44,10 @@ REVIEW = {
         "CURRENT非EXCLUDED_NOTICEは12区分。収集・受入しないものは件数外。",
     ),
     "M005": (
-        "S-M005-02", "16",
-        "S-M005-02の1ページポスターを左上「燃やせるごみ」から右下の資源区分、使用済小型家電、粗大ごみまで全見出し照合。"
-        "スプレー缶・ガスカートリッジ、古着・布類、紙パック、使用済小型家電を追加し、CURRENT非EXCLUDED_NOTICEは16区分。"
-        "PLANNEDのプラスチックと市で収集しないごみは件数外。",
+        "S-M005-04", "19",
+        "S-M005-04（令和8年3月策定）第2編17〜18ページの5種類19分別と表2-1をS-M005-02の現行案内へ照合。"
+        "あきびん4種類をC-M005-10の公式SUBCATEGORYとして保持し、公式粒度のCURRENT葉区分は19。"
+        "C-M005-10は教材UIの投影親、PLANNEDのプラスチックと市で収集しないごみは件数外。",
     ),
     "M006": (
         "S-M006-02", "16",
@@ -85,6 +89,51 @@ REVIEW = {
         "S-M094-01のページ内公式索引を「可燃ごみ」から「大型ごみ（有料）」まで全件照合。"
         "CURRENT非EXCLUDED_NOTICEは8区分。市では収集しないごみは件数外。",
     ),
+}
+
+
+SOURCE_ADDITIONS = {
+    "S-M005-04": {
+        "municipality_id": "M005", "source_id": "S-M005-04",
+        "資料名": "石巻市一般廃棄物処理基本計画", "資料種別": "自治体公式計画",
+        "公式URL": ISHINOMAKI_PLAN_URL, "発行主体": "石巻市",
+        "対象年度": "令和8年度〜令和17年度", "ページ更新日": "2026-04-01",
+        "取得確認日": REVIEWED_DATE, "使用した情報": "5種類19分別・あきびん4種類・紙類5種類",
+        "優先度": "1", "現行性": "現行", "備考": "令和8年3月策定、第2編17〜18ページ表2-1",
+        "official_verified": "TRUE", "official_basis": "MUNICIPAL_DOMAIN", "official_linking_url": "",
+    },
+}
+
+
+REVIEW_EVIDENCE = {
+    "M001": [("S-M001-02", "PRIMARY_INDEX", "1ページポスターの全分別見出し")],
+    "M002": [
+        ("S-M002-01", "PRIMARY_INDEX", "本文の燃えるごみ〜プラスチック類と地域別見出し"),
+        ("S-M002-02", "SUPPLEMENTAL_INDEX", "粗大ごみ収集見出し"),
+        ("S-M002-03", "SUPPLEMENTAL_INDEX", "電池類・蛍光管の見出し"),
+        ("S-M002-04", "SUPPLEMENTAL_INDEX", "小型充電式電池の見出し"),
+    ],
+    "M003": [("S-M003-02", "PRIMARY_INDEX", "目次P4〜11とP4〜8の全分別見出し")],
+    "M004": [
+        ("S-M004-01", "PRIMARY_INDEX", "ごみの分け方と出し方カテゴリナビ全件"),
+        ("S-M004-02", "SUPPLEMENTAL_INDEX", "資源ごみ見出し"),
+        ("S-M004-03", "SUPPLEMENTAL_INDEX", "大形・不燃ごみ見出し"),
+        ("S-M004-04", "SUPPLEMENTAL_INDEX", "有害・危険ごみ及び乾電池見出し"),
+    ],
+    "M005": [
+        ("S-M005-04", "OFFICIAL_TOTAL", "第2編17〜18ページ：5種類19分別、表2-1のあきびん4種類"),
+        ("S-M005-02", "SUPPLEMENTAL_INDEX", "現行家庭ごみ案内の全区分見出し"),
+    ],
+    "M006": [("S-M006-02", "PRIMARY_INDEX", "P2〜4の収集区分・粗大・小型家電・収集外")],
+    "M007": [("S-M007-01", "PRIMARY_INDEX", "分別種類表と燃やせる粗大ごみ・食用油見出し")],
+    "M008": [("S-M008-02", "PRIMARY_INDEX", "全30ページのごみの区分列")],
+    "M009": [("S-M009-02", "PRIMARY_INDEX", "目次P1とP1〜15の分別章")],
+    "M010": [("S-M010-01", "OFFICIAL_TOTAL", "家庭系ごみの出し方：5種14分別")],
+    "M011": [("S-M011-02", "PRIMARY_INDEX", "令和8年度1ページ図解の全分別見出し")],
+    "M013": [("S-M013-01", "PRIMARY_INDEX", "目次P3とP4〜26の分別章")],
+    "M030": [("S-M030-01", "PRIMARY_INDEX", "本文索引の可燃ごみ〜市で収集処理しないごみ")],
+    "M094": [("S-M094-01", "PRIMARY_INDEX", "ページ内公式索引の可燃ごみ〜大型ごみ")],
+    "M102": [("S-M102-01", "OFFICIAL_TOTAL", "ごみの分別：13種類")],
 }
 
 
@@ -162,6 +211,52 @@ ADDITIONS = {
         source_id="S-M005-02", 出典URL="https://www.city.ishinomaki.lg.jp/cont/10210000/1582/kateigomi-wakekata-dasikata.pdf",
         locator="使用済小型家電（できるだけ回収ボックスへ）",
     ),
+    "C-M005-19": category(
+        municipality_id="M005", category_id="C-M005-19",
+        自治体正式名称="一升びん・ビールびん・リターナブルびん",
+        category_group="資源物（あきびん）", parent_category_id="C-M005-10",
+        classification_level="SUBCATEGORY", 表示順="8", collection_channel="CURBSIDE",
+        代表品目="一升びん・ビールびん・リターナブルびん",
+        入れてはいけない物="びんの蓋や栓・せともの・ガラス製品・電球・薬びん",
+        適用条件="一升びん・ビールびん等の繰り返し使用できるびん",
+        条件外の扱い="色に応じたあきびん区分又は燃やせないごみ",
+        出す前の処理="蓋や栓を外し中をすすぐ", bag_rule="収集日に指定コンテナへ",
+        ui_role="REFERENCE_ONLY", source_id="S-M005-04", 出典URL=ISHINOMAKI_PLAN_URL,
+        locator="第2編18ページ 表2-1／あきびん／一升びん・ビールびん・リターナブルびん",
+    ),
+    "C-M005-20": category(
+        municipality_id="M005", category_id="C-M005-20", 自治体正式名称="無色透明びん",
+        category_group="資源物（あきびん）", parent_category_id="C-M005-10",
+        classification_level="SUBCATEGORY", 表示順="9", collection_channel="CURBSIDE",
+        代表品目="無色透明の飲料・食品用びん",
+        入れてはいけない物="びんの蓋や栓・せともの・ガラス製品・電球・薬びん",
+        適用条件="無色透明のあきびん", 条件外の扱い="びんの色又は用途に応じた公式区分",
+        出す前の処理="蓋や栓を外し中をすすぐ", bag_rule="収集日に指定コンテナへ",
+        ui_role="REFERENCE_ONLY", source_id="S-M005-04", 出典URL=ISHINOMAKI_PLAN_URL,
+        locator="第2編18ページ 表2-1／あきびん／無色透明びん",
+    ),
+    "C-M005-21": category(
+        municipality_id="M005", category_id="C-M005-21", 自治体正式名称="茶色びん",
+        category_group="資源物（あきびん）", parent_category_id="C-M005-10",
+        classification_level="SUBCATEGORY", 表示順="10", collection_channel="CURBSIDE",
+        代表品目="茶色の飲料・食品用びん",
+        入れてはいけない物="びんの蓋や栓・せともの・ガラス製品・電球・薬びん",
+        適用条件="茶色のあきびん", 条件外の扱い="びんの色又は用途に応じた公式区分",
+        出す前の処理="蓋や栓を外し中をすすぐ", bag_rule="収集日に指定コンテナへ",
+        ui_role="REFERENCE_ONLY", source_id="S-M005-04", 出典URL=ISHINOMAKI_PLAN_URL,
+        locator="第2編18ページ 表2-1／あきびん／茶色びん",
+    ),
+    "C-M005-22": category(
+        municipality_id="M005", category_id="C-M005-22", 自治体正式名称="その他色びん",
+        category_group="資源物（あきびん）", parent_category_id="C-M005-10",
+        classification_level="SUBCATEGORY", 表示順="11", collection_channel="CURBSIDE",
+        代表品目="青・緑・黒等のその他色の飲料・食品用びん",
+        入れてはいけない物="びんの蓋や栓・せともの・ガラス製品・電球・薬びん",
+        適用条件="無色透明・茶色以外のあきびん", 条件外の扱い="びんの色又は用途に応じた公式区分",
+        出す前の処理="蓋や栓を外し中をすすぐ", bag_rule="収集日に指定コンテナへ",
+        ui_role="REFERENCE_ONLY", source_id="S-M005-04", 出典URL=ISHINOMAKI_PLAN_URL,
+        locator="第2編18ページ 表2-1／あきびん／その他色びん",
+    ),
     "C-M006-17": category(
         municipality_id="M006", category_id="C-M006-17", 自治体正式名称="布類",
         category_group="紙類・布類", 表示順="13", collection_channel="CURBSIDE",
@@ -178,9 +273,10 @@ ORDER_OVERRIDES = {
     "M002": {f"C-M002-{n:02d}": str(n + 1) for n in range(16, 21)},
     "M003": {f"C-M003-{n:02d}": str(n + 1) for n in range(6, 14)},
     "M005": {
-        "C-M005-09": "6", "C-M005-10": "7", "C-M005-11": "8",
-        "C-M005-05": "10", "C-M005-06": "11", "C-M005-07": "12", "C-M005-08": "13",
-        "C-M005-12": "16", "C-M005-13": "17", "C-M005-14": "18",
+        "C-M005-09": "6", "C-M005-10": "7", "C-M005-11": "12", "C-M005-16": "13",
+        "C-M005-05": "14", "C-M005-06": "15", "C-M005-07": "16", "C-M005-08": "17",
+        "C-M005-17": "18", "C-M005-18": "19", "C-M005-12": "20",
+        "C-M005-13": "21", "C-M005-14": "22",
     },
     "M006": {"C-M006-13": "14", "C-M006-14": "15", "C-M006-15": "16", "C-M006-16": "17"},
 }
@@ -196,6 +292,12 @@ def update_categories(path: Path) -> int:
     if "C-M005-04" in by_id:
         by_id["C-M005-04"]["代表品目"] = "乾電池・蛍光管・水銀製品"
         by_id["C-M005-04"]["出す前の処理"] = "蛍光管を保護・電池端子を絶縁"
+    if "C-M005-10" in by_id:
+        by_id["C-M005-10"].update({
+            "category_group": "資源物（あきびん）", "parent_category_id": "",
+            "classification_level": "PRIMARY", "ui_role": "SORT_BUCKET",
+            "注意事項": "教材UI投影親。公式区分数はCURRENTの4子区分を数え、この親は重複計上しない。",
+        })
     dataset_mids = {row["municipality_id"] for row in rows}
     for category_id, row in ADDITIONS.items():
         if row["municipality_id"] in dataset_mids:
@@ -206,45 +308,89 @@ def update_categories(path: Path) -> int:
 
 
 def update_municipalities(path: Path) -> int:
-    fields, rows = read_csv(path)
+    _, rows = read_csv(path)
     for row in rows:
         review = REVIEW.get(row["municipality_id"])
-        if not review:
-            continue
-        source_id, reviewed_count, basis = review
-        row.update({
-            "最終確認日": REVIEWED_DATE, "official_category_count": "",
-            "reviewed_category_count": reviewed_count, "category_count_basis": basis,
-            "category_count_verified": "TRUE", "category_count_check_status": "MANUAL_INDEX_REVIEW",
-            "category_count_evidence_source_id": source_id, "category_count_reviewed_date": REVIEWED_DATE,
-            "category_count_reviewed_by": REVIEWER,
-        })
-    write_csv(path, fields or MUNICIPALITY_FIELDS, rows)
+        if review:
+            _, reviewed_count, basis = review
+            row.update({
+                "最終確認日": REVIEWED_DATE, "official_category_count": "",
+                "reviewed_category_count": reviewed_count, "category_count_basis": basis,
+                "category_count_verified": "TRUE", "category_count_check_status": "MANUAL_INDEX_REVIEW",
+                "category_count_review_id": stable_category_review_id(row["municipality_id"]),
+                "category_count_reviewed_date": REVIEWED_DATE, "category_count_reviewed_by": REVIEWER,
+            })
+        elif row.get("category_count_check_status") != "NOT_REVIEWED":
+            row["category_count_review_id"] = stable_category_review_id(row["municipality_id"])
+        if row["municipality_id"] == "M005":
+            row.update({
+                "official_category_count": "19", "reviewed_category_count": "",
+                "category_count_check_status": "OFFICIAL_COUNT_MATCHED",
+                "category_count_reviewed_by": OFFICIAL_COUNT_REVIEWER,
+            })
+    write_csv(path, MUNICIPALITY_FIELDS, rows)
     return len(rows)
 
 
 def update_sources(path: Path) -> int:
     fields, rows = read_csv(path)
-    evidence = {mid: values[0] for mid, values in REVIEW.items()}
-    for row in rows:
-        if evidence.get(row["municipality_id"]) == row["source_id"]:
+    dataset_mids = {row["municipality_id"] for row in rows}
+    by_id = {row["source_id"]: row for row in rows}
+    for source_id, row in SOURCE_ADDITIONS.items():
+        if row["municipality_id"] in dataset_mids:
+            by_id[source_id] = dict(row)
+    evidence_ids = {
+        source_id for mid in dataset_mids
+        for source_id, _, _ in REVIEW_EVIDENCE.get(mid, [])
+    }
+    for row in by_id.values():
+        if row["source_id"] in evidence_ids:
             row["取得確認日"] = REVIEWED_DATE
-    write_csv(path, fields or SOURCE_FIELDS, rows)
+    result = sorted(by_id.values(), key=lambda row: (row["municipality_id"], row["source_id"]))
+    write_csv(path, fields or SOURCE_FIELDS, result)
+    return len(result)
+
+
+def update_review_evidence(path: Path, municipality_path: Path) -> int:
+    _, municipalities = read_csv(municipality_path)
+    dataset_mids = {row["municipality_id"] for row in municipalities}
+    rows = []
+    for mid in sorted(dataset_mids):
+        review_id = stable_category_review_id(mid)
+        for index, (source_id, role, locator) in enumerate(REVIEW_EVIDENCE.get(mid, []), 1):
+            rows.append({
+                "review_evidence_id": f"CRE-{mid}-{index:02d}", "review_id": review_id,
+                "municipality_id": mid, "source_id": source_id, "locator": locator,
+                "evidence_role": role, "notes": "2026-08-18 category completeness review",
+            })
+    write_csv(path, CATEGORY_REVIEW_EVIDENCE_FIELDS, rows)
     return len(rows)
 
 
 def main() -> None:
     bundles = [
-        (RESEARCH / "pilot" / "pilot_municipalities.csv", RESEARCH / "pilot" / "pilot_categories.csv", RESEARCH / "pilot" / "pilot_sources.csv"),
-        (RESEARCH / "batches" / "batch_01" / "batch_01_municipalities.csv", RESEARCH / "batches" / "batch_01" / "batch_01_categories.csv", RESEARCH / "batches" / "batch_01" / "batch_01_sources.csv"),
-        (RESEARCH / "04_municipalities_research.csv", RESEARCH / "02_categories_master.csv", RESEARCH / "03_sources_master.csv"),
+        (
+            RESEARCH / "pilot" / "pilot_municipalities.csv", RESEARCH / "pilot" / "pilot_categories.csv",
+            RESEARCH / "pilot" / "pilot_sources.csv", RESEARCH / "pilot" / "pilot_category_review_evidence.csv",
+        ),
+        (
+            RESEARCH / "batches" / "batch_01" / "batch_01_municipalities.csv",
+            RESEARCH / "batches" / "batch_01" / "batch_01_categories.csv",
+            RESEARCH / "batches" / "batch_01" / "batch_01_sources.csv",
+            RESEARCH / "batches" / "batch_01" / "batch_01_category_review_evidence.csv",
+        ),
+        (
+            RESEARCH / "04_municipalities_research.csv", RESEARCH / "02_categories_master.csv",
+            RESEARCH / "03_sources_master.csv", RESEARCH / "08_category_review_evidence.csv",
+        ),
     ]
-    for municipality_path, category_path, source_path in bundles:
+    for municipality_path, category_path, source_path, review_evidence_path in bundles:
         print(
             municipality_path.parent.relative_to(RESEARCH),
             f"municipalities={update_municipalities(municipality_path)}",
             f"categories={update_categories(category_path)}",
             f"sources={update_sources(source_path)}",
+            f"review_evidence={update_review_evidence(review_evidence_path, municipality_path)}",
         )
 
 

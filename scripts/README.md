@@ -2,16 +2,16 @@
 
 | スクリプト | 役割 |
 |---|---|
-| `migrate_schema_v12.py` | 全既存bundleをSchema v1.2.2へ冪等移行し、QA・網羅性・根拠列を状態保持更新 |
-| `apply_category_completeness_review.py` | 2026-08-18の13自治体公式目次レビュー、7区分補正、MANUAL_INDEX_REVIEW証跡をPilot/Batch 01/canonicalへ冪等反映 |
-| `schema_v12.py` | v1.2.2列定義、QA再計算、手動目次照合、category/item根拠分離、Positive evidence限定のmapping候補生成・reconciliation |
+| `migrate_schema_v12.py` | 全既存bundleをSchema v1.2.3へ冪等移行し、QA・網羅性・複数source証拠を更新 |
+| `apply_category_completeness_review.py` | 15自治体レビュー、11区分補正、石巻市19分別、複数source証拠をPilot/Batch 01/canonicalへ冪等反映 |
+| `schema_v12.py` | v1.2.3列定義、QA日付再計算、公式葉区分、複数source証拠、mapping候補生成・reconciliation |
 | `build_batch_01.py` | Batch 01を再構築し、手動レビュー証跡を保持してv1.2へ正規化 |
 | `validate_pilot.py` | `data/research/pilot/pilot_qa.csv` を使う独立Pilot検証 |
 | `validate_research.py` | batchまたはcanonical検証 |
 | `validation_v12.py` | 構造検証、NEXT_BATCH_GATE、APP_READINESS_GATEを分離した共通validator |
-| `merge_research.py` | Pilotと完成batchの6成果物をmergeし、`mapping_id` 単位で手動VERIFIED/APP_READY枝を保持 |
+| `merge_research.py` | Pilotと完成batchの7成果物をmergeし、`mapping_id` 単位で手動VERIFIED/APP_READY枝を保持 |
 | `check_next_batch_gate.py` | 全bundle、canonical union、二重merge冪等性、RED TEAMを統合した次Batch判定 |
-| `red_team_schema_v12.py` | バッチ数・件数に依存しない19観点RED TEAM（40品目negative/context・複合語collisionを含む） |
+| `red_team_schema_v12.py` | バッチ数・件数に依存しない23観点RED TEAM（QA日付、複数source、公式葉/UI投影を含む） |
 | `*_v11.py` | 破壊的な旧処理を再実行しないv1.2互換entrypoint |
 
 標準検証：
