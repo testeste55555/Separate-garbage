@@ -72,28 +72,50 @@ MANUAL_COVERAGE_STATUS = {"VERIFIED", "VERIFIED_NOT_APPLICABLE", "APP_READY"}
 BATCH_MIGRATION_INPUT_SUFFIXES = ("municipalities", "categories", "sources", "qa")
 BATCH_REQUIRED_SUFFIXES = (*BATCH_MIGRATION_INPUT_SUFFIXES, "item_mapping", "item_coverage")
 
+POSITIVE_EVIDENCE_FIELDS = {
+    "name": ("自治体正式名称",),
+    "representative": ("代表品目",),
+    "positive": ("自治体正式名称", "代表品目"),
+}
+NEGATIVE_CONTEXT_FIELDS = ("入れてはいけない物", "条件外の扱い", "出す前の処理", "注意事項")
+
 ITEM_PATTERNS = {
     "I001": ("name", r"ペットボトル|^PET$"), "I002": ("representative", r"キャップ"),
-    "I003": ("representative", r"ラベル"), "I004": ("all", r"アルミ缶"),
-    "I005": ("all", r"スチール缶"), "I006": ("name", r"(?:ガラス)?[びビ]ん|ビン類|びん類"),
-    "I007": ("name", r"白色.*トレ"), "I008": ("representative", r"色付きトレイ|白色以外のトレイ|色柄トレイ"),
+    "I003": ("representative", r"ラベル"), "I004": ("positive", r"アルミ缶"),
+    "I005": ("positive", r"スチール缶"), "I006": ("name", r"(?:ガラス)?[びビ]ん|ビン類|びん類"),
+    "I007": ("name", r"白色.*トレ"),
+    "I008": ("representative", r"色付きトレ(?:イ|ー)|白色以外のトレ(?:イ|ー)|色柄(?:食品)?トレ(?:イ|ー)"),
     "I009": ("representative", r"弁当.*容器"), "I010": ("representative", r"お菓子の袋|菓子袋|スナック菓子の袋"),
     "I011": ("representative", r"レジ袋"), "I012": ("representative", r"発泡スチロール"),
     "I013": ("name", r"新聞"), "I014": ("name", r"段ボール|ダンボール"),
     "I015": ("name", r"雑誌"), "I016": ("name", r"その他紙|雑紙"),
     "I017": ("name", r"紙パック"), "I018": ("representative", r"生ごみ"),
     "I019": ("representative", r"ティッシュ"), "I020": ("representative", r"紙おむつ|おむつ"),
-    "I021": ("all", r"衣類|古着|布類"), "I022": ("representative", r"傘"),
+    "I021": ("positive", r"衣類|古着|布類"), "I022": ("representative", r"傘"),
     "I023": ("representative", r"陶磁器|せともの"), "I024": ("representative", r"ガラス製品"),
-    "I025": ("all", r"割れたガラス|割れガラス"), "I026": ("all", r"刃物|包丁"),
-    "I027": ("all", r"乾電池"), "I028": ("all", r"ボタン電池"),
-    "I029": ("all", r"モバイルバッテリー"), "I030": ("all", r"蛍光管|蛍光灯"),
-    "I031": ("all", r"電球"), "I032": ("all", r"スプレー缶"),
-    "I033": ("all", r"ライター"), "I034": ("all", r"小型家電"),
-    "I035": ("all", r"電池を外せない.*家電|充電式電池を外せない.*家電"),
+    "I025": ("positive", r"割れたガラス|割れガラス"), "I026": ("positive", r"刃物|包丁"),
+    "I027": ("positive", r"乾電池"), "I028": ("positive", r"ボタン電池"),
+    "I029": ("positive", r"モバイルバッテリー"), "I030": ("positive", r"蛍光管|蛍光灯"),
+    "I031": ("positive", r"電球"), "I032": ("positive", r"スプレー缶"),
+    "I033": ("positive", r"ライター"), "I034": ("positive", r"小型家電"),
+    "I035": ("positive", r"(?:充電式?電池|充電池|電池)を外せない.*家電"),
     "I036": ("representative", r"布団"),
-    "I037": ("all", r"家電4品目|家電４品目|テレビ.*エアコン.*冷蔵庫|テレビ・エアコン"),
-    "I038": ("all", r"パソコン"), "I039": ("all", r"食用油"), "I040": ("all", r"剪定枝|枝木"),
+    "I037": ("positive", r"家電4品目|家電４品目|テレビ.*エアコン.*冷蔵庫|テレビ・エアコン"),
+    "I038": ("positive", r"パソコン"),
+    "I039": ("positive", r"(?:使用済み|廃)食用油|家庭(?:用)?の?植物性食用油"),
+    "I040": ("positive", r"剪定枝|枝木"),
+}
+
+# Longer compounds that contain another common-item term but do not denote that
+# item.  Matches overlapping these spans are ignored; a second, independent
+# positive mention in the same category still remains eligible.
+ITEM_COLLISION_PATTERNS = {
+    "I007": r"白色以外(?:の)?(?:食品)?トレ(?:イ|ー)",
+    "I021": r"衣類乾燥機",
+    "I030": r"(?:LED|ＬＥＤ)\s*蛍光(?:管|灯)|電球型蛍光灯",
+    "I034": r"(?:充電式?電池|充電池|電池)を外せない.*?家電",
+    "I038": r"パソコン周辺機器",
+    "I039": r"食用油(?:用)?(?:ボトル|容器)",
 }
 
 
@@ -378,16 +400,26 @@ def sync_municipality_qa_status(municipalities, qa):
     return municipalities
 
 
+def item_pattern_matches(item_id: str, category: dict[str, str]) -> bool:
+    """Match only positive category evidence and ignore known compound collisions."""
+    scope, pattern = ITEM_PATTERNS[item_id]
+    text = " ".join(category.get(field, "") for field in POSITIVE_EVIDENCE_FIELDS[scope])
+    collision_pattern = ITEM_COLLISION_PATTERNS.get(item_id)
+    collision_spans = [
+        match.span() for match in re.finditer(collision_pattern, text)
+    ] if collision_pattern else []
+    for match in re.finditer(pattern, text):
+        start, end = match.span()
+        if not any(start < collision_end and collision_start < end for collision_start, collision_end in collision_spans):
+            return True
+    return False
+
+
 def candidate_initial_mappings(categories: list[dict[str, str]]) -> list[dict[str, str]]:
     by_pair: dict[tuple[str, str], list[dict[str, str]]] = defaultdict(list)
     for category in categories:
-        for item_id, (scope, pattern) in ITEM_PATTERNS.items():
-            texts = {
-                "name": category.get("自治体正式名称", ""),
-                "representative": category.get("代表品目", ""),
-                "all": " ".join(category.get(field, "") for field in ["自治体正式名称", "代表品目", "入れてはいけない物", "出す前の処理", "注意事項"]),
-            }
-            if re.search(pattern, texts[scope]):
+        for item_id in ITEM_PATTERNS:
+            if item_pattern_matches(item_id, category):
                 by_pair[(category["municipality_id"], item_id)].append(category)
     result = []
     for (mid, item_id), cats in sorted(by_pair.items()):
@@ -396,7 +428,7 @@ def candidate_initial_mappings(categories: list[dict[str, str]]) -> list[dict[st
             result.append({
                 "mapping_id": f"MAP-{mid}-{item_id}-{category['category_id']}", "municipality_id": mid,
                 "internal_item_id": item_id, "branch_order": str(branch),
-                "自治体での品目表記": "既存category代表品目から抽出", "category_id": category["category_id"],
+                "自治体での品目表記": "category正式名称・代表品目から機械抽出", "category_id": category["category_id"],
                 "分別区分正式名称": category["自治体正式名称"], "条件": category.get("適用条件") or "要品目別確認",
                 "前処理": category.get("出す前の処理", ""), "例外分別先": category.get("条件外の扱い", ""),
                 "自治体収集外": category.get("自治体収集外か", "FALSE"), "rule_status": category["rule_status"],
@@ -407,7 +439,7 @@ def candidate_initial_mappings(categories: list[dict[str, str]]) -> list[dict[st
                 "確認日": category["確認日"],
                 "mapping_status": "INITIAL_REVIEW_REQUIRED", "evidence_scope": "CATEGORY_LEVEL",
                 "branch_review_status": "UNREVIEWED", "reviewed_date": "", "reviewed_by": "",
-                "備考": "区分レベルデータから機械抽出。品目別公式根拠と条件枝の確認前はAPP_READYにしない。",
+                "備考": "Positive evidence（category正式名称・代表品目）から機械抽出。品目別公式根拠と条件枝の確認前はAPP_READYにしない。",
             })
     return result
 

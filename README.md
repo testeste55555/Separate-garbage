@@ -8,7 +8,7 @@
 
 収集曜日・収集時間・地区別カレンダーは構造化対象外です。
 
-## 現在地（2026-08-17）
+## 現在地（2026-08-18）
 
 - MASTER：143自治体、固定ID済み
 - Pilot：5自治体完了
@@ -18,9 +18,9 @@
 - 構造validation：Pilot / Batch 01 / canonicalすべてPASS
 - QA：2 `QA_PASSED` / 13 `QA_REQUIRED`（区分網羅性の証跡を再判定）
 - 共通品目：40品目、安全区分付き
-- item mapping：283条件枝（現状は全枝 `INITIAL_REVIEW_REQUIRED`）
-- 40品目coverage：600自治体品目pair（244 `MAPPED_INITIAL` / 356 `NOT_RESEARCHED`）
-- Schema v1.2.2 RED TEAM：17/17 PASS
+- item mapping：237条件枝（現状は全枝 `INITIAL_REVIEW_REQUIRED`）
+- 40品目coverage：600自治体品目pair（225 `MAPPED_INITIAL` / 375 `NOT_RESEARCHED`）
+- Schema v1.2.2 RED TEAM：19/19 PASS
 
 Batch 02の自治体調査は実施していません。`NEXT_BATCH_GATE` は13自治体の区分網羅性QAが未完了のため `HOLD`、`APP_READINESS_GATE` はそれに加えて15自治体×40品目の品目別公式確認が未完了のため `HOLD` です。前者は次自治体の調査開始条件、後者は教材アプリへの公開条件であり、相互に代用しません。
 
@@ -38,7 +38,7 @@ Batch 02の自治体調査は実施していません。`NEXT_BATCH_GATE` は13�
 - `data/research/06_qa_log.csv`：機械再計算済みQA
 - `data/research/07_item_mapping_coverage.csv`：全自治体×40品目の調査・実装準備状態
 - `docs/schema/`：Schema、Data Dictionary、移行・RED TEAM報告
-- `docs/workflow/`：作業フロー（旧版を保持し、現行v1.5を追加）
+- `docs/workflow/`：作業フロー（旧版を保持し、現行v1.6を追加）
 
 ## 再現コマンド
 
@@ -77,4 +77,6 @@ buildとmergeの冪等性は、2回連続実行後にBatch 01およびcanonical 
 - `OFFICIAL_COUNT_MATCHED` は公式総数を必須とし、`MANUAL_INDEX_REVIEW` は公式総数を要求せず `reviewed_category_count` と公式目次の照合証跡を必須とします。
 - item mappingは不変な `mapping_id` を条件枝の主キーにし、同じ品目・同じ分別先でも異なる条件枝を複数行で保持します。`branch_order` は表示順でありidentityではありません。
 - mappingの `category_source_*` は区分体系の根拠、`item_evidence_*` は品目別判断の根拠です。両者は別の同一自治体公式sourceを使用できます。
+- 初期mapping候補は `自治体正式名称` と `代表品目` だけをPositive evidenceとして生成します。`入れてはいけない物`、`条件外の扱い`、`出す前の処理`、`注意事項` の語だけで候補を生成しません。
+- `衣類乾燥機`、`白色以外のトレイ`、`LED蛍光灯` など、別品目を内包する複合語はcollision guardで偽陽性を防ぎます。
 - `APP_READY` は40品目coverage、品目別公式証跡、全条件枝レビューが揃わない限りvalidatorが拒否します。

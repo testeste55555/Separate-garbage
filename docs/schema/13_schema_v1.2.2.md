@@ -1,6 +1,7 @@
 # Schema v1.2.2
 
 確定日：2026-08-17  
+候補生成精度修正：2026-08-18  
 対象：Schema v1.2.1の証跡モデル修正
 
 ## 1. 目的
@@ -78,11 +79,13 @@ coverageの `item_evidence_*` も品目別根拠専用である。
 
 ## 6. 現在地
 
-- 15自治体、194区分、57出典、283 mapping枝、600 coverage pairを保持
+- 15自治体、194区分、57出典、237 mapping枝、600 coverage pair
 - 構造validation：PASS
-- RED TEAM：17/17 PASS
+- RED TEAM：19/19 PASS
 - QA：2 QA_PASSED / 13 QA_REQUIRED
 - NEXT_BATCH_GATE：HOLD
 - APP_READINESS_GATE：HOLD、APP_READY 0/15
 - 13自治体の実資料レビュー：未開始
 - Batch 02：未開始
+
+2026-08-18の候補生成修正ではSchema列・enum・主キーを変更していない。初期mappingのPositive evidenceを `自治体正式名称` と `代表品目` に限定し、Negative/context evidence由来および複合語衝突由来の46枝を削除した。手動VERIFIED/APP_READY枝の保持規則は変更していない。

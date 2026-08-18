@@ -10,9 +10,11 @@ from pathlib import Path
 
 from schema_v12 import (
     BATCH_MIGRATION_INPUT_SUFFIXES, BATCH_REQUIRED_SUFFIXES, COVERAGE_FIELDS, MAPPING_FIELDS,
-    MUNICIPALITY_FIELDS, QA_FIELDS, RESEARCH, ROOT, batch_dirs_for_migration,
+    ITEM_PATTERNS, MANUAL_MAPPING_STATUS, MUNICIPALITY_FIELDS, NEGATIVE_CONTEXT_FIELDS, QA_FIELDS,
+    RESEARCH, ROOT,
+    batch_dirs_for_migration,
     candidate_initial_mappings, completed_batch_dirs, compute_qa, counted_category_total,
-    read_csv, reconcile_mappings, sync_municipality_qa_status, write_csv,
+    item_pattern_matches, read_csv, reconcile_mappings, sync_municipality_qa_status, write_csv,
 )
 from merge_research import merge_review_table
 from validate_research import compare_canonical_union
@@ -142,7 +144,85 @@ def main() -> int:
         "MANUAL_INDEX_REVIEW permits an empty official total and verifies the reviewed count",
         manual_review_ok and manual_count_mismatch_rejected,
     )
+    _, categories = read_csv(canonical_paths["category_path"])
     _, items = read_csv(ROOT / "data" / "master" / "04_common_items_master.csv")
+
+    def fixture_category(category_id: str, positive_text: str = "") -> dict[str, str]:
+        return {
+            "municipality_id": "M-REDTEAM", "category_id": category_id,
+            "自治体正式名称": positive_text, "代表品目": positive_text,
+            "入れてはいけない物": "", "条件外の扱い": "", "出す前の処理": "", "注意事項": "",
+            "表示順": "1", "rule_status": "CURRENT", "適用条件": "",
+            "自治体収集外か": "FALSE", "effective_from": "", "effective_to": "",
+            "source_id": "S-REDTEAM-01", "出典URL": "https://example.invalid/official",
+            "出典ページ・該当箇所": "RED TEAM fixture", "確認日": "2026-08-18",
+        }
+
+    positive_failures = []
+    negative_failures = []
+    for item in items:
+        item_id = item["internal_item_id"]
+        sample = item["一般管理用名称"]
+        positive = fixture_category(f"C-POS-{item_id}", sample)
+        if not any(row["internal_item_id"] == item_id for row in candidate_initial_mappings([positive])):
+            positive_failures.append(item_id)
+        negative = fixture_category(f"C-NEG-{item_id}")
+        for field in NEGATIVE_CONTEXT_FIELDS:
+            negative[field] = sample
+        if candidate_initial_mappings([negative]):
+            negative_failures.append(item_id)
+    checks.add(
+        "all 40 common items require positive evidence and ignore negative/context fields",
+        len(items) == len(ITEM_PATTERNS) == 40 and not positive_failures and not negative_failures,
+        f"items={len(items)} patterns={len(ITEM_PATTERNS)} "
+        f"positive_failures={positive_failures} negative_failures={negative_failures}",
+    )
+
+    collision_cases = {
+        "I007": "白色以外のトレイ",
+        "I021": "衣類乾燥機",
+        "I030": "LED蛍光灯",
+        "I034": "充電池を外せない小型家電",
+        "I038": "パソコン周辺機器",
+        "I039": "食用油ボトル",
+    }
+    collision_failures = [
+        item_id for item_id, text in collision_cases.items()
+        if item_pattern_matches(item_id, fixture_category(f"C-COLLISION-{item_id}", text))
+    ]
+    actual_initial = candidate_initial_mappings(categories)
+    m001_i021 = {
+        row["category_id"] for row in actual_initial
+        if row["municipality_id"] == "M001" and row["internal_item_id"] == "I021"
+    }
+    _, canonical_mappings = read_csv(canonical_paths["mapping_path"])
+    manual_mapping_keys = {
+        (row["municipality_id"], row["internal_item_id"], row["category_id"])
+        for row in canonical_mappings
+        if row["mapping_status"] in MANUAL_MAPPING_STATUS
+    }
+    generated_mapping_keys = {
+        (row["municipality_id"], row["internal_item_id"], row["category_id"])
+        for row in actual_initial
+    }
+    stored_initial_keys = {
+        (row["municipality_id"], row["internal_item_id"], row["category_id"])
+        for row in canonical_mappings
+        if row["mapping_status"] not in MANUAL_MAPPING_STATUS
+    }
+    initial_mapping_sync = stored_initial_keys == generated_mapping_keys - manual_mapping_keys
+    stored_m001_i021 = {
+        row["category_id"] for row in canonical_mappings
+        if row["municipality_id"] == "M001" and row["internal_item_id"] == "I021"
+    }
+    checks.add(
+        "known compound collisions do not generate false item candidates",
+        not collision_failures and m001_i021 == stored_m001_i021 == {"C-M001-01"}
+        and initial_mapping_sync,
+        f"collision_failures={collision_failures} generated_M001_I021={sorted(m001_i021)} "
+        f"stored_M001_I021={sorted(stored_m001_i021)} initial_mapping_sync={initial_mapping_sync}",
+    )
+
     _, coverage = read_csv(canonical_paths["coverage_path"])
     expected_pairs = {(m["municipality_id"], i["internal_item_id"]) for m in municipalities for i in items}
     actual_pairs = {(r["municipality_id"], r["internal_item_id"]) for r in coverage}
@@ -162,7 +242,6 @@ def main() -> int:
     checks.add("optional resources distinguish checked and not checked", evidence_ok and "NOT_CHECKED" in check_states,
                str(dict(check_states)))
 
-    _, categories = read_csv(canonical_paths["category_path"])
     explicit_role_ok = all(
         not (row["rule_status"] != "CURRENT" and row["ui_role"] != "HIDDEN")
         and not (row["ui_role"] == "SORT_BUCKET" and row["自治体収集外か"] == "TRUE")
