@@ -2,7 +2,8 @@
 
 初回実施日：2026-08-17  
 候補生成追加試験：2026-08-18  
-自動判定：19/19 PASS
+区分網羅性レビュー回帰試験：2026-08-18  
+自動判定：20/20 PASS
 
 v1.2.1の15観点に次の攻撃を追加した。
 
@@ -12,11 +13,12 @@ v1.2.1の15観点に次の攻撃を追加した。
 | 17 | item evidenceにcategoryとは別の公式sourceを受理し、coverage locator欠落を拒否 | PASS |
 | 18 | 共通40品目でPositive evidenceを受理し、Negative/context evidenceだけの候補生成を拒否 | PASS |
 | 19 | 複合語collisionとM001「衣類→衣類乾燥機」偽陽性を拒否し、保存済み初期mappingとの同期を確認 | PASS |
+| 20 | 13自治体のMANUAL_INDEX_REVIEW件数、7追加区分、石巻市スプレー缶分離の回帰を拒否 | PASS |
 
 全結果：
 
 ```text
-RED_TEAM_SUMMARY=19/19
+RED_TEAM_SUMMARY=20/20
 SCHEMA_V12_RED_TEAM_PASSED
 ```
 
@@ -32,4 +34,4 @@ SCHEMA_V12_RED_TEAM_PASSED
 - 除外品、条件外、前処理、注意事項への語の出現だけでは候補を生成しない。
 - 共通40品目のPositive/Negative fixtureと既知複合語collisionを継続検査する。
 
-現在データは構造PASSだがNEXT_BATCH_GATEとAPP_READINESS_GATEはいずれもHOLDである。13自治体の実資料レビューとBatch 02は開始していない。
+13自治体の公式目次レビュー後も構造PASSで、NEXT_BATCH_GATEはPASS、APP_READINESS_GATEはHOLDである。Batch 02と40品目APP_READYレビューは開始していない。

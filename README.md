@@ -13,16 +13,16 @@
 - MASTER：143自治体、固定ID済み
 - Pilot：5自治体完了
 - Batch 01：10自治体完了
-- 調査・再validation済み：計15自治体、194分別区分、57公式出典
+- 調査・再validation済み：計15自治体、201分別区分、57公式出典
 - Schema：v1.2.2へ移行済み（v1.2系の証跡分離修正版）
 - 構造validation：Pilot / Batch 01 / canonicalすべてPASS
-- QA：2 `QA_PASSED` / 13 `QA_REQUIRED`（区分網羅性の証跡を再判定）
+- QA：15 `QA_PASSED` / 0 `QA_REQUIRED`
 - 共通品目：40品目、安全区分付き
-- item mapping：237条件枝（現状は全枝 `INITIAL_REVIEW_REQUIRED`）
-- 40品目coverage：600自治体品目pair（225 `MAPPED_INITIAL` / 375 `NOT_RESEARCHED`）
-- Schema v1.2.2 RED TEAM：19/19 PASS
+- item mapping：242条件枝（現状は全枝 `INITIAL_REVIEW_REQUIRED`）
+- 40品目coverage：600自治体品目pair（230 `MAPPED_INITIAL` / 370 `NOT_RESEARCHED`）
+- Schema v1.2.2 RED TEAM：20/20 PASS
 
-Batch 02の自治体調査は実施していません。`NEXT_BATCH_GATE` は13自治体の区分網羅性QAが未完了のため `HOLD`、`APP_READINESS_GATE` はそれに加えて15自治体×40品目の品目別公式確認が未完了のため `HOLD` です。前者は次自治体の調査開始条件、後者は教材アプリへの公開条件であり、相互に代用しません。
+QA_REQUIREDだった13自治体は公式目次・見出しを全件照合し、7件の未構造化区分を補正しました。`NEXT_BATCH_GATE` は `PASS`、`APP_READINESS_GATE` は15自治体×40品目の品目別公式確認が未完了のため `HOLD` です。Batch 02の自治体調査はまだ実施していません。
 
 ## ディレクトリ
 
@@ -38,7 +38,7 @@ Batch 02の自治体調査は実施していません。`NEXT_BATCH_GATE` は13�
 - `data/research/06_qa_log.csv`：機械再計算済みQA
 - `data/research/07_item_mapping_coverage.csv`：全自治体×40品目の調査・実装準備状態
 - `docs/schema/`：Schema、Data Dictionary、移行・RED TEAM報告
-- `docs/workflow/`：作業フロー（旧版を保持し、現行v1.6を追加）
+- `docs/workflow/`：作業フロー（旧版を保持し、現行v1.7を追加）
 
 ## 再現コマンド
 
@@ -49,7 +49,7 @@ python3 scripts/validate_pilot.py
 python3 scripts/validate_research.py --batch batch_01
 python3 scripts/merge_research.py
 python3 scripts/validate_research.py
-python3 scripts/check_next_batch_gate.py  # 現状はHOLDを示す終了コード2
+python3 scripts/check_next_batch_gate.py  # 現状はPASS（終了コード0）
 python3 scripts/validate_research.py --app-readiness-gate  # 現状はHOLDを示す終了コード2
 python3 scripts/red_team_schema_v12.py
 ```

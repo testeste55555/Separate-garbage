@@ -147,6 +147,41 @@ def main() -> int:
     _, categories = read_csv(canonical_paths["category_path"])
     _, items = read_csv(ROOT / "data" / "master" / "04_common_items_master.csv")
 
+    reviewed_counts = {
+        "M001": 14, "M002": 20, "M003": 13, "M004": 12, "M005": 16, "M006": 16,
+        "M007": 8, "M008": 9, "M009": 8, "M011": 14, "M013": 9, "M030": 10, "M094": 8,
+    }
+    municipality_by_id = {row["municipality_id"]: row for row in municipalities}
+    category_by_id = {row["category_id"]: row for row in categories}
+    required_corrections = {
+        "C-M002-21": "鉄くず（衣川地域のみ）",
+        "C-M003-14": "紙パック",
+        "C-M005-15": "スプレー缶・ガスカートリッジ",
+        "C-M005-16": "古着・布類",
+        "C-M005-17": "紙パック",
+        "C-M005-18": "使用済小型家電",
+        "C-M006-17": "布類",
+    }
+    manual_review_regression_ok = all(
+        municipality_by_id.get(mid, {}).get("category_count_check_status") == "MANUAL_INDEX_REVIEW"
+        and municipality_by_id[mid].get("reviewed_category_count") == str(count)
+        and counted_category_total(mid, categories) == count
+        for mid, count in reviewed_counts.items()
+    )
+    correction_regression_ok = all(
+        category_by_id.get(category_id, {}).get("自治体正式名称") == name
+        for category_id, name in required_corrections.items()
+    )
+    m005_hazardous = category_by_id.get("C-M005-04", {})
+    m005_split_ok = "スプレー缶" not in m005_hazardous.get("代表品目", "")
+    checks.add(
+        "13 manual index reviews and seven official-heading corrections resist regression",
+        manual_review_regression_ok and correction_regression_ok and m005_split_ok,
+        f"manual_reviews={sum(mid in municipality_by_id for mid in reviewed_counts)}/{len(reviewed_counts)} "
+        f"corrections={sum(category_by_id.get(cid, {}).get('自治体正式名称') == name for cid, name in required_corrections.items())}/{len(required_corrections)} "
+        f"m005_spray_split={m005_split_ok}",
+    )
+
     def fixture_category(category_id: str, positive_text: str = "") -> dict[str, str]:
         return {
             "municipality_id": "M-REDTEAM", "category_id": category_id,

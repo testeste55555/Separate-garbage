@@ -1,5 +1,7 @@
 # Schema v1.2.2 Revalidation / QA Report
 
+> 履歴注記：本書は候補生成修正直後のスナップショットである。その後の13自治体公式目次レビューにより、7区分を補正し15/15 QA_PASSED、NEXT_BATCH_GATE PASSとなった。現行結果は `category_completeness_review_13_municipalities_2026-08-18.md` を参照。
+
 初回実施日：2026-08-17  
 候補再生成・再validation：2026-08-18  
 13自治体の実資料レビュー：未実施  

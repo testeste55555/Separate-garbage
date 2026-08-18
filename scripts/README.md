@@ -3,6 +3,7 @@
 | スクリプト | 役割 |
 |---|---|
 | `migrate_schema_v12.py` | 全既存bundleをSchema v1.2.2へ冪等移行し、QA・網羅性・根拠列を状態保持更新 |
+| `apply_category_completeness_review.py` | 2026-08-18の13自治体公式目次レビュー、7区分補正、MANUAL_INDEX_REVIEW証跡をPilot/Batch 01/canonicalへ冪等反映 |
 | `schema_v12.py` | v1.2.2列定義、QA再計算、手動目次照合、category/item根拠分離、Positive evidence限定のmapping候補生成・reconciliation |
 | `build_batch_01.py` | Batch 01を再構築し、手動レビュー証跡を保持してv1.2へ正規化 |
 | `validate_pilot.py` | `data/research/pilot/pilot_qa.csv` を使う独立Pilot検証 |
