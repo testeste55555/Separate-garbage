@@ -19,12 +19,12 @@
 - 構造validation：Pilot / Batch 01 / Batch 02 / canonicalすべてPASS
 - QA：25 `QA_PASSED` / 0 `QA_REQUIRED`
 - 共通品目：40品目、安全区分付き
-- item mapping：397条件枝（現状は全枝 `INITIAL_REVIEW_REQUIRED`）
-- 40品目coverage：1,000自治体品目pair（381 `MAPPED_INITIAL` / 619 `NOT_RESEARCHED`）
+- item mapping：399条件枝（現状は全枝 `INITIAL_REVIEW_REQUIRED`）
+- 40品目coverage：1,000自治体品目pair（383 `MAPPED_INITIAL` / 617 `NOT_RESEARCHED`）
 - category review evidence：50行
-- Schema v1.2.3 RED TEAM：24/24 PASS
+- Schema v1.2.3 RED TEAM：25/25 PASS
 
-Batch 02はMASTER順のM012・M014〜M022を対象に、公式ガイドの目次・分別見出しを全件照合しました。全10自治体を`MANUAL_INDEX_REVIEW`で記録し、公式粒度と教材UI投影を分離しています。`NEXT_BATCH_GATE` は `PASS`、`APP_READINESS_GATE` は25自治体×40品目の品目別公式確認が未完了のため `HOLD` です。
+Batch 02はMASTER順のM012・M014〜M022を対象に、公式ガイドの目次・分別見出しと151 category行の詳細を再照合しました。公式に詳細記載がない欄は補作せず`NOT_STATED_IN_CITED_SOURCE`で明示し、validatorは空欄回避用プレースホルダを拒否します。全10自治体を`MANUAL_INDEX_REVIEW`で記録し、公式粒度と教材UI投影を分離しています。`NEXT_BATCH_GATE` は `PASS`、`APP_READINESS_GATE` は25自治体×40品目の品目別公式確認が未完了のため `HOLD` です。
 
 ## ディレクトリ
 
@@ -42,7 +42,7 @@ Batch 02はMASTER順のM012・M014〜M022を対象に、公式ガイドの目次
 - `data/research/07_item_mapping_coverage.csv`：全自治体×40品目の調査・実装準備状態
 - `data/research/08_category_review_evidence.csv`：区分網羅性レビューの複数公式source証拠
 - `docs/schema/`：Schema、Data Dictionary、移行・RED TEAM報告
-- `docs/workflow/`：作業フロー（旧版を保持し、現行v1.9を追加）
+- `docs/workflow/`：作業フロー（旧版を保持し、現行v1.10を追加）
 
 ## 再現コマンド
 
@@ -94,4 +94,5 @@ migrationとmergeの冪等性は、2回連続実行後に完成bundleおよびca
 - mappingの `category_source_*` は区分体系の根拠、`item_evidence_*` は品目別判断の根拠です。両者は別の同一自治体公式sourceを使用できます。
 - 初期mapping候補は `自治体正式名称` と `代表品目` だけをPositive evidenceとして生成します。`入れてはいけない物`、`条件外の扱い`、`出す前の処理`、`注意事項` の語だけで候補を生成しません。
 - `衣類乾燥機`、`白色以外のトレイ`、`LED蛍光灯` など、別品目を内包する複合語はcollision guardで偽陽性を防ぎます。
+- category詳細に公式記載がない場合は`NOT_STATED_IN_CITED_SOURCE`を使います。`該当する公式区分`、`公式ガイドの指定方法`等の空欄回避用プレースホルダはvalidatorが拒否します。
 - `APP_READY` は40品目coverage、品目別公式証跡、全条件枝レビューが揃わない限りvalidatorが拒否します。

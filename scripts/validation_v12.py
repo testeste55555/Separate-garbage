@@ -40,6 +40,38 @@ CORE_REQUIRED_CATEGORY_FIELDS = [
     "表示順", "代表品目", "入れてはいけない物", "条件外の扱い", "出す前の処理",
     "自治体収集外か", "source_id", "出典URL", "出典ページ・該当箇所", "確認日", "ui_role", "rule_status",
 ]
+CATEGORY_DETAIL_FIELDS = [
+    "代表品目", "入れてはいけない物", "適用条件", "条件外の扱い", "出す前の処理",
+    "袋・容器のルール", "サイズ・条件", "料金ルール", "注意事項",
+]
+ALLOWED_NOT_STATED = "NOT_STATED_IN_CITED_SOURCE"
+PLACEHOLDER_CATEGORY_VALUES = {
+    "他の分別区分に該当する物",
+    "家庭から出る対象物",
+    "該当する公式区分",
+    "中身を除き、必要な前処理を行う",
+    "公式ガイドの指定方法",
+    "公式ガイドの品目・寸法条件",
+    "種類別にまとめ、必要に応じて洗浄・乾燥",
+    "洗浄・結束など品目別前処理",
+    "洗浄・水切り・結束など品目別前処理",
+    "中身除去・洗浄・絶縁など品目別前処理",
+    "水切り・危険物保護など品目別前処理",
+    "親区分の資源回収方法",
+    "親区分の古紙回収方法",
+}
+PLACEHOLDER_CATEGORY_PATTERN = re.compile(
+    r"^(?:公式ガイドの(?:指定方法|品目・寸法条件)|該当する公式区分|"
+    r"家庭から出る対象物|他の分別区分に該当する物|"
+    r".*(?:など|等)品目別(?:の)?前処理|親区分の.+回収方法|"
+    r"対象品目(?:ごと)?の(?:前処理|回収条件に従う)|施設指定方法)$"
+)
+
+
+def is_placeholder_category_value(value: str) -> bool:
+    if not value or value == ALLOWED_NOT_STATED:
+        return False
+    return value in PLACEHOLDER_CATEGORY_VALUES or bool(PLACEHOLDER_CATEGORY_PATTERN.fullmatch(value))
 
 
 def iso_date(value: str) -> bool:
@@ -257,6 +289,10 @@ def validate_dataset(*, label: str, municipality_path: Path, category_path: Path
         for field in CORE_REQUIRED_CATEGORY_FIELDS:
             if not row.get(field):
                 errors.append(f"missing CORE category field: {key} {field}")
+        for field in CATEGORY_DETAIL_FIELDS:
+            value = row.get(field, "")
+            if is_placeholder_category_value(value):
+                errors.append(f"placeholder category detail: {key} {field}={value}")
         name = row.get("自治体正式名称", "")
         if name in names_by_mid[key[0]]:
             errors.append(f"duplicate official category name: {key[0]} {name}")

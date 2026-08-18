@@ -9,7 +9,7 @@ from collections import Counter
 from pathlib import Path
 
 from schema_v12 import (
-    BATCH_MIGRATION_INPUT_SUFFIXES, BATCH_REQUIRED_SUFFIXES, CATEGORY_REVIEW_EVIDENCE_FIELDS,
+    BATCH_MIGRATION_INPUT_SUFFIXES, BATCH_REQUIRED_SUFFIXES, CATEGORY_FIELDS, CATEGORY_REVIEW_EVIDENCE_FIELDS,
     COVERAGE_FIELDS, MAPPING_FIELDS, ITEM_PATTERNS, MANUAL_MAPPING_STATUS, MUNICIPALITY_FIELDS,
     NEGATIVE_CONTEXT_FIELDS, QA_FIELDS, RESEARCH, ROOT,
     batch_dirs_for_migration,
@@ -19,7 +19,9 @@ from schema_v12 import (
 )
 from merge_research import merge_review_table
 from validate_research import compare_canonical_union
-from validation_v12 import READY_COVERAGE, validate_dataset
+from validation_v12 import (
+    CATEGORY_DETAIL_FIELDS, READY_COVERAGE, is_placeholder_category_value, validate_dataset,
+)
 
 
 class Checks:
@@ -108,6 +110,33 @@ def main() -> int:
     checks.add(
         "Batch 02 is the exact next MASTER set with complete manual-index evidence",
         batch_02_ok, batch_02_detail,
+    )
+
+    batch_02_authenticity_ok = False
+    placeholder_tamper_rejected = False
+    if batch_02 in completed_batch_dirs():
+        batch_02_paths = paths_for(batch_02, "batch_02_")
+        _, batch_02_categories = read_csv(batch_02_paths["category_path"])
+        batch_02_authenticity_ok = len(batch_02_categories) == 151 and not any(
+            is_placeholder_category_value(row.get(field, ""))
+            for row in batch_02_categories
+            for field in CATEGORY_DETAIL_FIELDS
+        )
+        with tempfile.TemporaryDirectory(prefix="redteam_category_placeholder_", dir=ROOT) as tmp:
+            tampered_categories = [dict(row) for row in batch_02_categories]
+            tampered_categories[0]["入れてはいけない物"] = "他の分別区分に該当する物"
+            category_path = Path(tmp) / "categories.csv"
+            write_csv(category_path, CATEGORY_FIELDS, tampered_categories)
+            tampered_paths = dict(batch_02_paths)
+            tampered_paths["category_path"] = category_path
+            tampered_errors, _, _ = validate_dataset(label="PLACEHOLDER_CATEGORY", **tampered_paths)
+            placeholder_tamper_rejected = any(
+                "placeholder category detail" in error for error in tampered_errors
+            )
+    checks.add(
+        "Batch 02 has 151 source-audited category rows and rejects filler text",
+        batch_02_authenticity_ok and placeholder_tamper_rejected,
+        f"authenticity_ok={batch_02_authenticity_ok} tamper_rejected={placeholder_tamper_rejected}",
     )
 
     union_errors = compare_canonical_union()

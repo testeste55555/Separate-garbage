@@ -12,8 +12,8 @@
 - 公式出典：28
 - category review evidence：28
 - 自治体別QA：10/10 `QA_PASSED`
-- item mapping：152条件枝（全枝 `INITIAL_REVIEW_REQUIRED`）
-- coverage：400 pair（151 `MAPPED_INITIAL` / 249 `NOT_RESEARCHED`）
+- item mapping：154条件枝（全枝 `INITIAL_REVIEW_REQUIRED`）
+- coverage：400 pair（153 `MAPPED_INITIAL` / 247 `NOT_RESEARCHED`）
 - Batch単独構造validation：PASS
 - Batch単独NEXT_BATCH_GATE：PASS
 
@@ -47,8 +47,10 @@
 | 初期mapping | PASS | Positive evidenceのみで152枝を生成。品目別証拠は未付与 |
 | coverage | PASS | 10×40=400 pairの直積を保持 |
 | QA日付 | PASS | 全自治体で最新根拠日`2026-08-18`と一致 |
+| category詳細真正性 | PASS | 151/151行をsource・locatorへ再照合。旧プレースホルダ0件。公式記載なしは`NOT_STATED_IN_CITED_SOURCE` |
+| 幸手市紙類 | PASS | 新聞・雑誌・雑がみ・段ボールは結束等、紙パックだけ洗浄・切開・乾燥を保持 |
 | canonical merge | PASS | Pilot＋Batch 01＋Batch 02のno-loss union、二重mergeでSHA-256不変 |
-| RED TEAM | PASS | 24/24。Batch 02の対象・QA・葉件数・複数source証拠を追加攻撃 |
+| RED TEAM | PASS | 25/25。151行真正性とプレースホルダ改ざん拒否を含む |
 
 ## 統合後
 
@@ -56,8 +58,8 @@
 - 356 category行（公式葉325区分）
 - 86 source
 - 50 category review evidence
-- 397 initial mapping branches
-- 1,000 coverage pair（381 `MAPPED_INITIAL` / 619 `NOT_RESEARCHED`）
+- 399 initial mapping branches
+- 1,000 coverage pair（383 `MAPPED_INITIAL` / 617 `NOT_RESEARCHED`）
 - 25 `QA_PASSED` / 0 `QA_REQUIRED`
 - `NEXT_BATCH_GATE: PASS`
 - `APP_READINESS_GATE: HOLD`（0/25自治体、正常）
@@ -77,4 +79,4 @@ python3 scripts/red_team_schema_v12.py
 
 ## 判定
 
-Batch 02は構造・公式根拠・区分網羅性・QA・merge・RED TEAMを通過した。次Batchは`NEXT_BATCH_GATE`上開始可能。40品目の品目別公式レビューは未実施のため、教材アプリ公開は引き続き`APP_READINESS_GATE: HOLD`とする。
+Batch 02の151 category行は公式source・locatorへ戻って再点検し、空欄回避用の汎用文を除去した。公式に個別記載がない欄は推測せず構造化された未記載値として保持する。構造・公式根拠・区分網羅性・QA・merge・25観点RED TEAMを通過したため、次Batchは`NEXT_BATCH_GATE`上開始可能。40品目の品目別公式レビューは未実施のため、教材アプリ公開は引き続き`APP_READINESS_GATE: HOLD`とする。

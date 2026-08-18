@@ -45,3 +45,10 @@
 ## Batch成果物
 
 完成Batchの必須7成果物：municipalities、categories、sources、qa、item_mapping、item_coverage、category_review_evidence。
+
+## category詳細の未記載値と禁止プレースホルダ
+
+- 公式sourceの当該locatorに個別記載がないCORE詳細は、推測文で埋めず`NOT_STATED_IN_CITED_SOURCE`を保存する。
+- REFERENCE詳細に記載がなければ空欄を許す。
+- `他の分別区分に該当する物`、`該当する公式区分`、`公式ガイドの指定方法`、`公式ガイドの品目・寸法条件`、複数品目を一括した「品目別前処理」等は空欄回避用プレースホルダとして禁止する。
+- validatorはcategory詳細全フィールドを検査し、禁止値・禁止パターンを構造エラーとして拒否する。

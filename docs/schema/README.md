@@ -24,6 +24,6 @@ Schema v1.0はPilot時点の履歴として `docs/07_schema_v1.0.md` と `docs/0
 - `15_schema_v1.2.3.md`：QA日付、複数source証拠、公式葉区分とUI投影
 - `16_data_dictionary_v1.2.3.md`：category review evidenceと変更列
 - `schema_v1.2.3_migration_report.md`：既存15自治体の移行・再validation結果
-- `schema_v1.2.3_red_team_report.md`：23観点RED TEAM結果
+- `schema_v1.2.3_red_team_report.md`：25観点RED TEAM結果
 
-今後の調査はv1.2.3を使用します。2026-08-18時点で既存15自治体はQA_PASSED、`NEXT_BATCH_GATE` はPASS、`APP_READINESS_GATE` はHOLDです。Batch 02は開始していません。
+今後の調査はv1.2.3を使用します。2026-08-18時点でPilot・Batch 01・Batch 02の25自治体はQA_PASSED、`NEXT_BATCH_GATE` はPASS、`APP_READINESS_GATE` はHOLDです。Batch 02の151 category行は真正性再監査済みです。

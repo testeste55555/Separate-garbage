@@ -1,7 +1,7 @@
 # Schema v1.2.3 RED TEAM Report
 
 実施日：2026-08-18  
-自動判定：23/23 PASS
+自動判定：25/25 PASS
 
 ## 新規攻撃観点
 
@@ -10,6 +10,8 @@
 3. 完成Batchは7成果物すべてがなければ検出されない。
 4. 石巻市は公式葉19区分を保持し、びんの教材箱は1件だけである。
 5. 投影親から初期mappingを生成せず、公式4子区分を条件枝として保持する。
+6. Batch 02の151 category行に空欄回避用プレースホルダが残っていないことを検査する。
+7. category詳細を`他の分別区分に該当する物`へ改ざんするとvalidatorが拒否する。
 
 ## 回帰
 
@@ -21,5 +23,7 @@
 - mapping_id条件枝保持、item evidence分離、APP_READY改ざん拒否 PASS
 - NEXT_BATCH_GATE整合 PASS
 - APP_READINESS_GATE HOLD整合 PASS
+- Batch 02 10自治体・151 category行・28公式source・28 review evidence PASS
+- category詳細のsource監査、旧プレースホルダ0件、改ざん拒否 PASS
 
-`RED_TEAM_SUMMARY=23/23`。Batch 02は未開始。
+`RED_TEAM_SUMMARY=25/25`。Batch 02再QA後のcanonicalは25自治体、356 category行、86 source、399 mapping枝、1,000 coverage pairである。`NEXT_BATCH_GATE=PASS`、`APP_READINESS_GATE=HOLD`。

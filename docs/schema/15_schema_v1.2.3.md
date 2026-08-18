@@ -8,6 +8,7 @@
 1. QAの `確認日` を固定日ではなく、自治体ごとの最新根拠日から決定する。
 2. 区分網羅性レビューで複数の公式sourceを正規化して保持する。
 3. 公式の分別粒度と教材UIの箱粒度を階層で分離する。
+4. 公式記載なしと空欄回避用の汎用文を区別し、後者をvalidationで拒否する。
 
 ## 2. QA確認日
 
@@ -51,4 +52,4 @@ municipalitiesの単一 `category_count_evidence_source_id` を廃止し、`cate
 - NEXT_BATCH_GATE：構造、QA、公式葉区分、複数source証拠、canonical union、merge冪等性、RED TEAMを要求する。
 - APP_READINESS_GATE：上記に加えて全40品目のAPP_READYまたはVERIFIED_NOT_APPLICABLEを要求する。
 
-2026-08-18時点でNEXT_BATCH_GATEはPASS、APP_READINESS_GATEはHOLD。Batch 02は未開始である。
+2026-08-18時点でPilot・Batch 01・Batch 02の25自治体はQA_PASSEDで、NEXT_BATCH_GATEはPASS、APP_READINESS_GATEはHOLDである。Batch 02の151 category行は公式source・locatorへ再照合し、公式記載なしは`NOT_STATED_IN_CITED_SOURCE`、空欄回避用プレースホルダはvalidator拒否とした。
