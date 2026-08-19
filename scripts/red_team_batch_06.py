@@ -59,3 +59,5 @@ def main():
     return 0 if passed==len(checks) else 1
 
 if __name__=="__main__": raise SystemExit(main())
+
+# Temporary no-op trigger for Batch 07 pipeline diagnostics; remove after probe.
