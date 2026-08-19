@@ -4,6 +4,9 @@
 M076 備前市 is deferred because FY2026 still has two resident-facing sorting
 systems by district. The current Schema/UI has no district-variant selector, so
 forcing either system city-wide would create incorrect guidance.
+
+This wrapper is the production Batch 08 entrypoint: only active municipalities
+are emitted into the completed bundle and canonical merge.
 """
 from __future__ import annotations
 
