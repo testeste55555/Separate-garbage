@@ -8,11 +8,16 @@ import collect_app_readiness_evidence as base
 # Cache repeated normalization of the exact same official source text.
 base.compact = lru_cache(maxsize=4096)(base.compact)
 
-# The base writer stores at most 820 compact characters of the evidence window.
-# Use a 400-character radius (<=800 total) so the exact item/category text used
-# for candidate acceptance is always preserved in the audit CSV. This is
-# slightly stricter than the original 420 radius; it cannot create new evidence.
-base.WINDOW = 400
+# The base function captured WINDOW=420 in its default argument at definition
+# time, while the CSV writer retains at most 820 compact characters. Override
+# the function itself with a 400-character radius so every accepted item/category
+# occurrence used by the collector remains present in the persisted audit snippet.
+_original_snippet = base.snippet_from_compact
+
+def _auditable_snippet(ctext: str, pos: int, width: int = 400) -> str:
+    return _original_snippet(ctext, pos, width=400)
+
+base.snippet_from_compact = _auditable_snippet
 
 # Increase only fetch concurrency. The collector still accepts evidence only
 # under the same item-alias + CURRENT-category local co-occurrence rules.
