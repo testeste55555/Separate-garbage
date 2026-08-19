@@ -1,0 +1,80 @@
+WORK_ゴミ出し情報収集フロー_143自治体_v1.19
+制定日: 2026-08-19
+Schema: v1.2.4
+
+1. 目的
+住民が家庭ごみを排出するときに実際に選択する自治体公式の分別体系を、授業用アプリで安全に扱える形へ正規化する。
+
+2. active target と固定ID
+固定ID台帳143自治体は削除・再採番しない。
+一次資料本文不足、Schema scope不足等により安全な実装ができない自治体は `data/master/05_deferred_municipalities.csv` へDEFERREDとして退避し、active Batch・canonicalから除外する。根拠が揃えば同じ固定IDで再開できる。
+
+現在のDEFERRED:
+- M065 知夫村: USER_DECISION
+- M076 備前市: SCHEMA_SCOPE_LIMITATION（地区variant）
+- M086 新庄村: OFFICIAL_SOURCE_BODY_UNAVAILABLE
+
+3. 公式URLの存在とcategory completeness
+公式ページのURLまたは公式導線の存在だけではcategory completenessを証明しない。住民向け全分別区分を一次資料本文で全件照合できない場合はcategoryを推測で補作しない。
+
+地域計画・処理施設計画は補助証拠にはできるが、住民が排出時に選択する区分を直接示さない場合はPRIMARY_INDEXの代用としない。
+
+4. official label semantics
+- 自治体正式名称を括弧・記号を含め保持する。
+- 複合収集ラベルは処理上の内部区分だけを理由に人工分割しない。
+- 一つの公式親区分の内部で住民が明示的に細分する場合は、親を投影用 `PRIMARY / SORT_BUCKET`、子を `SUBCATEGORY / REFERENCE_ONLY` として保持できる。
+- `counted_category_total`ではCURRENTの公式子葉を数え、投影親を二重計上しない。
+- 自治体が公式総数を明示する場合は`OFFICIAL_COUNT_MATCHED`を優先する。
+- 特別回収・粗大・拠点回収等を、公式総数や通常の住民分別体系を壊して人工的に追加しない。分類上の独立区分として公式に提示される場合のみcategoryに保持する。
+
+5. Batch 09
+MASTER範囲: M084〜M093。
+active:
+- M084 里庄町: 10葉
+- M085 矢掛町: 11葉
+- M087 鏡野町: 8葉
+- M088 勝央町: 7葉（OFFICIAL_COUNT_MATCHED）
+- M089 奈義町: 2葉
+- M090 西粟倉村: 5葉
+- M091 久米南町: 14葉
+- M092 美咲町: 5葉
+- M093 吉備中央町: 11葉
+
+M086新庄村はDEFERRED。
+
+6. Batch 09で固定した真正性
+- 勝央町の公式「7種分別収集」を8種以上へ膨らませない。
+- 奈義町の「資源ごみ・小型不燃ごみ・有害なごみ」を人工的に3categoryへ分割しない。
+- 西粟倉村は委託先美作市の詳細taxonomyではなく、村版令和8年度カレンダーの収集グループを基準とする。
+- 久米南町のスプレー缶は「使い切り、穴を開けない」。他自治体の穴あけルールを転用しない。
+- 鏡野町、久米南町、吉備中央町は親子構造を用い、教材投影と公式葉保存を両立する。
+- 美咲町は全町統一の現行体系を採用する。
+
+7. Gate
+Batch 09 CIで以下を確認済み。
+- Batch structural validation PASS
+- Batch 09 RED TEAM PASS
+- canonical merge PASS
+- canonical structural validation PASS
+- Schema v1.2.4 RED TEAM PASS
+- NEXT_BATCH_GATE PASS
+- APP_READINESS_GATE HOLD
+
+8. 現在地
+- fixed IDs: 143
+- active implementation targets: 140
+- DEFERRED: 3
+- canonical municipalities: 92
+- QA: 92/92 QA_PASSED
+- categories: 1,094 rows
+- structured official leaves: 1,008
+- sources: 253
+- initial mapping branches: 932
+- coverage: 3,680 pairs
+- category review evidence: 216
+
+9. APP_READY
+category調査の完了とAPP_READYは別Gateとする。40品目すべてについてITEM_SPECIFIC公式証拠、coverage、条件枝レビューが揃うまでAPP_READINESS_GATEはHOLDとする。
+
+10. 次Batch
+Batch 10はMASTER順の未完了active自治体を選ぶ。既にPilot等で完了済みのM094広島市・M102庄原市は重複調査せずスキップする。
