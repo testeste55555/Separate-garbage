@@ -1,0 +1,38 @@
+name: APP Readiness Source Discovery
+
+on:
+  push:
+    paths:
+      - 'scripts/discover_app_item_sources.py'
+      - '.github/workflows/app-readiness-source-discovery.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m pip install --disable-pip-version-check requests beautifulsoup4 pypdf
+      - name: Discover official high-value item sources
+        run: python3 scripts/discover_app_item_sources.py
+      - name: Commit discovery audit
+        if: github.event_name == 'push'
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/research/app_readiness/discovered_item_sources.csv \
+                  docs/research/app_readiness_item_source_discovery_report.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Discover official APP item sources'
+          git pull --rebase origin main
+          git push
