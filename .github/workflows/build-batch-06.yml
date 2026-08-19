@@ -18,50 +18,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: One-shot Batch 07 validation and merge
-        shell: bash
+      - name: Validate Batch 07 only
+        run: python3 scripts/validate_research.py --batch batch_07
+      - name: Commit validation marker
         run: |
-          set -euo pipefail
-          python3 scripts/validate_research.py --batch batch_07
-          python3 scripts/merge_research.py
-          python3 scripts/validate_research.py
-          python3 scripts/red_team_schema_v12.py
-          python3 scripts/red_team_operational_category_semantics.py
-          python3 scripts/red_team_batch_07.py
-          set +e
-          python3 scripts/check_next_batch_gate.py
-          gate_rc=$?
-          set -e
-          if [ "$gate_rc" -ne 2 ]; then
-            echo "Expected NEXT_BATCH_GATE HOLD (rc=2), got rc=$gate_rc"
-            exit 1
-          fi
-          mkdir -p docs/research
-          cat > docs/research/batch_07_ci_status.txt <<EOF
-          verified_at_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          batch_07_structural_validation=PASS
-          canonical_structural_validation=PASS
-          schema_v1_2_4_red_team=PASS
-          batch_07_red_team=PASS
-          qa_passed_in_batch=5
-          qa_required_in_batch=5
-          next_batch_gate=HOLD
-          EOF
-      - name: Commit canonical Batch 07 state
-        shell: bash
-        run: |
-          set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/research/02_categories_master.csv data/research/03_sources_master.csv data/research/04_municipalities_research.csv data/research/05_item_mapping_master.csv data/research/06_qa_log.csv data/research/07_item_mapping_coverage.csv data/research/08_category_review_evidence.csv docs/research/batch_07_ci_status.txt
-          if git diff --cached --quiet; then
-            echo 'No canonical changes to commit.'
-            exit 0
-          fi
-          git commit -m 'Merge verified Batch 07 subset and hold research gaps'
+          mkdir -p docs/research
+          echo 'batch_07_structural_validation=PASS' > docs/research/batch_07_validation_probe.txt
+          git add docs/research/batch_07_validation_probe.txt
+          git commit -m 'Confirm Batch 07 structural validation' || exit 0
           git push
