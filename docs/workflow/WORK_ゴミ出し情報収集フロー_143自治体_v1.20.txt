@@ -1,0 +1,90 @@
+WORK_ゴミ出し情報収集フロー_143自治体_v1.20
+制定日: 2026-08-19
+Schema: v1.2.4
+
+1. 目的
+143固定ID自治体のうち、現在安全にresident-facing taxonomyを一意化できるactive自治体について、住民が家庭ごみ排出時に実際に選択する公式分別区分を構造化する。
+
+2. 現行原則
+- 処理施設側の工程ではなく、住民向け公式分別区分をcategory completenessの基準とする。
+- 自治体正式名称は括弧・中点等を含め公式表記を保持する。
+- CURRENT + SORT_BUCKETのみを学習者用の仕分け箱へ投影する。
+- 粗大・拠点回収・直接搬入等は必要に応じREFERENCE_ONLYとする。
+- 公式区分が教材UIより細かい場合、投影親＋公式子葉で保持し親を公式葉へ二重計上しない。
+- PLANNED / RETIREDはCURRENTへ混ぜない。
+- 公式記載がないCORE詳細はNOT_STATED_IN_CITED_SOURCEとし、空欄回避用の汎用文を補作しない。
+- 危険物前処理は自治体固有。穴あけ必須/不要等を全国共通化しない。
+
+3. OFFICIAL_COUNT_MATCHEDの厳格化
+公式ページ・公式資料が明示的に数値総数を示す場合のみOFFICIAL_COUNT_MATCHEDを使用する。
+一覧をこちらで数えただけの場合はMANUAL_INDEX_REVIEWとする。
+
+Batch 10では三原市が公式に「家庭ごみの分別方法は10分別」と明記するためOFFICIAL_COUNT_MATCHED=10。
+呉市等は公式一覧を全件照合しても、その粒度の数値総数を明示していないためMANUAL_INDEX_REVIEWとする。
+
+4. 地域variant
+同一自治体内で地域ごとにCURRENTな住民向け表示単位・正式名称・分類先が異なり、municipality単位Schemaで住民の地域を特定できない場合はSCHEMA_SCOPE_LIMITATIONとしてDEFERREDにする。
+
+単なる収集曜日・収集頻度差だけならDEFERRED理由にしない。
+しかし、同じ品目について住民が選ぶcategory名称・分別単位が地域によって変わる場合はCORE差として扱う。
+
+Batch 10での追加DEFERRED:
+- M098 尾道市: 尾道・向島・御調・因島・瀬戸田の地域別CURRENT体系
+- M099 福山市: 市内一般と内海町で分別体系が異なり、沼隈町は紙類の分別も異なる
+- M100 府中市: 府中地区は「資源ごみ及び電池」、上下地区は資源ごみを3収集単位へ細分
+
+固定IDは削除・再採番しない。公式根拠とDEFERRED理由を保持し、district_scope等を導入した後に再開可能とする。
+
+5. Batch 10
+MASTER範囲: M095〜M105。M102庄原市は既完了のため対象外。
+
+active:
+- M095 呉市: 7
+- M096 竹原市: 5
+- M097 三原市: 10
+- M101 三次市: 9
+- M103 大竹市: 12
+- M104 東広島市: 11
+- M105 廿日市市: 10
+
+DEFERRED:
+- M098 尾道市
+- M099 福山市
+- M100 府中市
+
+6. Batch 10真正性
+- 呉市: 令和8年4月新設プラスチック資源をCURRENTへ反映。
+- 竹原市: 5区分。スプレー缶は穴あけ不要。
+- 三原市: 10分別。有害系4葉を保持。発火性危険ごみは穴あけ不要。
+- 三次市: 定期収集9区分。別経路を人工的な追加categoryにしない。
+- 大竹市: 8ステーション＋4特殊経路。スプレー缶へ穴あけを推測追加しない。
+- 東広島市: リサイクルプラ/その他プラ、危険/有害、新聞/雑誌等を混同しない。
+- 廿日市市: 資源5子葉を親子構造で保持。スプレー缶穴あけ不要。PETふた・ラベルは燃やせるごみ。
+
+7. Batch 10 Gate
+- Batch structural validation: PASS
+- Batch 10 RED TEAM: PASS
+- canonical merge: PASS
+- canonical structural validation: PASS
+- Schema v1.2.4 RED TEAM: PASS
+- NEXT_BATCH_GATE: PASS
+- APP_READINESS_GATE: HOLD
+
+8. 現在地
+- 固定ID: 143
+- active実装対象: 137
+- DEFERRED: 6
+- canonical自治体: 99
+- QA: 99/99 QA_PASSED
+- category: 1,159行
+- structured official leaves: 1,072
+- source: 270
+- initial mapping branches: 990
+- coverage: 3,960
+- category review evidence: 233
+
+9. APP_READY
+category研究の完了とは独立する。40共通品目についてITEM_SPECIFIC公式証拠、coverage、全条件枝レビューが揃うまでAPP_READINESS_GATEはHOLDとする。
+
+10. 次Batch
+NEXT_BATCH_GATE PASS。Batch 11へ進行可能。
