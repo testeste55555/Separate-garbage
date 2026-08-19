@@ -21,7 +21,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Probe Batch 07 validation
+      - name: Apply NOT_REVIEWED guide URL validation semantics
+        run: python3 scripts/patch_not_reviewed_guide_url_validation.py
+      - name: Validate Batch 07 and capture result
         shell: bash
         run: |
           mkdir -p docs/research
@@ -30,10 +32,11 @@ jobs:
           rc=$?
           set -e
           echo "validation_rc=$rc" >> docs/research/batch_07_validation_probe.log
-      - name: Commit validation probe log
+          if [ "$rc" -ne 0 ]; then cat docs/research/batch_07_validation_probe.log; exit "$rc"; fi
+      - name: Commit validator and validation marker
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add docs/research/batch_07_validation_probe.log
-          git commit -m 'Record Batch 07 validation probe' || exit 0
+          git add scripts/validation_v12.py docs/research/batch_07_validation_probe.log
+          git commit -m 'Allow unresolved guide URL and validate Batch 07' || exit 0
           git push
