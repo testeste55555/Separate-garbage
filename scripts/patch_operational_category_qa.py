@@ -29,6 +29,7 @@ if old not in s:
         raise RuntimeError("compute_qa required-list patch target not found")
 else:
     s = s.replace(old, new)
+s = s.replace('"Schema v1.2.3で機械再計算"', '"Schema v1.2.4で機械再計算"')
 p.write_text(s, encoding="utf-8")
 
 Path("docs/schema/13_schema_v1.2.4.md").write_text('''# Schema v1.2.4 — resident-facing category QA semantics
