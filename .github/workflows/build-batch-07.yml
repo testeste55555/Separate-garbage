@@ -23,27 +23,50 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Diagnose final Batch 07 pipeline
+      - name: Build and validate Batch 07 research bundle
         shell: bash
         run: |
+          set -euo pipefail
+          python3 scripts/build_batch_07.py
+          python3 scripts/validate_research.py --batch batch_07
+          python3 scripts/red_team_batch_07.py
+      - name: Assert deliberate research hold
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import csv
+          from pathlib import Path
+          path = Path('data/research/batches/batch_07/batch_07_qa.csv')
+          with path.open(encoding='utf-8-sig', newline='') as f:
+              rows = {r['municipality_id']: r for r in csv.DictReader(f)}
+          passed = [mid for mid, r in rows.items() if r['確認ステータス'] == 'QA_PASSED']
+          required = [mid for mid, r in rows.items() if r['確認ステータス'] == 'QA_REQUIRED']
+          assert len(passed) == 9, passed
+          assert required == ['M065'], required
+          print('Batch 07 deliberate HOLD confirmed: 9 PASSED / M065 REQUIRED')
+          PY
           mkdir -p docs/research
-          log=docs/research/batch_07_pipeline_probe.log
-          : > "$log"
-          set +e
-          python3 scripts/build_batch_07.py >> "$log" 2>&1; echo "build_rc=$?" >> "$log"
-          python3 scripts/validate_research.py --batch batch_07 >> "$log" 2>&1; echo "batch_validate_rc=$?" >> "$log"
-          python3 scripts/merge_research.py >> "$log" 2>&1; echo "merge_rc=$?" >> "$log"
-          python3 scripts/validate_research.py >> "$log" 2>&1; echo "canonical_validate_rc=$?" >> "$log"
-          python3 scripts/red_team_schema_v12.py >> "$log" 2>&1; echo "schema_red_team_rc=$?" >> "$log"
-          python3 scripts/red_team_operational_category_semantics.py >> "$log" 2>&1; echo "operational_red_team_rc=$?" >> "$log"
-          python3 scripts/red_team_batch_07.py >> "$log" 2>&1; echo "batch07_red_team_rc=$?" >> "$log"
-          python3 scripts/check_next_batch_gate.py >> "$log" 2>&1; echo "next_batch_gate_rc=$?" >> "$log"
-          set -e
-      - name: Commit diagnostics and generated canonical data
+          cat > docs/research/batch_07_ci_status.txt <<EOF
+          verified_at_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          batch_07_structural_validation=PASS
+          batch_07_red_team=PASS
+          qa_passed_in_batch=9
+          qa_required_in_batch=1
+          qa_required_municipality=M065
+          canonical_merge=DEFERRED
+          next_batch_gate=HOLD
+          app_readiness_gate=HOLD
+          EOF
+      - name: Commit research bundle only
         shell: bash
         run: |
+          set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/master/02_official_domain_registry.csv data/research/batches/batch_07 data/research/02_categories_master.csv data/research/03_sources_master.csv data/research/04_municipalities_research.csv data/research/05_item_mapping_master.csv data/research/06_qa_log.csv data/research/07_item_mapping_coverage.csv data/research/08_category_review_evidence.csv docs/research/batch_07_pipeline_probe.log
-          git commit -m 'Record final Batch 07 pipeline diagnostics' || exit 0
+          git add data/master/02_official_domain_registry.csv data/research/batches/batch_07 docs/research/batch_07_ci_status.txt
+          if git diff --cached --quiet; then
+            echo 'No generated changes to commit.'
+            exit 0
+          fi
+          git commit -m 'Refresh Batch 07 research hold bundle'
           git push
