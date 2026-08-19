@@ -1,0 +1,68 @@
+name: APP Readiness Expand Official Evidence
+
+on:
+  push:
+    paths:
+      - '.github/workflows/app-readiness-expand-evidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  expand:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m pip install --disable-pip-version-check requests beautifulsoup4 pypdf
+      - name: Register only audited high-value official item sources
+        run: |
+          set -euo pipefail
+          python3 scripts/register_audited_municipality_item_sources.py
+          python3 scripts/register_discovered_app_item_sources.py
+          python3 scripts/validate_research.py
+          python3 scripts/red_team_schema_v12.py
+          python3 scripts/red_team_operational_category_semantics.py
+      - name: Recollect with expanded source set and stage direct evidence
+        run: |
+          set -euo pipefail
+          python3 scripts/collect_app_readiness_evidence_fast.py
+          python3 scripts/red_team_app_readiness_evidence.py
+          python3 scripts/promote_direct_item_evidence.py
+          python3 scripts/review_item_branch_completeness.py
+          python3 scripts/validate_research.py
+          python3 scripts/red_team_app_readiness_promotions.py
+      - name: Check APP gate honestly
+        run: |
+          set +e
+          python3 scripts/validate_research.py --app-readiness-gate
+          rc=$?
+          set -e
+          if [ "$rc" -ne 0 ] && [ "$rc" -ne 2 ]; then
+            echo "Unexpected APP readiness gate rc=$rc"
+            exit 1
+          fi
+      - name: Commit expanded APP evidence state
+        if: github.event_name == 'push'
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/research/03_sources_master.csv data/research/04_municipalities_research.csv data/research/06_qa_log.csv \
+                  data/research/05_item_mapping_master.csv data/research/07_item_mapping_coverage.csv \
+                  data/research/app_readiness/item_evidence_candidates.csv \
+                  data/research/app_readiness/item_evidence_pair_status.csv \
+                  data/research/app_readiness/official_source_fetch_status.csv \
+                  docs/research/app_readiness_evidence_collection_report.md \
+                  docs/research/app_readiness_direct_evidence_promotion_report.md \
+                  docs/research/app_readiness_branch_review_report.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Expand official APP item evidence'
+          git pull --rebase origin main
+          git push
