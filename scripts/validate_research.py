@@ -8,9 +8,11 @@ import argparse
 from schema_v12 import completed_batch_dirs, read_csv
 from validation_v12 import RESEARCH, ROOT, print_result, validate_dataset
 
+ITEM_SOURCE_PREFIX = "IS-"
+
 
 def compare_canonical_union() -> list[str]:
-    """Check canonical identity against Pilot + every completed batch."""
+    """Check canonical identity against bundles, allowing reviewed IS-* item sources."""
     errors = []
     pilot = RESEARCH / "pilot"
     bundles = [(pilot, "pilot_")] + [(path, path.name + "_") for path in completed_batch_dirs()]
@@ -36,7 +38,14 @@ def compare_canonical_union() -> list[str]:
                 if key in union:
                     errors.append(f"duplicate bundle key in {suffix}: {key}")
                 union[key] = row
-        if canonical != union:
+        if suffix == "sources":
+            ordinary = {k: v for k, v in canonical.items() if not v.get("source_id", "").startswith(ITEM_SOURCE_PREFIX)}
+            supplements = {k: v for k, v in canonical.items() if v.get("source_id", "").startswith(ITEM_SOURCE_PREFIX)}
+            if ordinary != union:
+                errors.append("canonical ordinary sources differ from Pilot + completed-batch union")
+            if any(k in union for k in supplements):
+                errors.append("APP item source collides with Pilot/completed-batch source key")
+        elif canonical != union:
             errors.append(f"canonical {suffix} differs from Pilot + completed-batch union")
     for suffix, canonical_path, key_fields in [
         ("item_mapping", RESEARCH / "05_item_mapping_master.csv", ["mapping_id"]),
