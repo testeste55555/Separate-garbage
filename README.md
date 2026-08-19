@@ -11,8 +11,8 @@
 ## 現在地（2026-08-19）
 
 - MASTER固定ID台帳：**143自治体**
-- active実装対象：**134自治体**
-- DEFERRED：**9自治体**
+- active実装対象：**132自治体**
+- DEFERRED：**11自治体**
   - M065 知夫村：公式一次資料本文の全区分確認が安定しない
   - M076 備前市：地区別CURRENT分別体系が併存
   - M086 新庄村：公式一次資料本文を安定取得できず全区分を全件照合できない
@@ -22,6 +22,8 @@
   - M120 萩市：大島・見島・相島地区で一部分別区分が異なる
   - M123 岩国市：地域群により食品トレー等の分別先・排出方法が異なる
   - M127 美祢市：美祢・美東・秋芳で正式区分・同一品目の分別先が異なる
+  - M136 吉野川市：鴨島と川島・山川・美郷で乾電池・蛍光管等の排出容器・経路が異なる
+  - M139 丸亀市：旧丸亀地区と島しょ部等で住民向け分類・排出単位が異なる
 - Pilot：5自治体完了
 - Batch 01〜06：各10自治体完了
 - Batch 07：9自治体完了（M065 DEFERRED）
@@ -30,59 +32,59 @@
 - Batch 10：7自治体完了（M098・M099・M100 DEFERRED）
 - Batch 11：10自治体完了
 - Batch 12：8自治体完了（M120・M123 DEFERRED）
-- Batch 13：**9自治体完了**（M127 DEFERRED）
-- canonical：**126自治体**
-- canonical QA：**126 `QA_PASSED` / 0 `QA_REQUIRED`**
-- category：**1,512行**
-- structured official leaves：**1,387区分**
-- official sources：**343**
-- item mapping：**1,259条件枝**（初期候補段階）
-- 40品目coverage：**5,040自治体品目pair**
-- category review evidence：**306行**
+- Batch 13：9自治体完了（M127 DEFERRED）
+- Batch 14：**6自治体完了**（M136・M139 DEFERRED）
+- canonical：**132自治体**
+- canonical QA：**132 `QA_PASSED` / 0 `QA_REQUIRED`**
+- category：**1,594行**
+- structured official leaves：**1,464区分**
+- official sources：**368**
+- item mapping：**1,322条件枝**（初期候補段階）
+- 40品目coverage：**5,280自治体品目pair**
+- category review evidence：**331行**
 - Schema：**v1.2.4**
-- Workflow：**v1.23**
-- Batch 13専用RED TEAM：**PASS**
+- Workflow：**v1.24**
+- Batch 14専用RED TEAM：**PASS**
 - canonical structural validation：**PASS**
 - Schema v1.2.4 RED TEAM：**PASS**
 - operational category semantics RED TEAM：**PASS**
 - `NEXT_BATCH_GATE`：**PASS**
-- `APP_READINESS_GATE`：**HOLD**（40共通品目のITEM_SPECIFIC公式確認未完了）
+- `APP_READINESS_GATE`：**HOLD**（40共通品目のITEM_SPECIFIC公式確認・条件枝レビュー未完了）
 
-CI記録：`docs/research/batch_13_ci_status.txt`
-QA記録：`docs/research/batch_13_qa_report.md`
+**固定143自治体のうち、現行Schemaで安全に一意化できる132 active自治体について、resident-facing category研究の初回一巡は完了しました。**
 
-## Batch 13
+CI記録：`docs/research/batch_14_ci_status.txt`
+QA記録：`docs/research/batch_14_qa_report.md`
+現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.24.txt`
 
-MASTER範囲はM126〜M135です。
+## Batch 14
 
-### canonicalへ統合した9自治体
+MASTER範囲はM136〜M143です。
 
-- M126 柳井市：10公式葉
-- M128 周南市：11公式葉
-- M129 山陽小野田市：12公式葉
-- M130 周防大島町：12公式葉
-- M131 和木町：11公式葉
-- M132 上関町：12公式葉
-- M133 田布施町：12公式葉
-- M134 平生町：12公式葉
-- M135 阿武町：5公式葉
+### canonicalへ統合した6自治体
+
+- M137 綾川町：11公式葉
+- M138 多度津町：18公式葉
+- M140 三豊市：16公式葉
+- M141 小竹町：7公式葉
+- M142 北九州市：13公式葉
+- M143 佐伯市：12公式葉
 
 ### DEFERRED
 
-- M127 美祢市：美祢地域・美東地域・秋芳地域で同時にCURRENTな住民向け体系が併存し、正式区分および同一品目の分別先が実際に異なるため`SCHEMA_SCOPE_LIMITATION`
+- M136 吉野川市：鴨島地区と川島・山川・美郷地区で乾電池・蛍光管等の住民向け排出単位・回収容器・経路が異なるため`SCHEMA_SCOPE_LIMITATION`
+- M139 丸亀市：旧丸亀地区と本島・牛島・小手島・手島等で分類・排出単位が異なるため`SCHEMA_SCOPE_LIMITATION`
 
 固定IDは削除・再採番しません。
 
-### Batch 13真正性事項
+### Batch 14真正性事項
 
-- 柳井市：`ビン・乾電池`をガラスビン／乾電池へ、`ペットボトル・古紙`をPET／新聞・チラシ／段ボール／雑誌・本・その他の紙へ分解し、別袋・別束・専用回収ボックスという実排出単位を保持。スプレー缶は**使い切り後、屋外で穴を開ける**。
-- 周南市：地域別ページは日程差で、市全域向けtaxonomyを採用。古紙・衣類、びん缶/PET、プラスチック2系統を住民子葉へ展開。小型家電は`DROP_OFF`、粗大ごみは`BOOKED_PICKUP`。スプレー缶は**穴を開ける**。
-- 山陽小野田市：古紙類は新聞／雑誌類／ダンボール／紙パックの4葉。根拠のない可燃ごみ前処理は`NOT_STATED_IN_CITED_SOURCE`へ戻した。
-- 周防大島町：公式検索サービスの`種類でさがす`から12公式葉を採用し、`収集できないごみ`等2区分は`EXCLUDED_NOTICE`として葉数外。検索サービスは`CHECKED_PRESENT`＋URL/date evidenceで正式管理。スプレー缶は**穴あけ不要**。
-- 和木町：現行11住民区分。スプレー缶は**使い切り、穴を開けずに出す**。
-- 上関町：古紙・紙パックを4子葉へ分け、PETは専用回収ボックスの`DROP_OFF`。スプレー缶は中身を使い切ることだけを記録し、穴あけ有無を推測追加しない。
-- 田布施町・平生町：公式の`7分別`をofficial leaf総数へ流用せず、缶／金属の別袋と資源5品目の種別分離を保持し、各12公式葉として`MANUAL_INDEX_REVIEW`。
-- 阿武町：2026年4月改定後も可燃／不燃／資源の3指定袋は維持。**同日収集化をcategory統合と誤認しない**。資源袋内部の缶・びん・PET・容器包装プラを人工分割しない。
+- 綾川町：町内共通の通常8区分を保持。2026年3月開始の小型充電式電池・小型家電は`DROP_OFF + REFERENCE_ONLY`。充電式電池は端子絶縁を保持。
+- 多度津町：上位`資源ごみ`を一葉に潰さず、公式持込一覧で住民が分ける15区分を子葉として保持。上位親は公式葉数へ二重計上しない。
+- 三豊市：公式12見出しのうち`紙類・布類`を新聞／雑誌／ダンボール／紙パック／衣類の5実排出葉へ展開し、16公式葉として`MANUAL_INDEX_REVIEW`。廃食用油はDROP_OFF。
+- 小竹町：現行5分類を保持し、`びん・缶`を人工分割しない。2026年4月開始の食品用トレイ類／発泡スチロールは別々の透明袋を用いる2つのDROP_OFF葉。
+- 北九州市：索引上の`かん・びん・ペットボトル`を、実際の別指定袋・別収集車に対応する`かん・びん`／`ペットボトル`へ展開。拠点回収はREFERENCE_ONLY、市が収集しないものはEXCLUDED_NOTICE。
+- 佐伯市：`資源物`を実際の7排出葉へ展開。粗大ごみはBOOKED_PICKUP、ガレキ類は独立CURRENT葉。スプレー缶は中身を使い切り、屋外でガス抜きし、穴を2か所あける現行ルールを具体記載のある公式資料へ結び付ける。
 
 ## データ設計の原則
 
@@ -91,10 +93,11 @@ MASTER範囲はM126〜M135です。
 - 自治体正式名称は括弧・記号を含め公式表記を保持する。
 - `OFFICIAL_COUNT_MATCHED`は公式資料がcanonical leafと同じ粒度の数値総数を明示する場合だけ使用する。それ以外は`MANUAL_INDEX_REVIEW`。
 - 上位見出しの数値とresident-facing official leaf総数を混同しない。
-- 住民が別袋・別容器・別束へ分ける公式子区分は保持し、投影親を公式葉件数へ二重計上しない。
-- 地域別資料があっても、差が収集日程だけかtaxonomy差かを必ず分ける。
-- 公式検索サービスは`CHECKED_PRESENT`等のformal check statusとURL/date evidenceで管理する。
+- 住民が別袋・別容器・別束・別回収ボックスへ分ける公式子区分は保持し、投影親を公式葉件数へ二重計上しない。
+- 逆に、公式に一体の住民排出単位を人工的に分割しない。
+- 地域別資料があっても、差が収集日程だけかtaxonomy・排出容器・経路差かを必ず分ける。
 - `DROP_OFF`・`BOOKED_PICKUP`・`DIRECT_HAUL`・`RETAILER_OR_MAKER`等の実経路を通常収集へ寄せない。
+- category行の具体的な前処理・条件・経路は、その内容を実際に支持するsource_idへ結び付ける。
 - 内部説明上の小分類だけを理由に独立categoryへ増やさない。
 - 現行年度・最新更新の公式資料を優先する。
 - 危険物の穴あけ必須／不要／記載なしを全国・県内共通化しない。
@@ -110,7 +113,7 @@ MASTER範囲はM126〜M135です。
 - `data/master/04_common_items_master.csv`：共通40品目と教材安全区分
 - `data/master/05_deferred_municipalities.csv`：一時実装対象外の固定ID自治体
 - `data/research/pilot/`：Pilot 5自治体
-- `data/research/batches/batch_01/`〜`batch_13/`：Batch研究bundle
+- `data/research/batches/batch_01/`〜`batch_14/`：Batch研究bundle
 - `data/research/02_categories_master.csv`：canonical分別区分
 - `data/research/03_sources_master.csv`：canonical出典
 - `data/research/04_municipalities_research.csv`：canonical自治体調査
@@ -119,16 +122,16 @@ MASTER範囲はM126〜M135です。
 - `data/research/07_item_mapping_coverage.csv`：完了自治体×40品目の調査状態
 - `data/research/08_category_review_evidence.csv`：category completeness公式証拠
 - `docs/research/`：Batch QA・CI記録
-- `docs/workflow/`：作業フロー履歴（現行 v1.23）
+- `docs/workflow/`：作業フロー履歴（現行 v1.24）
 - `scripts/build_batch_*.py`：Batch再生成
 - `scripts/red_team_batch_*.py`：Batch専用RED TEAM
 
-## Batch 13再現・Gate
+## Batch 14再現・Gate
 
 ```bash
-python3 scripts/build_batch_13_active.py
-python3 scripts/validate_research.py --batch batch_13 --next-batch-gate
-python3 scripts/red_team_batch_13.py
+python3 scripts/build_batch_14_active.py
+python3 scripts/validate_research.py --batch batch_14 --next-batch-gate
+python3 scripts/red_team_batch_14.py
 python3 scripts/merge_research.py
 python3 scripts/validate_research.py
 python3 scripts/red_team_schema_v12.py
@@ -136,12 +139,14 @@ python3 scripts/red_team_operational_category_semantics.py
 python3 scripts/check_next_batch_gate.py
 ```
 
-`NEXT_BATCH_GATE`はcategory研究を次Batchへ進めるためのGateです。`APP_READINESS_GATE`とは分離されており、現在の`APP_READINESS_GATE=HOLD`は40品目のITEM_SPECIFICレビュー未完了による正常な状態です。
+`NEXT_BATCH_GATE=PASS`はデータ構造上、次工程へ進める状態であることを示します。未処理active自治体が残っているという意味ではありません。
 
-## 次Batch
+`APP_READINESS_GATE=HOLD`は正常です。category研究は132 active自治体で一巡完了していますが、アプリに40共通品目を安全に載せるための`ITEM_SPECIFIC`公式証拠・全条件枝レビューは別工程です。
 
-Batch 14はMASTER残りの個別指定8自治体です。
+## 次工程
 
-**M136 吉野川市 → M137 綾川町 → M138 多度津町 → M139 丸亀市 → M140 三豊市 → M141 小竹町 → M142 北九州市 → M143 佐伯市**
+新しいcategory Batchを始めるのではなく、優先順は次のとおりです。
 
-Batch 14完了時、DEFERREDを除く134自治体のcategory研究が一巡する見込みです。
+1. **40共通品目のITEM_SPECIFIC公式証拠収集・条件枝レビュー**を132 active自治体で進め、`APP_READINESS_GATE`を解消する。
+2. 地域variantでDEFERREDとなった自治体向けに`district_scope`等のSchema/UI拡張を設計する。
+3. M065知夫村・M086新庄村など一次資料本文の安定取得が課題の自治体を、公式資料が安定して確認できる時点で再調査する。
