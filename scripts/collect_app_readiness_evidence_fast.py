@@ -8,6 +8,12 @@ import collect_app_readiness_evidence as base
 # Cache repeated normalization of the exact same official source text.
 base.compact = lru_cache(maxsize=4096)(base.compact)
 
+# The base writer stores at most 820 compact characters of the evidence window.
+# Use a 400-character radius (<=800 total) so the exact item/category text used
+# for candidate acceptance is always preserved in the audit CSV. This is
+# slightly stricter than the original 420 radius; it cannot create new evidence.
+base.WINDOW = 400
+
 # Increase only fetch concurrency. The collector still accepts evidence only
 # under the same item-alias + CURRENT-category local co-occurrence rules.
 base.ThreadPoolExecutor = lambda max_workers=4: _Executor(max_workers=12)
