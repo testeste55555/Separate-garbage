@@ -21,14 +21,19 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Validate Batch 07 only
-        run: python3 scripts/validate_research.py --batch batch_07
-      - name: Commit validation marker
+      - name: Probe Batch 07 validation
+        shell: bash
+        run: |
+          mkdir -p docs/research
+          set +e
+          python3 scripts/validate_research.py --batch batch_07 > docs/research/batch_07_validation_probe.log 2>&1
+          rc=$?
+          set -e
+          echo "validation_rc=$rc" >> docs/research/batch_07_validation_probe.log
+      - name: Commit validation probe log
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          mkdir -p docs/research
-          echo 'batch_07_structural_validation=PASS' > docs/research/batch_07_validation_probe.txt
-          git add docs/research/batch_07_validation_probe.txt
-          git commit -m 'Confirm Batch 07 structural validation' || exit 0
+          git add docs/research/batch_07_validation_probe.log
+          git commit -m 'Record Batch 07 validation probe' || exit 0
           git push
