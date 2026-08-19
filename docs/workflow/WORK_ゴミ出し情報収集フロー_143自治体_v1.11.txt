@@ -1,0 +1,228 @@
+WORK ゴミ出し情報収集フロー 143自治体 v1.11
+制定日: 2026-08-19
+適用Schema: v1.2.3
+
+==================================================
+0. 目的・現在地
+==================================================
+
+中心Can-do:
+「名前が分からないごみでも、自分が住む自治体のルールを調べて、
+仲間と相談しながら、正しく分別ができる。」
+
+家庭ごみの分別判断を対象とする。曜日、時刻、地区別収集カレンダーは構造化しない。
+Pilot、Batch 01、Batch 02はQA完了。Batch 03は10自治体の研究bundleを作成・merge済みで、
+9自治体QA_PASSED、M028由良町のみ全区分索引の公式証拠不足によりQA_REQUIREDである。
+NEXT_BATCH_GATEとAPP_READINESS_GATEは分離する。
+
+==================================================
+1. 対象・ID・版管理
+==================================================
+
+1. data/master/01_municipalities_master.csv の143自治体のみ対象とする。
+2. municipality_idは固定し、MASTER順で未調査自治体をBatchへ割り当てる。
+3. 既調査IDは飛ばす。M030米子市はPilot済みのためBatch 03対象外。
+4. 過去Schema・Workflowは削除・上書きしない。
+5. validatorへ自治体数、区分数、出典数、Batch名の固定正常値を置かない。
+
+==================================================
+2. CORE / REFERENCE・真正性
+==================================================
+
+CORE:
+- 自治体・区分ID、正式名称、group、level、親、表示順、ui_role
+- 代表品目、入れてはいけない物、分類条件、条件外、前処理
+- 自治体収集外、安全注意、source、URL、locator、確認日
+- rule_status、effective dates
+
+REFERENCE:
+- collection_channel
+- 袋・容器、粗大、予約、料金、直接搬入、回収拠点、代替処分経路
+
+category詳細は必ずsource_id、公式URL、locatorへ戻って確認する。
+公式記載のないCORE詳細は推測せず NOT_STATED_IN_CITED_SOURCE とする。
+REFERENCE詳細は公式記載がなければ空欄可。
+空欄を埋めるためだけの汎用文は禁止し、validatorで拒否する。
+
+==================================================
+3. 公式性・任意機能
+==================================================
+
+sourceは公式ドメイン台帳で検証する。
+自治体公式ページから案内される外部サービスは公式導線を保持する。
+
+品目検索、やさしい日本語、多言語:
+- CHECKED_PRESENT: URLと確認日の証跡必須
+- CHECKED_ABSENT: 調査した公式URL・範囲・確認日の証跡必須
+- NOT_CHECKED: 未確認。空URLを不存在に変換しない
+
+==================================================
+4. 区分網羅性
+==================================================
+
+A. OFFICIAL_COUNT_MATCHED
+- official_category_count必須
+- OFFICIAL_TOTAL証拠必須
+- 公式葉区分数と一致
+- reviewer/date必須
+
+B. MANUAL_INDEX_REVIEW
+- official_category_countは空欄可
+- 公式目次・見出し・索引を先頭から末尾まで全件照合
+- reviewed_category_count必須
+- PRIMARY_INDEX必須、必要に応じSUPPLEMENTAL_INDEX
+- reviewer/date必須
+
+C. NOT_REVIEWED
+- 全区分体系の公式証拠を取得できない場合に使用する
+- category_count_verified=FALSE
+- reviewed_category_count、review_id、reviewer/dateを持たせない
+- QA_REQUIREDのまま保持する
+- 「推定できる」「収集カレンダーに主要区分が見える」だけでMANUAL_INDEX_REVIEWへ上げない
+
+category_review_evidenceは1 source 1行で保持する。
+別自治体source、非公式source、存在しないsource、locator欠落、孤立reviewは禁止する。
+
+==================================================
+5. 公式粒度と教材UI粒度
+==================================================
+
+公式件数はCURRENTかつ非EXCLUDED_NOTICEの公式葉区分を数える。
+CURRENT子を持つ投影親は重複計上しない。
+
+教材で親1箱へ束ねる公式子区分:
+- classification_level=SUBCATEGORY
+- parent_category_id必須
+- 子はui_role=REFERENCE_ONLY
+- 親はCURRENTかつui_role=SORT_BUCKET
+
+地域限定区分は適用条件を保持する。市内地域差を全国一律の区分へ正規化しない。
+
+==================================================
+6. 各Batchの必須7成果物
+==================================================
+
+data/research/batches/<batch_name>/ に次を保存する。
+1. <batch_name>_municipalities.csv
+2. <batch_name>_categories.csv
+3. <batch_name>_sources.csv
+4. <batch_name>_qa.csv
+5. <batch_name>_item_mapping.csv
+6. <batch_name>_item_coverage.csv
+7. <batch_name>_category_review_evidence.csv
+
+7成果物を持てば研究bundleとして保存できる。
+ただしQA_REQUIRED自治体を含むbundleはNEXT_BATCH_GATEを通過しない。
+証拠不足を理由にbundleそのものを破棄せず、未完状態を履歴として保持する。
+
+==================================================
+7. 共通40品目・mapping
+==================================================
+
+全統合自治体×40品目のcoverage行を必須とする。
+
+初期候補生成のPositive evidence:
+- 自治体正式名称
+- 代表品目
+
+候補生成に使用しない:
+- 入れてはいけない物
+- 条件外の扱い
+- 出す前の処理
+- 注意事項
+
+category_source_* は区分体系の根拠。
+item_evidence_* は品目別判断の根拠。
+INITIAL_REVIEW_REQUIRED / MAPPED_INITIALは品目別確認済みとみなさない。
+APP_READYはITEM_SPECIFIC、全条件枝COMPLETE、公式source/url/locator、reviewer/dateを必須とする。
+
+==================================================
+8. merge・validation・Gate
+==================================================
+
+merge:
+- mappingはmapping_id
+- coverageはmunicipality_id + internal_item_id
+- canonicalはPilot＋全研究bundleのno-loss union
+- QA_REQUIREDも研究済み状態としてcanonicalへ保持する
+- 手動VERIFIED/APP_READYを再生成で消さない
+
+構造validation:
+- header、enum、主キー、MASTER参照
+- 公式domain/source
+- category参照・親子投影
+- category詳細の禁止プレースホルダ
+- 区分網羅性・複数source証拠
+- QA日付再計算とstatus同期
+- mapping/coverage整合
+
+NEXT_BATCH_GATE:
+- Pilot・全bundle・canonical構造PASS
+- no-loss union
+- 全統合自治体QA_PASSED
+- merge冪等性
+- RED TEAM PASS
+
+APP_READINESS_GATE:
+- QA_PASSED
+- 40品目すべてAPP_READYまたはVERIFIED_NOT_APPLICABLE
+- 品目別公式根拠と条件枝レビュー完備
+
+==================================================
+9. Batch 03 固有ルール
+==================================================
+
+対象:
+M023 大阪市
+M024 神戸市
+M025 豊岡市
+M026 姫路市
+M027 大和郡山市
+M028 由良町
+M029 鳥取市
+M031 倉吉市
+M032 境港市
+M033 岩美町
+
+M028由良町:
+- 2026年3月町公式広報で「可燃1/2」「プラスチック」「不燃」「資源1/2」「粗大ごみ」を確認
+- 可燃1/2、資源1/2は地域グループ差であり、分類カテゴリとしては可燃・資源へ統合
+- ただし同資料は全区分索引ではなく、乾電池等を含む全体系を証明できない
+- よって category_count_check_status=NOT_REVIEWED
+- QA_REQUIREDを維持
+- 完全な現行公式分別ガイド、実施計画、または町公式から公式処理主体へ到達する全区分資料を取得するまで昇格禁止
+
+Batch 03専用RED TEAMは、M028が自動的にQA_PASSEDへ昇格しないことを攻撃検査する。
+
+==================================================
+10. 2026-08-19時点
+==================================================
+
+- 統合自治体: 35/143
+- category: 471行
+- 構造化公式葉: 430区分（うちM028の5葉は網羅性未証明）
+- source: 110
+- category review evidence: 72
+- QA: 34 QA_PASSED / 1 QA_REQUIRED
+- M028: NOT_REVIEWED / QA_REQUIRED
+- item mapping: 485条件枝
+- coverage: 1,400 pair
+- Schema v1.2.3 RED TEAM: 25/25 PASS
+- NEXT_BATCH_GATE: HOLD
+- APP_READINESS_GATE: HOLD
+- Batch 04: 開始しない。まずM028の公式網羅性証拠を解消する。
+
+==================================================
+11. 標準コマンド
+==================================================
+
+python3 scripts/build_batch_03.py
+python3 scripts/validate_research.py --batch batch_03
+python3 scripts/merge_research.py
+python3 scripts/validate_research.py
+python3 scripts/red_team_schema_v12.py
+python3 scripts/red_team_batch_03.py
+python3 scripts/check_next_batch_gate.py
+
+GitHub Actions `.github/workflows/build-batch-03.yml` でも同じ処理を行う。
+NEXT_BATCH_GATEの終了コード2（HOLD）は、証拠不足を正しく保持した有効な研究状態である。
