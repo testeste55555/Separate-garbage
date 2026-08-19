@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'scripts/build_batch_03.py'
+      - 'scripts/red_team_batch_03.py'
       - 'scripts/red_team_schema_v12.py'
       - '.github/workflows/build-batch-03.yml'
   workflow_dispatch:
@@ -37,6 +38,7 @@ jobs:
           python3 scripts/merge_research.py
           python3 scripts/validate_research.py
           python3 scripts/red_team_schema_v12.py
+          python3 scripts/red_team_batch_03.py
           # Exit code 2 means NEXT_BATCH_GATE HOLD and is a valid research state.
           python3 scripts/check_next_batch_gate.py || test $? -eq 2
       - name: Commit generated research data
