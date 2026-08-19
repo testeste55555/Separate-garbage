@@ -1,4 +1,4 @@
-verified_at_utc=2026-08-19T09:50:09Z
+verified_at_utc=2026-08-19T09:52:08Z
 batch_08_active_municipalities=9
 deferred_municipality=M076
 deferred_reason=district_variant_required

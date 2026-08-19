@@ -48,7 +48,7 @@ source_specs={
 
 cats=[]
 def add(mid,name,rep,*,source=1,parent='',ui='SORT_BUCKET',level='PRIMARY',channel='CURBSIDE',forbidden=NS,cond='',fallback=NS,prep=NS,bag='',size='',bulky='FALSE',excluded='FALSE',note='',status='CURRENT',effective_from='',effective_to=''):
-    cats.append(dict(municipality_id=mid,自治体正式名称=name,category_group=parent or name,parent_name=parent,classification_level=level,collection_channel=channel,代表品目=rep,入れてはいけない物=forbidden,適用条件=cond,条件外の扱い=fallback,出す前の処理=prep,袋・容器のルール=bag,サイズ・条件=size,粗大ごみ扱いか=bulky,予約が必要か='TRUE' if channel=='BOOKED_PICKUP' else 'FALSE',有料か='FALSE',料金ルール='',自治体収集外か=excluded,注意事項=note,source_index=str(source),出典ページ・該当箇所=name,ui_role=ui,rule_status=status,effective_from=effective_from,effective_to=effective_to))
+    cats.append({'municipality_id':mid,'自治体正式名称':name,'category_group':parent or name,'parent_name':parent,'classification_level':level,'collection_channel':channel,'代表品目':rep,'入れてはいけない物':forbidden,'適用条件':cond,'条件外の扱い':fallback,'出す前の処理':prep,'袋・容器のルール':bag,'サイズ・条件':size,'粗大ごみ扱いか':bulky,'予約が必要か':'TRUE' if channel=='BOOKED_PICKUP' else 'FALSE','有料か':'FALSE','料金ルール':'','自治体収集外か':excluded,'注意事項':note,'source_index':str(source),'出典ページ・該当箇所':name,'ui_role':ui,'rule_status':status,'effective_from':effective_from,'effective_to':effective_to})
 def ex(mid,name,rep,*,source=1): add(mid,name,rep,source=source,ui='EXCLUDED_NOTICE',level='EXCLUDED',channel='NOT_COLLECTED',excluded='TRUE',fallback='販売店・専門業者等の公式案内に従う',prep='受入先の指示に従う')
 
 # M074 Takahashi: seven resident categories.
