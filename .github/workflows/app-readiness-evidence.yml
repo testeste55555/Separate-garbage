@@ -41,6 +41,7 @@ jobs:
           EOF
           git add docs/research/app_readiness_evidence_run_started.txt
           git commit -m "Record APP evidence run ${GITHUB_RUN_ID}" || true
+          git pull --rebase origin main
           git push
       - uses: actions/setup-python@v5
         with:
@@ -78,4 +79,5 @@ jobs:
             exit 0
           fi
           git commit -m 'Collect APP readiness item evidence candidates'
+          git pull --rebase origin main
           git push
