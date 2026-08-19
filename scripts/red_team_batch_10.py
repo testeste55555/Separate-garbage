@@ -7,8 +7,8 @@ from collections import Counter
 from schema_v12 import MASTER, RESEARCH, counted_category_total, read_csv
 from validation_v12 import CATEGORY_DETAIL_FIELDS, is_placeholder_category_value, validate_dataset
 
-TARGETS = {"M095","M096","M097","M100","M101","M103","M104","M105"}
-EXPECTED = {"M095":7,"M096":5,"M097":10,"M100":5,"M101":9,"M103":12,"M104":11,"M105":10}
+TARGETS = {"M095","M096","M097","M101","M103","M104","M105"}
+EXPECTED = {"M095":7,"M096":5,"M097":10,"M101":9,"M103":12,"M104":11,"M105":10}
 
 
 def paths():
@@ -42,13 +42,14 @@ def main() -> int:
 
     checks = []
     checks.append(("structural validation passes", not errors, f"errors={len(errors)}"))
-    checks.append(("exact active target set excludes Onomichi and Fukuyama", set(by)==TARGETS and not ({"M098","M099"}&set(by)), str(sorted(by))))
-    checks.append(("all eight active municipalities QA_PASSED", all(q[mid]["確認ステータス"]=="QA_PASSED" for mid in TARGETS), ""))
+    checks.append(("exact active target set excludes regional variants", set(by)==TARGETS and not ({"M098","M099","M100"}&set(by)), str(sorted(by))))
+    checks.append(("all seven active municipalities QA_PASSED", all(q[mid]["確認ステータス"]=="QA_PASSED" for mid in TARGETS), ""))
     checks.append(("all official leaf counts match design", all(counted_category_total(mid,cats)==EXPECTED[mid] for mid in TARGETS), str({mid:counted_category_total(mid,cats) for mid in sorted(TARGETS)})))
     checks.append(("all active municipalities have category review evidence", all(evc[mid]>=1 for mid in TARGETS), str(evc)))
     checks.append(("only Mihara uses explicit numeric official count", by["M097"]["category_count_check_status"]=="OFFICIAL_COUNT_MATCHED" and by["M097"]["official_category_count"]=="10" and all(by[mid]["category_count_check_status"]=="MANUAL_INDEX_REVIEW" and not by[mid]["official_category_count"] for mid in TARGETS-{"M097"}), ""))
-    checks.append(("Onomichi deferred for regional CORE variants", deferred_by.get("M098",{}).get("status")=="DEFERRED" and deferred_by["M098"].get("decision_source")=="SCHEMA_SCOPE_LIMITATION" and "地域" in deferred_by["M098"].get("reason",""), deferred_by.get("M098",{}).get("reason","")))
-    checks.append(("Fukuyama deferred for regional CORE variants", deferred_by.get("M099",{}).get("status")=="DEFERRED" and deferred_by["M099"].get("decision_source")=="SCHEMA_SCOPE_LIMITATION" and "内海町" in deferred_by["M099"].get("reason",""), deferred_by.get("M099",{}).get("reason","")))
+
+    for mid, token in [("M098","地域"),("M099","内海町"),("M100","上下地区")]:
+        checks.append((f"{mid} deferred for regional CORE variants", deferred_by.get(mid,{}).get("status")=="DEFERRED" and deferred_by[mid].get("decision_source")=="SCHEMA_SCOPE_LIMITATION" and token in deferred_by[mid].get("reason",""), deferred_by.get(mid,{}).get("reason","")))
 
     checks.append(("Kure keeps seven FY2026 collection labels and new plastic resource", names["M095"]=={"燃えるごみ","燃えないごみ","粗大ごみ","プラスチック資源","資源物（びん類・缶類・ペットボトル）","資源物（紙類）","有害・危険ごみ"}, str(names["M095"])))
     checks.append(("Kure does not misclaim explicit official total", by["M095"]["category_count_check_status"]=="MANUAL_INDEX_REVIEW" and by["M095"]["reviewed_category_count"]=="7", ""))
@@ -61,10 +62,6 @@ def main() -> int:
     mihara_hazard = {"発火性危険ごみ","電池","電池の外せない小型家電・充電式小型家電","蛍光灯（有害ごみ）"}
     checks.append(("Mihara explicit ten divisions preserved", counted_category_total("M097",cats)==10 and mihara_hazard.issubset(names["M097"]), str(names["M097"])))
     checks.append(("Mihara aerosol current rule explicitly no-hole", "穴を開ける必要はない" in rows[("M097","発火性危険ごみ")].get("出す前の処理",""), rows[("M097","発火性危険ごみ")].get("出す前の処理","")))
-
-    checks.append(("Fuchu remains five collection divisions", names["M100"]=={"可燃ごみ","資源ごみ及び乾電池","ペットボトル","埋立ごみ","容器包装プラスチックごみ"}, str(names["M100"])))
-    fuchu_res = rows[("M100","資源ごみ及び乾電池")]
-    checks.append(("Fuchu batteries insulated and spray cans no-hole", "絶縁" in fuchu_res.get("出す前の処理","") and "穴を開けない" in fuchu_res.get("出す前の処理",""), fuchu_res.get("出す前の処理","")))
 
     checks.append(("Miyoshi keeps exactly nine regular collection categories", names["M101"]=={"燃やせるごみ","プラスチック資源","紙資源","資源物","布資源","燃やせないごみ","粗大ごみ","埋立ごみ","有害ごみ"}, str(names["M101"])))
     checks.append(("Miyoshi does not promote dropoff/reuse routes to batch leaves", not ({"リユース本","小型家電","収集も処理もできないごみ"}&names["M101"]), ""))
@@ -82,7 +79,7 @@ def main() -> int:
     checks.append(("Hatsukaichi spray cans retain explicit no-hole rule", "穴を開ける必要はない" in rows[("M105","資源ごみ(1) びん・かん類")].get("出す前の処理",""), rows[("M105","資源ごみ(1) びん・かん類")].get("出す前の処理","")))
     checks.append(("Hatsukaichi PET caps and labels go to burnable", "ふた・ラベルは燃やせるごみ" in rows[("M105","資源ごみ(2) ペットボトルなどプラスチック製の容器（限定7品目）")].get("出す前の処理",""), ""))
 
-    checks.append(("coverage exactly eight x forty", len(cov)==320 and Counter(r["municipality_id"] for r in cov)==Counter({mid:40 for mid in TARGETS}), f"coverage={len(cov)}"))
+    checks.append(("coverage exactly seven x forty", len(cov)==280 and Counter(r["municipality_id"] for r in cov)==Counter({mid:40 for mid in TARGETS}), f"coverage={len(cov)}"))
     checks.append(("no generic/filler category detail survives", not any(is_placeholder_category_value(r.get(f,"")) for r in cats for f in CATEGORY_DETAIL_FIELDS), f"categories={len(cats)}"))
     checks.append(("all category evidence uses research date", all(r.get("確認日")=="2026-08-19" for r in cats), ""))
 
