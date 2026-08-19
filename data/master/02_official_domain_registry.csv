@@ -54,6 +54,18 @@ M050,www.city.izumo.shimane.jp,MUNICIPAL_DOMAIN,出雲市,https://www.city.izumo
 M051,www.city.masuda.lg.jp,MUNICIPAL_DOMAIN,益田市,https://www.city.masuda.lg.jp/soshikikarasagasu/fukushikankyobu/kankyoeiseika/2/11/2554.html,2026-08-19,Batch 05 official municipal source host
 M052,www.city.oda.lg.jp,MUNICIPAL_DOMAIN,大田市,https://www.city.oda.lg.jp/ohda_city/city_organization/33/38/gomi-risaikuru/2028/9495,2026-08-19,Batch 05 official municipal source host
 M053,www.city.yasugi.shimane.jp,MUNICIPAL_DOMAIN,安来市,https://www.city.yasugi.shimane.jp/kurashi/gomi/gomi-recycle/tebiki.html,2026-08-19,Batch 05 official municipal source host
+M054,www.city.gotsu.lg.jp,MUNICIPAL_DOMAIN,江津市,https://www.city.gotsu.lg.jp/soshiki/12/39048.html,2026-08-19,Batch 06 official resident-facing source host
+M055,www.city.unnan.shimane.jp,MUNICIPAL_DOMAIN,雲南市,https://www.city.unnan.shimane.jp/unnan/kurashi/kankyou/recycle/garbage02.html,2026-08-19,Batch 06 official resident-facing source host
+M055,www.unnan-yume.net,INTERMUNICIPAL_AUTHORITY_DOMAIN,雲南市・飯南町事務組合,https://www.city.unnan.shimane.jp/unnan/kurashi/kankyou/recycle/garbage02.html,2026-08-19,Batch 06 official resident-facing source host
+M056,www.town.okuizumo.shimane.jp,MUNICIPAL_DOMAIN,奥出雲町,https://www.town.okuizumo.shimane.jp/kurashi/gomi-recycle/1773388412727.html,2026-08-19,Batch 06 official resident-facing source host
+M057,www.iinan.jp,MUNICIPAL_DOMAIN,飯南町,https://www.iinan.jp/soshiki/8/1865.html,2026-08-19,Batch 06 official resident-facing source host
+M057,www.unnan-yume.net,INTERMUNICIPAL_AUTHORITY_DOMAIN,雲南市・飯南町事務組合,https://www.iinan.jp/soshiki/8/1865.html,2026-08-19,Batch 06 official resident-facing source host
+M058,www.town.shimane-kawamoto.lg.jp,MUNICIPAL_DOMAIN,川本町,https://www.town.shimane-kawamoto.lg.jp/gyosei/gyosei_environment/environment/,2026-08-19,Batch 06 official resident-facing source host
+M059,gov.town.shimane-misato.lg.jp,MUNICIPAL_DOMAIN,美郷町,https://gov.town.shimane-misato.lg.jp/kurasi/kankyo/246/,2026-08-19,Batch 06 official resident-facing source host
+M060,www.town.ohnan.lg.jp,MUNICIPAL_DOMAIN,邑南町,https://www.town.ohnan.lg.jp/soshiki/4/1072.html,2026-08-19,Batch 06 official resident-facing source host
+M061,www.town.tsuwano.lg.jp,MUNICIPAL_DOMAIN,津和野町,https://www.town.tsuwano.lg.jp/www/contents/1000000358000/index.html,2026-08-19,Batch 06 official resident-facing source host
+M062,www.town.yoshika.lg.jp,MUNICIPAL_DOMAIN,吉賀町,https://www.town.yoshika.lg.jp/kurashi/seikatsu/gomi/,2026-08-19,Batch 06 official resident-facing source host
+M063,www.town.ama.shimane.jp,MUNICIPAL_DOMAIN,海士町,https://www.town.ama.shimane.jp/kurashi-tetsuduki/kurashi/gomi-recycle/r44t8e7yf3,2026-08-19,Batch 06 official resident-facing source host
 M094,www.city.hiroshima.lg.jp,MUNICIPAL_DOMAIN,広島市,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/index.html,2026-08-17,
 M102,www.city.shobara.hiroshima.jp,MUNICIPAL_DOMAIN,庄原市,https://www.city.shobara.hiroshima.jp/main/life/waste/,2026-08-17,
 M102,www.gomisaku.jp,MUNICIPAL_LINKED_SERVICE,ごみサク 庄原市,https://www.city.shobara.hiroshima.jp/main/life/waste/post_502.html,2026-08-17,自治体公式ページからリンクされた外部検索サービス
