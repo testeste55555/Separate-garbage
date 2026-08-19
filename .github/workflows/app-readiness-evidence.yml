@@ -1,0 +1,59 @@
+name: APP Readiness Evidence Collection
+
+on:
+  push:
+    paths:
+      - 'scripts/collect_app_readiness_evidence.py'
+      - 'scripts/red_team_app_readiness_evidence.py'
+      - '.github/workflows/app-readiness-evidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install extraction dependencies
+        run: |
+          python3 -m pip install --disable-pip-version-check requests beautifulsoup4 pypdf
+      - name: Collect conservative official item evidence candidates
+        run: |
+          set -euo pipefail
+          python3 scripts/collect_app_readiness_evidence.py
+          python3 scripts/red_team_app_readiness_evidence.py
+      - name: Confirm canonical APP gate remains honest
+        run: |
+          set +e
+          python3 scripts/validate_research.py --app-readiness-gate
+          rc=$?
+          set -e
+          if [ "$rc" -ne 2 ]; then
+            echo "Expected current APP_READINESS_GATE HOLD during evidence-candidate collection; got rc=$rc"
+            exit 1
+          fi
+      - name: Commit evidence collection audit
+        if: github.event_name == 'push'
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/research/app_readiness/item_evidence_candidates.csv \
+                  data/research/app_readiness/item_evidence_pair_status.csv \
+                  data/research/app_readiness/official_source_fetch_status.csv \
+                  docs/research/app_readiness_evidence_collection_report.md
+          if git diff --cached --quiet; then
+            echo 'No generated evidence audit changes to commit.'
+            exit 0
+          fi
+          git commit -m 'Collect APP readiness item evidence candidates'
+          git push
