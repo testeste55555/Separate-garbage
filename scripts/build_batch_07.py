@@ -133,4 +133,8 @@ def main():
  write_csv(OUT/f'{p}qa.csv',QA_FIELDS,[]); write_csv(OUT/f'{p}item_mapping.csv',MAPPING_FIELDS,[]); write_csv(OUT/f'{p}item_coverage.csv',COVERAGE_FIELDS,[])
  write_csv(OUT/f'{p}category_review_evidence.csv',CATEGORY_REVIEW_EVIDENCE_FIELDS,build_review_evidence())
  counts=migrate_batch_dir(OUT); print(' '.join(f'{k}={v}' for k,v in counts.items()))
+import sys
+from batch07_verified_supplement import apply as _apply_batch07_verified_supplement
+_apply_batch07_verified_supplement(sys.modules[__name__])
+
 if __name__=='__main__': main()
