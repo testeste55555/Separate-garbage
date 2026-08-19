@@ -25,48 +25,53 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: One-time Batch 08 research verification
+      - name: Build, validate and RED TEAM Batch 07
         shell: bash
         run: |
           set -euo pipefail
-          python3 scripts/build_batch_08.py
-          python3 scripts/fix_batch08_authenticity.py
-          python3 scripts/validate_research.py --batch batch_08
-          python3 scripts/red_team_batch_08.py
-          python3 - <<'PY'
-          import csv
-          from pathlib import Path
-          p=Path('data/research/batches/batch_08/batch_08_qa.csv')
-          with p.open(encoding='utf-8-sig',newline='') as f:
-              rows={r['municipality_id']:r for r in csv.DictReader(f)}
-          passed=sorted(mid for mid,r in rows.items() if r['確認ステータス']=='QA_PASSED')
-          required=sorted(mid for mid,r in rows.items() if r['確認ステータス']=='QA_REQUIRED')
-          assert len(passed)==9, passed
-          assert required==['M076'], required
-          PY
+          python3 scripts/build_batch_07_active.py
+          python3 scripts/validate_research.py --batch batch_07 --next-batch-gate
+          python3 scripts/red_team_batch_07.py
+      - name: Merge completed Batch 07 and run global gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/merge_research.py
+          python3 scripts/validate_research.py
+          python3 scripts/red_team_schema_v12.py
+          python3 scripts/red_team_operational_category_semantics.py
+          python3 scripts/check_next_batch_gate.py
+          set +e
+          python3 scripts/validate_research.py --app-readiness-gate
+          app_rc=$?
+          set -e
+          if [ "$app_rc" -ne 2 ]; then
+            echo "Expected APP_READINESS_GATE HOLD; got rc=$app_rc"
+            exit 1
+          fi
           mkdir -p docs/research
-          cat > docs/research/batch_08_ci_status.txt <<EOF
+          cat > docs/research/batch_07_ci_status.txt <<EOF
           verified_at_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          batch_08_structural_validation=PASS
-          batch_08_red_team=PASS
-          setouchi_current_aerosol_authenticity=PASS
-          qa_passed_in_batch=9
-          qa_required_in_batch=1
-          qa_required_municipality=M076
-          canonical_merge=DEFERRED
-          next_batch_gate=HOLD
+          batch_07_active_municipalities=9
+          deferred_municipality=M065
+          batch_07_structural_validation=PASS
+          batch_07_red_team=PASS
+          canonical_merge=PASS
+          canonical_structural_validation=PASS
+          schema_v1_2_4_red_team=PASS
+          next_batch_gate=PASS
           app_readiness_gate=HOLD
           EOF
-      - name: Commit Batch 08 research bundle
+      - name: Commit completed Batch 07 state
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/master/02_official_domain_registry.csv data/research/batches/batch_08 docs/research/batch_08_ci_status.txt
+          git add data/master/02_official_domain_registry.csv data/master/05_deferred_municipalities.csv data/research/batches/batch_07 data/research/02_categories_master.csv data/research/03_sources_master.csv data/research/04_municipalities_research.csv data/research/05_item_mapping_master.csv data/research/06_qa_log.csv data/research/07_item_mapping_coverage.csv data/research/08_category_review_evidence.csv docs/research/batch_07_ci_status.txt
           if git diff --cached --quiet; then
             echo 'No generated changes to commit.'
             exit 0
           fi
-          git commit -m 'Verify Batch 08 research with Bizen scope hold'
+          git commit -m 'Complete Batch 07 excluding deferred Chibu'
           git push
