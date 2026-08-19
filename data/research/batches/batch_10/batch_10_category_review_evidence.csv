@@ -1,0 +1,18 @@
+﻿review_evidence_id,review_id,municipality_id,source_id,locator,evidence_role,notes
+CRE-M095-01,CR-M095-CATEGORY-COVERAGE,M095,S-M095-01,令和8年度の7収集区分とプラスチック資源新設,PRIMARY_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M095-02,CR-M095-CATEGORY-COVERAGE,M095,S-M095-02,各区分の代表品目・市で収集しないごみ,SUPPLEMENTAL_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M096-01,CR-M096-CATEGORY-COVERAGE,M096,S-M096-01,現行5区分、2024-2025年追記修正、各ページへの公式索引,PRIMARY_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M096-02,CR-M096-CATEGORY-COVERAGE,M096,S-M096-02,もやせる物・リサイクルする物・資源物・粗大ごみ・有害ごみの5区分,SUPPLEMENTAL_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M097-01,CR-M097-CATEGORY-COVERAGE,M097,S-M097-01,家庭ごみの分別方法は10分別と明記し、10区分の現行分別を確認,OFFICIAL_TOTAL,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M097-02,CR-M097-CATEGORY-COVERAGE,M097,S-M097-02,10分別の住民向けチェック項目,SUPPLEMENTAL_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M101-01,CR-M101-CATEGORY-COVERAGE,M101,S-M101-01,毎週3・資源日2・ごみ日4の9定期収集区分,PRIMARY_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M101-02,CR-M101-CATEGORY-COVERAGE,M101,S-M101-02,9区分と拠点回収3系統を区別する現行索引,SUPPLEMENTAL_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M103-01,CR-M103-CATEGORY-COVERAGE,M103,S-M103-01,8ステーション区分、粗大、有害、電池類、せん定枝,PRIMARY_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M103-02,CR-M103-CATEGORY-COVERAGE,M103,S-M103-02,各区分の代表品目・分岐・有害ごみ等,SUPPLEMENTAL_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M103-03,CR-M103-CATEGORY-COVERAGE,M103,S-M103-03,①〜⑫の分別・処理フローの補強証拠,SUPPLEMENTAL_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M104-01,CR-M104-CATEGORY-COVERAGE,M104,S-M104-01,現行ごみブック・品目別公式ページへの索引,PRIMARY_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M104-02,CR-M104-CATEGORY-COVERAGE,M104,S-M104-02,11分別種と搬入施設,SUPPLEMENTAL_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M104-03,CR-M104-CATEGORY-COVERAGE,M104,S-M104-03,燃やせる・瓶缶・リサイクルプラ・PET・その他プラ・危険・粗大・有害・古紙体系,SUPPLEMENTAL_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M105-01,CR-M105-CATEGORY-COVERAGE,M105,S-M105-01,燃やせる・資源・埋立・大型・小型複雑・有害と資源5細分,PRIMARY_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M105-02,CR-M105-CATEGORY-COVERAGE,M105,S-M105-02,資源ごみ(1)〜(5)を含む各正式名称と品目条件,SUPPLEMENTAL_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M105-03,CR-M105-CATEGORY-COVERAGE,M105,S-M105-03,市内各地域で6種10分別が稼働すること,SUPPLEMENTAL_INDEX,2026-08-19 Batch 10 resident-facing category completeness review

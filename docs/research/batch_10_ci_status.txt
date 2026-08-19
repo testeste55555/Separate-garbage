@@ -1,0 +1,11 @@
+verified_at_utc=2026-08-19T10:50:12Z
+batch_10_active_municipalities=7
+deferred_municipalities=M098,M099,M100
+deferred_reason=regional_variant_required
+batch_10_structural_validation=PASS
+batch_10_red_team=PASS
+canonical_merge=PASS
+canonical_structural_validation=PASS
+schema_v1_2_4_red_team=PASS
+next_batch_gate=PASS
+app_readiness_gate=HOLD
