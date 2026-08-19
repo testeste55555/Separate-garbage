@@ -86,6 +86,15 @@ M080,www.city.mimasaka.lg.jp,MUNICIPAL_DOMAIN,美作市,https://www.city.mimasak
 M081,www.city.asakuchi.lg.jp,MUNICIPAL_DOMAIN,浅口市,https://www.city.asakuchi.lg.jp/page/1109.html,2026-08-19,Batch 08 official source host
 M082,www.town.wake.lg.jp,MUNICIPAL_DOMAIN,和気町,https://www.town.wake.lg.jp/soshiki/seikatsukankyo/gyomu/1/1999.html,2026-08-19,Batch 08 official source host
 M083,www.town.hayashima.lg.jp,MUNICIPAL_DOMAIN,早島町,https://www.town.hayashima.lg.jp/soshiki/jogesuido/gyomu/gomi/katei_gomi/bunbetsu/1638.html,2026-08-19,Batch 08 official source host
+M084,www.town.satosho.okayama.jp,MUNICIPAL_DOMAIN,里庄町,https://www.town.satosho.okayama.jp/site/recycle/,2026-08-19,Batch 09 official source host
+M085,www.town.yakage.okayama.jp,MUNICIPAL_DOMAIN,矢掛町,https://www.town.yakage.okayama.jp/life/kankyo/gomi.html,2026-08-19,Batch 09 official source host
+M087,www.town.kagamino.lg.jp,MUNICIPAL_DOMAIN,鏡野町,https://www.town.kagamino.lg.jp/soshiki/1/1091.html,2026-08-19,Batch 09 official source host
+M088,www.town.shoo.lg.jp,MUNICIPAL_DOMAIN,勝央町,https://www.town.shoo.lg.jp/soshiki/16/1248.html,2026-08-19,Batch 09 official source host
+M089,www.town.nagi.okayama.jp,MUNICIPAL_DOMAIN,奈義町,https://www.town.nagi.okayama.jp/gyousei/kurashi/shinyou_gomi_risaikuru/gomi_risaikuru/gomi_shushu.html,2026-08-19,Batch 09 official source host
+M090,www.vill.nishiawakura.okayama.jp,MUNICIPAL_DOMAIN,西粟倉村,https://www.vill.nishiawakura.okayama.jp/wp/%E3%81%94%E3%81%BF%E3%81%AE%E5%87%BA%E3%81%97%E6%96%B9%E3%81%A8%E3%81%94%E3%81%BF%E5%8F%8E%E9%9B%86%E3%82%AB%E3%83%AC%E3%83%B3%E3%83%80%E3%83%BC/,2026-08-19,Batch 09 official source host
+M091,www.town.kumenan.lg.jp,MUNICIPAL_DOMAIN,久米南町,https://www.town.kumenan.lg.jp/living/dust_recycle/dust_recycle/bunbetsu.html,2026-08-19,Batch 09 official source host
+M092,www.town.okayama-misaki.lg.jp,MUNICIPAL_DOMAIN,美咲町,https://www.town.okayama-misaki.lg.jp/kurashi/gomi-kankyo/1/1/1916.html,2026-08-19,Batch 09 official source host
+M093,www.town.kibichuo.lg.jp,MUNICIPAL_DOMAIN,吉備中央町,https://www.town.kibichuo.lg.jp/soshiki/7/4401.html,2026-08-19,Batch 09 official source host
 M094,www.city.hiroshima.lg.jp,MUNICIPAL_DOMAIN,広島市,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/index.html,2026-08-17,
 M102,www.city.shobara.hiroshima.jp,MUNICIPAL_DOMAIN,庄原市,https://www.city.shobara.hiroshima.jp/main/life/waste/,2026-08-17,
 M102,www.gomisaku.jp,MUNICIPAL_LINKED_SERVICE,ごみサク 庄原市,https://www.city.shobara.hiroshima.jp/main/life/waste/post_502.html,2026-08-17,自治体公式ページからリンクされた外部検索サービス

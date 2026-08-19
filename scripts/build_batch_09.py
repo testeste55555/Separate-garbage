@@ -127,13 +127,13 @@ for name, rep, prep, extra in [
 add("M087", "可燃ごみ", "家庭の可燃ごみ", source=1, prep="町指定方法で出す")
 add("M087", "不燃ごみ", "家庭の不燃ごみ", source=1, prep="危険物は安全に保護し町指定方法で出す")
 add("M087", "プラスチック容器包装", "プラマークの容器包装", source=1, prep="汚れ等の町指定条件に従う")
-add("M087", "資源ごみ", "缶・びん・有害資源・ペットボトル", source=3, level="PROJECTION_PARENT")
+add("M087", "資源ごみ", "缶・びん・有害資源・ペットボトル", source=3, level="PRIMARY")
 for name, rep, prep in [
     ("缶", "スチール缶・アルミ缶・スプレー缶", "飲食缶は洗う。スプレー缶は中身を使い切る"),
     ("びん", "透明・茶色・その他色のびん", "キャップを外し水洗いし色別に分ける"),
     ("その他（乾電池・蛍光灯・水銀式体温計）", "乾電池・蛍光灯・水銀式体温計", "破損・短絡を避け町指定方法で出す"),
     ("ペットボトル", "PETマークのボトル", "キャップ・ラベルを外し水洗いする"),
-]: add("M087", name, rep, source=3, parent="資源ごみ", ui="REFERENCE_ONLY", level="OFFICIAL_CHILD", prep=prep)
+]: add("M087", name, rep, source=3, parent="資源ごみ", ui="REFERENCE_ONLY", level="SUBCATEGORY", prep=prep)
 add("M087", "粗大ごみ", "指定袋に入らない又は重量のある家庭ごみ", source=1, ui="REFERENCE_ONLY", channel="CURBSIDE", bulky="TRUE", prep="粗大ごみシール等、町指定方法に従う")
 
 # M088 Shoo: official numeric total = seven; bulky route is not an eighth leaf.
@@ -161,7 +161,7 @@ for name, rep in [
 ]: add("M090", name, rep, source=2, prep="令和8年度村版カレンダーおよび委託先の品目別条件に従う")
 
 # M091 Kumenan: resource parent with nine official resource children + five other leaves.
-add("M091", "資源ごみ", "紙類・容器類", level="PROJECTION_PARENT")
+add("M091", "資源ごみ", "紙類・容器類", level="PRIMARY")
 for name, rep, prep in [
     ("新聞紙", "新聞紙・折込広告", "紙類4種類の一つとして10kg以下でまとめる"),
     ("段ボール", "段ボール", "紙類4種類の一つとして10kg以下でまとめる"),
@@ -172,7 +172,7 @@ for name, rep, prep in [
     ("茶色びん", "飲食用茶色びん", "中身を空にし洗う"),
     ("無色透明びん", "飲食用無色透明びん", "中身を空にし洗う"),
     ("その他の色びん", "飲食用その他色びん", "中身を空にし洗う"),
-]: add("M091", name, rep, parent="資源ごみ", ui="REFERENCE_ONLY", level="OFFICIAL_CHILD", prep=prep)
+]: add("M091", name, rep, parent="資源ごみ", ui="REFERENCE_ONLY", level="SUBCATEGORY", prep=prep)
 add("M091", "適正処理ごみ", "充電式電池・ボタン電池・乾電池・蛍光管・電球・体温計・スプレー缶等", prep="スプレー缶は必ず使い切り、穴を開けない")
 add("M091", "燃やすごみ", "生ごみ・紙くず・ゴム革・汚れたプラスチック等", prep="生ごみは水切り。指定袋10kg以下")
 add("M091", "プラスチック類ごみ", "容器包装・対象プラスチック製品", prep="汚れを落とし水切りし、プラスチック以外の部材を外す")
@@ -189,7 +189,7 @@ add("M092", "粗大ごみ", "町指定の大型家庭ごみ", source=1, ui="REFE
 # M093 Kibichuo: resource projection parent + six resource leaves, two coarse leaves, fluorescent.
 add("M093", "可燃ごみ", "家庭の可燃ごみ", source=2, bag="町指定可燃ごみ袋")
 add("M093", "不燃ごみ", "家庭の不燃ごみ", source=2, bag="町指定不燃ごみ袋")
-add("M093", "資源ごみ", "缶・びん・PET・紙・プラスチック・古紙", source=1, level="PROJECTION_PARENT")
+add("M093", "資源ごみ", "缶・びん・PET・紙・プラスチック・古紙", source=1, level="PRIMARY")
 for name, rep, prep in [
     ("缶類", "缶類", "大型収集バッグへ出す"),
     ("びん類", "びん類", "収集コンテナへ出す"),
@@ -197,7 +197,7 @@ for name, rep, prep in [
     ("紙パック・段ボール", "紙パック・段ボール", "町指定方法でまとめる"),
     ("その他プラスチック", "その他プラスチック", "大型収集バッグへ出す"),
     ("古新聞・古雑誌", "古新聞・古雑誌", "町指定方法でまとめる"),
-]: add("M093", name, rep, source=2, parent="資源ごみ", ui="REFERENCE_ONLY", level="OFFICIAL_CHILD", prep=prep)
+]: add("M093", name, rep, source=2, parent="資源ごみ", ui="REFERENCE_ONLY", level="SUBCATEGORY", prep=prep)
 add("M093", "可燃粗大", "可燃性粗大ごみ", source=2, ui="REFERENCE_ONLY", bulky="TRUE", prep="町の粗大収集条件に従う")
 add("M093", "不燃粗大", "不燃性粗大ごみ", source=2, ui="REFERENCE_ONLY", bulky="TRUE", prep="町の粗大収集条件に従う")
 add("M093", "蛍光管", "蛍光管", source=2, prep="年3回の指定回収に破損しないよう出す")

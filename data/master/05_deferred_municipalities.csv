@@ -1,3 +1,4 @@
-municipality_id,都道府県,市町村,status,reason,deferred_date,decision_source
+﻿municipality_id,都道府県,市町村,status,reason,deferred_date,decision_source
 M065,島根県,知夫村,DEFERRED,公式一次資料本文の全区分確認が安定しないため一旦実装対象外。固定IDは保持し後日再開可能とする。,2026-08-19,USER_DECISION
 M076,岡山県,備前市,DEFERRED,令和8年度に資源回収ステーション設置済地区の9種23分別と未設置地区の旧分別が併存し、現行Schema・UIは同一自治体内の地区variantを安全に表現できない。固定IDと調査根拠は保持し、地区scope対応時に再開する。,2026-08-19,SCHEMA_SCOPE_LIMITATION
+M086,岡山県,新庄村,DEFERRED,県の現行公式案内から村のごみ収集公式ページへの導線は確認できるが、村公式ページ本文の取得が安定せず住民向け全分別区分を一次資料で全件照合できない。固定IDを保持し後日再開する。,2026-08-19,OFFICIAL_SOURCE_BODY_UNAVAILABLE
