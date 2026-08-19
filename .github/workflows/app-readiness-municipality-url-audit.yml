@@ -1,0 +1,37 @@
+name: APP Readiness Municipality URL Audit
+
+on:
+  push:
+    paths:
+      - 'scripts/collect_app_readiness_municipality_urls.py'
+      - '.github/workflows/app-readiness-municipality-url-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m pip install --disable-pip-version-check requests beautifulsoup4 pypdf
+      - name: Audit unused registered municipality URLs
+        run: python3 scripts/collect_app_readiness_municipality_urls.py
+      - name: Commit municipality URL audit
+        if: github.event_name == 'push'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/research/app_readiness/municipality_url_candidates.csv \
+                  data/research/app_readiness/municipality_url_fetch_status.csv \
+                  docs/research/app_readiness_municipality_url_audit_report.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Audit municipality URLs for APP item evidence'
+          git push
