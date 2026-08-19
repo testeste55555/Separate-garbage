@@ -6,64 +6,70 @@
 
 > 名前が分からないごみでも、自分が住む自治体のルールを調べて、仲間と相談しながら、正しく分別ができる。
 
-収集曜日・収集時間・地区別カレンダーは構造化対象外です。カレンダーは必要に応じて「その分別体系が現在も運用されていること」の現行性証拠として使用します。
+収集曜日・収集時間・地区別カレンダーは構造化対象外です。カレンダーは必要に応じて「その分別体系が現在も運用されていること」や地域差を確認する証拠として使用します。
 
 ## 現在地（2026-08-19）
 
 - MASTER固定ID台帳：**143自治体**
-- active実装対象：**140自治体**
-- DEFERRED：**3自治体**
+- active実装対象：**137自治体**
+- DEFERRED：**6自治体**
   - M065 知夫村：公式一次資料本文の全区分確認が安定しないため一旦対象外
-  - M076 備前市：令和8年度に地区別CURRENT分別体系が併存し、現Schema/UIでは安全にvariant解決できないため対象外
-  - M086 新庄村：現行公式ページへの導線は確認できるが、一次資料本文を安定取得できず全区分を全件照合できないため対象外
+  - M076 備前市：地区別CURRENT分別体系が併存
+  - M086 新庄村：公式一次資料本文を安定取得できず全区分を全件照合できない
+  - M098 尾道市：尾道・向島・御調・因島・瀬戸田で住民向けCURRENT体系が併存
+  - M099 福山市：市内一般・内海町・沼隈町で住民向け分別単位に差
+  - M100 府中市：府中地区と上下地区で資源ごみの住民向け表示単位・正式名称に差
 - Pilot：5自治体完了
 - Batch 01〜06：各10自治体完了
 - Batch 07：**9自治体完了**（M065をDEFERRED）
 - Batch 08：**9自治体完了**（M076をDEFERRED）
 - Batch 09：**9自治体完了**（M086をDEFERRED）
-- canonical：**92自治体、1,094 category行、構造化公式葉1,008区分、253公式出典**
+- Batch 10：**7自治体完了**（M098・M099・M100をDEFERRED）
+- canonical：**99自治体、1,159 category行、構造化公式葉1,072区分、270公式出典**
 - Schema：**v1.2.4**
-- Workflow：**v1.19**
-- canonical QA：**92 `QA_PASSED` / 0 `QA_REQUIRED`**
+- Workflow：**v1.20**
+- canonical QA：**99 `QA_PASSED` / 0 `QA_REQUIRED`**
 - 共通品目：40品目、安全区分付き
-- canonical item mapping：**932条件枝**（初期候補段階）
-- canonical 40品目coverage：**3,680自治体品目pair**
-- canonical category review evidence：**216行**
-- Batch 09専用RED TEAM：**PASS**
+- canonical item mapping：**990条件枝**（初期候補段階）
+- canonical 40品目coverage：**3,960自治体品目pair**
+- canonical category review evidence：**233行**
+- Batch 10専用RED TEAM：**PASS**
 - canonical structural validation：**PASS**
 - Schema v1.2.4 RED TEAM：**PASS**
 - `NEXT_BATCH_GATE`：**PASS**
 - `APP_READINESS_GATE`：**HOLD**（40品目の品目別公式確認未完了）
 
-CI記録：`docs/research/batch_09_ci_status.txt`
+CI記録：`docs/research/batch_10_ci_status.txt`
 
-## Batch 09
+## Batch 10
 
-MASTER範囲はM084〜M093です。M086新庄村をDEFERREDとし、次の9自治体をcanonicalへ統合しました。
+MASTER範囲はM095〜M105です。M102庄原市は既に完了済みです。
 
-- M084 里庄町：10公式葉
-- M085 矢掛町：11公式葉
-- M087 鏡野町：8公式葉
-- M088 勝央町：7公式葉（`OFFICIAL_COUNT_MATCHED`）
-- M089 奈義町：2公式葉
-- M090 西粟倉村：5公式葉
-- M091 久米南町：14公式葉
-- M092 美咲町：5公式葉
-- M093 吉備中央町：11公式葉
+canonicalへ統合したactive自治体：
 
-### Batch 09真正性事項
+- M095 呉市：7公式葉
+- M096 竹原市：5公式葉
+- M097 三原市：10公式葉（`OFFICIAL_COUNT_MATCHED`）
+- M101 三次市：9公式葉
+- M103 大竹市：12公式葉
+- M104 東広島市：11公式葉
+- M105 廿日市市：10公式葉
 
-- 里庄町：2025年12月の現行住民向け案内を採用。燃える/燃えない、資源7系統、粗大を保持。
-- 矢掛町：公式ページのトップレベル区分を保持し、内部の色・素材分別や「家庭大型ごみ（不燃物）収集」サービスを別categoryとして二重計上しない。
-- 鏡野町：資源ごみ親の下に缶・びん・乾電池等・PETの4公式子葉を保持。スプレー缶へ他自治体の穴あけルールを推測追加しない。
-- 勝央町：町公式が明示する**7種分別収集**を7のまま保持し、粗大ごみを人工的な8番目へ追加しない。
-- 奈義町：`資源ごみ・小型不燃ごみ・有害なごみ`という現行複合収集ラベルを人工的に3箱へ分割しない。
-- 西粟倉村：村版令和8年度カレンダーの5収集グループを保持し、委託先美作市の詳細taxonomyへ過剰展開しない。
-- 久米南町：資源9細分を公式子葉として保持。スプレー缶は**使い切り、穴を開けない**。
-- 美咲町：2026年の全町統一運用を5住民区分として保持。
-- 吉備中央町：令和8年度日程表の11公式葉を保持。資源6葉、可燃/不燃粗大、蛍光管を混同しない。
+### Batch 10真正性事項
 
-M086新庄村については、地域処理計画や第三者資料から分別区分を補作しません。公式住民向け一次資料本文が取得できるようになれば、固定IDのまま再開できます。
+- 呉市：令和8年4月開始の`プラスチック資源`を反映。7収集ラベルは一覧全件照合による`MANUAL_INDEX_REVIEW`とし、別粒度の「6つの大分類」を数値総数として流用しない。
+- 竹原市：5区分。スプレー缶は中身を使い切り、**穴あけ不要**。
+- 三原市：市公式が「家庭ごみの分別方法は10分別」と明記。発火性・有害ごみ内部4分別を独立葉として保持し、発火性危険ごみは**穴あけ不要**。
+- 三次市：定期収集9区分を保持し、リユース本・小型家電等の別経路を人工的な追加categoryにしない。
+- 大竹市：8ステーション区分＋粗大・有害・電池類・せん定枝の4特殊経路を保持。スプレー缶へ他自治体の穴あけルールを推測追加しない。
+- 東広島市：`リサイクルプラ`と`その他プラ`、`危険ごみ`と`有害ごみ`、新聞と雑誌等を混同しない。
+- 廿日市市：6種10分別の構造を保持。`資源ごみ`を投影親、その下の資源(1)〜(5)を公式子葉とし親を二重計上しない。スプレー缶は穴あけ不要、PETのふた・ラベルは燃やせるごみ。
+
+### Batch 10 DEFERRED
+
+M098尾道市・M099福山市・M100府中市は、令和8年度に同一自治体内で地域別の住民向けCURRENT分別体系・表示単位が併存します。
+
+これは単なる収集曜日差ではなく、resident-facing category COREまたは正式名称に地域差があるため、現行のmunicipality単位Schema/UIで一つの市全域taxonomyへ潰しません。固定IDと根拠を保持し、将来`district_scope`等の地域variant対応後に再開します。
 
 ## データ設計の原則
 
@@ -72,12 +78,13 @@ M086新庄村については、地域処理計画や第三者資料から分別�
 - 自治体正式名称は括弧・記号を含め公式表記を保持する。
 - `PLANNED` / `RETIRED` をCURRENTへ混入させない。
 - 公式URLの存在と、一次資料本文で住民向け全区分を網羅確認できたことを混同しない。
+- `OFFICIAL_COUNT_MATCHED`は公式資料が数値総数を明示する場合だけ使用し、こちらで一覧を数えただけの場合は`MANUAL_INDEX_REVIEW`とする。
 - 複合収集ラベルを、処理上の内部区分だけを理由に人工分割しない。
 - 公式区分が教材UIより細かい場合は、投影親＋公式子葉の親子構造で両方を保持し、親を公式葉件数へ二重計上しない。
-- 定期収集ラベルではない拠点回収・予約・特殊経路を、公式総数を壊して人工的な独立categoryへ増やさない。
+- 定期収集ラベルではない拠点回収・予約・特殊経路を、公式総数を壊して人工的な独立SORT_BUCKETへ増やさない。
 - 危険物の前処理を全国共通化しない。穴あけ必須／不要など逆ルールを自治体ごとに保持する。
 - 公式記載がないcategory詳細は`NOT_STATED_IN_CITED_SOURCE`を使い、空欄回避用の汎用文を補作しない。
-- 同一自治体内で複数CURRENT体系があり現Schemaで安全に解決できない場合はDEFERREDとする。
+- 同一自治体内で複数CURRENT体系があり、住民の地域を現Schemaで安全に解決できない場合はDEFERREDとする。
 - 固定IDはDEFERREDでも削除・再採番しない。
 - `APP_READY`はcategory調査完了とは独立し、40品目すべてについてITEM_SPECIFIC公式証拠・coverage・条件枝レビューが揃うまで付与しない。
 
@@ -88,7 +95,7 @@ M086新庄村については、地域処理計画や第三者資料から分別�
 - `data/master/04_common_items_master.csv`：共通40品目と教材安全区分
 - `data/master/05_deferred_municipalities.csv`：一時実装対象外の固定ID自治体
 - `data/research/pilot/`：Pilot 5自治体
-- `data/research/batches/batch_01/`〜`batch_09/`：Batch研究bundle
+- `data/research/batches/batch_01/`〜`batch_10/`：Batch研究bundle
 - `data/research/02_categories_master.csv`：canonical分別区分
 - `data/research/03_sources_master.csv`：canonical出典
 - `data/research/04_municipalities_research.csv`：canonical自治体調査
@@ -97,15 +104,16 @@ M086新庄村については、地域処理計画や第三者資料から分別�
 - `data/research/07_item_mapping_coverage.csv`：全完了自治体×40品目の調査状態
 - `data/research/08_category_review_evidence.csv`：category completeness公式証拠
 - `docs/research/`：Batch QA・CI記録
-- `docs/workflow/`：作業フロー履歴（現行 v1.19）
+- `docs/workflow/`：作業フロー履歴（現行 v1.20）
 - `scripts/build_batch_*.py`：Batch再生成
 - `scripts/red_team_batch_*.py`：Batch専用RED TEAM
 
 ## 再現・Gate
 
 ```bash
-python3 scripts/validate_research.py --batch batch_09 --next-batch-gate
-python3 scripts/red_team_batch_09.py
+python3 scripts/build_batch_10_active.py
+python3 scripts/validate_research.py --batch batch_10 --next-batch-gate
+python3 scripts/red_team_batch_10.py
 python3 scripts/merge_research.py
 python3 scripts/validate_research.py
 python3 scripts/red_team_schema_v12.py
