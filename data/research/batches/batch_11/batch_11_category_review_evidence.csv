@@ -1,0 +1,18 @@
+﻿review_evidence_id,review_id,municipality_id,source_id,locator,evidence_role,notes
+CRE-M106-01,CR-M106-CATEGORY-COVERAGE,M106,S-M106-01,燃える・古紙・容器包装・燃えない・有害・粗大と、分類ごとに袋を分ける子区分・前処理,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M107-01,CR-M107-CATEGORY-COVERAGE,M107,S-M107-01,令和8年度の現行8住民区分、代表品目、資源ごみ3系統,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M107-02,CR-M107-CATEGORY-COVERAGE,M107,S-M107-02,有害・危険ごみ。使い切り必須、穴を開けずに出す場合の表示方法,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M107-03,CR-M107-CATEGORY-COVERAGE,M107,S-M107-03,令和8年度改定版が現行であること、5言語版の公開,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M108-01,CR-M108-CATEGORY-COVERAGE,M108,S-M108-01,普通ごみ・有価物4子葉・埋立・有害・PET・紙パック・白色トレイ・大型ごみ,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M108-02,CR-M108-CATEGORY-COVERAGE,M108,S-M108-02,令和8年度版が現行であること,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M109-01,CR-M109-CATEGORY-COVERAGE,M109,S-M109-01,可燃・埋立・資源物5子葉・有害・大型ごみと前処理,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M109-02,CR-M109-CATEGORY-COVERAGE,M109,S-M109-02,令和8年度日本語版と外国語版が現行であること,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M110-01,CR-M110-CATEGORY-COVERAGE,M110,S-M110-01,可燃・資源物(1)・資源物(2)・埋立・有害・大型の現行6区分,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M110-02,CR-M110-CATEGORY-COVERAGE,M110,S-M110-02,紙・衣類・PET・プラ容器包装の内部小分類と前処理,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M111-01,CR-M111-CATEGORY-COVERAGE,M111,S-M111-01,もやせる・粗大2種・埋立・有害・資源8子葉と前処理,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M112-01,CR-M112-CATEGORY-COVERAGE,M112,S-M112-01,現行の上位分別体系と令和8年版資料への公式導線,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M112-02,CR-M112-CATEGORY-COVERAGE,M112,S-M112-02,12住民区分、区分ごとの指定袋、前処理・穴あけ不要ルール,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M113-01,CR-M113-CATEGORY-COVERAGE,M113,S-M113-01,芸北広域環境施設組合が収集主体であること、令和8年度資料・分別アプリへの現行導線,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M113-02,CR-M113-CATEGORY-COVERAGE,M113,S-M113-02,芸北広域の住民向け分別体系と子区分,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M114-01,CR-M114-CATEGORY-COVERAGE,M114,S-M114-01,令和8年4月変更後の6上位分類と不燃・資源の住民向け子区分,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M115-01,CR-M115-CATEGORY-COVERAGE,M115,S-M115-01,可燃・容器包装プラ・びん缶・PET・不燃5子葉の現行住民区分と前処理,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
