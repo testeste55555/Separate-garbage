@@ -2,15 +2,24 @@
 
 実施日: 2026-08-19
 Schema: v1.2.4
-対象: M064〜M073
+対象（active）: M064, M066〜M073
+保留: M065 知夫村
 
-## 判定
+## 最終判定
 
-Batch 07は研究bundleを作成済みだが、**完了扱いにはしない**。
+Batch 07は**9自治体で完了**とする。
 
-- QA_PASSED: 9自治体
-- QA_REQUIRED: 1自治体（M065 知夫村）
-- NEXT_BATCH_GATE: HOLD
+M065 知夫村はユーザー判断により2026-08-19付で一旦実装対象外へ移し、固定IDを保持したまま`data/master/05_deferred_municipalities.csv`へ記録した。Batch 07のmunicipality/category/source/QA/mapping/coverage/review evidenceには含めない。
+
+CI結果:
+
+- Batch 07 active municipalities: 9
+- Batch 07 structural validation: PASS
+- Batch 07 RED TEAM: PASS
+- canonical merge: PASS
+- canonical structural validation: PASS
+- Schema v1.2.4 RED TEAM: PASS
+- NEXT_BATCH_GATE: PASS
 - APP_READINESS_GATE: HOLD
 
 ## QA_PASSED
@@ -25,49 +34,41 @@ Batch 07は研究bundleを作成済みだが、**完了扱いにはしない**�
 - M072 井原市: 8住民区分
 - M073 総社市: 4住民区分
 
-これらは住民向け公式ページ・現年度資料・現行条例・公式ガイド等を用いてcategory completenessを確認した。
+9自治体すべて、住民向け公式ページ・現年度資料・現行条例・公式ガイド等を用いてcategory completenessを確認し、`QA_PASSED`となっている。
 
-### 重要な真正性確認
+## 重要な真正性確認
 
+- 西ノ島町: 現行住民向けWebと令和8年度資料を照合し、7住民区分を保持。
+- 隠岐の島町: 現行ガイド・令和8年度カレンダー・現行条例を照合し7区分を保持。
 - 岡山市: 令和6年3月開始の「プラスチック資源」をCURRENTとして保持。
 - 倉敷市: 「雑がみ」を詳細品目条件から人工的な独立SORT_BUCKETへ昇格させない。
-- 津山市: 公式生活ガイドが示す6種類を採用。自治体正式名称の表記も公式資料に合わせる。
-- 笠岡市: 令和8年度の現行名称「もやすしかないごみ」を採用。ガス・スプレー缶は中身を使い切り、公式案内どおり穴あけルールを保持。
+- 津山市: 公式生活ガイドが示す6種類を採用し、自治体正式名称の表記も公式資料に合わせる。
+- 玉野市: 不燃物A/Bを含む現行9住民区分を保持。
+- 笠岡市: 令和8年度の現行名称「もやすしかないごみ」を採用。ガス・スプレー缶は公式案内どおり穴あけルールを保持。
 - 井原市: 現行ガイドの8葉を採用し、製品プラスチック対象拡大を「資源ごみ（プラ）」へ反映。
+- 総社市: 現行公式ページの4住民区分を保持。
 
-## M065 知夫村 — QA_REQUIRED
+## M065 知夫村の扱い
 
-現在の村公式行政サイトと「ゴミ・リサイクル」ページの所在、2026年の村公式案内から同ページへ住民を誘導していることまでは確認できた。
+知夫村は削除ではなく**DEFERRED**とする。
 
-しかし、今回の取得環境では当該ページおよび旧公式分別PDFの本文取得が安定せず、**住民が排出時に選択する全分別区分を全件照合できていない**。
+- 固定ID `M065` は維持
+- MASTERの元行は維持
+- `data/master/05_deferred_municipalities.csv`で保留状態を明示
+- Batch 07のactive target setから除外
+- canonicalへはmergeしない
+- 後日、公式一次資料の全区分を取得できた場合はM065のまま再開可能
 
-したがって:
+これにより、今回のBatch進行を知夫村1自治体でブロックしない一方、後日の復帰時にID再採番や履歴破壊を起こさない。
 
-- `category_count_check_status=NOT_REVIEWED`
-- `category_count_verified=FALSE`
-- category行を推測で作成しない
-- `QA_REQUIRED`を維持
+## canonical反映
 
-とする。
+Batch 07完了後のcanonicalは74自治体となった。M065は含まない。
 
-「公式URLが存在する」「現行の案内先である」だけではcategory completenessの証明にならない。全区分本文を確認できるまでQA_PASSEDへ昇格させない。
+Batch 07の9自治体×40品目=360 coverage pairを追加し、category/source/mapping/review evidenceもno-loss mergeした。
 
-## Batch Gate
+## Gate
 
-Batch 07は7成果物を研究bundleとして保持するが、M065が未解決のためBatch 08へ進まない。
+`NEXT_BATCH_GATE=PASS`のため、次Batchへ進行可能。
 
-canonicalの完了自治体はBatch 06までの65自治体を現時点の正式完了値として扱う。Batch 07の9 QA_PASSED自治体はbundle内で証拠を保持し、M065解消後にBatch 07全体を再validation・RED TEAM・mergeする。
-
-## 再開条件
-
-M065について、知夫村が現在住民向けに使用している分別表・収集カレンダー・分別冊子等から全区分を読める状態で取得し、次を満たすこと。
-
-1. 住民向け全区分の一覧を確定
-2. `MANUAL_INDEX_REVIEW`または`OFFICIAL_COUNT_MATCHED`
-3. `category_review_evidence`にPRIMARY_INDEXを保存
-4. Batch 07 structural validation
-5. Batch 07専用RED TEAM
-6. canonical merge後のSchema RED TEAM
-7. NEXT_BATCH_GATE再判定
-
-ここを満たすまでBatch 08はHOLDとする。
+`APP_READINESS_GATE=HOLD`は従来どおり正常状態である。40共通品目についてITEM_SPECIFICな公式証拠、coverage、全条件枝レビューが揃うまではAPP_READYへ昇格させない。
