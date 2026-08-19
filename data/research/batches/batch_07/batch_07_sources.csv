@@ -1,7 +1,6 @@
 ﻿municipality_id,source_id,資料名,資料種別,公式URL,発行主体,対象年度,ページ更新日,取得確認日,使用した情報,優先度,現行性,備考,official_verified,official_basis,official_linking_url
 M064,S-M064-01,家庭ごみの分別と正しい出し方,自治体公式Webページ,https://www.town.nishinoshima.shimane.jp/bunya/b_sumai/b_gomi/833,西ノ島町,令和8年度,現行,2026-08-19,燃える・埋立・資源各区分、前処理、収集不可,1,現行,,TRUE,MUNICIPAL_DOMAIN,
 M064,S-M064-02,令和8年度西ノ島町ごみ収集運搬業務委託仕様書,自治体公式PDF,https://www.town.nishinoshima.shimane.jp/files/original/202601221430235172519a52c.pdf,西ノ島町,令和8年度,2026-01,2026-08-19,令和8年度も同じ収集区分が稼働することの現行性証拠,2,現行,,TRUE,MUNICIPAL_DOMAIN,
-M065,S-M065-01,ゴミ・リサイクル,自治体公式Webページ,https://www.vill.chibu.lg.jp/gyosei/life/needs/needs05/40,知夫村,令和8年度,現行案内中,2026-08-19,2026年の村公式案内から現在も住民向けごみ情報として案内される公式ページ。全区分本文は未取得,1,現行,,TRUE,MUNICIPAL_DOMAIN,
 M066,S-M066-01,ごみの分け方・出し方について,自治体公式Webページ,https://www.town.okinoshima.shimane.jp/kurashi/gomi-kankyo/katei_gomi/2/5013.html,隠岐の島町,令和8年度,2026-03-02,2026-08-19,現行ガイドブックへの公式導線と住民向け分別運用,1,現行,,TRUE,MUNICIPAL_DOMAIN,
 M066,S-M066-02,令和8年度ごみ分別収集カレンダー,自治体公式Webページ,https://www.town.okinoshima.shimane.jp/soshiki/kankyo/gyomu/1/1/1/242.html,隠岐の島町,令和8年度,2026-03-02,2026-08-19,令和8年度に同分別体系が稼働していること,2,現行,,TRUE,MUNICIPAL_DOMAIN,
 M066,S-M066-03,隠岐の島町廃棄物の処理及び清掃に関する条例施行規則,自治体公式例規,https://www.town.okinoshima.shimane.jp/section/reiki_int/reiki_honbun/r074RG00000334.html,隠岐の島町,令和8年度,現行,2026-08-19,家庭ごみの可燃・不燃・缶・びん・PET・古紙・粗大の区分,3,現行,,TRUE,MUNICIPAL_DOMAIN,

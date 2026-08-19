@@ -153,5 +153,29 @@ CRE-M062-03,CR-M062-CATEGORY-COVERAGE,M062,S-M062-03,新聞・雑誌雑紙・段
 CRE-M062-04,CR-M062-CATEGORY-COVERAGE,M062,S-M062-04,ライター類を有害ごみへ変更,SUPPLEMENTAL_INDEX,2026-08-19 Batch 06 resident-facing category completeness review
 CRE-M063-01,CR-M063-CATEGORY-COVERAGE,M063,S-M063-01,早見表・2026年カレンダーへの公式導線,PRIMARY_INDEX,2026-08-19 Batch 06 resident-facing category completeness review
 CRE-M063-02,CR-M063-CATEGORY-COVERAGE,M063,S-M063-02,可燃物・PET・びんガラス陶器・蛍光灯水銀・廃食用油・缶金物・粗大乾電池の7ラベル,SUPPLEMENTAL_INDEX,2026-08-19 Batch 06 resident-facing category completeness review
+CRE-M064-01,CR-M064-CATEGORY-COVERAGE,M064,S-M064-01,燃える・埋立・資源各区分、前処理、収集不可,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M064-02,CR-M064-CATEGORY-COVERAGE,M064,S-M064-02,令和8年度も同じ収集区分が稼働することの現行性証拠,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M066-01,CR-M066-CATEGORY-COVERAGE,M066,S-M066-01,現行ガイドブックへの公式導線と住民向け分別運用,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M066-02,CR-M066-CATEGORY-COVERAGE,M066,S-M066-02,令和8年度に同分別体系が稼働していること,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M066-03,CR-M066-CATEGORY-COVERAGE,M066,S-M066-03,家庭ごみの可燃・不燃・缶・びん・PET・古紙・粗大の区分,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M067-01,CR-M067-CATEGORY-COVERAGE,M067,S-M067-01,家庭ごみ各区分への公式索引,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M067-02,CR-M067-CATEGORY-COVERAGE,M067,S-M067-02,可燃・不燃・プラスチック資源・粗大ごみ等,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M067-03,CR-M067-CATEGORY-COVERAGE,M067,S-M067-03,プラスチック資源分別開始後の現行体系,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M067-04,CR-M067-CATEGORY-COVERAGE,M067,S-M067-04,資源化物・廃乾電池体温計・粗大ごみの住民区分,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M068-01,CR-M068-CATEGORY-COVERAGE,M068,S-M068-01,ステーションの燃やせる・資源・埋立・使用済乾電池,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M068-02,CR-M068-CATEGORY-COVERAGE,M068,S-M068-02,現行分別区分と品目条件,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M069-01,CR-M069-CATEGORY-COVERAGE,M069,S-M069-01,家庭ごみを6種類に分ける住民向け公式説明,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M069-02,CR-M069-CATEGORY-COVERAGE,M069,S-M069-02,現行の分別注意点・粗大/資源/古紙等の住民向け補強証拠,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M070-01,CR-M070-CATEGORY-COVERAGE,M070,S-M070-01,令和8年度現行運用と分別辞典区分,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M071-01,CR-M071-CATEGORY-COVERAGE,M071,S-M071-01,令和8年度の家庭ごみ分別体系への公式索引,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M071-02,CR-M071-CATEGORY-COVERAGE,M071,S-M071-02,カン・紙・布・びん・PET・白色トレイ・プラその他・ガススプレー缶・金属類の9資源区分,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M071-03,CR-M071-CATEGORY-COVERAGE,M071,S-M071-03,令和8年度の可燃ごみ住民向け名称,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M071-04,CR-M071-CATEGORY-COVERAGE,M071,S-M071-04,燃えないごみの現行区分,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M071-05,CR-M071-CATEGORY-COVERAGE,M071,S-M071-05,ガス・スプレー缶は中身を使い切り穴を開けて分別収集,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M072-01,CR-M072-CATEGORY-COVERAGE,M072,S-M072-01,R7.12.15改訂ガイドの8住民区分への公式索引,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M072-02,CR-M072-CATEGORY-COVERAGE,M072,S-M072-02,令和8年度の現行運用確認,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M072-03,CR-M072-CATEGORY-COVERAGE,M072,S-M072-03,資源の日の古紙・古着・廃食油の現行条件,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M072-04,CR-M072-CATEGORY-COVERAGE,M072,S-M072-04,製品プラスチックを含む現行資源ごみ（プラ）の条件,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M073-01,CR-M073-CATEGORY-COVERAGE,M073,S-M073-01,燃やせる・燃やせない・資源・不燃性粗大の4区分,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
 CRE-M094-01,CR-M094-CATEGORY-COVERAGE,M094,S-M094-01,ページ内公式索引の可燃ごみ〜大型ごみ,PRIMARY_INDEX,2026-08-18 category completeness review
 CRE-M102-01,CR-M102-CATEGORY-COVERAGE,M102,S-M102-01,ごみの分別：13種類,OFFICIAL_TOTAL,2026-08-18 category completeness review
