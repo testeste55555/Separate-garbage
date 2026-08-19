@@ -1,0 +1,54 @@
+name: APP Readiness Direct Evidence Promotion
+
+on:
+  push:
+    paths:
+      - '.github/workflows/app-readiness-direct-promotion.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Promote exact existing branches only
+        run: |
+          set -euo pipefail
+          python3 scripts/promote_direct_item_evidence.py
+          python3 scripts/review_item_branch_completeness.py
+          python3 scripts/validate_research.py
+          python3 scripts/red_team_app_readiness_promotions.py
+          python3 scripts/red_team_schema_v12.py
+          python3 scripts/red_team_operational_category_semantics.py
+      - name: Confirm APP gate remains HOLD unless a municipality is atomically ready
+        run: |
+          set +e
+          python3 scripts/validate_research.py --app-readiness-gate
+          rc=$?
+          set -e
+          if [ "$rc" -ne 2 ] && [ "$rc" -ne 0 ]; then
+            echo "Unexpected APP readiness gate rc=$rc"
+            exit 1
+          fi
+      - name: Commit staged verified evidence
+        if: github.event_name == 'push'
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/research/05_item_mapping_master.csv \
+                  data/research/07_item_mapping_coverage.csv \
+                  docs/research/app_readiness_direct_evidence_promotion_report.md \
+                  docs/research/app_readiness_branch_review_report.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Promote direct APP item evidence to VERIFIED'
+          git pull --rebase origin main
+          git push
