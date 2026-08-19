@@ -31,11 +31,14 @@ jobs:
             exit 0
           fi
           python3 scripts/build_batch_03.py
-          python3 scripts/validate_research.py --batch batch_03 --next-batch-gate
+          # Structural validation must pass even when a municipality is honestly
+          # left QA_REQUIRED because its official completeness evidence is insufficient.
+          python3 scripts/validate_research.py --batch batch_03
           python3 scripts/merge_research.py
           python3 scripts/validate_research.py
           python3 scripts/red_team_schema_v12.py
-          python3 scripts/check_next_batch_gate.py
+          # Exit code 2 means NEXT_BATCH_GATE HOLD and is a valid research state.
+          python3 scripts/check_next_batch_gate.py || test $? -eq 2
       - name: Commit generated research data
         shell: bash
         run: |
@@ -48,5 +51,5 @@ jobs:
             echo 'No generated changes to commit.'
             exit 0
           fi
-          git commit -m 'Complete Batch 03 official research'
+          git commit -m 'Add Batch 03 researched bundle'
           git push
