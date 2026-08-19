@@ -5,6 +5,8 @@ Keeps the base evidence bundle while resolving one official-heading collision in
 M116: the heading `容器や包装のプラスチック` is also the exact name of one of
 three separately bagged resident streams. We therefore use category_group for
 that heading and keep the three official leaf names without inventing a suffix.
+
+This is the production CI entrypoint for Batch 12.
 """
 from __future__ import annotations
 
