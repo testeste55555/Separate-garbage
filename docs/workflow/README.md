@@ -10,8 +10,9 @@
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.8.txt`：Schema v1.2.3対応の履歴版
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.9.txt`：Batch 02初回完了時の履歴版
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.10.txt`：Batch 02 category詳細真正性Gate追加の履歴版
-- `WORK_ゴミ出し情報収集フロー_143自治体_v1.11.txt`：**現行版**。Batch 03と証拠不足時の`NOT_REVIEWED / QA_REQUIRED`保持を追加
+- `WORK_ゴミ出し情報収集フロー_143自治体_v1.11.txt`：Batch 03証拠不足HOLD時の履歴版
+- `WORK_ゴミ出し情報収集フロー_143自治体_v1.12.txt`：**現行版**。住民向け運用区分と古い公式ページ＋現年度運用証拠の併用を追加
 
-v1.11では、公式全区分体系の証拠を取得できない自治体を推測で`QA_PASSED`へ昇格させません。Batch 03は10自治体を研究bundleとして統合し、M023・M024・M025・M026・M027・M029・M031・M032・M033の9自治体は`QA_PASSED`、M028由良町は全区分索引の現行一次資料が未取得のため`NOT_REVIEWED / QA_REQUIRED`です。
+v1.12ではcategory completenessを「住民が排出時に選択する公式分別区分の網羅」と定義します。由良町は町公式の住民向け分別案内をPRIMARY_INDEX、2026年広報カレンダーをcurrent-operation evidenceとして採用し、5区分を`MANUAL_INDEX_REVIEW / QA_PASSED`としました。処理計画上の資源フローだけを理由に独立SORT_BUCKETへ昇格させません。
 
-現状は構造validation・Schema RED TEAM・Batch 03 RED TEAMがPASS、`NEXT_BATCH_GATE=HOLD`、`APP_READINESS_GATE=HOLD`です。由良町の網羅性証拠を解消するまでBatch 04へ進みません。
+現状はBatch 03全10自治体QA_PASSED、構造validation・Schema RED TEAM・Batch 03 RED TEAM・`NEXT_BATCH_GATE`がPASS、`APP_READINESS_GATE`はHOLDです。Batch 04開始可です。

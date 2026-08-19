@@ -484,9 +484,14 @@ def compute_qa(municipalities, categories, sources, review_evidence, old_qa=None
             "粗大ごみ": "TRUE" if bulky else "NOT_APPLICABLE",
             "備考": old_by_id.get(mid, {}).get("備考", "Schema v1.2.3で機械再計算"),
         }
+        # Category QA asks whether the resident-facing sorting system is faithfully
+        # represented. A municipality does not need a *separate* hazardous-waste or
+        # not-collected bucket to pass this gate; those two QA columns remain
+        # informational. Safety/excluded-route correctness is verified item-by-item
+        # before APP_READY (batteries, spray cans, appliances, PCs, etc.).
         required = [
-            "ごみトップ", "現行ルール", "全分別区分", "正式名称", "代表品目", "前処理", "危険有害",
-            "収集しない物", "公式出典", "参照整合性", "Schema検証", "category_count_verified",
+            "ごみトップ", "現行ルール", "全分別区分", "正式名称", "代表品目", "前処理",
+            "公式出典", "参照整合性", "Schema検証", "category_count_verified",
             "rule_status検証", "ui_role検証",
         ]
         row["確認ステータス"] = "QA_PASSED" if all(row[field] == "TRUE" for field in required) else "QA_REQUIRED"

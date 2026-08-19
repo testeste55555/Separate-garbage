@@ -3,9 +3,9 @@
 
 The generator is intentionally conservative: when a cited source does not state a
 category detail, it writes NOT_STATED_IN_CITED_SOURCE rather than filling the cell
-with a generic sentence. M028 (Yura Town) is kept NOT_REVIEWED/QA_REQUIRED because
-the current official web material available to this research pass confirms the
-calendar labels but not a complete all-category index.
+with a generic sentence. M028 (Yura Town) uses the municipality's resident-facing official sorting page as
+the category index and the 2026 municipal calendar as independent current-operation
+evidence. Treatment-plan material streams are not promoted to learner SORT_BUCKETs.
 """
 
 from __future__ import annotations
@@ -56,8 +56,8 @@ municipality_specs = {
         search="", year="令和8年度", note="公式ページの可燃・不燃・粗大・有害・PET・資源の6区分を照合", review=True),
     "M028": dict(pref="和歌山県", city="由良町", impl="個別指定", processor="由良町",
         top="https://www.town.yura.wakayama.jp/",
-        guide="https://www.town.yura.wakayama.jp/docs/2025122500014/files/202603.pdf",
-        search="", year="令和8年度", note="2026年3月公式広報で可燃・プラスチック・不燃・資源・粗大を確認。全区分索引は未確認のためQA_REQUIRED", review=False),
+        guide="https://www.town.yura.wakayama.jp/docs/2014011700505/",
+        search="", year="令和8年度", note="町公式の住民向け分別案内を分類体系の主根拠とし、2026年3月公式広報カレンダーで同区分の現行運用を確認", review=True),
     "M029": dict(pref="鳥取県", city="鳥取市", impl="中国5県全市町村", processor="鳥取市／鳥取県東部広域行政管理組合",
         top="https://www.city.tottori.lg.jp/page/4083.html", guide="https://www.city.tottori.lg.jp/page/4083.html",
         search="", year="令和8年度", note="鳥取地域の現行分別区分と令和8年度収集区分を照合", review=True),
@@ -99,8 +99,8 @@ source_specs = {
         ("ごみの出し方、チェックポイント", "自治体公式Webページ", "https://www.city.yamatokoriyama.lg.jp/soshiki/cleancenter/gomi_recycle/26/1376.html", "2021-03-19", "前処理・キャップ・ラベル"),
     ],
     "M028": [
-        ("広報ゆら 2026年3月号", "自治体公式PDF", "https://www.town.yura.wakayama.jp/docs/2025122500014/files/202603.pdf", "2026-03", "現行カレンダー上の可燃・プラスチック・不燃・資源・粗大のラベル"),
-        ("由良町公式ホームページ", "自治体公式Webページ", "https://www.town.yura.wakayama.jp/", "2026", "生活環境・ごみリサイクル公式導線"),
+        ("由良町 住民向けごみ分別案内", "自治体公式Webページ", "https://www.town.yura.wakayama.jp/docs/2014011700505/", "2014-01-17", "住民が排出時に選択する可燃・プラスチック・不燃・資源・粗大の公式分別区分"),
+        ("広報ゆら 2026年3月号", "自治体公式PDF", "https://www.town.yura.wakayama.jp/docs/2025122500014/files/202603.pdf", "2026-03", "2026年現在も同じ住民向け分別区分で収集が稼働していることの現行性確認"),
     ],
     "M029": [
         ("家庭ごみの分別・出し方", "自治体公式Webページ", "https://www.city.tottori.lg.jp/page/4083.html", "2025-10-20", "可燃・プラ・PET・資源・小型破砕・古紙・乾電池蛍光管・有害・大型等"),
@@ -217,12 +217,13 @@ add("M027", "ペットボトル", "PETマークの飲料・酒・しょうゆ用
 add("M027", "資源ごみ", "段ボール・古新聞・古雑誌・古布・牛乳パック", locator="分け方と出し方／資源ごみ", channel="DROP_OFF", prep="地域の資源回収等へ出す")
 add("M027", "市では収集・処理できないごみ", "家電4品目・処理困難物等", source=2, locator="ごみの分け方と出し方のルール／市では収集、処理できないごみ", ui="EXCLUDED_NOTICE", level="EXCLUDED", channel="NOT_COLLECTED", excluded="TRUE", fallback="販売店・メーカー等", prep="受入先の指示に従う")
 
-# M028 由良町：現行公式広報で確認できるラベルのみ。網羅性はNOT_REVIEWED。
-add("M028", "可燃ごみ", NOT_STATED, locator="広報ゆら2026年3月号カレンダー／可燃1・可燃2")
-add("M028", "プラスチック", NOT_STATED, locator="広報ゆら2026年3月号カレンダー／プラスチック")
-add("M028", "不燃ごみ", NOT_STATED, locator="広報ゆら2026年3月号カレンダー／不燃")
-add("M028", "資源ごみ", NOT_STATED, locator="広報ゆら2026年3月号カレンダー／資源1・資源2")
-add("M028", "粗大ごみ", NOT_STATED, locator="広報ゆら2026年3月号カレンダー／粗大ごみ", ui="REFERENCE_ONLY", bulky="TRUE")
+# M028 由良町：住民向け公式分別案内を主根拠、2026年カレンダーを現行性証拠とする。
+# 可燃1/2・資源1/2は地区別収集グループであり、分別先は可燃ごみ・資源ごみの各1区分。
+add("M028", "可燃ごみ", NOT_STATED, locator="住民向けごみ分別案内／可燃ごみ")
+add("M028", "プラスチック", NOT_STATED, locator="住民向けごみ分別案内／プラスチック")
+add("M028", "不燃ごみ", NOT_STATED, locator="住民向けごみ分別案内／不燃ごみ")
+add("M028", "資源ごみ", NOT_STATED, locator="住民向けごみ分別案内／資源ごみ")
+add("M028", "粗大ごみ", NOT_STATED, locator="住民向けごみ分別案内／粗大ごみ", ui="REFERENCE_ONLY", bulky="TRUE")
 
 # M029 鳥取市
 add("M029", "可燃ごみ", "生ごみ・紙くず等", locator="家庭ごみ／可燃ごみ", prep="生ごみは水切り")

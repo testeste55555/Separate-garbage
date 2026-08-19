@@ -18,18 +18,18 @@
 - 統合済み：計35自治体、471 category行（構造化公式葉430区分）、110公式出典
 - Schema：v1.2.3
 - 構造validation：Pilot / Batch 01 / Batch 02 / Batch 03 / canonical PASS
-- QA：34 `QA_PASSED` / 1 `QA_REQUIRED`
-- `M028 由良町`：現行公式広報で可燃・プラスチック・不燃・資源・粗大のラベルは確認済み。ただし全区分索引を確認できていないため `NOT_REVIEWED / QA_REQUIRED`
+- QA：35 `QA_PASSED` / 0 `QA_REQUIRED`
+- `M028 由良町`：町公式の住民向け分別案内を分類体系の主根拠とし、2026年公式広報カレンダーで同区分の現行運用を確認。`MANUAL_INDEX_REVIEW / QA_PASSED`
 - 共通品目：40品目、安全区分付き
 - item mapping：485条件枝（現状は初期候補段階）
 - 40品目coverage：1,400自治体品目pair
-- category review evidence：72行
+- category review evidence：74行
 - Schema v1.2.3 RED TEAM：25/25 PASS
-- Batch 03専用RED TEAM：由良町の証拠不足を自動昇格させない検査を追加
-- `NEXT_BATCH_GATE`：`HOLD`（M028の区分網羅性証拠待ち）
+- Batch 03専用RED TEAM：由良町の住民向け公式区分＋2026年現行運用証拠の併用を検査
+- `NEXT_BATCH_GATE`：`PASS`
 - `APP_READINESS_GATE`：`HOLD`（40品目の品目別公式確認未完了）
 
-Batch 03の対象はMASTER順の `M023〜M029・M031〜M033` です（M030米子市はPilotで既調査）。大阪市、神戸市、豊岡市、姫路市、大和郡山市、由良町、鳥取市、倉吉市、境港市、岩美町を公式資料で調査しました。由良町については証拠不足を汎用文や推測で補わず、Gateを意図的にHOLDにしています。
+Batch 03の対象はMASTER順の `M023〜M029・M031〜M033` です（M030米子市はPilotで既調査）。大阪市、神戸市、豊岡市、姫路市、大和郡山市、由良町、鳥取市、倉吉市、境港市、岩美町を公式資料で調査しました。由良町は住民向け公式分別ページを分類体系、2026年公式広報を現行性の補強証拠として採用しています。処理計画上の資源フローをそのまま学習者用分別箱へ昇格させません。
 
 ## ディレクトリ
 
@@ -39,7 +39,7 @@ Batch 03の対象はMASTER順の `M023〜M029・M031〜M033` です（M030米子
 - `data/research/pilot/`：Pilot 5自治体の独立成果物・QA
 - `data/research/batches/batch_01/`：Batch 01 10自治体
 - `data/research/batches/batch_02/`：Batch 02 10自治体
-- `data/research/batches/batch_03/`：Batch 03 10自治体（M028のみQA_REQUIRED）
+- `data/research/batches/batch_03/`：Batch 03 10自治体（全10 QA_PASSED）
 - `data/research/02_categories_master.csv`：統合分別区分
 - `data/research/03_sources_master.csv`：統合出典
 - `data/research/04_municipalities_research.csv`：統合自治体調査
@@ -65,7 +65,7 @@ python3 scripts/merge_research.py
 python3 scripts/validate_research.py
 python3 scripts/red_team_schema_v12.py
 python3 scripts/red_team_batch_03.py
-python3 scripts/check_next_batch_gate.py  # M028未解消中はHOLD（終了コード2）
+python3 scripts/check_next_batch_gate.py  # 現状PASS（終了コード0）
 python3 scripts/validate_research.py --app-readiness-gate  # 現状HOLD（終了コード2）
 ```
 

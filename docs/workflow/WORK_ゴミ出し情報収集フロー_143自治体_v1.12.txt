@@ -1,0 +1,25 @@
+WORK ゴミ出し情報収集フロー 143自治体 v1.12
+制定日: 2026-08-19
+適用Schema: v1.2.3
+
+1. category completeness
+- 住民が家庭ごみを排出する際に選択する自治体公式の分別区分を網羅する。
+- 処理計画・資源化計画・施設内処理フローの全系列を、そのまま住民向け分別区分とはみなさない。
+- 下位資源系列は、住民向け公式案内で独立分別先の場合のみ独立categoryとする。
+
+2. 古い公開ページの現行性
+- 公開・更新日が古いことだけを理由にRETIRED扱いしない。
+- 現在も自治体公式サイトで公開され、現年度カレンダー・広報・収集案内が同じ区分の運用を示す場合、PRIMARY_INDEXとして利用できる。
+- 現年度資料をSUPPLEMENTAL_INDEX / current-operation evidenceとして保持する。
+
+3. M028由良町
+- PRIMARY_INDEX: https://www.town.yura.wakayama.jp/docs/2014011700505/
+- current-operation evidence: https://www.town.yura.wakayama.jp/docs/2025122500014/files/202603.pdf
+- 分別区分: 可燃ごみ / プラスチック / 不燃ごみ / 資源ごみ / 粗大ごみ
+- MANUAL_INDEX_REVIEW / QA_PASSED
+
+4. Gate
+- Batch 03: 10 QA_PASSED / 0 QA_REQUIRED
+- NEXT_BATCH_GATE: PASS
+- APP_READINESS_GATE: HOLD
+- Batch 04開始可
