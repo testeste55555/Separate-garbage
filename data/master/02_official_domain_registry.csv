@@ -1,18 +1,19 @@
-municipality_id,host,authority_type,authority_name,verification_url,verified_date,notes
-M001,www.town.yamada.iwate.jp,MUNICIPAL_DOMAIN,山田町,https://www.town.yamada.iwate.jp/kurashi/gomi/,2026-08-17,
+﻿municipality_id,host,authority_type,authority_name,verification_url,verified_date,notes
 M001,www.miyako-kouiki.jp,INTERMUNICIPAL_AUTHORITY_DOMAIN,宮古地区広域行政組合,https://www.town.yamada.iwate.jp/docs/8354.html,2026-08-17,山田町公式案内から処理主体へ到達
+M001,www.town.yamada.iwate.jp,MUNICIPAL_DOMAIN,山田町,https://www.town.yamada.iwate.jp/kurashi/gomi/,2026-08-17,
 M002,www.city.oshu.iwate.jp,MUNICIPAL_DOMAIN,奥州市,https://www.city.oshu.iwate.jp/kurashi_tetsuzuki/gomi_recycle/2/index.html,2026-08-17,
 M003,www.town.nishiwaga.lg.jp,MUNICIPAL_DOMAIN,西和賀町,https://www.town.nishiwaga.lg.jp/mokutekibetsudesagasu/gomi/2256.html,2026-08-17,
 M004,www.town.shiwa.iwate.jp,MUNICIPAL_DOMAIN,紫波町,https://www.town.shiwa.iwate.jp/kurashi/gomi/1_bunebetsu/17749649372176/,2026-08-17,
 M005,www.city.ishinomaki.lg.jp,MUNICIPAL_DOMAIN,石巻市,https://www.city.ishinomaki.lg.jp/d0010/d0030/d0010/d010/index.html,2026-08-17,
-M006,www.town.ogawara.miyagi.jp,MUNICIPAL_DOMAIN,大河原町,https://www.town.ogawara.miyagi.jp/1406.htm,2026-08-17,
 M006,www.az9.or.jp,INTERMUNICIPAL_AUTHORITY_DOMAIN,仙南地域広域行政事務組合,https://www.town.ogawara.miyagi.jp/1406.htm,2026-08-17,大河原町公式案内から分別ページへ到達
+M006,www.town.ogawara.miyagi.jp,MUNICIPAL_DOMAIN,大河原町,https://www.town.ogawara.miyagi.jp/1406.htm,2026-08-17,
 M007,www.town.kami.miyagi.jp,MUNICIPAL_DOMAIN,加美町,https://www.town.kami.miyagi.jp/soshikikarasagasu/chominka/kankyoeisei/847.html,2026-08-17,
 M008,www.town.shirataka.lg.jp,MUNICIPAL_DOMAIN,白鷹町,https://www.town.shirataka.lg.jp/1204.htm,2026-08-17,
 M009,www.town.oe.yamagata.jp,MUNICIPAL_DOMAIN,大江町,https://www.town.oe.yamagata.jp/news/1275,2026-08-17,
 M010,www.city.utsunomiya.lg.jp,MUNICIPAL_DOMAIN,宇都宮市,https://www.city.utsunomiya.lg.jp/kurashi/gomi/kateigomi/dashikata/index.html,2026-08-17,
 M011,www.town.oizumi.gunma.jp,MUNICIPAL_DOMAIN,大泉町,https://www.town.oizumi.gunma.jp/li/kurashi/040/010/,2026-08-17,
 M012,www.city.satte.lg.jp,MUNICIPAL_DOMAIN,幸手市,https://www.city.satte.lg.jp/soshiki/kankyou/1/1/13626.html,2026-08-18,
+M013,www.city.minato.tokyo.jp,MUNICIPAL_DOMAIN,港区,https://www.city.minato.tokyo.jp/jigyoukeikaku/kurashi/gomi/kate/,2026-08-17,
 M014,www.city.sumida.lg.jp,MUNICIPAL_DOMAIN,墨田区,https://www.city.sumida.lg.jp/kurashi/gomi_recycle/kateikei/gomi_dashikata/index.html,2026-08-18,
 M015,www.city.chuo.lg.jp,MUNICIPAL_DOMAIN,中央区,https://www.city.chuo.lg.jp/a0039/kurashi/gomi/bunbetsu/wakekata/panhuretto.html,2026-08-18,
 M016,www.city.miura.kanagawa.jp,MUNICIPAL_DOMAIN,三浦市,https://www.city.miura.kanagawa.jp/soshiki/haikibutsutaisakuka/gomi_katei/3007.html,2026-08-18,
@@ -22,8 +23,17 @@ M019,www.city.yamagata.gifu.jp,MUNICIPAL_DOMAIN,山県市,https://www.city.yamag
 M020,www.city.shizuoka.lg.jp,MUNICIPAL_DOMAIN,静岡市,https://www.city.shizuoka.lg.jp/gomi/s000668.html,2026-08-18,
 M021,www.info.city.tsu.mie.jp,MUNICIPAL_DOMAIN,津市,https://www.info.city.tsu.mie.jp/kurashi/gomi_kankyo/1001596/1001597/1001598.html,2026-08-18,
 M022,www.city.shijonawate.lg.jp,MUNICIPAL_DOMAIN,四條畷市,https://www.city.shijonawate.lg.jp/page/16-60240.html,2026-08-18,
-M013,www.city.minato.tokyo.jp,MUNICIPAL_DOMAIN,港区,https://www.city.minato.tokyo.jp/jigyoukeikaku/kurashi/gomi/kate/,2026-08-17,
+M023,www.city.osaka.lg.jp,MUNICIPAL_DOMAIN,大阪市,https://www.city.osaka.lg.jp/kankyo/page/0000009337.html,2026-08-19,Batch 03 official municipal source host
+M024,www.city.kobe.lg.jp,MUNICIPAL_DOMAIN,神戸市,https://www.city.kobe.lg.jp/a04164/kurashi/recycle/gomi/dashikata/index.html,2026-08-19,Batch 03 official municipal source host
+M025,www.city.toyooka.lg.jp,MUNICIPAL_DOMAIN,豊岡市,https://www.city.toyooka.lg.jp/kurashi/gomikankyo/gomi/1000944/1000945.html,2026-08-19,Batch 03 official municipal source host
+M026,www.city.himeji.lg.jp,MUNICIPAL_DOMAIN,姫路市,https://www.city.himeji.lg.jp/kurashi/category/2-10-3-5-0-0-0-0-0-0.html,2026-08-19,Batch 03 official municipal source host
+M027,www.city.yamatokoriyama.lg.jp,MUNICIPAL_DOMAIN,大和郡山市,https://www.city.yamatokoriyama.lg.jp/soshiki/cleancenter/gomi_recycle/26/1374.html,2026-08-19,Batch 03 official municipal source host
+M028,www.town.yura.wakayama.jp,MUNICIPAL_DOMAIN,由良町,https://www.town.yura.wakayama.jp/,2026-08-19,Batch 03 official municipal source host
+M029,www.city.tottori.lg.jp,MUNICIPAL_DOMAIN,鳥取市,https://www.city.tottori.lg.jp/page/4083.html,2026-08-19,Batch 03 official municipal source host
 M030,www.city.yonago.lg.jp,MUNICIPAL_DOMAIN,米子市,https://www.city.yonago.lg.jp/1879.htm,2026-08-17,
+M031,www.city.kurayoshi.lg.jp,MUNICIPAL_DOMAIN,倉吉市,https://www.city.kurayoshi.lg.jp/1878.htm,2026-08-19,Batch 03 official municipal source host
+M032,www.city.sakaiminato.lg.jp,MUNICIPAL_DOMAIN,境港市,https://www.city.sakaiminato.lg.jp/index.php?view=108858,2026-08-19,Batch 03 official municipal source host
+M033,www.iwami.gr.jp,MUNICIPAL_DOMAIN,岩美町,https://www.iwami.gr.jp/1112.htm,2026-08-19,Batch 03 official municipal source host
 M094,www.city.hiroshima.lg.jp,MUNICIPAL_DOMAIN,広島市,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/index.html,2026-08-17,
 M102,www.city.shobara.hiroshima.jp,MUNICIPAL_DOMAIN,庄原市,https://www.city.shobara.hiroshima.jp/main/life/waste/,2026-08-17,
 M102,www.gomisaku.jp,MUNICIPAL_LINKED_SERVICE,ごみサク 庄原市,https://www.city.shobara.hiroshima.jp/main/life/waste/post_502.html,2026-08-17,自治体公式ページからリンクされた外部検索サービス

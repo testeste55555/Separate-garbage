@@ -1,0 +1,23 @@
+﻿review_evidence_id,review_id,municipality_id,source_id,locator,evidence_role,notes
+CRE-M023-01,CR-M023-CATEGORY-COVERAGE,M023,S-M023-01,定曜日4区分・粗大・拠点回収への公式索引,PRIMARY_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M023-02,CR-M023-CATEGORY-COVERAGE,M023,S-M023-02,品目別分別導線,SUPPLEMENTAL_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M023-03,CR-M023-CATEGORY-COVERAGE,M023,S-M023-03,普通ごみの30cm・棒状1m基準、収集しない物・電池導線,SUPPLEMENTAL_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M024-01,CR-M024-CATEGORY-COVERAGE,M024,S-M024-01,主要6区分・市で収集しない物・資源回収・協力店回収,PRIMARY_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M024-02,CR-M024-CATEGORY-COVERAGE,M024,S-M024-02,PETキャップ・ラベル、びん缶等の品目別条件,SUPPLEMENTAL_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M024-03,CR-M024-CATEGORY-COVERAGE,M024,S-M024-03,現行主要収集区分,SUPPLEMENTAL_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M025-01,CR-M025-CATEGORY-COVERAGE,M025,S-M025-01,市の分別区分9分別・指定袋・手引きへの公式索引,PRIMARY_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M025-02,CR-M025-CATEGORY-COVERAGE,M025,S-M025-02,スプレー缶・PET等の条件,SUPPLEMENTAL_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M026-01,CR-M026-CATEGORY-COVERAGE,M026,S-M026-01,全分別見出し・地域条件,PRIMARY_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M026-02,CR-M026-CATEGORY-COVERAGE,M026,S-M026-02,地域別品目・条件・収集外,SUPPLEMENTAL_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M026-03,CR-M026-CATEGORY-COVERAGE,M026,S-M026-03,可燃・容器包装プラ・ミックスペーパーの袋ルール,SUPPLEMENTAL_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M027-01,CR-M027-CATEGORY-COVERAGE,M027,S-M027-01,公式6区分・PET・資源・有害,PRIMARY_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M027-02,CR-M027-CATEGORY-COVERAGE,M027,S-M027-02,現行ルール・リチウムイオン電池・収集処理外,SUPPLEMENTAL_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M027-03,CR-M027-CATEGORY-COVERAGE,M027,S-M027-03,前処理・キャップ・ラベル,SUPPLEMENTAL_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M029-01,CR-M029-CATEGORY-COVERAGE,M029,S-M029-01,可燃・プラ・PET・資源・小型破砕・古紙・乾電池蛍光管・有害・大型等,PRIMARY_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M029-02,CR-M029-CATEGORY-COVERAGE,M029,S-M029-02,現行収集区分・有害ごみ・乾電池等の変更確認,SUPPLEMENTAL_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M031-01,CR-M031-CATEGORY-COVERAGE,M031,S-M031-01,保存版パンフレット・個別品目・有害・小型家電・廃食用油への公式索引,PRIMARY_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M031-02,CR-M031-CATEGORY-COVERAGE,M031,S-M031-02,可燃・不燃・再生資源・粗大の現行性,SUPPLEMENTAL_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M032-01,CR-M032-CATEGORY-COVERAGE,M032,S-M032-01,分別カレンダー・軟質プラ・分別早見表への公式索引,PRIMARY_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M032-02,CR-M032-CATEGORY-COVERAGE,M032,S-M032-02,可燃・資源・不燃・有害・廃食油・粗大・収集外等の分類一覧,SUPPLEMENTAL_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M033-01,CR-M033-CATEGORY-COVERAGE,M033,S-M033-01,家庭ごみガイド・小型家電・乾電池・古紙への公式索引,PRIMARY_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M033-02,CR-M033-CATEGORY-COVERAGE,M033,S-M033-02,指定袋・資源・PET・乾電池類の出し方,SUPPLEMENTAL_INDEX,2026-08-19 Batch 03 category completeness review
