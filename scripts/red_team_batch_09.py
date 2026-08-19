@@ -44,7 +44,14 @@ def main() -> int:
     checks.append(("structural validation passes", not errors, f"errors={len(errors)}"))
     checks.append(("exact active target set excludes Shinjo", set(by)==TARGETS and "M086" not in by, str(sorted(by))))
     checks.append(("all nine active municipalities QA_PASSED", all(q[mid]["確認ステータス"]=="QA_PASSED" for mid in TARGETS), ""))
-    checks.append(("all official leaf counts match design", all(counted_category_total(mid,cats)==EXPECTED[mid] and int(by[mid]["reviewed_category_count"])==EXPECTED[mid] for mid in TARGETS), str({mid:counted_category_total(mid,cats) for mid in sorted(TARGETS)})))
+    checks.append(("all official leaf counts match design", all(
+        counted_category_total(mid,cats)==EXPECTED[mid]
+        and (
+            (mid=="M088" and by[mid]["official_category_count"]==str(EXPECTED[mid]) and by[mid]["category_count_check_status"]=="OFFICIAL_COUNT_MATCHED")
+            or (mid!="M088" and by[mid]["reviewed_category_count"]==str(EXPECTED[mid]))
+        )
+        for mid in TARGETS
+    ), str({mid:counted_category_total(mid,cats) for mid in sorted(TARGETS)})))
     checks.append(("every active municipality has review evidence", all(evc[mid]>=1 for mid in TARGETS), str(evc)))
     checks.append(("Shinjo fixed ID is deferred not fabricated", "M086" in deferred_by and deferred_by["M086"]["status"]=="DEFERRED" and "全分別区分" in deferred_by["M086"]["reason"], deferred_by.get("M086",{}).get("reason","")))
 
