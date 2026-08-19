@@ -31,7 +31,9 @@ def main():
  checks.append(('Takahashi exact seven and aerosol piercing preserved',{'燃やせるごみ','燃やせないごみ','びん類','かん類','ペットボトル','その他プラスチック','雑紙・紙パック・段ボール・古新聞・古雑誌'}.issubset(names['M074']) and '穴' in cur[('M074','かん類')]['出す前の処理'],''))
  checks.append(('Niimi stays four resident categories',counted_category_total('M075',cats)==4 and {'可燃ごみ','埋立ごみ','資源ごみ（再資源化物）','粗大ごみ'}==names['M075'],''))
  checks.append(('Setouchi uses post-April-2026 plastic resource', 'プラスチック資源' in names['M077'] and 'プラスチック製品' in cur[('M077','プラスチック資源')]['代表品目'],''))
- checks.append(('Setouchi aerosol piercing remains municipality-specific','穴' in cur[('M077','金物類')]['出す前の処理'],cur[('M077','金物類')]['出す前の処理']))
+ setouchi_prep=cur[('M077','金物類')]['出す前の処理']
+ checks.append(('Setouchi current aerosol rule requires complete gas release without invented piercing','中身を完全に出し切' in setouchi_prep and '穴をあけ' not in setouchi_prep and '穴を開け' not in setouchi_prep,setouchi_prep))
+ checks.append(('Setouchi current aerosol evidence uses the official fire-safety page',cur[('M077','金物類')]['出典URL']=='https://www.city.setouchi.lg.jp/soshiki/14/139499.html',cur[('M077','金物類')]['出典URL']))
  checks.append(('Akaiwa current plastic resource is not omitted','プラスチック資源' in names['M078'] and '100%プラスチック製品' in cur[('M078','プラスチック資源')]['代表品目'],''))
  checks.append(('Maniwa is official-count-matched at 16',by['M079']['category_count_check_status']=='OFFICIAL_COUNT_MATCHED' and by['M079']['official_category_count']=='16' and counted_category_total('M079',cats)==16,''))
  checks.append(('Maniwa does not inflate 16 with special-route food/oil rows','生ごみ' not in names['M079'] and '廃食油' not in names['M079'],str(names['M079'])))
