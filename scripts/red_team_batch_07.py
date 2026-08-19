@@ -46,3 +46,5 @@ def main():
  print(f'BATCH07_RED_TEAM_SUMMARY={passed}/{len(checks)}')
  return 0 if passed==len(checks) else 1
 if __name__=='__main__': raise SystemExit(main())
+
+# Trigger Batch 07 diagnostic workflow after final evidence expansion.
