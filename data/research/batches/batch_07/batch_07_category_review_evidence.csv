@@ -1,0 +1,11 @@
+﻿review_evidence_id,review_id,municipality_id,source_id,locator,evidence_role,notes
+CRE-M064-01,CR-M064-CATEGORY-COVERAGE,M064,S-M064-01,燃える・埋立・資源各区分、前処理、収集不可,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M064-02,CR-M064-CATEGORY-COVERAGE,M064,S-M064-02,令和8年度も同じ収集区分が稼働することの現行性証拠,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M067-01,CR-M067-CATEGORY-COVERAGE,M067,S-M067-01,家庭ごみ各区分への公式索引,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M067-02,CR-M067-CATEGORY-COVERAGE,M067,S-M067-02,可燃・不燃・プラスチック資源・粗大ごみ等,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M067-03,CR-M067-CATEGORY-COVERAGE,M067,S-M067-03,プラスチック資源分別開始後の現行体系,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M067-04,CR-M067-CATEGORY-COVERAGE,M067,S-M067-04,資源化物・廃乾電池体温計・粗大ごみの住民区分,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M068-01,CR-M068-CATEGORY-COVERAGE,M068,S-M068-01,ステーションの燃やせる・資源・埋立・使用済乾電池,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M068-02,CR-M068-CATEGORY-COVERAGE,M068,S-M068-02,現行分別区分と品目条件,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M070-01,CR-M070-CATEGORY-COVERAGE,M070,S-M070-01,令和8年度現行運用と分別辞典区分,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M073-01,CR-M073-CATEGORY-COVERAGE,M073,S-M073-01,燃やせる・燃やせない・資源・不燃性粗大の4区分,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
