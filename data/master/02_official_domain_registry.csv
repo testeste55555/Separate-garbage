@@ -34,6 +34,16 @@ M030,www.city.yonago.lg.jp,MUNICIPAL_DOMAIN,米子市,https://www.city.yonago.lg
 M031,www.city.kurayoshi.lg.jp,MUNICIPAL_DOMAIN,倉吉市,https://www.city.kurayoshi.lg.jp/1878.htm,2026-08-19,Batch 03 official municipal source host
 M032,www.city.sakaiminato.lg.jp,MUNICIPAL_DOMAIN,境港市,https://www.city.sakaiminato.lg.jp/index.php?view=108858,2026-08-19,Batch 03 official municipal source host
 M033,www.iwami.gr.jp,MUNICIPAL_DOMAIN,岩美町,https://www.iwami.gr.jp/1112.htm,2026-08-19,Batch 03 official municipal source host
+M034,www.town.wakasa.tottori.jp,MUNICIPAL_DOMAIN,若桜町,https://www.town.wakasa.tottori.jp/soshikikarasagasu/zeimujuminka/gyoumuannai/chominka/1/1/1/574.html,2026-08-19,Batch 04 official municipal source host
+M035,www1.town.chizu.tottori.jp,MUNICIPAL_DOMAIN,智頭町,https://www1.town.chizu.tottori.jp/chizu/zeimu/gomi/bunbetsu/bunrui/,2026-08-19,Batch 04 official municipal source host
+M036,www.town.yazu.tottori.jp,MUNICIPAL_DOMAIN,八頭町,https://www.town.yazu.tottori.jp/site/gomi/,2026-08-19,Batch 04 official municipal source host
+M037,www.town.misasa.tottori.jp,MUNICIPAL_DOMAIN,三朝町,https://www.town.misasa.tottori.jp/315/319/324/764/1901/1906/,2026-08-19,Batch 04 official municipal source host
+M038,www.yurihama.jp,MUNICIPAL_DOMAIN,湯梨浜町,https://www.yurihama.jp/soshiki/4/1431.html,2026-08-19,Batch 04 official municipal source host
+M039,www.town.kotoura.tottori.jp,MUNICIPAL_DOMAIN,琴浦町,https://www.town.kotoura.tottori.jp/docs/2012121300677/,2026-08-19,Batch 04 official municipal source host
+M040,www.e-hokuei.net,MUNICIPAL_DOMAIN,北栄町,https://www.e-hokuei.net/soshiki/5/1341.html,2026-08-19,Batch 04 official municipal source host
+M041,www.hiezu.jp,MUNICIPAL_DOMAIN,日吉津村,https://www.hiezu.jp/%E5%AE%B6%E5%BA%AD%E3%82%B4%E3%83%9F%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/,2026-08-19,Batch 04 official municipal source host
+M042,www.daisen.jp,MUNICIPAL_DOMAIN,大山町,https://www.daisen.jp/10/4/4/m855/n462/,2026-08-19,Batch 04 official municipal source host
+M043,www.town.nanbu.tottori.jp,MUNICIPAL_DOMAIN,南部町,https://www.town.nanbu.tottori.jp/admin/chouminseikatsuka/gomi1/,2026-08-19,Batch 04 official municipal source host
 M094,www.city.hiroshima.lg.jp,MUNICIPAL_DOMAIN,広島市,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/index.html,2026-08-17,
 M102,www.city.shobara.hiroshima.jp,MUNICIPAL_DOMAIN,庄原市,https://www.city.shobara.hiroshima.jp/main/life/waste/,2026-08-17,
 M102,www.gomisaku.jp,MUNICIPAL_LINKED_SERVICE,ごみサク 庄原市,https://www.city.shobara.hiroshima.jp/main/life/waste/post_502.html,2026-08-17,自治体公式ページからリンクされた外部検索サービス

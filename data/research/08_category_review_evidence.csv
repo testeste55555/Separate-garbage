@@ -71,5 +71,31 @@ CRE-M032-01,CR-M032-CATEGORY-COVERAGE,M032,S-M032-01,分別カレンダー・軟
 CRE-M032-02,CR-M032-CATEGORY-COVERAGE,M032,S-M032-02,可燃・資源・不燃・有害・廃食油・粗大・収集外等の分類一覧,SUPPLEMENTAL_INDEX,2026-08-19 Batch 03 category completeness review
 CRE-M033-01,CR-M033-CATEGORY-COVERAGE,M033,S-M033-01,家庭ごみガイド・小型家電・乾電池・古紙への公式索引,PRIMARY_INDEX,2026-08-19 Batch 03 category completeness review
 CRE-M033-02,CR-M033-CATEGORY-COVERAGE,M033,S-M033-02,指定袋・資源・PET・乾電池類の出し方,SUPPLEMENTAL_INDEX,2026-08-19 Batch 03 category completeness review
+CRE-M034-01,CR-M034-CATEGORY-COVERAGE,M034,S-M034-01,住民向け8分別区分・前処理・収集不可品,PRIMARY_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M035-01,CR-M035-CATEGORY-COVERAGE,M035,S-M035-01,住民向け8分別区分と収集不可導線,PRIMARY_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M035-02,CR-M035-CATEGORY-COVERAGE,M035,S-M035-02,現行運用確認,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M035-03,CR-M035-CATEGORY-COVERAGE,M035,S-M035-03,4区分の具体ルール,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M035-04,CR-M035-CATEGORY-COVERAGE,M035,S-M035-04,4区分の具体ルール,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M036-01,CR-M036-CATEGORY-COVERAGE,M036,S-M036-01,令和6年4月版手引き・50音表への公式導線,PRIMARY_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M036-02,CR-M036-CATEGORY-COVERAGE,M036,S-M036-02,現行収集体系,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M036-03,CR-M036-CATEGORY-COVERAGE,M036,S-M036-03,有害ごみ新設・白色トレイ統合・PET変更,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M037-01,CR-M037-CATEGORY-COVERAGE,M037,S-M037-01,住民向け分別・広域手引きへの公式導線,PRIMARY_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M037-02,CR-M037-CATEGORY-COVERAGE,M037,S-M037-02,11収集ラベル・充電池有害ごみ化,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M038-01,CR-M038-CATEGORY-COVERAGE,M038,S-M038-01,住民向け冊子12区分への公式索引,PRIMARY_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M038-02,CR-M038-CATEGORY-COVERAGE,M038,S-M038-02,現行12区分・有害ごみ運用,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M039-01,CR-M039-CATEGORY-COVERAGE,M039,S-M039-01,住民向け13分別区分・詳細,PRIMARY_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M039-02,CR-M039-CATEGORY-COVERAGE,M039,S-M039-02,現行運用確認,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M040-01,CR-M040-CATEGORY-COVERAGE,M040,S-M040-01,住民向け手引き・日程への公式索引,PRIMARY_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M040-02,CR-M040-CATEGORY-COVERAGE,M040,S-M040-02,現行ごみ体系・有害ごみ導線,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M040-03,CR-M040-CATEGORY-COVERAGE,M040,S-M040-03,令和8年度から充電池を有害ごみとして回収,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M041-01,CR-M041-CATEGORY-COVERAGE,M041,S-M041-01,分別ポスター・詳細50音表への公式索引,PRIMARY_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M041-02,CR-M041-CATEGORY-COVERAGE,M041,S-M041-02,住民が排出時に選択する7収集ラベル,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M041-03,CR-M041-CATEGORY-COVERAGE,M041,S-M041-03,品目別分別区分・収集不可,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M042-01,CR-M042-CATEGORY-COVERAGE,M042,S-M042-01,住民向け分別区分・前処理・収集外,PRIMARY_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M042-02,CR-M042-CATEGORY-COVERAGE,M042,S-M042-02,紙製容器包装・指定びん廃止、発泡スチロール条件変更,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M042-03,CR-M042-CATEGORY-COVERAGE,M042,S-M042-03,現行運用確認,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M042-04,CR-M042-CATEGORY-COVERAGE,M042,S-M042-04,乾電池・充電池の現行分別,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M043-01,CR-M043-CATEGORY-COVERAGE,M043,S-M043-01,住民向け分別収集の区分見出し,PRIMARY_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
+CRE-M043-02,CR-M043-CATEGORY-COVERAGE,M043,S-M043-02,現行運用確認,SUPPLEMENTAL_INDEX,2026-08-19 Batch 04 resident-facing category completeness review
 CRE-M094-01,CR-M094-CATEGORY-COVERAGE,M094,S-M094-01,ページ内公式索引の可燃ごみ〜大型ごみ,PRIMARY_INDEX,2026-08-18 category completeness review
 CRE-M102-01,CR-M102-CATEGORY-COVERAGE,M102,S-M102-01,ごみの分別：13種類,OFFICIAL_TOTAL,2026-08-18 category completeness review
