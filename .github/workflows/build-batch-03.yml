@@ -32,15 +32,30 @@ jobs:
             exit 0
           fi
           python3 scripts/build_batch_03.py
-          # Structural validation must pass even when a municipality is honestly
-          # left QA_REQUIRED because its official completeness evidence is insufficient.
           python3 scripts/validate_research.py --batch batch_03
           python3 scripts/merge_research.py
           python3 scripts/validate_research.py
           python3 scripts/red_team_schema_v12.py
           python3 scripts/red_team_batch_03.py
-          # Exit code 2 means NEXT_BATCH_GATE HOLD and is a valid research state.
-          python3 scripts/check_next_batch_gate.py || test $? -eq 2
+          set +e
+          python3 scripts/check_next_batch_gate.py
+          gate_status=$?
+          set -e
+          if [ "$gate_status" -ne 0 ] && [ "$gate_status" -ne 2 ]; then
+            exit "$gate_status"
+          fi
+          mkdir -p docs/research
+          gate_label=PASS
+          if [ "$gate_status" -eq 2 ]; then gate_label=HOLD; fi
+          cat > docs/research/batch_03_ci_status.txt <<EOF
+          verified_at_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          batch_03_structural_validation=PASS
+          canonical_structural_validation=PASS
+          schema_red_team=PASS
+          batch_03_red_team=PASS
+          next_batch_gate=$gate_label
+          expected_evidence_hold=M028
+          EOF
       - name: Commit generated research data
         shell: bash
         run: |
@@ -48,10 +63,10 @@ jobs:
           if [ ! -f scripts/build_batch_03.py ]; then exit 0; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/master/02_official_domain_registry.csv data/research/batches/batch_03 data/research/02_categories_master.csv data/research/03_sources_master.csv data/research/04_municipalities_research.csv data/research/05_item_mapping_master.csv data/research/06_qa_log.csv data/research/07_item_mapping_coverage.csv data/research/08_category_review_evidence.csv
+          git add data/master/02_official_domain_registry.csv data/research/batches/batch_03 data/research/02_categories_master.csv data/research/03_sources_master.csv data/research/04_municipalities_research.csv data/research/05_item_mapping_master.csv data/research/06_qa_log.csv data/research/07_item_mapping_coverage.csv data/research/08_category_review_evidence.csv docs/research/batch_03_ci_status.txt
           if git diff --cached --quiet; then
             echo 'No generated changes to commit.'
             exit 0
           fi
-          git commit -m 'Add Batch 03 researched bundle'
+          git commit -m 'Verify Batch 03 research pipeline'
           git push
