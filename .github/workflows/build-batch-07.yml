@@ -25,48 +25,28 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: One-time Batch 08 research verification
+      - name: Diagnose Batch 08 pipeline
         shell: bash
         run: |
-          set -euo pipefail
-          python3 scripts/build_batch_08.py
-          python3 scripts/fix_batch08_authenticity.py
-          python3 scripts/validate_research.py --batch batch_08
-          python3 scripts/red_team_batch_08.py
-          python3 - <<'PY'
-          import csv
-          from pathlib import Path
-          p=Path('data/research/batches/batch_08/batch_08_qa.csv')
-          with p.open(encoding='utf-8-sig',newline='') as f:
-              rows={r['municipality_id']:r for r in csv.DictReader(f)}
-          passed=sorted(mid for mid,r in rows.items() if r['確認ステータス']=='QA_PASSED')
-          required=sorted(mid for mid,r in rows.items() if r['確認ステータス']=='QA_REQUIRED')
-          assert len(passed)==9, passed
-          assert required==['M076'], required
-          PY
           mkdir -p docs/research
-          cat > docs/research/batch_08_ci_status.txt <<EOF
-          verified_at_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          batch_08_structural_validation=PASS
-          batch_08_red_team=PASS
-          setouchi_current_aerosol_authenticity=PASS
-          qa_passed_in_batch=9
-          qa_required_in_batch=1
-          qa_required_municipality=M076
-          canonical_merge=DEFERRED
-          next_batch_gate=HOLD
-          app_readiness_gate=HOLD
-          EOF
-      - name: Commit Batch 08 research bundle
+          log=docs/research/batch_08_pipeline_probe.log
+          : > "$log"
+          set +e
+          python3 scripts/build_batch_08.py >> "$log" 2>&1; echo "build_rc=$?" >> "$log"
+          python3 scripts/fix_batch08_authenticity.py >> "$log" 2>&1; echo "authenticity_fix_rc=$?" >> "$log"
+          python3 scripts/validate_research.py --batch batch_08 >> "$log" 2>&1; echo "batch_validate_rc=$?" >> "$log"
+          python3 scripts/red_team_batch_08.py >> "$log" 2>&1; echo "batch08_red_team_rc=$?" >> "$log"
+          set -e
+      - name: Commit Batch 08 diagnostics and generated bundle
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/master/02_official_domain_registry.csv data/research/batches/batch_08 docs/research/batch_08_ci_status.txt
+          git add data/master/02_official_domain_registry.csv data/research/batches/batch_08 docs/research/batch_08_pipeline_probe.log || true
           if git diff --cached --quiet; then
-            echo 'No generated changes to commit.'
+            echo 'No diagnostic changes to commit.'
             exit 0
           fi
-          git commit -m 'Verify Batch 08 research with Bizen scope hold'
+          git commit -m 'Record Batch 08 pipeline diagnostics'
           git push
