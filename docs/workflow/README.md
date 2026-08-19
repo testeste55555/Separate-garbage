@@ -13,10 +13,11 @@
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.11.txt`：Batch 03証拠不足HOLD時の履歴版
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.12.txt`：Schema v1.2.4の住民向け運用区分定義を追加した履歴版
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.13.txt`：Batch 04で現行変更・地域差・詳細表の過剰細分化防止を実地適用した履歴版
-- `WORK_ゴミ出し情報収集フロー_143自治体_v1.14.txt`：**現行版**。Batch 05で鳥取県残自治体と島根県主要市へ住民向け区分 semantics を展開
+- `WORK_ゴミ出し情報収集フロー_143自治体_v1.14.txt`：Batch 05で鳥取県残自治体と島根県主要市へ住民向け区分semanticsを展開した履歴版
+- `WORK_ゴミ出し情報収集フロー_143自治体_v1.15.txt`：**現行版**。Batch 06で広域処理主体・公式親子区分・自治体間で逆になる危険物前処理・複合収集ラベルを実地適用
 
-v1.14でもcategory completenessは「住民が排出時に選択する公式分別区分の網羅」です。定期収集箱ではない公式拠点回収等は`REFERENCE_ONLY`として保持し、学習者用SORT_BUCKETと区別します。
+v1.15でもcategory completenessは「住民が排出時に選択する公式分別区分の網羅」です。一部事務組合を使う場合は自治体公式からの導線を証拠化し、複数処理区域がある自治体は各区域を照合します。
 
-Batch 05ではM044〜M053の10自治体を追加し、全10自治体が`MANUAL_INDEX_REVIEW / QA_PASSED`です。日南町は公式26種類を縮約せず保持、松江市は親「資源」の二重計上を避け、浜田市は終了済み古着収集を復活させず、大田市は資源物A/B/Cの住民向けグループを保持しました。
+Batch 06ではM054〜M063の10自治体を追加し、全10自治体が`MANUAL_INDEX_REVIEW / QA_PASSED`です。川本町・美郷町・邑南町では公式10種13分別を親子構造で保持し、奥出雲町・邑智3町のスプレー缶穴あけ必須と吉賀町の穴あけ不要を別ルールとして固定しました。吉賀町は令和8年3月からライター類を有害ごみへ変更、海士町は現行7複合ラベルを人工分割せず保持しています。
 
-現在は55自治体すべてQA_PASSED、Batch 05 structural validation・canonical validation・Schema v1.2.4 RED TEAM・Batch 05専用RED TEAM・`NEXT_BATCH_GATE`がPASSです。`APP_READINESS_GATE`は40品目の品目別公式確認未完了のためHOLDです。
+現在は65自治体すべてQA_PASSED、Batch 06 structural validation・canonical validation・Schema v1.2.4 RED TEAM・Batch 06専用RED TEAM・`NEXT_BATCH_GATE`がPASSです。`APP_READINESS_GATE`は40品目の品目別公式確認未完了のためHOLDです。
