@@ -1,0 +1,27 @@
+﻿review_evidence_id,review_id,municipality_id,source_id,locator,evidence_role,notes
+CRE-M044-01,CR-M044-CATEGORY-COVERAGE,M044,S-M044-01,不燃・資源・有害・可燃・粗大・収集外の住民向け索引,PRIMARY_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M044-02,CR-M044-CATEGORY-COVERAGE,M044,S-M044-02,現行分別体系の収集運用確認,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M044-03,CR-M044-CATEGORY-COVERAGE,M044,S-M044-03,不燃収集日の危険物条件,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M045-01,CR-M045-CATEGORY-COVERAGE,M045,S-M045-01,町公式26種類・処理困難物,PRIMARY_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M045-02,CR-M045-CATEGORY-COVERAGE,M045,S-M045-02,現在26種類で収集していることの明示,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M046-01,CR-M046-CATEGORY-COVERAGE,M046,S-M046-01,12住民向け収集ラベル・前処理・充電式小型家電注意,PRIMARY_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M046-02,CR-M046-CATEGORY-COVERAGE,M046,S-M046-02,令和8年度カレンダー・ごみ分別アプリへの現行公式導線,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M046-03,CR-M046-CATEGORY-COVERAGE,M046,S-M046-03,分別方法検索の公式案内,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M047-01,CR-M047-CATEGORY-COVERAGE,M047,S-M047-01,19住民向け分別区分・収集処理不可・令和8年度日程導線,PRIMARY_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M047-02,CR-M047-CATEGORY-COVERAGE,M047,S-M047-02,品目別条件の補助根拠,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M048-01,CR-M048-CATEGORY-COVERAGE,M048,S-M048-01,もやせる・金属・資源4葉・粗大の住民向け体系,PRIMARY_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M048-02,CR-M048-CATEGORY-COVERAGE,M048,S-M048-02,現行収集体系,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M048-03,CR-M048-CATEGORY-COVERAGE,M048,S-M048-03,水銀・電池・スプレー缶・収集しないごみの公式導線,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M049-01,CR-M049-CATEGORY-COVERAGE,M049,S-M049-01,一般家庭8分別・粗大・収集不可・旧古着収集終了,PRIMARY_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M049-02,CR-M049-CATEGORY-COVERAGE,M049,S-M049-02,5地域の現行収集運用,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M049-03,CR-M049-CATEGORY-COVERAGE,M049,S-M049-03,電池・小型充電式電池等の現行追加案内,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M050-01,CR-M050-CATEGORY-COVERAGE,M050,S-M050-01,家庭ごみ13葉区分・資源化ルート,PRIMARY_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M050-02,CR-M050-CATEGORY-COVERAGE,M050,S-M050-02,2026年度ごみ収集カレンダー・最新ガイドへの公式導線,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M050-03,CR-M050-CATEGORY-COVERAGE,M050,S-M050-03,日本語・多言語最新版ガイド,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M051-01,CR-M051-CATEGORY-COVERAGE,M051,S-M051-01,燃やせる・プラ・埋立・資源5葉・家電金属・発泡・廃油・木製家具等,PRIMARY_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M051-02,CR-M051-CATEGORY-COVERAGE,M051,S-M051-02,現行収集運用・分別大図鑑への導線,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M052-01,CR-M052-CATEGORY-COVERAGE,M052,S-M052-01,資源A/B/C・プラ・可燃・不燃・不燃粗大の住民向け体系,PRIMARY_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M052-02,CR-M052-CATEGORY-COVERAGE,M052,S-M052-02,A/B/C・プラ・可燃・不燃の現行収集運用,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M052-03,CR-M052-CATEGORY-COVERAGE,M052,S-M052-03,収集処理不可・不燃粗大・自己搬入条件,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M053-01,CR-M053-CATEGORY-COVERAGE,M053,S-M053-01,燃やす・プラ・PET・びん・金属・缶・紙類・衣類・蛍光管・板ガラス・埋立・粗大・収集外,PRIMARY_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M053-02,CR-M053-CATEGORY-COVERAGE,M053,S-M053-02,現行収集運用・雑がみ収集頻度変更,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review

@@ -44,6 +44,16 @@ M040,www.e-hokuei.net,MUNICIPAL_DOMAIN,北栄町,https://www.e-hokuei.net/soshik
 M041,www.hiezu.jp,MUNICIPAL_DOMAIN,日吉津村,https://www.hiezu.jp/%E5%AE%B6%E5%BA%AD%E3%82%B4%E3%83%9F%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/,2026-08-19,Batch 04 official municipal source host
 M042,www.daisen.jp,MUNICIPAL_DOMAIN,大山町,https://www.daisen.jp/10/4/4/m855/n462/,2026-08-19,Batch 04 official municipal source host
 M043,www.town.nanbu.tottori.jp,MUNICIPAL_DOMAIN,南部町,https://www.town.nanbu.tottori.jp/admin/chouminseikatsuka/gomi1/,2026-08-19,Batch 04 official municipal source host
+M044,www.houki-town.jp,MUNICIPAL_DOMAIN,伯耆町,https://www.houki-town.jp/new1/10/12/gomi/,2026-08-19,Batch 05 official municipal source host
+M045,www.town.nichinan.lg.jp,MUNICIPAL_DOMAIN,日南町,https://www.town.nichinan.lg.jp/soshikikarasagasu/kankyouenergyka/gomi_kankyo_pet/1/22079.html,2026-08-19,Batch 05 official municipal source host
+M046,www.town.hino.tottori.jp,MUNICIPAL_DOMAIN,日野町,https://www.town.hino.tottori.jp/2653.htm,2026-08-19,Batch 05 official municipal source host
+M047,www.town-kofu.jp,MUNICIPAL_DOMAIN,江府町,https://www.town-kofu.jp/2/1/4/9/2/,2026-08-19,Batch 05 official municipal source host
+M048,www.city.matsue.lg.jp,MUNICIPAL_DOMAIN,松江市,https://www.city.matsue.lg.jp/kurashi_tetsuzuki/gomi_kankyo_pet/6/index.html,2026-08-19,Batch 05 official municipal source host
+M049,www.city.hamada.shimane.jp,MUNICIPAL_DOMAIN,浜田市,https://www.city.hamada.shimane.jp/www/genre/1000170010134/index.html,2026-08-19,Batch 05 official municipal source host
+M050,www.city.izumo.shimane.jp,MUNICIPAL_DOMAIN,出雲市,https://www.city.izumo.shimane.jp/www/genre/1179814088744/index.html,2026-08-19,Batch 05 official municipal source host
+M051,www.city.masuda.lg.jp,MUNICIPAL_DOMAIN,益田市,https://www.city.masuda.lg.jp/soshikikarasagasu/fukushikankyobu/kankyoeiseika/2/11/2554.html,2026-08-19,Batch 05 official municipal source host
+M052,www.city.oda.lg.jp,MUNICIPAL_DOMAIN,大田市,https://www.city.oda.lg.jp/ohda_city/city_organization/33/38/gomi-risaikuru/2028/9495,2026-08-19,Batch 05 official municipal source host
+M053,www.city.yasugi.shimane.jp,MUNICIPAL_DOMAIN,安来市,https://www.city.yasugi.shimane.jp/kurashi/gomi/gomi-recycle/tebiki.html,2026-08-19,Batch 05 official municipal source host
 M094,www.city.hiroshima.lg.jp,MUNICIPAL_DOMAIN,広島市,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/index.html,2026-08-17,
 M102,www.city.shobara.hiroshima.jp,MUNICIPAL_DOMAIN,庄原市,https://www.city.shobara.hiroshima.jp/main/life/waste/,2026-08-17,
 M102,www.gomisaku.jp,MUNICIPAL_LINKED_SERVICE,ごみサク 庄原市,https://www.city.shobara.hiroshima.jp/main/life/waste/post_502.html,2026-08-17,自治体公式ページからリンクされた外部検索サービス
