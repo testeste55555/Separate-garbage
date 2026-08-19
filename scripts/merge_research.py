@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Idempotently merge Pilot and completed Schema v1.2.3 batches."""
+"""Idempotently merge Pilot/batches while preserving reviewed APP evidence."""
 
 from __future__ import annotations
 
@@ -10,6 +10,7 @@ from schema_v12 import completed_batch_dirs, read_csv, write_csv
 
 ROOT = Path(__file__).resolve().parents[1]
 RESEARCH = ROOT / "data" / "research"
+ITEM_SOURCE_PREFIX = "IS-"
 
 
 def merge(target: Path, inputs: list[Path], key_fields: list[str]) -> None:
@@ -29,6 +30,34 @@ def merge(target: Path, inputs: list[Path], key_fields: list[str]) -> None:
     rows = sorted(merged.values(), key=lambda row: tuple(row[field] for field in key_fields))
     write_csv(target, fields, rows)
     print(f"{target.relative_to(ROOT)}={len(rows)}")
+
+
+def merge_sources(target: Path, inputs: list[Path]) -> None:
+    """Merge category-research sources and retain IS-* APP item evidence sources."""
+    supplements = []
+    if target.exists():
+        _, existing = read_csv(target)
+        supplements = [r for r in existing if r.get("source_id", "").startswith(ITEM_SOURCE_PREFIX)]
+    fields: list[str] = []
+    merged: dict[tuple[str, str], dict[str, str]] = {}
+    for path in inputs:
+        current_fields, rows = read_csv(path)
+        if not fields:
+            fields = current_fields
+        elif current_fields != fields:
+            raise ValueError(f"header mismatch: {path.relative_to(ROOT)}")
+        for row in rows:
+            key = (row["municipality_id"], row["source_id"])
+            if key in merged:
+                raise ValueError(f"duplicate source key {key} from {path.relative_to(ROOT)}")
+            merged[key] = row
+    for row in supplements:
+        key = (row["municipality_id"], row["source_id"])
+        if key in merged:
+            raise ValueError(f"APP item source collides with batch source: {key}")
+        merged[key] = row
+    write_csv(target, fields, sorted(merged.values(), key=lambda r: (r["municipality_id"], r["source_id"])))
+    print(f"{target.relative_to(ROOT)}={len(merged)} item_supplements={len(supplements)}")
 
 
 def merge_review_table(target: Path, inputs: list[Path], key_fields: list[str], status_field: str,
@@ -51,8 +80,6 @@ def merge_review_table(target: Path, inputs: list[Path], key_fields: list[str], 
                 raise ValueError(f"duplicate key {key} from {path.relative_to(ROOT)}")
             previous = existing.get(key)
             merged[key] = previous if previous and previous.get(status_field) in manual_statuses else row
-    # Preserve a manually reviewed canonical mapping even if a later heuristic
-    # no longer proposes it.  Structural validation still requires valid refs.
     for key, row in existing.items():
         if key not in merged and row.get(status_field) in manual_statuses:
             merged[key] = row
@@ -81,12 +108,9 @@ def main() -> None:
 
     merge(RESEARCH / "04_municipalities_research.csv", municipality_inputs, ["municipality_id"])
     merge(RESEARCH / "02_categories_master.csv", category_inputs, ["municipality_id", "category_id"])
-    merge(RESEARCH / "03_sources_master.csv", source_inputs, ["municipality_id", "source_id"])
+    merge_sources(RESEARCH / "03_sources_master.csv", source_inputs)
     merge(RESEARCH / "06_qa_log.csv", qa_inputs, ["municipality_id"])
-    merge(
-        RESEARCH / "08_category_review_evidence.csv", review_evidence_inputs,
-        ["review_evidence_id"],
-    )
+    merge(RESEARCH / "08_category_review_evidence.csv", review_evidence_inputs, ["review_evidence_id"])
 
     merge_review_table(
         RESEARCH / "05_item_mapping_master.csv", mapping_inputs,
