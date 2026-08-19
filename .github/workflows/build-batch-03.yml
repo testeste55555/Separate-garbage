@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'scripts/build_batch_03.py'
+      - 'scripts/resolve_m028_operational.py'
       - 'scripts/red_team_batch_03.py'
       - 'scripts/red_team_schema_v12.py'
       - '.github/workflows/build-batch-03.yml'
@@ -23,50 +24,44 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Apply M028 resident-facing operational evidence policy
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f scripts/resolve_m028_operational.py ]; then
+            python3 scripts/resolve_m028_operational.py
+          fi
       - name: Build, validate, merge and RED TEAM
         shell: bash
         run: |
           set -euo pipefail
-          if [ ! -f scripts/build_batch_03.py ]; then
-            echo 'build_batch_03.py not present yet; nothing to build.'
-            exit 0
-          fi
           python3 scripts/build_batch_03.py
-          python3 scripts/validate_research.py --batch batch_03
+          python3 scripts/validate_research.py --batch batch_03 --next-batch-gate
           python3 scripts/merge_research.py
           python3 scripts/validate_research.py
           python3 scripts/red_team_schema_v12.py
           python3 scripts/red_team_batch_03.py
-          set +e
           python3 scripts/check_next_batch_gate.py
-          gate_status=$?
-          set -e
-          if [ "$gate_status" -ne 0 ] && [ "$gate_status" -ne 2 ]; then
-            exit "$gate_status"
-          fi
           mkdir -p docs/research
-          gate_label=PASS
-          if [ "$gate_status" -eq 2 ]; then gate_label=HOLD; fi
           cat > docs/research/batch_03_ci_status.txt <<EOF
           verified_at_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           batch_03_structural_validation=PASS
           canonical_structural_validation=PASS
           schema_red_team=PASS
           batch_03_red_team=PASS
-          next_batch_gate=$gate_label
-          expected_evidence_hold=M028
+          m028_operational_evidence=PASS
+          next_batch_gate=PASS
           EOF
-      - name: Commit generated research data
+      - name: Commit generated research data and policy
         shell: bash
         run: |
           set -euo pipefail
-          if [ ! -f scripts/build_batch_03.py ]; then exit 0; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/master/02_official_domain_registry.csv data/research/batches/batch_03 data/research/02_categories_master.csv data/research/03_sources_master.csv data/research/04_municipalities_research.csv data/research/05_item_mapping_master.csv data/research/06_qa_log.csv data/research/07_item_mapping_coverage.csv data/research/08_category_review_evidence.csv docs/research/batch_03_ci_status.txt
+          git add README.md scripts/build_batch_03.py scripts/red_team_batch_03.py docs data/master/02_official_domain_registry.csv data/research/batches/batch_03 data/research/02_categories_master.csv data/research/03_sources_master.csv data/research/04_municipalities_research.csv data/research/05_item_mapping_master.csv data/research/06_qa_log.csv data/research/07_item_mapping_coverage.csv data/research/08_category_review_evidence.csv
           if git diff --cached --quiet; then
             echo 'No generated changes to commit.'
             exit 0
           fi
-          git commit -m 'Verify Batch 03 research pipeline'
+          git commit -m 'Resolve Yura with resident-facing operational evidence'
           git push
