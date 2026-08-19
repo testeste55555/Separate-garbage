@@ -1,0 +1,131 @@
+WORK_ゴミ出し情報収集フロー_143自治体_v1.23
+制定日: 2026-08-19
+Schema: v1.2.4
+
+1. 目的
+143固定ID自治体のうち、現在安全にresident-facing taxonomyを一意化できるactive自治体について、住民が家庭ごみ排出時に実際に選択する公式分別区分を構造化する。
+
+2. 現行原則
+- 処理施設側の工程ではなく、住民向け公式分別区分をcategory completenessの基準とする。
+- 自治体正式名称は括弧・中点等を含め公式表記を保持する。
+- CURRENT + SORT_BUCKETのみを学習者用の仕分け箱へ投影する。
+- 粗大・拠点回収・予約・メーカー回収等は必要に応じREFERENCE_ONLYとする。
+- 住民が別袋・別束・別容器へ分ける公式子区分は、必要に応じ投影親＋公式子葉で保持し、親を公式葉数へ二重計上しない。
+- 上位見出しに数値が明示されても、住民が実際に分ける子葉数と粒度が異なる場合、その数値をofficial leaf総数へ流用しない。
+- 特殊経路だけを束ねる非操作的な見出しを、Schema制約回避のためだけにSORT_BUCKETへ昇格させない。
+- 内部説明上の小分類だけを理由に独立categoryへ増やさない。
+- PLANNED / RETIREDはCURRENTへ混ぜない。
+- 公式記載がないCORE詳細はNOT_STATED_IN_CITED_SOURCEとし、空欄回避用の汎用文・モデリング上の説明文をresident guidanceへ混入させない。
+- 危険物前処理は自治体固有。穴あけ必須/不要/記載なしを全国・県内共通化しない。
+- 年度の異なる資料が競合する場合、現行年度・最新更新の公式資料を優先する。
+- 地域差が収集日程だけなら単一taxonomyを維持し、正式名称・分類先・排出単位が異なる場合はDEFERREDとする。
+- 固定IDはDEFERREDでも削除・再採番しない。
+
+3. OFFICIAL_COUNT_MATCHEDの厳格化
+公式ページ・公式資料が、canonicalで数えるresident-facing official leafと同じ粒度の数値総数を明示する場合のみOFFICIAL_COUNT_MATCHEDを使用する。
+
+一覧をこちらで数えた場合、上位分類数と住民が実際に分ける子区分数が異なる場合、または数値総数が現行年度資料そのものに明示されていない場合はMANUAL_INDEX_REVIEWとする。
+
+Batch 13のactive 9自治体はすべてMANUAL_INDEX_REVIEWとした。田布施町・平生町の`7分別`は上位見出し数であり、缶/金属の別袋および資源5品目の種別分離を含むresident-facing official leaf総数とは粒度が異なるため、OFFICIAL_COUNT_MATCHEDに使用しない。
+
+4. 地域variant
+同一自治体内で地域ごとにCURRENTな正式名称・分類先・排出単位が異なり、municipality単位Schemaで住民の地域を特定できない場合はSCHEMA_SCOPE_LIMITATIONとしてDEFERREDにする。
+
+単なる収集曜日・収集頻度差だけならDEFERRED理由にしない。
+
+Batch 13で追加:
+- M127 美祢市: 美祢地域・美東地域・秋芳地域で同時にCURRENTな住民向け体系が併存し、正式区分および同一品目の分別先が実際に異なる。
+
+既存DEFERRED:
+- M065 知夫村
+- M076 備前市
+- M086 新庄村
+- M098 尾道市
+- M099 福山市
+- M100 府中市
+- M120 萩市
+- M123 岩国市
+- M127 美祢市
+
+5. Batch 13
+MASTER範囲: M126〜M135。
+
+active:
+- M126 柳井市: 10公式葉
+- M128 周南市: 11公式葉
+- M129 山陽小野田市: 12公式葉
+- M130 周防大島町: 12公式葉
+- M131 和木町: 11公式葉
+- M132 上関町: 12公式葉
+- M133 田布施町: 12公式葉
+- M134 平生町: 12公式葉
+- M135 阿武町: 5公式葉
+
+DEFERRED:
+- M127 美祢市
+
+6. Batch 13で固定した真正性原則
+A. 上位見出しを実排出単位へ分解する
+柳井市では`ビン・乾電池`をガラスビン／乾電池へ、`ペットボトル・古紙`をPET／新聞・チラシ／段ボール／雑誌・本・その他の紙へ分ける。住民が実際に別袋・別束・専用回収ボックスへ出す単位を公式葉として保持する。
+
+B. 地域別資料があってもtaxonomy差か日程差かを分ける
+周南市・山陽小野田市は地域ページや旧地域区分が存在しても、現行の市全域向け分別体系を確認し、確認できた差が収集日程のみならDEFERREDにしない。
+
+C. 公式検索サービスの存在をformal check statusで管理する
+周防大島町は自治体公式検索サービスを`CHECKED_PRESENT`とし、URLと確認日をevidenceに保持する。検索UIに出る12収集/処理区分を公式葉とし、`収集できないごみ`等2通知区分はEXCLUDED_NOTICEとして葉数外にする。
+
+D. 危険物の穴あけ逆ルールを保持する
+- 柳井市: スプレー缶は使い切り、屋外で穴を開ける。
+- 周南市: 中身を使い切り、穴を開ける。
+- 周防大島町: 使い切れば穴あけ不要。
+- 和木町: 使い切り、穴を開けずに出す。
+- 上関町: 中身を使い切ることは確認できるが、引用した現行公式ページに穴あけ有無の明示がないため推測追加しない。
+
+E. 上位分類数とofficial leaf数を分ける
+田布施町・平生町は`7分別`という上位見出しをそのまま7葉へしない。缶/金属を別袋に分け、資源5品目を種別ごとに分けるため、resident-facing official leafは各12としてMANUAL_INDEX_REVIEWとする。
+
+F. 収集日の統合をcategory統合と誤認しない
+阿武町は2026年4月改定後、可燃・不燃・資源を同日に出せる運用へ変更したが、3指定袋は維持される。したがって3SORT_BUCKETを維持し、資源袋内部の缶・びん・PET・容器包装プラを人工的な独立categoryへ増やさない。
+
+G. 汎用文・モデリング文をCORE詳細へ残さない
+`指定方法で出す`等の空欄回避用文や、`内部品目を独立categoryへ人工分割しない`等の設計説明を`出す前の処理`へ残さない。具体的公式記載がない場合はNOT_STATED_IN_CITED_SOURCEを使用する。
+
+7. Batch 13 Gate
+- Batch structural validation: PASS
+- Batch 13 RED TEAM: PASS
+- canonical merge: PASS
+- canonical structural validation: PASS
+- Schema v1.2.4 RED TEAM: PASS
+- operational category semantics RED TEAM: PASS
+- NEXT_BATCH_GATE: PASS
+- APP_READINESS_GATE: HOLD
+
+8. 現在地
+- 固定ID: 143
+- active実装対象: 134
+- DEFERRED: 9
+- canonical自治体: 126
+- QA: 126/126 QA_PASSED
+- category: 1,512行
+- structured official leaves: 1,387
+- source: 343
+- initial mapping branches: 1,259
+- coverage: 5,040
+- category review evidence: 306
+
+9. APP_READY
+category研究の完了とは独立する。40共通品目についてITEM_SPECIFIC公式証拠、coverage、全条件枝レビューが揃うまでAPP_READINESS_GATEはHOLDとする。
+
+10. 次Batch
+NEXT_BATCH_GATE PASS。
+Batch 14はMASTER残りM136〜M143の個別指定8自治体を基本範囲とする。
+- M136 徳島県吉野川市
+- M137 香川県綾川町
+- M138 香川県多度津町
+- M139 香川県丸亀市
+- M140 香川県三豊市
+- M141 福岡県小竹町
+- M142 福岡県北九州市
+- M143 大分県佐伯市
+
+Batch 14完了時、DEFERREDを除くcategory研究対象134自治体のresident-facing taxonomy収集が一巡する見込み。
