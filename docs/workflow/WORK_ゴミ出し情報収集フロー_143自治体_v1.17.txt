@@ -1,0 +1,97 @@
+WORK_ゴミ出し情報収集フロー_143自治体_v1.17
+制定日: 2026-08-19
+Schema: v1.2.4
+
+1. 目的
+143固定IDを維持しながら、現在の実装対象だけをBatchへ投入し、住民が家庭ごみを排出するときに実際に選択する自治体公式の分別体系を授業用アプリへ安全に正規化する。
+
+2. 固定IDとactive targetを分離する
+MASTERの固定IDは履歴・再開性のため削除しない。
+一方、現在の実装対象から一時的に外す自治体は`data/master/05_deferred_municipalities.csv`へ記録し、active Batch targetから除外する。
+
+DEFERREDは次を意味する。
+- ID削除ではない
+- 公式調査結果の破棄ではない
+- canonicalへ未完成データを混入させない
+- 後日同じmunicipality_idで再開可能
+
+3. Batch 07
+active target:
+- M064 西ノ島町
+- M066 隠岐の島町
+- M067 岡山市
+- M068 倉敷市
+- M069 津山市
+- M070 玉野市
+- M071 笠岡市
+- M072 井原市
+- M073 総社市
+
+DEFERRED:
+- M065 知夫村
+
+知夫村は2026-08-19のユーザー判断で一旦実装対象外とする。固定IDは維持する。
+
+4. Batch 07完了条件
+active target 9自治体について、以下をすべて満たす。
+- category completeness reviewed
+- category_count_verified=TRUE
+- QA_PASSED
+- 7成果物にactive target以外が混入しない
+- 9自治体×40品目=360 coverage pair
+- Batch 07 structural validation PASS
+- Batch 07専用RED TEAM PASS
+
+5. Batch 07真正性観点
+- 岡山市の「プラスチック資源」を現行体系へ反映する。
+- 倉敷市の雑がみを人工的な独立箱へ昇格させない。
+- 津山市の6種類を公式表記で保持する。
+- 笠岡市の現行名称「もやすしかないごみ」を使用する。
+- 笠岡市のガス・スプレー缶は公式の穴あけルールを保持する。
+- 井原市の製品プラスチック対象拡大を反映する。
+- 自治体正式名称の括弧・記号等を任意に正規化しない。
+
+6. canonical merge
+Batch 07 active 9自治体をPilot+Batch01〜06へno-loss mergeする。
+M065はmergeしない。
+
+Batch 07完了後:
+- canonical municipalities: 74
+- canonical categories: 910 rows
+- structured official leaves: 840
+- official sources: 216
+- item mapping branches: 797
+- coverage: 2,960 municipality-item pairs
+- category review evidence: 180 rows
+
+7. Gate
+Batch 07完了時:
+- Batch 07 structural validation: PASS
+- Batch 07 RED TEAM: PASS
+- canonical structural validation: PASS
+- Schema v1.2.4 RED TEAM: PASS
+- NEXT_BATCH_GATE: PASS
+- APP_READINESS_GATE: HOLD
+
+NEXT_BATCH_GATE PASSにより次Batchへ進行できる。
+APP_READINESS_GATE HOLDは正常。40品目のITEM_SPECIFIC公式証拠・coverage・全条件枝レビューが揃うまでAPP_READYにしない。
+
+8. category completeness
+処理施設側の工程区分・資源化フローではなく、住民向け公式案内で住民が実際に選択する分別区分を基準とする。
+
+- 公式URLの所在確認と全分別区分の網羅性証明を分ける。
+- 詳細品目表を無条件で独立SORT_BUCKETへ展開しない。
+- 現年度変更告知は旧冊子より優先する。
+- 古い公式ページでも現行公式導線等で同体系の稼働が確認できればCURRENTとして利用できる。
+- 危険物前処理は自治体ごとに保持し、全国共通化しない。
+
+9. deferred municipalityの再開
+M065を再開する場合:
+1. `05_deferred_municipalities.csv`の状態を解除
+2. M065の公式一次資料から住民向け全区分を確認
+3. M065のcategory/source/review evidenceを作成
+4. 40品目coverageを生成
+5. 独立した再開Batchまたは後続BatchへM065を明示追加
+6. structural validation / RED TEAM / canonical merge / NEXT_BATCH_GATEを再実行
+
+過去Batch 07の9自治体を再調査し直す必要はない。
