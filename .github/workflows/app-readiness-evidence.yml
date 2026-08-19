@@ -4,9 +4,14 @@ on:
   push:
     paths:
       - 'scripts/collect_app_readiness_evidence.py'
+      - 'scripts/collect_app_readiness_evidence_fast.py'
       - 'scripts/red_team_app_readiness_evidence.py'
       - '.github/workflows/app-readiness-evidence.yml'
   workflow_dispatch:
+
+concurrency:
+  group: app-readiness-evidence-main
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -46,7 +51,7 @@ jobs:
       - name: Collect conservative official item evidence candidates
         run: |
           set -euo pipefail
-          python3 scripts/collect_app_readiness_evidence.py
+          python3 scripts/collect_app_readiness_evidence_fast.py
           python3 scripts/red_team_app_readiness_evidence.py
       - name: Confirm canonical APP gate remains honest
         run: |
