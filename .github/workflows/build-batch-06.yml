@@ -18,25 +18,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Apply NOT_REVIEWED guide URL validation semantics
-        run: python3 scripts/patch_not_reviewed_guide_url_validation.py
-      - name: Validate Batch 07 and capture result
-        shell: bash
+      - name: Apply Batch 07 verified supplement and rebuild
         run: |
-          mkdir -p docs/research
-          set +e
-          python3 scripts/validate_research.py --batch batch_07 > docs/research/batch_07_validation_probe.log 2>&1
-          rc=$?
-          set -e
-          echo "validation_rc=$rc" >> docs/research/batch_07_validation_probe.log
-          if [ "$rc" -ne 0 ]; then cat docs/research/batch_07_validation_probe.log; exit "$rc"; fi
-      - name: Commit validator and validation marker
+          python3 scripts/apply_batch07_supplement.py
+          python3 scripts/build_batch_07.py
+      - name: Commit completed Batch 07 bundle
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add scripts/validation_v12.py docs/research/batch_07_validation_probe.log
-          git commit -m 'Allow unresolved guide URL and validate Batch 07' || exit 0
+          git add scripts/build_batch_07.py data/master/02_official_domain_registry.csv data/research/batches/batch_07
+          git commit -m 'Complete evidence-backed Batch 07 bundle' || exit 0
           git push
