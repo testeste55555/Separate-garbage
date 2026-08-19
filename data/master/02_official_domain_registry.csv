@@ -77,6 +77,15 @@ M070,www.city.tamano.lg.jp,MUNICIPAL_DOMAIN,玉野市,https://www.city.tamano.lg
 M071,www.city.kasaoka.okayama.jp,MUNICIPAL_DOMAIN,笠岡市,https://www.city.kasaoka.okayama.jp/,2026-08-19,Batch 07 official source host
 M072,www.city.ibara.okayama.jp,MUNICIPAL_DOMAIN,井原市,https://www.city.ibara.okayama.jp/life/1/6/35/,2026-08-19,Batch 07 official source host
 M073,www.city.soja.okayama.jp,MUNICIPAL_DOMAIN,総社市,https://www.city.soja.okayama.jp/soshiki/34/4198.html,2026-08-19,Batch 07 official source host
+M074,www.city.takahashi.lg.jp,MUNICIPAL_DOMAIN,高梁市,https://www.city.takahashi.lg.jp/soshiki/14/gomibunbetsu.html,2026-08-19,Batch 08 official source host
+M075,www.city.niimi.okayama.jp,MUNICIPAL_DOMAIN,新見市,https://www.city.niimi.okayama.jp/kurashi/kurashi_detail/index/37602.html,2026-08-19,Batch 08 official source host
+M077,www.city.setouchi.lg.jp,MUNICIPAL_DOMAIN,瀬戸内市,https://www.city.setouchi.lg.jp/soshiki/14/138748.html,2026-08-19,Batch 08 official source host
+M078,www.city.akaiwa.lg.jp,MUNICIPAL_DOMAIN,赤磐市,https://www.city.akaiwa.lg.jp/kurashi/gomi/gomi/kankyo_center/gomibunbetu/index.html,2026-08-19,Batch 08 official source host
+M079,www.city.maniwa.lg.jp,MUNICIPAL_DOMAIN,真庭市,https://www.city.maniwa.lg.jp/soshiki/171/98300.html,2026-08-19,Batch 08 official source host
+M080,www.city.mimasaka.lg.jp,MUNICIPAL_DOMAIN,美作市,https://www.city.mimasaka.lg.jp/soshiki/shimin/kankyo/Cleancenter/life_guide01.html,2026-08-19,Batch 08 official source host
+M081,www.city.asakuchi.lg.jp,MUNICIPAL_DOMAIN,浅口市,https://www.city.asakuchi.lg.jp/page/1109.html,2026-08-19,Batch 08 official source host
+M082,www.town.wake.lg.jp,MUNICIPAL_DOMAIN,和気町,https://www.town.wake.lg.jp/soshiki/seikatsukankyo/gyomu/1/1999.html,2026-08-19,Batch 08 official source host
+M083,www.town.hayashima.lg.jp,MUNICIPAL_DOMAIN,早島町,https://www.town.hayashima.lg.jp/soshiki/jogesuido/gyomu/gomi/katei_gomi/bunbetsu/1638.html,2026-08-19,Batch 08 official source host
 M094,www.city.hiroshima.lg.jp,MUNICIPAL_DOMAIN,広島市,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/index.html,2026-08-17,
 M102,www.city.shobara.hiroshima.jp,MUNICIPAL_DOMAIN,庄原市,https://www.city.shobara.hiroshima.jp/main/life/waste/,2026-08-17,
 M102,www.gomisaku.jp,MUNICIPAL_LINKED_SERVICE,ごみサク 庄原市,https://www.city.shobara.hiroshima.jp/main/life/waste/post_502.html,2026-08-17,自治体公式ページからリンクされた外部検索サービス

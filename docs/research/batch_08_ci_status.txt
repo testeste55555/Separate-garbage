@@ -1,0 +1,12 @@
+verified_at_utc=2026-08-19T09:49:09Z
+batch_08_active_municipalities=9
+deferred_municipality=M076
+deferred_reason=district_variant_required
+batch_08_structural_validation=PASS
+batch_08_red_team=PASS
+setouchi_current_aerosol_authenticity=PASS
+canonical_merge=PASS
+canonical_structural_validation=PASS
+schema_v1_2_4_red_team=PASS
+next_batch_gate=PASS
+app_readiness_gate=HOLD
