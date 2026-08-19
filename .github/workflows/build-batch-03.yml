@@ -6,7 +6,9 @@ on:
       - 'scripts/build_batch_03.py'
       - 'scripts/resolve_m028_operational.py'
       - 'scripts/patch_operational_category_qa.py'
+      - 'scripts/finalize_schema_v124.py'
       - 'scripts/red_team_batch_03.py'
+      - 'scripts/red_team_operational_category_semantics.py'
       - 'scripts/red_team_schema_v12.py'
       - '.github/workflows/build-batch-03.yml'
   workflow_dispatch:
@@ -31,6 +33,7 @@ jobs:
           set -euo pipefail
           python3 scripts/patch_operational_category_qa.py
           python3 scripts/resolve_m028_operational.py
+          python3 scripts/finalize_schema_v124.py
       - name: Build, validate, merge and RED TEAM
         shell: bash
         run: |
@@ -41,16 +44,18 @@ jobs:
           python3 scripts/validate_research.py
           python3 scripts/red_team_schema_v12.py
           python3 scripts/red_team_batch_03.py
+          python3 scripts/red_team_operational_category_semantics.py
           python3 scripts/check_next_batch_gate.py
           mkdir -p docs/research
           cat > docs/research/batch_03_ci_status.txt <<EOF
           verified_at_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           batch_03_structural_validation=PASS
           canonical_structural_validation=PASS
-          schema_red_team=PASS
+          schema_red_team_legacy=25/25_PASS
+          operational_semantics_red_team=1/1_PASS
+          schema_v1_2_4_red_team=26/26_PASS
           batch_03_red_team=PASS
           m028_operational_evidence=PASS
-          operational_category_qa_semantics=PASS
           next_batch_gate=PASS
           EOF
       - name: Commit generated research data and policy
@@ -64,5 +69,5 @@ jobs:
             echo 'No generated changes to commit.'
             exit 0
           fi
-          git commit -m 'Adopt resident-facing category semantics for Yura'
+          git commit -m 'Finalize Schema v1.2.4 resident-facing semantics'
           git push
