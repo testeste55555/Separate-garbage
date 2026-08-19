@@ -482,7 +482,7 @@ def compute_qa(municipalities, categories, sources, review_evidence, old_qa=None
             "やさしい日本語確認済み": easy_checked, "やさしい日本語存在": easy_exists,
             "多言語確認済み": multi_checked, "多言語存在": multi_exists,
             "粗大ごみ": "TRUE" if bulky else "NOT_APPLICABLE",
-            "備考": old_by_id.get(mid, {}).get("備考", "Schema v1.2.3で機械再計算"),
+            "備考": old_by_id.get(mid, {}).get("備考", "Schema v1.2.4で機械再計算"),
         }
         # Category QA asks whether the resident-facing sorting system is faithfully
         # represented. A municipality does not need a *separate* hazardous-waste or

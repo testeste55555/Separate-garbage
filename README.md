@@ -16,7 +16,7 @@
 - Batch 02：10自治体完了
 - Batch 03：10自治体の研究bundle作成・merge済み
 - 統合済み：計35自治体、471 category行（構造化公式葉430区分）、110公式出典
-- Schema：v1.2.3
+- Schema：v1.2.4
 - 構造validation：Pilot / Batch 01 / Batch 02 / Batch 03 / canonical PASS
 - QA：35 `QA_PASSED` / 0 `QA_REQUIRED`
 - `M028 由良町`：町公式の住民向け分別案内を分類体系の主根拠とし、2026年公式広報カレンダーで同区分の現行運用を確認。`MANUAL_INDEX_REVIEW / QA_PASSED`
@@ -24,7 +24,7 @@
 - item mapping：485条件枝（現状は初期候補段階）
 - 40品目coverage：1,400自治体品目pair
 - category review evidence：74行
-- Schema v1.2.3 RED TEAM：25/25 PASS
+- Schema v1.2.4 RED TEAM：26/26 PASS（v1.2.3回帰25＋運用意味1）
 - Batch 03専用RED TEAM：由良町の住民向け公式区分＋2026年現行運用証拠の併用を検査
 - `NEXT_BATCH_GATE`：`PASS`
 - `APP_READINESS_GATE`：`HOLD`（40品目の品目別公式確認未完了）
@@ -65,6 +65,7 @@ python3 scripts/merge_research.py
 python3 scripts/validate_research.py
 python3 scripts/red_team_schema_v12.py
 python3 scripts/red_team_batch_03.py
+python3 scripts/red_team_operational_category_semantics.py
 python3 scripts/check_next_batch_gate.py  # 現状PASS（終了コード0）
 python3 scripts/validate_research.py --app-readiness-gate  # 現状HOLD（終了コード2）
 ```
@@ -77,6 +78,7 @@ python3 scripts/validate_research.py --batch batch_03
 python3 scripts/merge_research.py
 python3 scripts/validate_research.py
 python3 scripts/red_team_batch_03.py
+python3 scripts/red_team_operational_category_semantics.py
 ```
 
 GitHub Actionsの `.github/workflows/build-batch-03.yml` でも同じ生成・validation・merge・RED TEAMを実行します。証拠不足による `NEXT_BATCH_GATE=HOLD` は有効な研究状態として保存します。
