@@ -43,5 +43,3 @@ def main():
  print(f'BATCH07_RED_TEAM_SUMMARY={passed}/{len(checks)}')
  return 0 if passed==len(checks) else 1
 if __name__=='__main__': raise SystemExit(main())
-
-# Batch08 diagnostic trigger only; no Batch07 semantics changed.
