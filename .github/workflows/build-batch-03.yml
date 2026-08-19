@@ -1,0 +1,52 @@
+name: Build Batch 03
+
+on:
+  push:
+    paths:
+      - 'scripts/build_batch_03.py'
+      - 'scripts/red_team_schema_v12.py'
+      - '.github/workflows/build-batch-03.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build, validate, merge and RED TEAM
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f scripts/build_batch_03.py ]; then
+            echo 'build_batch_03.py not present yet; nothing to build.'
+            exit 0
+          fi
+          python3 scripts/build_batch_03.py
+          python3 scripts/validate_research.py --batch batch_03 --next-batch-gate
+          python3 scripts/merge_research.py
+          python3 scripts/validate_research.py
+          python3 scripts/red_team_schema_v12.py
+          python3 scripts/check_next_batch_gate.py
+      - name: Commit generated research data
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f scripts/build_batch_03.py ]; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/master/02_official_domain_registry.csv data/research/batches/batch_03 data/research/02_categories_master.csv data/research/03_sources_master.csv data/research/04_municipalities_research.csv data/research/05_item_mapping_master.csv data/research/06_qa_log.csv data/research/07_item_mapping_coverage.csv data/research/08_category_review_evidence.csv
+          if git diff --cached --quiet; then
+            echo 'No generated changes to commit.'
+            exit 0
+          fi
+          git commit -m 'Complete Batch 03 official research'
+          git push
