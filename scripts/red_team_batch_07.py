@@ -30,9 +30,9 @@ def main():
  checks.append(('Okinoshima preserves seven current resident leaves',names['M066']=={'可燃ごみ','不燃ごみ','缶類','ビン類','ペットボトル','古紙類','可燃性・不燃性粗大ごみ'},str(names['M066'])))
  checks.append(('Okayama includes post-2024 plastic resource',{'可燃ごみ','不燃ごみ','プラスチック資源','資源化物','廃乾電池・体温計','粗大ごみ'}.issubset(names['M067']),''))
  checks.append(('Kurashiki does not split 雑がみ into synthetic bucket','資源ごみ（雑がみ）' not in names['M068'] and {'燃やせるごみ','資源ごみ','埋立ごみ','使用済み乾電池','粗大ごみ'}.issubset(names['M068']),''))
- checks.append(('Tsuyama keeps six resident categories and grouped cans/bottles/PET',names['M069']=={'可燃（燃やせる）ごみ','不燃（燃やせない）ごみ','プラスチック容器包装','缶・びん・ペットボトル','古紙','粗大（大きい）ごみ'},str(names['M069'])))
+ checks.append(('Tsuyama keeps exact six resident categories',names['M069']=={'可燃(燃やせる)ごみ','不燃(燃やせない)ごみ','プラスチック容器包装','缶・びん・ペットボトル','古紙','粗大（大きい）ごみ'},str(names['M069'])))
  checks.append(('Tamano preserves A/B and seven other current resident streams',{'燃やせるごみ','不燃物A','不燃物B','古紙類','その他プラスチック製容器包装','ペットボトル・びん類','缶類・危険性の物','古布・廃食用油','粗大ごみ'}.issubset(names['M070']),''))
- checks.append(('Kasaoka uses current もやすしかないごみ name','もやすしかないごみ' in names['M071'] and '燃えるごみ' not in names['M071'],''))
+ checks.append(('Kasaoka uses exact current names','もやすしかないごみ' in names['M071'] and 'プラスチック(その他)' in names['M071'] and '燃えるごみ' not in names['M071'],''))
  kasaoka_spray=row_by.get(('M071','ガス・スプレー缶'),{})
  checks.append(('Kasaoka spray cans retain mandatory hole rule','穴' in kasaoka_spray.get('出す前の処理',''),kasaoka_spray.get('出す前の処理','')))
  checks.append(('Ibara preserves eight current guide leaves',names['M072']=={'燃やすごみ','燃やさないごみ','資源ごみ（びん・缶）','資源ごみ（ペット）','資源ごみ（プラ）','資源の日（古紙）','資源の日（古着・廃食油）','粗大ごみ'},str(names['M072'])))
@@ -46,5 +46,3 @@ def main():
  print(f'BATCH07_RED_TEAM_SUMMARY={passed}/{len(checks)}')
  return 0 if passed==len(checks) else 1
 if __name__=='__main__': raise SystemExit(main())
-
-# Trigger Batch 07 diagnostic workflow after final evidence expansion.
