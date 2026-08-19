@@ -1,0 +1,111 @@
+WORK_ゴミ出し情報収集フロー_143自治体_v1.21
+制定日: 2026-08-19
+Schema: v1.2.4
+
+1. 目的
+143固定ID自治体のうち、現在安全にresident-facing taxonomyを一意化できるactive自治体について、住民が家庭ごみ排出時に実際に選択する公式分別区分を構造化する。
+
+2. 現行原則
+- 処理施設側の工程ではなく、住民向け公式分別区分をcategory completenessの基準とする。
+- 自治体正式名称は括弧・中点等を含め公式表記を保持する。
+- CURRENT + SORT_BUCKETのみを学習者用の仕分け箱へ投影する。
+- 粗大・拠点回収・直接搬入等は必要に応じREFERENCE_ONLYとする。
+- 公式区分が教材UIより細かい場合、投影親＋公式子葉で保持し親を公式葉へ二重計上しない。
+- PLANNED / RETIREDはCURRENTへ混ぜない。
+- 公式記載がないCORE詳細はNOT_STATED_IN_CITED_SOURCEとし、空欄回避用の汎用文を補作しない。
+- 危険物前処理は自治体固有。穴あけ必須/不要等を全国共通化しない。
+- 年度の異なる資料が競合する場合、現行年度の公式資料を優先し、旧年度の分類単位を引き継がない。
+
+3. OFFICIAL_COUNT_MATCHEDの厳格化
+公式ページ・公式資料が、canonicalで数える住民向け公式葉と同じ粒度の数値総数を明示する場合のみOFFICIAL_COUNT_MATCHEDを使用する。
+一覧をこちらで数えた場合、または公式の上位グループ数と住民が実際に分ける子区分数が異なる場合はMANUAL_INDEX_REVIEWとする。
+
+Batch 11では全10自治体をMANUAL_INDEX_REVIEWとした。
+大崎上島町のように公式ページが6上位分類を示しても、不燃ごみ・資源ごみ内部で住民が別区分へ分ける場合、その6を公式葉総数として流用しない。
+
+4. 地域variant
+同一自治体内で地域ごとにCURRENTな住民向け表示単位・正式名称・分類先が異なり、municipality単位Schemaで住民の地域を特定できない場合はSCHEMA_SCOPE_LIMITATIONとしてDEFERREDにする。
+
+単なる収集曜日・収集頻度差だけならDEFERRED理由にしない。
+Batch 11では北広島町・世羅町等に地区別日程があっても、住民向けtaxonomy自体が共通であることを確認したためDEFERREDにしない。
+
+既存DEFERRED:
+- M065 知夫村
+- M076 備前市
+- M086 新庄村
+- M098 尾道市
+- M099 福山市
+- M100 府中市
+
+固定IDは削除・再採番しない。
+
+5. Batch 11
+MASTER範囲: M106〜M115。
+
+active:
+- M106 安芸高田市: 11公式葉
+- M107 江田島市: 8公式葉
+- M108 府中町: 11公式葉
+- M109 海田町: 9公式葉
+- M110 熊野町: 6公式葉
+- M111 坂町: 13公式葉
+- M112 安芸太田町: 12公式葉
+- M113 北広島町: 11公式葉
+- M114 大崎上島町: 8公式葉
+- M115 世羅町: 9公式葉
+
+新規DEFERRED: なし。
+
+6. Batch 11で固定した真正性原則
+A. 現行年度資料を優先する
+江田島市では、旧資料の古紙／布類の分割を引き継がず、令和8年度改定ポスターの「資源ごみ（古紙・布類）」を1公式葉として採用した。
+
+B. 「別々の袋」はresident-facing child leafの強い証拠
+安芸高田市、安芸太田町、世羅町等では、上位区分の内部でも住民が分類ごとに別袋へ分ける。これらを上位名称へ潰さず、投影親＋公式子葉として保持する。
+
+C. 内部小分類を自動的に独立categoryへ昇格させない
+熊野町の「資源物（1）」「資源物（2）」内部には小分類があるが、現行の収集ラベルは6区分である。単なる内部説明だけを理由に独立SORT_BUCKETへ増やさない。
+
+D. 公式上位分類数と住民排出単位を混同しない
+大崎上島町は6上位分類だが、不燃ごみ2子葉・資源ごみ2子葉を住民が選択するため、公式葉は8としてMANUAL_INDEX_REVIEWで保持する。
+
+E. 危険物前処理は近隣自治体でも逆転する
+- 安芸高田市: スプレー缶は穴あけ不要
+- 江田島市: 使い切り必須。穴を開けずに出す公式経路あり
+- 海田町: 穴を開けない
+- 坂町: 穴を開ける
+- 安芸太田町: 穴あけ不要
+- 大崎上島町: 穴を開ける
+- 世羅町: 使い切れば穴あけ不要
+全国・県内共通ルールを推測しない。
+
+7. Batch 11 Gate
+- Batch structural validation: PASS
+- Batch 11 RED TEAM: PASS
+- canonical merge: PASS
+- canonical structural validation: PASS
+- Schema v1.2.4 RED TEAM: PASS
+- operational category semantics RED TEAM: PASS
+- NEXT_BATCH_GATE: PASS
+- APP_READINESS_GATE: HOLD
+
+8. 現在地
+- 固定ID: 143
+- active実装対象: 137
+- DEFERRED: 6
+- canonical自治体: 109
+- QA: 109/109 QA_PASSED
+- category: 1,270行
+- structured official leaves: 1,170
+- source: 287
+- initial mapping branches: 1,085
+- coverage: 4,360
+- category review evidence: 250
+
+9. APP_READY
+category研究の完了とは独立する。40共通品目についてITEM_SPECIFIC公式証拠、coverage、全条件枝レビューが揃うまでAPP_READINESS_GATEはHOLDとする。
+
+10. 次Batch
+NEXT_BATCH_GATE PASS。
+Batch 12はM116 神石高原町〜M125 長門市の10自治体を基本範囲とする。
+M116で広島県を完了し、M117から山口県へ入る。
