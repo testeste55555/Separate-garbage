@@ -1,0 +1,70 @@
+WORK_ゴミ出し情報収集フロー_143自治体_v1.18
+制定日: 2026-08-19
+Schema: v1.2.4
+
+1. 目的
+143固定IDを維持しつつ、現時点で安全に実装可能な自治体をactive Batchとして進める。DEFERRED自治体は固定IDと調査履歴を失わず、理由が解消した時点で再開する。
+
+2. DEFERREDの理由を区別する
+
+A. SOURCE_ACCESS_LIMITATION
+公式一次資料の本文を安定して取得・全件照合できないため保留する。
+例: M065 知夫村。
+
+B. SCHEMA_SCOPE_LIMITATION
+公式資料は取得できるが、同一自治体内に複数のCURRENT分別体系があり、現Schema/UIでは住民に正しいvariantを解決できないため保留する。
+例: M076 備前市。
+
+後者は資料不足・QA失敗ではない。片方のvariantを自治体全域ルールとして採用してはならない。
+
+3. M076 備前市
+令和8年度時点で市公式は次の二系統を併存案内している。
+- 資源回収ステーション設置済地区: 9種23分別
+- 資源回収ステーション未設置地区: 旧分別版
+
+収集曜日差ではなく、住民が選択する分別区分そのものの差なのでCORE差とする。
+
+`scripts/build_batch_08.py`には9種23分別側の公式23区分と適用条件を調査記録として保持するが、active Batch 08にはM076を混入させない。
+
+備前市は2026-08-03に新しい「ごみ分別の手引き」の改訂を公表しているが、発行予定は2026年12月、配布予定は2027年1月であり、2026-08-19時点のCURRENT資料ではない。
+
+4. 地区variant対応の再開条件
+M076を現在の二体系のまま実装する場合は、少なくとも次を設計する。
+- municipality配下の`scope_id` / `variant_id`相当
+- scopeの公式名称・適用地域・根拠source
+- category主キー・正式名称重複判定をscope単位にする
+- category completenessをscope単位で検証
+- 40品目mapping / coverageをscope×item単位にする
+- 学習者/教師UIで自治体選択後に正しいscopeを解決する
+
+Schema v1.2.4は同一municipality_id内の自治体正式名称重複を禁止し、coverageもmunicipality×item単位なので、この要件を満たさない。
+
+5. Batch 08 active target
+M076を除く次の9自治体をactive Batch 08とする。
+- M074 高梁市
+- M075 新見市
+- M077 瀬戸内市
+- M078 赤磐市
+- M079 真庭市
+- M080 美作市
+- M081 浅口市
+- M082 和気町
+- M083 早島町
+
+6. Batch 08真正性
+- 高梁市: かん類のスプレー缶等は公式どおり穴あけルールを保持。
+- 瀬戸内市: 令和8年4月開始のプラスチック資源一括回収を反映。スプレー缶・ガスボンベは現在の市公式火災防止案内を優先し、「中身を完全に出し切る」をCURRENT前処理とし、旧資料の穴あけ記載を現在の必須条件へ昇格させない。
+- 赤磐市: 現行プラスチック資源に対象製品プラスチックを反映。
+- 真庭市: 公式が明示する家庭ごみ分別表(1)～(16)を16公式葉として保持し、生ごみ・廃食油等の別回収経路で水増ししない。
+- 美作市: カレンダー投影親と詳細公式子葉を親子構造で保持。スプレー缶の穴あけ必須を保持。
+- 浅口市: 地域ごとの収集日の組み方と、共通の資源11品目taxonomyを混同しない。
+- 和気町: 2026-10-01開始予定の製品プラスチック拡大をPLANNED/HIDDENとしてCURRENTから分離。
+- 早島町: 収集シール対象の大型物を人工的な「粗大ごみ」独立categoryにしない。
+
+7. Batch Gate
+active Batch 08は9自治体すべてQA_PASSED、structural validation、Batch専用RED TEAM、canonical validation、Schema RED TEAMを通過した場合のみ完了扱いとする。
+
+M076のDEFERREDはactive Batch 08のNEXT_BATCH_GATEを阻害しない。ただし`data/master/05_deferred_municipalities.csv`に理由を残し、完了自治体数には含めない。
+
+8. APP_READY
+従来どおり40品目ITEM_SPECIFIC evidence、条件枝COMPLETE、reviewer/dateを必須とする。category research完了とは独立し、未完了ならAPP_READINESS_GATEはHOLDとする。
