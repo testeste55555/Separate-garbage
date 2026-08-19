@@ -1,0 +1,52 @@
+=== py_compile ===
+py_compile_rc=0
+=== build ===
+municipalities=8 categories=133 sources=29 qa=8 mappings=95 coverage=320 review_evidence=29
+build_rc=0
+=== structural ===
+BATCH_12_STRUCTURAL_VALIDATION_FAILED
+- reference-only subcategory lacks current SORT_BUCKET projection parent: M121 C-M121-19
+- reference-only subcategory lacks current SORT_BUCKET projection parent: M121 C-M121-20
+- reference-only subcategory lacks current SORT_BUCKET projection parent: M121 C-M121-21
+structural_rc=1
+=== red team ===
+FAIL structural validation passes: errors=3
+PASS exact active Batch 12 target set: ['M116', 'M117', 'M118', 'M119', 'M121', 'M122', 'M124', 'M125']
+PASS all eight active municipalities QA_PASSED
+PASS all official leaf counts match reviewed design: {'M116': 18, 'M117': 10, 'M118': 13, 'M119': 15, 'M121': 18, 'M122': 15, 'M124': 14, 'M125': 17}
+PASS all active municipalities have category review evidence: Counter({'M119': 6, 'M118': 4, 'M124': 4, 'M116': 3, 'M117': 3, 'M121': 3, 'M122': 3, 'M125': 3})
+PASS all Batch 12 counts are manual index reviews
+PASS M120 deferred for real regional taxonomy variance: 令和8年度も大島・見島・相島地区では一部分別区分が異なることを萩市公式50音表が明示し、地域別CURRENT分別資料が併存する。現行municipality単位Schema/UIでは住民の地域scopeを安全に解決できないため一旦対象外。固定IDと公式根拠を保持する。
+PASS M123 deferred for real regional taxonomy variance: 令和8年度に岩国・由宇・周東・玖珂と錦・美川・美和・本郷等で住民向けCURRENTルールが併存し、食品トレー等で実際の分別先・排出方法が異なる。現行municipality単位Schema/UIでは安全に単一体系化できないため一旦対象外。固定IDと公式根拠を保持する。
+PASS Jinsekikogen preserves three can and three bottle child leaves
+PASS Jinsekikogen plastic heading collision keeps three exact resident streams: {'資源化しているごみ', '金属類', '特定家庭用機器廃棄物', 'その他のビン', 'スチール缶', '天ぷら油（食用油）', '不燃物', 'ペットボトル', '燃やしてよいごみ', '粗大ごみ', '容器包装外のプラスチック', '茶色ビン', 'アルミ缶', '容器や包装のプラスチック', 'その他の缶', '空きビン', '空きカン', '不燃物・容器包装以外のプラスチック', '無色ビン', '白色トレー', '有害ごみ'}
+PASS Jinsekikogen nonburnable group has four separately bagged leaves: children=4
+PASS Jinsekikogen spray rule does not invent a hole requirement: 中身を使い切る。つぶさない
+PASS Shimonoseki old paper parent has three child leaves: children=3
+PASS Shimonoseki bulky remains booked reference route
+PASS Ube old paper parent has three child leaves: children=3
+PASS Ube rechargeable battery is DROP_OFF reference leaf
+PASS Ube spray cans retain mandatory puncture rule: 中を空にする。スプレー缶は中身を使い切り、屋外で必ず穴を開ける
+PASS Yamaguchi old paper parent has five child leaves: children=5
+PASS Yamaguchi keeps July 2026 hazardous split: {'缶', '有害ごみ(1)', 'プラスチック製容器包装', 'ダンボール', '紙製容器包装', '金属・小型家電製品', '有害ごみ(2)', '燃やせるごみ', '新聞', '古紙', '紙パック', 'ペットボトル', 'びん', '燃やせないごみ', '粗大ごみ', '雑がみ'}
+PASS Yamaguchi both hazardous streams are DROP_OFF
+PASS Yamaguchi hazard1 spray prep retains puncture rule: スプレー缶等は中身を使い切り、屋外で穴を開ける
+PASS Hofu resource parent has seven official child leaves: children=7
+PASS Hofu dangerous parent has six official child leaves: children=6
+PASS Hofu paid special parent has three official child leaves: children=3
+PASS Hofu spray cans retain puncture rule: 中身を使い切り、屋外で穴を開ける
+PASS Kudamatsu combustible resources have four child leaves: children=4
+PASS Kudamatsu spray rule retains mandatory puncture: スプレー缶は中身を使い切り、必ず穴を開ける
+PASS Hikari remains exactly fourteen official leaves: {'容器・包装用プラスチック類', '段ボール', 'びん・缶類', '金属類', '小型家電製品', '古布類', '可燃ごみ', '新聞類', '陶磁器・ガラス・ゴム類', 'その他プラスチック類', 'ペットボトル', '可燃粗大ごみ', '有害ごみ', '雑誌類・雑がみ', '古紙類'}
+PASS Hikari old paper parent has exactly three leaves: children=3
+PASS Hikari spray cans retain mandatory puncture: スプレー缶等は中身を使い切り、必ず穴を開ける
+PASS Nagato remains seventeen official leaves: {'雑誌・雑紙', '古紙・衣類', 'その他色', '新聞', '衣類', '缶', 'ビン', '燃えないごみ', '無色', 'ダンボール', 'ペットボトル', '粗大ごみ', 'プラスチック製容器包装類', '蛍光灯（管）', '電池類', '牛乳パック', '燃えるごみ', '茶色', '紙製容器包装類'}
+PASS Nagato paper-clothing parent has five child leaves: children=5
+PASS Nagato bottle parent has three colour leaves: children=3
+PASS Nagato cans remain one official leaf
+PASS Nagato fluorescent tube leaf retained
+PASS coverage exactly eight x forty: coverage=320
+PASS no generic/filler category detail survives: categories=133
+PASS all category evidence uses research date
+BATCH12_RED_TEAM_SUMMARY=37/38
+red_team_rc=1
