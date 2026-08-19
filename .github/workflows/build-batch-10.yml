@@ -1,5 +1,6 @@
 name: Build Batch 10
 
+# Production verification trigger after active-target RED TEAM finalization.
 on:
   push:
     paths:
