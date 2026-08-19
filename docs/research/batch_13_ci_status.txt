@@ -1,0 +1,11 @@
+verified_at_utc=2026-08-19T12:44:06Z
+batch_13_active_municipalities=9
+deferred_municipalities=M127
+batch_13_structural_validation=PASS
+batch_13_red_team=PASS
+canonical_merge=PASS
+canonical_structural_validation=PASS
+schema_v1_2_4_red_team=PASS
+operational_category_semantics_red_team=PASS
+next_batch_gate=PASS
+app_readiness_gate=HOLD
