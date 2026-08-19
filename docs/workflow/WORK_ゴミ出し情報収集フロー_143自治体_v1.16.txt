@@ -1,0 +1,82 @@
+WORK_ゴミ出し情報収集フロー_143自治体_v1.16
+制定日: 2026-08-19
+Schema: v1.2.4
+
+1. 目的
+143自治体について、住民が家庭ごみを排出するときに実際に選択する自治体公式の分別体系を、授業用アプリへ安全に正規化する。
+
+2. category completeness
+処理施設側の工程区分・資源化フローではなく、住民向け公式案内で住民が実際に選択する分別区分を基準とする。
+
+- 自治体正式名称を改変しない。括弧・記号等を含め公式表記を保持する。
+- 現年度の変更告知は旧冊子より優先する。
+- 古い公式ページも、現在の公式導線・現年度カレンダー等で同体系の稼働が確認できればCURRENTとして利用できる。
+- 詳細品目表を無条件で独立SORT_BUCKETへ展開しない。
+- 定期収集ラベルではない拠点回収等は必要に応じREFERENCE_ONLYとする。
+
+3. 公式ページの所在と網羅性証拠を分ける
+自治体公式のごみページURLが現在存在することと、category completenessを証明できることは別である。
+
+以下の場合は、公式URLが特定できていても`NOT_REVIEWED / QA_REQUIRED`を維持する。
+
+- ページ本文・PDF本文を取得できず、全分別区分を読めない
+- 公式トップや索引しか確認できず、住民向け区分一覧を全件照合できない
+- 検索スニペットや第三者資料だけで区分体系を推定する必要がある
+
+この状態で、トップページを分別ガイドの代用品として扱ったり、一般的な自治体区分からcategory行を補作してはならない。
+
+4. Batch 07
+対象はM064〜M073。
+
+QA_PASSED:
+- M064 西ノ島町: 7
+- M066 隠岐の島町: 7
+- M067 岡山市: 6
+- M068 倉敷市: 5
+- M069 津山市: 6
+- M070 玉野市: 9
+- M071 笠岡市: 12
+- M072 井原市: 8
+- M073 総社市: 4
+
+QA_REQUIRED:
+- M065 知夫村
+
+知夫村は2026年の村公式案内から現行の「ゴミ・リサイクル」公式ページへ到達することは確認できたが、今回の取得環境で全分別区分本文を取得できない。そのためcategoryを推測で作成せずNOT_REVIEWEDを維持する。
+
+5. Batch 07真正性観点
+- 岡山市の「プラスチック資源」を現行体系へ反映する。
+- 倉敷市の雑がみを人工的な独立箱へ昇格させない。
+- 津山市の6種類を公式表記で保持する。
+- 笠岡市の現行名称「もやすしかないごみ」を使用する。
+- 笠岡市のガス・スプレー缶は公式の穴あけルールを保持する。
+- 井原市の製品プラスチック対象拡大を反映する。
+
+6. Batch Gate
+7成果物が存在しても、1自治体でもcategory completenessが未確認なら、そのBatchを完了扱いにしない。
+
+Batch 07現在:
+- 研究bundle: 作成済み
+- QA: 9 PASSED / 1 REQUIRED
+- NEXT_BATCH_GATE: HOLD
+- APP_READINESS_GATE: HOLD
+
+Batch 08は開始しない。
+
+7. canonical
+正式な完了自治体数はBatch 06までの65自治体を維持する。Batch 07の9 QA_PASSED自治体は研究bundle内に保持し、M065解消後にBatch 07全体を再validation・RED TEAMした上でcanonicalへ反映する。
+
+8. 再開条件
+M065について住民向け全区分を公式資料から取得し、以下をすべて満たす。
+
+- MANUAL_INDEX_REVIEWまたはOFFICIAL_COUNT_MATCHED
+- category_count_verified=TRUE
+- PRIMARY_INDEX evidence
+- Batch 07 structural validation PASS
+- Batch 07専用RED TEAM PASS
+- canonical validation PASS
+- Schema RED TEAM PASS
+- NEXT_BATCH_GATE PASS
+
+9. APP_READY
+category researchの完了とは独立する。40品目についてITEM_SPECIFIC公式証拠、coverage、全条件枝レビューが揃うまでAPP_READINESS_GATEはHOLDとする。
