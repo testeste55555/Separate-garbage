@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'scripts/build_batch_08.py'
+      - 'scripts/fix_batch08_authenticity.py'
       - 'scripts/red_team_batch_08.py'
       - '.github/workflows/build-batch-08.yml'
   workflow_dispatch:
@@ -27,6 +28,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 scripts/build_batch_08.py
+          python3 scripts/fix_batch08_authenticity.py
           python3 scripts/validate_research.py --batch batch_08
           python3 scripts/red_team_batch_08.py
       - name: Assert deliberate Bizen hold
@@ -49,6 +51,7 @@ jobs:
           verified_at_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           batch_08_structural_validation=PASS
           batch_08_red_team=PASS
+          setouchi_current_aerosol_authenticity=PASS
           qa_passed_in_batch=9
           qa_required_in_batch=1
           qa_required_municipality=M076
