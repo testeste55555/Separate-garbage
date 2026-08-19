@@ -177,5 +177,24 @@ CRE-M072-02,CR-M072-CATEGORY-COVERAGE,M072,S-M072-02,令和8年度の現行運�
 CRE-M072-03,CR-M072-CATEGORY-COVERAGE,M072,S-M072-03,資源の日の古紙・古着・廃食油の現行条件,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
 CRE-M072-04,CR-M072-CATEGORY-COVERAGE,M072,S-M072-04,製品プラスチックを含む現行資源ごみ（プラ）の条件,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
 CRE-M073-01,CR-M073-CATEGORY-COVERAGE,M073,S-M073-01,燃やせる・燃やせない・資源・不燃性粗大の4区分,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M074-01,CR-M074-CATEGORY-COVERAGE,M074,S-M074-01,燃やせる/燃やせない/びん/かん/PET/その他プラ/紙類の住民区分と前処理,PRIMARY_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M075-01,CR-M075-CATEGORY-COVERAGE,M075,S-M075-01,可燃・埋立・資源ごみ（再資源化物）・粗大ごみの住民区分,PRIMARY_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M077-01,CR-M077-CATEGORY-COVERAGE,M077,S-M077-01,令和8年度カレンダー・分別マニュアルへの現行導線,PRIMARY_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M077-02,CR-M077-CATEGORY-COVERAGE,M077,S-M077-02,現行9収集ラベル,SUPPLEMENTAL_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M077-03,CR-M077-CATEGORY-COVERAGE,M077,S-M077-03,令和8年4月から製品プラスチックを含めた一括回収,SUPPLEMENTAL_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M078-01,CR-M078-CATEGORY-COVERAGE,M078,S-M078-01,2026年度カレンダーと分別資料への公式索引,PRIMARY_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M078-02,CR-M078-CATEGORY-COVERAGE,M078,S-M078-02,A/B/C/D地域で共通する現行分別ラベル,SUPPLEMENTAL_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M078-03,CR-M078-CATEGORY-COVERAGE,M078,S-M078-03,プラスチック製容器包装と製品プラスチックをプラスチック資源として回収,SUPPLEMENTAL_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M079-01,CR-M079-CATEGORY-COVERAGE,M079,S-M079-01,分別表に(1)～(16)があることを明示,OFFICIAL_TOTAL,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M079-02,CR-M079-CATEGORY-COVERAGE,M079,S-M079-02,16区分の正式名称と代表品目・前処理,SUPPLEMENTAL_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M080-01,CR-M080-CATEGORY-COVERAGE,M080,S-M080-01,実際の分別コンテナ・袋ごとの詳細区分と前処理,PRIMARY_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M080-02,CR-M080-CATEGORY-COVERAGE,M080,S-M080-02,現年度に同区分体系が稼働すること,SUPPLEMENTAL_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M081-01,CR-M081-CATEGORY-COVERAGE,M081,S-M081-01,令和7年12月15日以降の変更と各地域ページへの公式索引,PRIMARY_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M081-02,CR-M081-CATEGORY-COVERAGE,M081,S-M081-02,もえる/もえない/不燃性粗大/資源物と資源11品目,SUPPLEMENTAL_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M081-03,CR-M081-CATEGORY-COVERAGE,M081,S-M081-03,もえないごみ・不燃性粗大ごみが同日に収集される地域でも資源11品目は共通,SUPPLEMENTAL_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M082-01,CR-M082-CATEGORY-COVERAGE,M082,S-M082-01,令和8年度各地区カレンダーへの公式導線,PRIMARY_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M082-02,CR-M082-CATEGORY-COVERAGE,M082,S-M082-02,CURRENT区分、危険物前処理、令和8年10月開始予定の製品プラスチック,SUPPLEMENTAL_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M083-01,CR-M083-CATEGORY-COVERAGE,M083,S-M083-01,燃やせる・燃やせないごみと収集シール条件,PRIMARY_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
+CRE-M083-02,CR-M083-CATEGORY-COVERAGE,M083,S-M083-02,紙類・金属類・びん等・布類/PETの4資源系統,SUPPLEMENTAL_INDEX,2026-08-19 Batch 08 resident-facing category completeness review
 CRE-M094-01,CR-M094-CATEGORY-COVERAGE,M094,S-M094-01,ページ内公式索引の可燃ごみ〜大型ごみ,PRIMARY_INDEX,2026-08-18 category completeness review
 CRE-M102-01,CR-M102-CATEGORY-COVERAGE,M102,S-M102-01,ごみの分別：13種類,OFFICIAL_TOTAL,2026-08-18 category completeness review
