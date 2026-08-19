@@ -4,7 +4,6 @@ on:
   push:
     paths:
       - 'scripts/build_batch_03.py'
-      - 'scripts/resolve_m028_operational.py'
       - 'scripts/patch_operational_category_qa.py'
       - 'scripts/finalize_schema_v124.py'
       - 'scripts/red_team_batch_03.py'
@@ -32,7 +31,6 @@ jobs:
         run: |
           set -euo pipefail
           python3 scripts/patch_operational_category_qa.py
-          python3 scripts/resolve_m028_operational.py
           python3 scripts/finalize_schema_v124.py
       - name: Build, validate, merge and RED TEAM
         shell: bash
