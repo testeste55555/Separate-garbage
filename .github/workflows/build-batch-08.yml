@@ -1,0 +1,71 @@
+name: Build Batch 08
+
+on:
+  push:
+    paths:
+      - 'scripts/build_batch_08.py'
+      - 'scripts/red_team_batch_08.py'
+      - '.github/workflows/build-batch-08.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build and validate Batch 08 research bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/build_batch_08.py
+          python3 scripts/validate_research.py --batch batch_08
+          python3 scripts/red_team_batch_08.py
+      - name: Assert deliberate Bizen hold
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import csv
+          from pathlib import Path
+          p=Path('data/research/batches/batch_08/batch_08_qa.csv')
+          with p.open(encoding='utf-8-sig',newline='') as f:
+              rows={r['municipality_id']:r for r in csv.DictReader(f)}
+          passed=sorted(mid for mid,r in rows.items() if r['確認ステータス']=='QA_PASSED')
+          required=sorted(mid for mid,r in rows.items() if r['確認ステータス']=='QA_REQUIRED')
+          assert len(passed)==9, passed
+          assert required==['M076'], required
+          print('Batch 08 deliberate HOLD confirmed: 9 PASSED / M076 REQUIRED')
+          PY
+          mkdir -p docs/research
+          cat > docs/research/batch_08_ci_status.txt <<EOF
+          verified_at_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          batch_08_structural_validation=PASS
+          batch_08_red_team=PASS
+          qa_passed_in_batch=9
+          qa_required_in_batch=1
+          qa_required_municipality=M076
+          canonical_merge=DEFERRED
+          next_batch_gate=HOLD
+          app_readiness_gate=HOLD
+          EOF
+      - name: Commit Batch 08 research bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/master/02_official_domain_registry.csv data/research/batches/batch_08 docs/research/batch_08_ci_status.txt
+          if git diff --cached --quiet; then
+            echo 'No generated changes to commit.'
+            exit 0
+          fi
+          git commit -m 'Add Batch 08 research with Bizen scope hold'
+          git push
