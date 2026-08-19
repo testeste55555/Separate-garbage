@@ -1,0 +1,128 @@
+WORK_ゴミ出し情報収集フロー_143自治体_v1.22
+制定日: 2026-08-19
+Schema: v1.2.4
+
+1. 目的
+143固定ID自治体のうち、現在安全にresident-facing taxonomyを一意化できるactive自治体について、住民が家庭ごみ排出時に実際に選択する公式分別区分を構造化する。
+
+2. 現行原則
+- 処理施設側の工程ではなく、住民向け公式分別区分をcategory completenessの基準とする。
+- 自治体正式名称は括弧・中点等を含め公式表記を保持する。
+- CURRENT + SORT_BUCKETのみを学習者用の仕分け箱へ投影する。
+- 粗大・拠点回収・予約・メーカー回収等は必要に応じREFERENCE_ONLYとする。
+- 住民が別袋・別束・別容器へ分ける公式子区分は、必要に応じ投影親＋公式子葉で保持し、親を公式葉数へ二重計上しない。
+- ただし、公式見出しと実排出区分が同名である場合、人工的な名称修飾を作らずcategory_groupで束ねる。
+- 特殊経路だけを束ねる非操作的な見出しを、Schema制約回避のためだけにSORT_BUCKETへ昇格させない。必要なら親行を持たず、同一category_groupの独立REFERENCE_ONLY葉とする。
+- 内部説明上の小分類だけを理由に独立categoryへ増やさない。
+- PLANNED / RETIREDはCURRENTへ混ぜない。
+- 公式記載がないCORE詳細はNOT_STATED_IN_CITED_SOURCEとし、空欄回避用の汎用文を補作しない。
+- 危険物前処理は自治体固有。穴あけ必須/不要等を全国・県内共通化しない。
+- 年度の異なる資料が競合する場合、現行年度・最新更新の公式資料を優先する。
+- 固定IDはDEFERREDでも削除・再採番しない。
+
+3. OFFICIAL_COUNT_MATCHEDの厳格化
+公式ページ・公式資料が、canonicalで数えるresident-facing official leafと同じ粒度の数値総数を明示する場合のみOFFICIAL_COUNT_MATCHEDを使用する。
+一覧をこちらで数えた場合、上位分類数と住民が実際に分ける子区分数が異なる場合、または数値総数が現行年度資料そのものに明示されていない場合はMANUAL_INDEX_REVIEWとする。
+
+Batch 12のactive 8自治体はすべてMANUAL_INDEX_REVIEWとした。
+
+4. 地域variant
+同一自治体内で地域ごとにCURRENTな正式名称・分類先・排出単位が異なり、municipality単位Schemaで住民の地域を特定できない場合はSCHEMA_SCOPE_LIMITATIONとしてDEFERREDにする。
+
+単なる収集曜日・収集頻度差だけならDEFERRED理由にしない。
+
+Batch 12で追加:
+- M120 萩市: 大島・見島・相島地区で一部分別区分が異なることを市公式が明示。
+- M123 岩国市: 地域群により食品トレー等の実際の分別先・排出方法が異なる。
+
+既存DEFERRED:
+- M065 知夫村
+- M076 備前市
+- M086 新庄村
+- M098 尾道市
+- M099 福山市
+- M100 府中市
+- M120 萩市
+- M123 岩国市
+
+5. Batch 12
+MASTER範囲: M116〜M125。
+
+active:
+- M116 神石高原町: 18公式葉
+- M117 下関市: 10公式葉
+- M118 宇部市: 13公式葉
+- M119 山口市: 15公式葉
+- M121 防府市: 18公式葉
+- M122 下松市: 15公式葉
+- M124 光市: 14公式葉
+- M125 長門市: 17公式葉
+
+DEFERRED:
+- M120 萩市
+- M123 岩国市
+
+6. Batch 12で固定した真正性原則
+A. 公式見出しと実排出区分が同名でも人工名称を作らない
+神石高原町では`容器や包装のプラスチック`が上位見出しであると同時に、3つの別袋区分のうち1つの正式名称でもある。`（プラマーク）`等の人工サフィックスをcanonical正式名称に残さず、category_groupを使ってペットボトル／容器や包装のプラスチック／白色トレーを束ねる。
+
+B. 特殊経路の投影親を無理にSORT_BUCKETへしない
+防府市の`粗大ごみ・埋立ごみ・一時多量ごみ（有料収集）`は説明上の見出しとして利用できるが、3葉を一つの学習者SORT_BUCKETに統合すると真正性を落とす。3葉を同一category_groupの独立REFERENCE_ONLYとして保持する。
+
+C. ステーション外経路を通常収集へ寄せない
+宇部市の充電式電池はDROP_OFF、粗大ごみはBOOKED_PICKUP。山口市の2026年7月改定`有害ごみ(1)`と`有害ごみ(2)`もDROP_OFF。collection_channelを使って経路差を保持する。
+
+D. 最新更新で分割された危険物体系を旧体系へ戻さない
+山口市では2026-07-15更新の`有害ごみ(1)`／`有害ごみ(2)`を現行とし、一つの`有害ごみ`へ統合しない。
+
+E. 数字がある計画でも現行年度との照合を要求する
+光市の14分別、長門市の17分別は公式計画上の数値を補強証拠として使用するが、現行令和8年度ページ・ガイドとの一致を確認した上でMANUAL_INDEX_REVIEWとする。古い数値だけをOFFICIAL_COUNT_MATCHEDへ流用しない。
+
+F. 危険物前処理の自治体差を保持する
+- 神石高原町: スプレー缶は使い切り・つぶさない。公式本文に穴あけ指示がないため補作しない。
+- 宇部市: 屋外で必ず穴を開ける。
+- 山口市: 有害ごみ(1)で使い切り、屋外で穴を開ける。
+- 防府市: 使い切り、屋外で穴を開ける。
+- 下松市: 必ず穴を開ける。
+- 光市: 必ず穴を開ける。
+隣接自治体のルールを横展開しない。
+
+7. Batch 12 Gate
+- Batch structural validation: PASS
+- Batch 12 RED TEAM: PASS
+- canonical merge: PASS
+- canonical structural validation: PASS
+- Schema v1.2.4 RED TEAM: PASS
+- operational category semantics RED TEAM: PASS
+- NEXT_BATCH_GATE: PASS
+- APP_READINESS_GATE: HOLD
+
+8. 現在地
+- 固定ID: 143
+- active実装対象: 135
+- DEFERRED: 8
+- canonical自治体: 117
+- QA: 117/117 QA_PASSED
+- category: 1,402行
+- structured official leaves: 1,290
+- source: 316
+- initial mapping branches: 1,180
+- coverage: 4,680
+- category review evidence: 279
+
+9. APP_READY
+category研究の完了とは独立する。40共通品目についてITEM_SPECIFIC公式証拠、coverage、全条件枝レビューが揃うまでAPP_READINESS_GATEはHOLDとする。
+
+10. 次Batch
+NEXT_BATCH_GATE PASS。
+Batch 13はM126〜M135の山口県残り10自治体を基本範囲とする。
+- M126 柳井市
+- M127 美祢市
+- M128 周南市
+- M129 山陽小野田市
+- M130 周防大島町
+- M131 和木町
+- M132 上関町
+- M133 田布施町
+- M134 平生町
+- M135 阿武町
