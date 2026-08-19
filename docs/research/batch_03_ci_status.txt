@@ -1,0 +1,7 @@
+verified_at_utc=2026-08-19T03:39:40Z
+batch_03_structural_validation=PASS
+canonical_structural_validation=PASS
+schema_red_team=PASS
+batch_03_red_team=PASS
+next_batch_gate=HOLD
+expected_evidence_hold=M028
