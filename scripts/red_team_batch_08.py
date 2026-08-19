@@ -19,7 +19,11 @@ def main():
  _,deferred=read_csv(MASTER/'05_deferred_municipalities.csv')
  by={r['municipality_id']:r for r in munis}; q={r['municipality_id']:r for r in qa}; evc=Counter(r['municipality_id'] for r in ev)
  cur={(r['municipality_id'],r['自治体正式名称']):r for r in cats if r.get('rule_status')=='CURRENT'}
- names={mid:{r['自治体正式名称'] for r in cats if r['municipality_id']==mid and r.get('rule_status')=='CURRENT'} for mid in TARGETS}
+ # Resident-category name sets deliberately exclude EXCLUDED_NOTICE audit rows.
+ # counted_category_total() follows the same semantic boundary; otherwise a
+ # valid six-leaf municipality plus one non-collected notice would fail an
+ # exact-set assertion even though the resident-facing category system is right.
+ names={mid:{r['自治体正式名称'] for r in cats if r['municipality_id']==mid and r.get('rule_status')=='CURRENT' and r.get('ui_role')!='EXCLUDED_NOTICE'} for mid in TARGETS}
  checks=[]
  checks.append(('structural validation passes',not errors,f'errors={len(errors)}'))
  checks.append(('exact active target set',set(by)==TARGETS,str(sorted(by))))
