@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'scripts/build_batch_07.py'
+      - 'scripts/batch07_verified_supplement.py'
       - 'scripts/red_team_batch_07.py'
       - '.github/workflows/build-batch-07.yml'
   workflow_dispatch:
@@ -22,21 +23,47 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Build Batch 07 only
+      - name: Build, validate, merge and RED TEAM
         shell: bash
         run: |
           set -euo pipefail
           python3 scripts/build_batch_07.py
-      - name: Commit generated research bundle
+          python3 scripts/validate_research.py --batch batch_07
+          python3 scripts/merge_research.py
+          python3 scripts/validate_research.py
+          python3 scripts/red_team_schema_v12.py
+          python3 scripts/red_team_operational_category_semantics.py
+          python3 scripts/red_team_batch_07.py
+          set +e
+          python3 scripts/check_next_batch_gate.py
+          gate_rc=$?
+          set -e
+          if [ "$gate_rc" -ne 2 ]; then
+            echo "Expected NEXT_BATCH_GATE HOLD because M065 is QA_REQUIRED; got rc=$gate_rc"
+            exit 1
+          fi
+          mkdir -p docs/research
+          cat > docs/research/batch_07_ci_status.txt <<EOF
+          verified_at_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          batch_07_structural_validation=PASS
+          canonical_structural_validation=PASS
+          schema_v1_2_4_red_team=PASS
+          batch_07_red_team=PASS
+          qa_passed_in_batch=9
+          qa_required_in_batch=1
+          qa_required_municipality=M065
+          next_batch_gate=HOLD
+          EOF
+      - name: Commit generated research data
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/master/02_official_domain_registry.csv data/research/batches/batch_07
+          git add data/master/02_official_domain_registry.csv data/research/batches/batch_07 data/research/02_categories_master.csv data/research/03_sources_master.csv data/research/04_municipalities_research.csv data/research/05_item_mapping_master.csv data/research/06_qa_log.csv data/research/07_item_mapping_coverage.csv data/research/08_category_review_evidence.csv docs/research/batch_07_ci_status.txt
           if git diff --cached --quiet; then
             echo 'No generated changes to commit.'
             exit 0
           fi
-          git commit -m 'Generate Batch 07 research bundle'
+          git commit -m 'Merge Batch 07 with Chibu research hold'
           git push
