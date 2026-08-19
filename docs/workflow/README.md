@@ -15,8 +15,11 @@
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.13.txt`：Batch 04で現行変更・地域差・詳細表の過剰細分化防止を実地適用した履歴版
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.14.txt`：Batch 05で鳥取県残自治体と島根県主要市へ住民向け区分semanticsを展開した履歴版
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.15.txt`：Batch 06で広域処理主体・公式親子区分・逆方向の危険物前処理・複合収集ラベルを実地適用した履歴版
-- `WORK_ゴミ出し情報収集フロー_143自治体_v1.16.txt`：**現行版**。Batch 07で「公式URLの所在確認」と「全分別区分の網羅性証明」を分離し、証拠本文を取得できない自治体を推測でQA_PASSEDへ上げないルールを明文化
+- `WORK_ゴミ出し情報収集フロー_143自治体_v1.16.txt`：Batch 07証拠不足HOLD時の履歴版。「公式URLの所在確認」と「全分別区分の網羅性証明」を分離
+- `WORK_ゴミ出し情報収集フロー_143自治体_v1.17.txt`：**現行版**。固定IDとactive targetを分離し、M065知夫村をDEFERREDとしてBatch 07を9自治体で完了
 
-Batch 07（M064〜M073）は研究bundleを作成済みです。西ノ島町・隠岐の島町・岡山市・倉敷市・津山市・玉野市・笠岡市・井原市・総社市の9自治体は公式根拠から`QA_PASSED`、M065知夫村だけは現行公式「ゴミ・リサイクル」ページの所在までは確認できるものの全分別区分本文を取得できないため`NOT_REVIEWED / QA_REQUIRED`を維持しています。
+Batch 07はM064・M066〜M073の9自治体で完了しました。9自治体すべて`QA_PASSED`です。M065知夫村は2026-08-19のユーザー判断で一旦実装対象外とし、`data/master/05_deferred_municipalities.csv`に記録しています。固定IDは保持するため、後日M065のまま再開できます。
 
-したがってBatch 07は完了扱いにせず、正式なcanonical完了値はBatch 06までの65自治体を維持します。`NEXT_BATCH_GATE`はHOLD、Batch 08は開始しません。`APP_READINESS_GATE`も40品目の品目別公式確認未完了のためHOLDです。
+Batch 07のCIはstructural validation・専用RED TEAM・canonical merge・canonical validation・Schema v1.2.4 RED TEAM・`NEXT_BATCH_GATE`までPASSしています。
+
+現在のcanonicalは74自治体、910 category行（構造化公式葉840区分）、216公式出典、797 mapping条件枝、2,960 coverage pair、180 category review evidenceです。`NEXT_BATCH_GATE=PASS`のため次Batchへ進行可能です。`APP_READINESS_GATE`は40品目の品目別公式確認未完了のためHOLDです。
