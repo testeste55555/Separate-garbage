@@ -6,12 +6,14 @@ on:
       - 'scripts/build_batch_12.py'
       - 'scripts/build_batch_12_active.py'
       - 'scripts/red_team_batch_12.py'
+      - 'scripts/red_team_batch_12_active.py'
       - '.github/workflows/build-batch-12.yml'
   pull_request:
     paths:
       - 'scripts/build_batch_12.py'
       - 'scripts/build_batch_12_active.py'
       - 'scripts/red_team_batch_12.py'
+      - 'scripts/red_team_batch_12_active.py'
       - '.github/workflows/build-batch-12.yml'
   workflow_dispatch:
 
@@ -35,7 +37,7 @@ jobs:
           set -euo pipefail
           python3 scripts/build_batch_12_active.py
           python3 scripts/validate_research.py --batch batch_12 --next-batch-gate
-          python3 scripts/red_team_batch_12.py
+          python3 scripts/red_team_batch_12_active.py
       - name: Merge completed Batch 12 and run global gates
         shell: bash
         run: |
