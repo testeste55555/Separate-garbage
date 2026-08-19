@@ -1,5 +1,6 @@
 name: Build Batch 08
 
+# Verification touch: this workflow is also exercised by pull requests before production merge.
 on:
   push:
     paths:
