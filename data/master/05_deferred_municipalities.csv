@@ -1,0 +1,2 @@
+municipality_id,都道府県,市町村,status,reason,deferred_date,decision_source
+M065,島根県,知夫村,DEFERRED,公式一次資料本文の全区分確認が安定しないため一旦実装対象外。固定IDは保持し後日再開可能とする。,2026-08-19,USER_DECISION
