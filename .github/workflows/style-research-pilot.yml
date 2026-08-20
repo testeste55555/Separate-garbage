@@ -3,6 +3,7 @@ name: Style Research Pilot CI
 on:
   push:
     paths:
+      - 'app/**'
       - 'data/style_research/**'
       - 'docs/style_research/**'
       - 'scripts/build_style_research_pilot.py'
@@ -11,6 +12,7 @@ on:
       - '.github/workflows/style-research-pilot.yml'
   pull_request:
     paths:
+      - 'app/**'
       - 'data/style_research/**'
       - 'docs/style_research/**'
       - 'scripts/build_style_research_pilot.py'
@@ -43,3 +45,5 @@ jobs:
         run: |
           python3 scripts/validate_research.py
           python3 scripts/validate_teaching_display_layer.py
+      - name: Check learner UI JavaScript syntax
+        run: node --check app/app.js
