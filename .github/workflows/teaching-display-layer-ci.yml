@@ -8,6 +8,7 @@ on:
       - "data/master/06_teaching_item_group_mapping.csv"
       - "data/master/01_municipalities_master.csv"
       - "data/research/02_categories_master.csv"
+      - "data/research/04_municipalities_research.csv"
       - "scripts/validate_teaching_display_layer.py"
       - ".github/workflows/teaching-display-layer-ci.yml"
   pull_request:
@@ -17,6 +18,7 @@ on:
       - "data/master/06_teaching_item_group_mapping.csv"
       - "data/master/01_municipalities_master.csv"
       - "data/research/02_categories_master.csv"
+      - "data/research/04_municipalities_research.csv"
       - "scripts/validate_teaching_display_layer.py"
       - ".github/workflows/teaching-display-layer-ci.yml"
 
