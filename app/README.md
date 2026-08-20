@@ -4,10 +4,11 @@
 
 ## 現在の実装: 学習者投影画面 v0.1
 
-`index.html` を開くと、QA済みcategory正本から次の条件で分別ボックスを実行時抽出します。
+`index.html` を開くと、正本データから次の条件で分別ボックスを実行時抽出します。
 
-- `ui_role = SORT_BUCKET`
-- `rule_status = CURRENT`
+- `04_municipalities_research.csv` の `確認ステータス = QA_PASSED`
+- `02_categories_master.csv` の `ui_role = SORT_BUCKET`
+- `02_categories_master.csv` の `rule_status = CURRENT`
 - 選択した `municipality_id`
 
 画面上の箱名は `自治体正式名称` をそのまま使用します。
@@ -19,6 +20,7 @@
 ## データ参照
 
 - `../data/master/01_municipalities_master.csv`
+- `../data/research/04_municipalities_research.csv`
 - `../data/research/02_categories_master.csv`
 
-表示用の分別区分を別マスターへ複製しないため、category正本と画面表示が乖離しない構造です。
+表示用の分別区分を別マスターへ複製しないため、category正本と画面表示が乖離しない構造です。また、調査途中の自治体は選択肢に出しません。
