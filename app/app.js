@@ -3,6 +3,7 @@
 
   const DATA_PATHS = {
     municipalities: "../data/master/01_municipalities_master.csv",
+    municipalityResearch: "../data/research/04_municipalities_research.csv",
     categories: "../data/research/02_categories_master.csv"
   };
 
@@ -83,18 +84,27 @@
     return 5;
   }
 
-  function buildData(municipalities, categories) {
+  function buildData(municipalities, municipalityResearch, categories) {
     municipalitiesById = new Map(
       municipalities.map((row) => [row.municipality_id.trim(), row])
     );
 
-    const eligible = categories.filter((row) =>
-      row.municipality_id?.trim() &&
-      row.category_id?.trim() &&
-      row["自治体正式名称"]?.trim() &&
-      row.ui_role?.trim() === "SORT_BUCKET" &&
-      row.rule_status?.trim() === "CURRENT"
+    const qaPassedIds = new Set(
+      municipalityResearch
+        .filter((row) => row["確認ステータス"]?.trim() === "QA_PASSED")
+        .map((row) => row.municipality_id?.trim())
+        .filter(Boolean)
     );
+
+    const eligible = categories.filter((row) => {
+      const id = row.municipality_id?.trim();
+      return id &&
+        qaPassedIds.has(id) &&
+        row.category_id?.trim() &&
+        row["自治体正式名称"]?.trim() &&
+        row.ui_role?.trim() === "SORT_BUCKET" &&
+        row.rule_status?.trim() === "CURRENT";
+    });
 
     bucketsByMunicipality = new Map();
     for (const row of eligible) {
@@ -195,21 +205,30 @@
 
   async function load() {
     try {
-      const [municipalityResponse, categoryResponse] = await Promise.all([
+      const [municipalityResponse, researchResponse, categoryResponse] = await Promise.all([
         fetch(DATA_PATHS.municipalities, { cache: "no-store" }),
+        fetch(DATA_PATHS.municipalityResearch, { cache: "no-store" }),
         fetch(DATA_PATHS.categories, { cache: "no-store" })
       ]);
 
-      if (!municipalityResponse.ok || !categoryResponse.ok) {
-        throw new Error(`data load failed: municipalities=${municipalityResponse.status}, categories=${categoryResponse.status}`);
+      if (!municipalityResponse.ok || !researchResponse.ok || !categoryResponse.ok) {
+        throw new Error(
+          `data load failed: municipalities=${municipalityResponse.status}, ` +
+          `research=${researchResponse.status}, categories=${categoryResponse.status}`
+        );
       }
 
-      const [municipalityText, categoryText] = await Promise.all([
+      const [municipalityText, researchText, categoryText] = await Promise.all([
         municipalityResponse.text(),
+        researchResponse.text(),
         categoryResponse.text()
       ]);
 
-      buildData(parseCsv(municipalityText), parseCsv(categoryText));
+      buildData(
+        parseCsv(municipalityText),
+        parseCsv(researchText),
+        parseCsv(categoryText)
+      );
       populateMunicipalitySelect();
       renderBuckets("");
     } catch (error) {
@@ -226,6 +245,12 @@
 
   document.addEventListener("fullscreenchange", () => {
     document.body.classList.toggle("presentation-mode", Boolean(document.fullscreenElement));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !document.fullscreenElement) {
+      document.body.classList.remove("presentation-mode");
+    }
   });
 
   load();
