@@ -226,6 +226,7 @@
       municipalityName.textContent = "自治体を選択してください";
       statusText.textContent = "選択すると、その自治体の仕分け用ボックスだけを表示します。";
       presentationButton.disabled = true;
+      bucketGrid.dataset.columns = "1";
       return;
     }
 
@@ -233,7 +234,7 @@
     municipalityName.textContent = municipalityLabel(id);
     statusText.textContent = `${rows.length}区分`;
     presentationButton.disabled = rows.length === 0;
-    document.documentElement.style.setProperty("--bucket-columns", String(displayColumns(rows.length)));
+    bucketGrid.dataset.columns = String(displayColumns(rows.length));
 
     if (rows.length === 0) {
       const empty = document.createElement("p");
