@@ -53,6 +53,22 @@
 
 **固定143自治体のうち、現行Schemaで安全に一意化できる132 active自治体について、resident-facing category研究の初回一巡は完了しました。**
 
+### Style Research Pilot（2026-08-20）
+
+広島県TOP10の公式分別色を、category正本から独立した追加レイヤーとして実装した。
+
+- 固定TOP10: 10自治体（再ランキングなし）
+- category参照可能: 8自治体・51 CURRENT/SORT_BUCKET
+- 公式色観測: 61
+- UI projection: OFFICIAL_DERIVED 47 / NOT_CONFIRMED 4
+- style公式出典: 26
+- 中間RED TEAM: PASS
+- 最終RED TEAM: 24/24 PASS
+- `NEXT_STYLE_BATCH_GATE`: PASS
+- M098尾道市・M099福山市のアプリ接続: HOLD（地域variant対応category正本待ち）
+
+成果物索引: `docs/style_research/README.md`
+
 CI記録：`docs/research/batch_14_ci_status.txt`
 QA記録：`docs/research/batch_14_qa_report.md`
 現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.24.txt`
@@ -123,6 +139,8 @@ MASTER範囲はM136〜M143です。
 - `data/research/08_category_review_evidence.csv`：category completeness公式証拠
 - `docs/research/`：Batch QA・CI記録
 - `docs/workflow/`：作業フロー履歴（現行 v1.24）
+- `data/style_research/`：公式色の観測・UI projection・出典台帳
+- `docs/style_research/`：Style Schema、QA、RED TEAM、Gate、HANDOFF
 - `scripts/build_batch_*.py`：Batch再生成
 - `scripts/red_team_batch_*.py`：Batch専用RED TEAM
 

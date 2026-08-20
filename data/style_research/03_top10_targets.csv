@@ -1,0 +1,11 @@
+﻿rank,stage,municipality_id,municipality_name,canonical_status,style_research_status,district_scope_required,current_sort_bucket_count,source_ids,note
+1,A,M094,広島市,ACTIVE,COMPLETED,FALSE,7,SS-M094-01;SS-M094-02,市全域で同じ表面分別表を使用。区別色は公式PDFの区分見出しから近似。
+2,A,M099,福山市,DEFERRED,RESEARCHED_CANONICAL_DEFERRED,TRUE,0,SS-M099-01;SS-M099-02;SS-M099-03;SS-M099-04,市内一般・内海町・沼隈町で分別単位が異なる。正本category_id未確定のためstyle行は生成しない。
+3,A,M104,東広島市,ACTIVE,COMPLETED,FALSE,9,SS-M104-01;SS-M104-02,指定袋色は複数categoryで共有されるため観測として保持し、区分識別にはガイドの反復見出し色を採用。
+4,A,M098,尾道市,DEFERRED,RESEARCHED_CANONICAL_DEFERRED,TRUE,0,SS-M098-01;SS-M098-02;SS-M098-03;SS-M098-04;SS-M098-05;SS-M098-06,尾道・向島・御調・因島・瀬戸田の5地域variant。正本category_id未確定のためstyle行は生成しない。
+5,A,M095,呉市,ACTIVE,COMPLETED,FALSE,6,SS-M095-01;SS-M095-02,地区別日付は異なるが公式カレンダーの区分凡例と色体系は共通。
+6,B,M097,三原市,ACTIVE,COMPLETED,FALSE,9,SS-M097-01;SS-M097-02,ステーション看板の反復区分色を優先。
+7,B,M105,廿日市市,ACTIVE,COMPLETED,FALSE,5,SS-M105-01;SS-M105-02,指定袋の公式色名を優先。資源ごみ親は排出方法が複数のため単一色を確定しない。
+8,B,M106,安芸高田市,ACTIVE,COMPLETED,FALSE,5,SS-M106-01;SS-M106-02,公式ポスターで区分識別性がある行のみ採用。白地・複数子色の親は未確認。
+9,B,M109,海田町,ACTIVE,COMPLETED,FALSE,4,SS-M109-01;SS-M109-02,資源物親は白トレイ・資源回収ステーション・品目見出しで色が競合するため未確認。
+10,B,M107,江田島市,ACTIVE,COMPLETED,FALSE,6,SS-M107-01;SS-M107-02,令和8年度改定ポスターの反復区分帯色を採用。

@@ -1,0 +1,45 @@
+name: Style Research Pilot CI
+
+on:
+  push:
+    paths:
+      - 'data/style_research/**'
+      - 'docs/style_research/**'
+      - 'scripts/build_style_research_pilot.py'
+      - 'scripts/validate_style_research.py'
+      - 'scripts/red_team_style_research.py'
+      - '.github/workflows/style-research-pilot.yml'
+  pull_request:
+    paths:
+      - 'data/style_research/**'
+      - 'docs/style_research/**'
+      - 'scripts/build_style_research_pilot.py'
+      - 'scripts/validate_style_research.py'
+      - 'scripts/red_team_style_research.py'
+      - '.github/workflows/style-research-pilot.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild and confirm committed data is reproducible
+        run: |
+          set -euo pipefail
+          python3 scripts/build_style_research_pilot.py
+          git diff --exit-code -- data/style_research
+      - name: Validate and run Gate
+        run: python3 scripts/validate_style_research.py --gate
+      - name: Mutation RED TEAM
+        run: python3 scripts/red_team_style_research.py
+      - name: Existing-layer regression
+        run: |
+          python3 scripts/validate_research.py
+          python3 scripts/validate_teaching_display_layer.py
