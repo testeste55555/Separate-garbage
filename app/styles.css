@@ -2,7 +2,6 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", sans-serif;
   color: #111;
   background: #f4f4f4;
-  --bucket-columns: 3;
 }
 
 * { box-sizing: border-box; }
@@ -56,9 +55,14 @@ button:disabled, select:disabled { opacity: .55; cursor: not-allowed; }
 
 .bucket-grid {
   display: grid;
-  grid-template-columns: repeat(var(--bucket-columns), minmax(0, 1fr));
   gap: 16px;
 }
+
+.bucket-grid[data-columns="1"] { grid-template-columns: 1fr; }
+.bucket-grid[data-columns="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.bucket-grid[data-columns="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.bucket-grid[data-columns="4"] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.bucket-grid[data-columns="5"] { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 
 .bucket {
   min-height: 170px;
@@ -73,7 +77,24 @@ button:disabled, select:disabled { opacity: .55; cursor: not-allowed; }
   font-size: clamp(28px, 4vw, 54px);
   font-weight: 800;
   line-height: 1.15;
+  line-break: strict;
   overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.bucket--compact {
+  font-size: clamp(25px, 3.4vw, 48px);
+}
+
+.bucket--long {
+  font-size: clamp(21px, 2.7vw, 38px);
+  line-height: 1.2;
+}
+
+.bucket--neutral-style {
+  background: #fff;
+  border-color: #333;
+  color: #111;
 }
 
 .empty-state {
@@ -101,7 +122,6 @@ body.presentation-mode .app-shell {
 
 body.presentation-mode .bucket-grid {
   height: 100%;
-  grid-template-columns: repeat(var(--bucket-columns), minmax(0, 1fr));
   grid-auto-rows: 1fr;
 }
 
@@ -112,10 +132,18 @@ body.presentation-mode .bucket {
   font-size: clamp(30px, 4.2vw, 68px);
 }
 
+body.presentation-mode .bucket--compact {
+  font-size: clamp(27px, 3.6vw, 56px);
+}
+
+body.presentation-mode .bucket--long {
+  font-size: clamp(22px, 2.8vw, 44px);
+}
+
 @media (max-width: 760px) {
   .controls { align-items: stretch; flex-direction: column; }
   .control-group { min-width: 0; }
   .municipality-heading { align-items: flex-start; flex-direction: column; }
-  .bucket-grid { grid-template-columns: 1fr; }
+  .bucket-grid[data-columns] { grid-template-columns: 1fr; }
   .bucket { min-height: 120px; }
 }
