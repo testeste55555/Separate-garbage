@@ -1,0 +1,28 @@
+name: APP Readiness Decision Basis CI
+
+on:
+  push:
+    paths:
+      - 'scripts/app_readiness_evidence_policy.py'
+      - 'scripts/classify_app_readiness_decision_basis.py'
+      - 'scripts/red_team_app_readiness_decision_basis.py'
+      - '.github/workflows/app-readiness-decision-basis-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit-policy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Classify persisted evidence under new policy
+        run: |
+          set -euo pipefail
+          python3 scripts/classify_app_readiness_decision_basis.py
+          python3 scripts/red_team_app_readiness_decision_basis.py
+          python3 scripts/validate_research.py
