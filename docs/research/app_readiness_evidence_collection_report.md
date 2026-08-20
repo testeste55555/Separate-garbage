@@ -7,8 +7,8 @@ This is a conservative evidence-candidate harvest. No mapping/coverage status is
 - active municipalities: 132
 - municipality-item pairs: 5280
 - official source rows attempted: 368
-- source fetch OK: 346
-- source fetch ERROR: 22
+- source fetch OK: 345
+- source fetch ERROR: 23
 - candidate evidence rows: 21182
 
 ## Pair status
