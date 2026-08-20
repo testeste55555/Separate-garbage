@@ -4,8 +4,14 @@
   const DATA_PATHS = {
     municipalities: "../data/master/01_municipalities_master.csv",
     municipalityResearch: "../data/research/04_municipalities_research.csv",
-    categories: "../data/research/02_categories_master.csv"
+    categories: "../data/research/02_categories_master.csv",
+    styleProjection: "../data/style_research/08_style_ui_projection.csv"
   };
+
+  const MUNICIPAL_SCOPE = "MUNICIPALITY_WIDE";
+  const OFFICIAL_STYLE_STATUSES = new Set(["OFFICIAL_CONFIRMED", "OFFICIAL_DERIVED"]);
+  const HEX_RE = /^#[0-9A-Fa-f]{6}$/;
+  const SAFE_ID_RE = /^[A-Za-z0-9_-]+$/;
 
   const select = document.getElementById("municipalitySelect");
   const presentationButton = document.getElementById("presentationButton");
@@ -15,6 +21,7 @@
 
   let municipalitiesById = new Map();
   let bucketsByMunicipality = new Map();
+  let stylesByBucket = new Map();
 
   function parseCsv(text) {
     const rows = [];
@@ -84,6 +91,10 @@
     return 5;
   }
 
+  function styleKey(municipalityId, categoryId, scope = MUNICIPAL_SCOPE) {
+    return `${municipalityId}::${scope}::${categoryId}`;
+  }
+
   function buildData(municipalities, municipalityResearch, categories) {
     municipalitiesById = new Map(
       municipalities.map((row) => [row.municipality_id.trim(), row])
@@ -119,6 +130,58 @@
         if (byOrder !== 0) return byOrder;
         return a.category_id.localeCompare(b.category_id, "ja");
       });
+    }
+  }
+
+  function buildStyleData(styleRows) {
+    stylesByBucket = new Map();
+
+    for (const row of styleRows) {
+      const municipalityId = row.municipality_id?.trim();
+      const categoryId = row.category_id?.trim();
+      const scope = row.district_scope?.trim();
+
+      if (!municipalityId || !categoryId || scope !== MUNICIPAL_SCOPE) continue;
+      stylesByBucket.set(styleKey(municipalityId, categoryId, scope), row);
+    }
+  }
+
+  function findAppStyleSheet() {
+    return [...document.styleSheets].find((sheet) => {
+      if (!sheet.href) return false;
+      try {
+        const url = new URL(sheet.href, window.location.href);
+        return url.origin === window.location.origin && url.pathname.endsWith("/styles.css");
+      } catch (_error) {
+        return false;
+      }
+    });
+  }
+
+  function installOfficialStyleRules() {
+    const sheet = findAppStyleSheet();
+    if (!sheet) return;
+
+    for (const row of stylesByBucket.values()) {
+      const status = row.color_status?.trim();
+      const municipalityId = row.municipality_id?.trim();
+      const categoryId = row.category_id?.trim();
+      const background = row.display_color?.trim();
+      const border = row.border_color?.trim();
+      const text = row.text_color?.trim();
+
+      if (!OFFICIAL_STYLE_STATUSES.has(status)) continue;
+      if (!SAFE_ID_RE.test(municipalityId ?? "") || !SAFE_ID_RE.test(categoryId ?? "")) continue;
+      if (!HEX_RE.test(background ?? "") || !HEX_RE.test(border ?? "") || !HEX_RE.test(text ?? "")) continue;
+
+      const selector = `.bucket[data-municipality-id="${municipalityId}"][data-category-id="${categoryId}"]`;
+      const rule = `${selector} { background-color: ${background}; border-color: ${border}; color: ${text}; }`;
+
+      try {
+        sheet.insertRule(rule, sheet.cssRules.length);
+      } catch (error) {
+        console.warn("Could not install municipality style rule.", error);
+      }
     }
   }
 
@@ -181,10 +244,30 @@
     }
 
     for (const row of rows) {
+      const categoryId = row.category_id.trim();
+      const label = row["自治体正式名称"].trim();
+      const style = stylesByBucket.get(styleKey(id, categoryId));
       const box = document.createElement("div");
+
       box.className = "bucket";
-      box.dataset.categoryId = row.category_id;
-      box.textContent = row["自治体正式名称"].trim();
+      box.dataset.municipalityId = id;
+      box.dataset.categoryId = categoryId;
+      box.dataset.styleStatus = style?.color_status?.trim() || "NO_STYLE_RESEARCH";
+      box.textContent = label;
+
+      const length = [...label].length;
+      if (length >= 13) {
+        box.classList.add("bucket--long");
+      } else if (length >= 7) {
+        box.classList.add("bucket--compact");
+      }
+
+      if (OFFICIAL_STYLE_STATUSES.has(box.dataset.styleStatus)) {
+        box.classList.add("bucket--official-style");
+      } else {
+        box.classList.add("bucket--neutral-style");
+      }
+
       bucketGrid.appendChild(box);
     }
   }
@@ -205,10 +288,18 @@
 
   async function load() {
     try {
-      const [municipalityResponse, researchResponse, categoryResponse] = await Promise.all([
+      const styleRequest = fetch(DATA_PATHS.styleProjection, { cache: "no-store" })
+        .then((response) => response.ok ? response.text() : "")
+        .catch((error) => {
+          console.warn("Style layer unavailable; using neutral boxes.", error);
+          return "";
+        });
+
+      const [municipalityResponse, researchResponse, categoryResponse, styleText] = await Promise.all([
         fetch(DATA_PATHS.municipalities, { cache: "no-store" }),
         fetch(DATA_PATHS.municipalityResearch, { cache: "no-store" }),
-        fetch(DATA_PATHS.categories, { cache: "no-store" })
+        fetch(DATA_PATHS.categories, { cache: "no-store" }),
+        styleRequest
       ]);
 
       if (!municipalityResponse.ok || !researchResponse.ok || !categoryResponse.ok) {
@@ -229,6 +320,8 @@
         parseCsv(researchText),
         parseCsv(categoryText)
       );
+      buildStyleData(styleText ? parseCsv(styleText) : []);
+      installOfficialStyleRules();
       populateMunicipalitySelect();
       renderBuckets("");
     } catch (error) {
