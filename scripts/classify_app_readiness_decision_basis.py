@@ -145,6 +145,13 @@ def main() -> int:
                 if valid and cats:
                     basis = OFFICIAL_RULE_DERIVED
                     notes = "品目の直接記載は必須とせず、既存mappingを支えるCURRENT公式category ruleから判定。"
+                else:
+                    # An unresolved decision must never retain a partial evidence
+                    # claim from only the valid prefix of a multi-branch mapping.
+                    cats = []
+                    source_ids = []
+                    locators = []
+                    notes = "既存mappingの全branchをCURRENT公式category ruleで裏付けられないため未解決。"
             else:
                 general = [c for c in leaf_by_mid.get(mid, []) if general_category_matches(item_id, c.get("自治体正式名称", ""))]
                 if len(general) == 1:
