@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>自治体別 ごみ分別ボックス</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="controls" aria-label="表示設定">
+    <div class="control-group">
+      <label for="municipalitySelect">自治体</label>
+      <select id="municipalitySelect" disabled>
+        <option>読み込み中…</option>
+      </select>
+    </div>
+    <button id="presentationButton" type="button" disabled>投影表示</button>
+  </header>
+
+  <main class="app-shell">
+    <section class="municipality-heading" aria-live="polite">
+      <h1 id="municipalityName">自治体を選択してください</h1>
+      <p id="statusText">分別区分データを読み込んでいます。</p>
+    </section>
+
+    <section id="bucketGrid" class="bucket-grid" aria-label="分別区分"></section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
