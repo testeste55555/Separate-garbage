@@ -6,11 +6,14 @@ on:
       - 'scripts/collect_app_readiness_evidence.py'
       - 'scripts/collect_app_readiness_evidence_fast.py'
       - 'scripts/red_team_app_readiness_evidence.py'
+      - 'scripts/app_readiness_evidence_policy.py'
+      - 'scripts/classify_app_readiness_decision_basis.py'
+      - 'scripts/red_team_app_readiness_decision_basis.py'
       - '.github/workflows/app-readiness-evidence.yml'
   workflow_dispatch:
 
 concurrency:
-  group: app-readiness-evidence-main
+  group: app-readiness-evidence-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -41,19 +44,21 @@ jobs:
           EOF
           git add docs/research/app_readiness_evidence_run_started.txt
           git commit -m "Record APP evidence run ${GITHUB_RUN_ID}" || true
-          git pull --rebase origin main
-          git push
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin HEAD:"${GITHUB_REF_NAME}"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Install extraction dependencies
         run: |
           python3 -m pip install --disable-pip-version-check requests beautifulsoup4 pypdf
-      - name: Collect conservative official item evidence candidates
+      - name: Collect official evidence and classify decision basis
         run: |
           set -euo pipefail
           python3 scripts/collect_app_readiness_evidence_fast.py
           python3 scripts/red_team_app_readiness_evidence.py
+          python3 scripts/classify_app_readiness_decision_basis.py
+          python3 scripts/red_team_app_readiness_decision_basis.py
       - name: Confirm canonical APP gate remains honest
         run: |
           set +e
@@ -61,10 +66,10 @@ jobs:
           rc=$?
           set -e
           if [ "$rc" -ne 2 ]; then
-            echo "Expected current APP_READINESS_GATE HOLD during evidence-candidate collection; got rc=$rc"
+            echo "Expected current APP_READINESS_GATE HOLD during evidence audit; got rc=$rc"
             exit 1
           fi
-      - name: Commit evidence collection audit
+      - name: Commit evidence audit
         if: github.event_name == 'push'
         run: |
           set -euo pipefail
@@ -73,11 +78,13 @@ jobs:
           git add data/research/app_readiness/item_evidence_candidates.csv \
                   data/research/app_readiness/item_evidence_pair_status.csv \
                   data/research/app_readiness/official_source_fetch_status.csv \
-                  docs/research/app_readiness_evidence_collection_report.md
+                  data/research/app_readiness/item_decision_basis.csv \
+                  docs/research/app_readiness_evidence_collection_report.md \
+                  docs/research/app_readiness_decision_basis_report.md
           if git diff --cached --quiet; then
             echo 'No generated evidence audit changes to commit.'
             exit 0
           fi
-          git commit -m 'Collect APP readiness item evidence candidates'
-          git pull --rebase origin main
-          git push
+          git commit -m 'Audit APP readiness decision basis'
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin HEAD:"${GITHUB_REF_NAME}"
