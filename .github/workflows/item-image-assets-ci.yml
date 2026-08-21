@@ -1,0 +1,43 @@
+name: Item image assets CI
+
+on:
+  push:
+    paths:
+      - "app/assets/items/**"
+      - "data/app/item_image_assets.csv"
+      - "data/master/04_common_items_master.csv"
+      - "scripts/validate_item_image_assets.py"
+      - ".github/workflows/item-image-assets-ci.yml"
+  pull_request:
+    paths:
+      - "app/assets/items/**"
+      - "data/app/item_image_assets.csv"
+      - "data/master/04_common_items_master.csv"
+      - "scripts/validate_item_image_assets.py"
+      - ".github/workflows/item-image-assets-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate item image registry
+        run: python3 scripts/validate_item_image_assets.py
+      - name: Canonical research regression
+        run: python3 scripts/validate_research.py
+      - name: Teaching Display Layer regression
+        run: python3 scripts/validate_teaching_display_layer.py
+      - name: Style Research regression
+        run: |
+          set -euo pipefail
+          python3 scripts/build_style_research_pilot.py
+          git diff --exit-code -- data/style_research
+          python3 scripts/validate_style_research.py --gate
+          python3 scripts/red_team_style_research.py
