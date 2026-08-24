@@ -198,8 +198,8 @@ def validate_review_rows(review: list[dict[str, str]], root: Path = ROOT) -> lis
         row["municipality_id"] for row in rows(root / "data/research/07_item_mapping_coverage.csv")
         if row.get("coverage_status") == "APP_READY"
     }
-    if app_mids != {MID}:
-        errors.append(f"Pilot must atomically promote M094 only: {sorted(app_mids)}")
+    if MID not in app_mids:
+        errors.append(f"M094 must remain atomically APP_READY: {sorted(app_mids)}")
     return errors
 
 

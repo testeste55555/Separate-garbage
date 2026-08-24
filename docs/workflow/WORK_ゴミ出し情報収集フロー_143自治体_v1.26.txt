@@ -1,0 +1,30 @@
+WORK_ゴミ出し情報収集フロー_143自治体_v1.26
+制定日: 2026-08-24
+Schema: v1.2.4
+
+1. 継承
+category研究、地域variant、NEXT_BATCH_GATE、APP readinessの原子的昇格要件はWorkflow v1.25を継承する。
+
+2. M104 東広島市
+共通40品目を現行公式ごみブック・分別早見表・個別安全案内へ照合し、63条件枝をITEM_SPECIFIC / COMPLETE / APP_READYとした。
+
+- 40/40品目pair APP_READY
+- 63/63条件枝 COMPLETE
+- 専用validator PASS
+- mutation RED TEAM 22/22 PASS
+- M094回帰 16/16 PASS
+
+3. 市収集対象外の扱い
+家電4品目・家庭用パソコンは、燃やせない粗大ごみへ推測で割り当てない。公式「市が収集・処理しないごみ」を `EXCLUDED_NOTICE` として保持する。この参照行は住民向け11分別の公式件数と通常SORT_BUCKETへ加算しない。
+
+4. Gate
+
+- M094: 40/40 APP_READY
+- M104: 40/40 APP_READY
+- canonical全体: 2/132自治体完了のためAPP_READINESS_GATE HOLD
+- NEXT_BATCH_GATE: PASS
+
+自治体単位の完了数が増えても、全132 active自治体が原子的に40/40 APP_READYとなるまで全体GateをPASSさせない。
+
+5. 次工程
+地域variantでDEFERREDの自治体を除き、同じ公式照合・条件枝・validator・mutation RED TEAM手順で次のactive自治体へ進む。category Batchは再開しない。

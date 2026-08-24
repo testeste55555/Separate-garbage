@@ -36,20 +36,33 @@
 - Batch 14：**6自治体完了**（M136・M139 DEFERRED）
 - canonical：**132自治体**
 - canonical QA：**132 `QA_PASSED` / 0 `QA_REQUIRED`**
-- category：**1,594行**
+- category：**1,595行**（通常区分に加えM104の市収集対象外参照1件）
 - structured official leaves：**1,464区分**
-- official sources：**385**（うち品目別 `IS-*` 17件）
-- item mapping：**1,407条件枝**（M094の40品目・59条件枝をAPP_READY）
+- official sources：**393**（うち品目別 `IS-*` 24件）
+- item mapping：**1,453条件枝**（M094・M104の計80品目pairをAPP_READY）
 - 40品目coverage：**5,280自治体品目pair**
 - category review evidence：**331行**
 - Schema：**v1.2.4**
-- Workflow：**v1.25**
+- Workflow：**v1.26**
 - Batch 14専用RED TEAM：**PASS**
 - canonical structural validation：**PASS**
 - Schema v1.2.4 RED TEAM：**PASS**
 - operational category semantics RED TEAM：**PASS**
 - `NEXT_BATCH_GATE`：**PASS**
-- `APP_READINESS_GATE`：**HOLD**（M094は40/40 APP_READY、残る131 active自治体は未完了）
+- `APP_READINESS_GATE`：**HOLD**（M094・M104は各40/40 APP_READY、残る130 active自治体は未完了）
+
+### APP readiness Pilot M104（2026-08-24）
+
+東広島市の共通40品目を公式資料へ照合し、材質・プラマーク・汚れ・寸法・電池内蔵・枝径等の差を63条件枝で保持した。家電4品目とパソコンは通常箱へ誤投影せず、`EXCLUDED_NOTICE`で保持する。
+
+- 40/40品目pair：`APP_READY`
+- 63/63条件枝：`ITEM_SPECIFIC / COMPLETE / APP_READY`
+- M104自治体単位Gate：PASS
+- mutation RED TEAM：22/22 PASS
+- canonical全体Gate：HOLD（正常）
+
+監査表：`data/research/app_readiness/m104_item_review.csv`
+報告：`docs/research/app_readiness_m104_pilot_report.md`
 
 ### APP readiness Pilot M094（2026-08-24）
 
@@ -95,7 +108,7 @@ Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を
 
 CI記録：`docs/research/batch_14_ci_status.txt`
 QA記録：`docs/research/batch_14_qa_report.md`
-現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.25.txt`
+現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.26.txt`
 
 ## Batch 14
 
@@ -162,7 +175,7 @@ MASTER範囲はM136〜M143です。
 - `data/research/07_item_mapping_coverage.csv`：完了自治体×40品目の調査状態
 - `data/research/08_category_review_evidence.csv`：category completeness公式証拠
 - `docs/research/`：Batch QA・CI記録
-- `docs/workflow/`：作業フロー履歴（現行 v1.25）
+- `docs/workflow/`：作業フロー履歴（現行 v1.26）
 - `data/style_research/`：公式色の観測・UI projection・出典台帳
 - `docs/style_research/`：Style Schema、QA、RED TEAM、Gate、HANDOFF
 - `scripts/build_batch_*.py`：Batch再生成
