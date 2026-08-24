@@ -1,0 +1,56 @@
+name: Learner item sorting Pilot CI
+
+on:
+  push:
+    paths:
+      - "app/**"
+      - "data/app/item_image_assets.csv"
+      - "data/app/item_image_mapping_pilot_top8.csv"
+      - "data/master/04_common_items_master.csv"
+      - "data/research/02_categories_master.csv"
+      - "data/style_research/08_style_ui_projection.csv"
+      - "scripts/validate_learner_item_sorting_pilot.py"
+      - "scripts/red_team_learner_item_sorting_pilot.py"
+      - ".github/workflows/learner-item-sorting-pilot.yml"
+  pull_request:
+    paths:
+      - "app/**"
+      - "data/app/item_image_assets.csv"
+      - "data/app/item_image_mapping_pilot_top8.csv"
+      - "data/master/04_common_items_master.csv"
+      - "data/research/02_categories_master.csv"
+      - "data/style_research/08_style_ui_projection.csv"
+      - "scripts/validate_learner_item_sorting_pilot.py"
+      - "scripts/red_team_learner_item_sorting_pilot.py"
+      - ".github/workflows/learner-item-sorting-pilot.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate learner image-sorting UI projection
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_learner_item_sorting_pilot.py
+          python3 scripts/red_team_learner_item_sorting_pilot.py
+          node --check app/app.js
+      - name: Existing-layer regressions
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_research.py
+          python3 scripts/validate_item_image_assets.py
+          python3 scripts/validate_item_image_mapping_pilot.py
+          python3 scripts/red_team_item_image_mapping_pilot.py
+          python3 scripts/validate_teaching_display_layer.py
+          python3 scripts/build_style_research_pilot.py
+          git diff --exit-code -- data/style_research
+          python3 scripts/validate_style_research.py --gate
+          python3 scripts/red_team_style_research.py

@@ -25,6 +25,44 @@
       <p id="statusText">分別区分データを読み込んでいます。</p>
     </section>
 
+    <section id="practicePanel" class="practice-panel" aria-labelledby="practiceTitle" hidden>
+      <div class="practice-panel__header">
+        <div>
+          <p class="practice-kicker">画像仕分け Pilot</p>
+          <h2 id="practiceTitle">このごみは、どの箱？</h2>
+        </div>
+        <p id="practiceProgress" class="practice-progress"></p>
+      </div>
+
+      <div class="practice-stage">
+        <figure class="item-card">
+          <img id="itemImage" alt="">
+          <figcaption id="itemDisplayName"></figcaption>
+        </figure>
+
+        <div class="practice-copy">
+          <p id="itemCondition" class="item-condition"></p>
+          <p id="practiceInstruction">下の分別箱から1つ選んでください。</p>
+          <div id="answerFeedback" class="answer-feedback" role="status" aria-live="assertive"></div>
+          <div id="answerDetail" class="answer-detail" hidden>
+            <p id="answerDestination"></p>
+            <p id="answerPreparation"></p>
+            <p id="answerException"></p>
+          </div>
+          <button id="nextItemButton" class="next-item-button" type="button" hidden>次の品目</button>
+        </div>
+      </div>
+
+      <p class="pilot-notice">確認済みの代表条件を使うPilotです。色だけでなく、箱の正式名称と枠線も確認してください。</p>
+    </section>
+
+    <p id="practiceUnavailable" class="practice-unavailable" hidden></p>
+
+    <div id="styleLegend" class="style-legend" hidden aria-label="表示色の凡例">
+      <span><strong class="legend-label">公式資料</strong>自治体公式資料の色</span>
+      <span><strong class="legend-label">標準表示</strong>公式色未確認（推測しない）</span>
+    </div>
+
     <section id="bucketGrid" class="bucket-grid" aria-label="分別区分"></section>
   </main>
 

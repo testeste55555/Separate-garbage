@@ -5,23 +5,47 @@
     municipalities: "../data/master/01_municipalities_master.csv",
     municipalityResearch: "../data/research/04_municipalities_research.csv",
     categories: "../data/research/02_categories_master.csv",
-    styleProjection: "../data/style_research/08_style_ui_projection.csv"
+    styleProjection: "../data/style_research/08_style_ui_projection.csv",
+    itemAssets: "../data/app/item_image_assets.csv",
+    itemMappingPilot: "../data/app/item_image_mapping_pilot_top8.csv"
   };
 
   const MUNICIPAL_SCOPE = "MUNICIPALITY_WIDE";
   const OFFICIAL_STYLE_STATUSES = new Set(["OFFICIAL_CONFIRMED", "OFFICIAL_DERIVED"]);
   const HEX_RE = /^#[0-9A-Fa-f]{6}$/;
   const SAFE_ID_RE = /^[A-Za-z0-9_-]+$/;
+  const SAFE_IMAGE_RE = /^I\d{3}_[A-Za-z0-9_]+\.png$/;
 
   const select = document.getElementById("municipalitySelect");
   const presentationButton = document.getElementById("presentationButton");
   const municipalityName = document.getElementById("municipalityName");
   const statusText = document.getElementById("statusText");
   const bucketGrid = document.getElementById("bucketGrid");
+  const practicePanel = document.getElementById("practicePanel");
+  const practiceUnavailable = document.getElementById("practiceUnavailable");
+  const practiceProgress = document.getElementById("practiceProgress");
+  const itemImage = document.getElementById("itemImage");
+  const itemDisplayName = document.getElementById("itemDisplayName");
+  const itemCondition = document.getElementById("itemCondition");
+  const practiceInstruction = document.getElementById("practiceInstruction");
+  const answerFeedback = document.getElementById("answerFeedback");
+  const answerDetail = document.getElementById("answerDetail");
+  const answerDestination = document.getElementById("answerDestination");
+  const answerPreparation = document.getElementById("answerPreparation");
+  const answerException = document.getElementById("answerException");
+  const nextItemButton = document.getElementById("nextItemButton");
+  const styleLegend = document.getElementById("styleLegend");
 
   let municipalitiesById = new Map();
+  let categoryByKey = new Map();
   let bucketsByMunicipality = new Map();
   let stylesByBucket = new Map();
+  let assetsByItem = new Map();
+  let itemsByMunicipality = new Map();
+  let unresolvedByMunicipality = new Map();
+  let activeItems = [];
+  let activeItemIndex = 0;
+  let practiceFinished = false;
 
   function parseCsv(text) {
     const rows = [];
@@ -47,10 +71,10 @@
 
       if (char === '"') {
         quoted = true;
-      } else if (char === ',') {
+      } else if (char === ",") {
         row.push(field);
         field = "";
-      } else if (char === '\n') {
+      } else if (char === "\n") {
         row.push(field.replace(/\r$/, ""));
         rows.push(row);
         row = [];
@@ -66,12 +90,10 @@
     }
 
     if (rows.length === 0) return [];
-
     const headers = rows[0].map((value, index) => {
       const clean = value.trim();
       return index === 0 ? clean.replace(/^\uFEFF/, "") : clean;
     });
-
     return rows.slice(1)
       .filter((values) => values.some((value) => value.trim() !== ""))
       .map((values) => Object.fromEntries(headers.map((header, index) => [header, values[index] ?? ""])));
@@ -86,9 +108,12 @@
     if (count <= 2) return count || 1;
     if (count <= 4) return 2;
     if (count <= 6) return 3;
-    if (count <= 8) return 4;
     if (count <= 12) return 4;
     return 5;
+  }
+
+  function categoryKey(municipalityId, categoryId) {
+    return `${municipalityId}::${categoryId}`;
   }
 
   function styleKey(municipalityId, categoryId, scope = MUNICIPAL_SCOPE) {
@@ -96,8 +121,11 @@
   }
 
   function buildData(municipalities, municipalityResearch, categories) {
-    municipalitiesById = new Map(
-      municipalities.map((row) => [row.municipality_id.trim(), row])
+    municipalitiesById = new Map(municipalities.map((row) => [row.municipality_id.trim(), row]));
+    categoryByKey = new Map(
+      categories
+        .filter((row) => row.municipality_id?.trim() && row.category_id?.trim())
+        .map((row) => [categoryKey(row.municipality_id.trim(), row.category_id.trim()), row])
     );
 
     const qaPassedIds = new Set(
@@ -109,12 +137,8 @@
 
     const eligible = categories.filter((row) => {
       const id = row.municipality_id?.trim();
-      return id &&
-        qaPassedIds.has(id) &&
-        row.category_id?.trim() &&
-        row["自治体正式名称"]?.trim() &&
-        row.ui_role?.trim() === "SORT_BUCKET" &&
-        row.rule_status?.trim() === "CURRENT";
+      return id && qaPassedIds.has(id) && row.category_id?.trim() && row["自治体正式名称"]?.trim() &&
+        row.ui_role?.trim() === "SORT_BUCKET" && row.rule_status?.trim() === "CURRENT";
     });
 
     bucketsByMunicipality = new Map();
@@ -123,26 +147,75 @@
       if (!bucketsByMunicipality.has(id)) bucketsByMunicipality.set(id, []);
       bucketsByMunicipality.get(id).push(row);
     }
-
     for (const rows of bucketsByMunicipality.values()) {
       rows.sort((a, b) => {
         const byOrder = numericOrder(a["表示順"]) - numericOrder(b["表示順"]);
-        if (byOrder !== 0) return byOrder;
-        return a.category_id.localeCompare(b.category_id, "ja");
+        return byOrder || a.category_id.localeCompare(b.category_id, "ja");
       });
     }
   }
 
   function buildStyleData(styleRows) {
     stylesByBucket = new Map();
-
     for (const row of styleRows) {
       const municipalityId = row.municipality_id?.trim();
       const categoryId = row.category_id?.trim();
       const scope = row.district_scope?.trim();
-
       if (!municipalityId || !categoryId || scope !== MUNICIPAL_SCOPE) continue;
       stylesByBucket.set(styleKey(municipalityId, categoryId, scope), row);
+    }
+  }
+
+  function findSortBucket(municipalityId, categoryId) {
+    let currentId = categoryId;
+    const visited = new Set();
+    while (currentId && !visited.has(currentId)) {
+      visited.add(currentId);
+      const row = categoryByKey.get(categoryKey(municipalityId, currentId));
+      if (!row || row.rule_status?.trim() !== "CURRENT") return null;
+      if (row.ui_role?.trim() === "SORT_BUCKET") return row;
+      currentId = row.parent_category_id?.trim();
+    }
+    return null;
+  }
+
+  function buildItemData(assetRows, mappingRows) {
+    assetsByItem = new Map(
+      assetRows
+        .filter((row) => row.asset_status?.trim() === "CONFIRMED")
+        .map((row) => [row.internal_item_id?.trim(), row])
+    );
+    itemsByMunicipality = new Map();
+    unresolvedByMunicipality = new Map();
+
+    for (const row of mappingRows) {
+      const municipalityId = row.municipality_id?.trim();
+      if (!municipalityId) continue;
+      if (row.review_status?.trim() !== "VERIFIED") {
+        unresolvedByMunicipality.set(municipalityId, (unresolvedByMunicipality.get(municipalityId) ?? 0) + 1);
+        continue;
+      }
+
+      const itemId = row.internal_item_id?.trim();
+      const asset = assetsByItem.get(itemId);
+      const sortBucket = findSortBucket(municipalityId, row.category_id?.trim());
+      const imageFile = asset?.image_file?.trim();
+      if (!asset || !sortBucket || !SAFE_IMAGE_RE.test(imageFile ?? "") || !imageFile.startsWith(`${itemId}_`)) {
+        console.warn("A verified Pilot row could not be projected safely.", municipalityId, itemId);
+        continue;
+      }
+
+      const item = {
+        ...row,
+        imageFile,
+        uiCategoryId: sortBucket.category_id.trim(),
+        uiCategoryName: sortBucket["自治体正式名称"].trim()
+      };
+      if (!itemsByMunicipality.has(municipalityId)) itemsByMunicipality.set(municipalityId, []);
+      itemsByMunicipality.get(municipalityId).push(item);
+    }
+    for (const rows of itemsByMunicipality.values()) {
+      rows.sort((a, b) => numericOrder(a.pair_order) - numericOrder(b.pair_order));
     }
   }
 
@@ -161,7 +234,6 @@
   function installOfficialStyleRules() {
     const sheet = findAppStyleSheet();
     if (!sheet) return;
-
     for (const row of stylesByBucket.values()) {
       const status = row.color_status?.trim();
       const municipalityId = row.municipality_id?.trim();
@@ -169,16 +241,12 @@
       const background = row.display_color?.trim();
       const border = row.border_color?.trim();
       const text = row.text_color?.trim();
-
       if (!OFFICIAL_STYLE_STATUSES.has(status)) continue;
       if (!SAFE_ID_RE.test(municipalityId ?? "") || !SAFE_ID_RE.test(categoryId ?? "")) continue;
       if (!HEX_RE.test(background ?? "") || !HEX_RE.test(border ?? "") || !HEX_RE.test(text ?? "")) continue;
-
       const selector = `.bucket[data-municipality-id="${municipalityId}"][data-category-id="${categoryId}"]`;
-      const rule = `${selector} { background-color: ${background}; border-color: ${border}; color: ${text}; }`;
-
       try {
-        sheet.insertRule(rule, sheet.cssRules.length);
+        sheet.insertRule(`${selector} { background-color: ${background}; border-color: ${border}; color: ${text}; }`, sheet.cssRules.length);
       } catch (error) {
         console.warn("Could not install municipality style rule.", error);
       }
@@ -187,8 +255,7 @@
 
   function municipalityLabel(id) {
     const row = municipalitiesById.get(id);
-    if (!row) return id;
-    return `${row["都道府県"] ?? ""} ${row["市町村"] ?? ""}`.trim();
+    return row ? `${row["都道府県"] ?? ""} ${row["市町村"] ?? ""}`.trim() : id;
   }
 
   function populateMunicipalitySelect() {
@@ -197,9 +264,8 @@
       .sort((a, b) => {
         const aa = municipalitiesById.get(a);
         const bb = municipalitiesById.get(b);
-        const prefecture = (aa["都道府県"] ?? "").localeCompare(bb["都道府県"] ?? "", "ja");
-        if (prefecture !== 0) return prefecture;
-        return (aa["市町村"] ?? "").localeCompare(bb["市町村"] ?? "", "ja");
+        return (aa["都道府県"] ?? "").localeCompare(bb["都道府県"] ?? "", "ja") ||
+          (aa["市町村"] ?? "").localeCompare(bb["市町村"] ?? "", "ja");
       });
 
     select.replaceChildren();
@@ -207,35 +273,40 @@
     placeholder.value = "";
     placeholder.textContent = "自治体を選択";
     select.appendChild(placeholder);
-
     for (const id of ids) {
       const option = document.createElement("option");
       option.value = id;
-      option.textContent = municipalityLabel(id);
+      const itemCount = itemsByMunicipality.get(id)?.length ?? 0;
+      option.textContent = `${municipalityLabel(id)}${itemCount ? `（画像練習 ${itemCount}問）` : ""}`;
       select.appendChild(option);
     }
-
     select.disabled = false;
-    statusText.textContent = `${ids.length}自治体を選択できます。`;
+    statusText.textContent = `${ids.length}自治体を選択できます。画像練習Pilotは8自治体です。`;
+  }
+
+  function styleNote(status) {
+    if (status === "OFFICIAL_CONFIRMED") return "公式指定色";
+    if (status === "OFFICIAL_DERIVED") return "公式資料の色（近似）";
+    return "標準表示";
+  }
+
+  function clearBucketAnswerState() {
+    for (const box of bucketGrid.querySelectorAll(".bucket")) {
+      delete box.dataset.answerState;
+      if (box instanceof HTMLButtonElement) box.disabled = false;
+    }
   }
 
   function renderBuckets(id) {
     bucketGrid.replaceChildren();
-
     if (!id) {
-      municipalityName.textContent = "自治体を選択してください";
-      statusText.textContent = "選択すると、その自治体の仕分け用ボックスだけを表示します。";
-      presentationButton.disabled = true;
       bucketGrid.dataset.columns = "1";
       return;
     }
 
     const rows = bucketsByMunicipality.get(id) ?? [];
-    municipalityName.textContent = municipalityLabel(id);
-    statusText.textContent = `${rows.length}区分`;
-    presentationButton.disabled = rows.length === 0;
+    const interactive = activeItems.length > 0;
     bucketGrid.dataset.columns = String(displayColumns(rows.length));
-
     if (rows.length === 0) {
       const empty = document.createElement("p");
       empty.className = "empty-state";
@@ -248,39 +319,140 @@
       const categoryId = row.category_id.trim();
       const label = row["自治体正式名称"].trim();
       const style = stylesByBucket.get(styleKey(id, categoryId));
-      const box = document.createElement("div");
-
+      const status = style?.color_status?.trim() || "NO_STYLE_RESEARCH";
+      const box = document.createElement(interactive ? "button" : "div");
+      if (box instanceof HTMLButtonElement) box.type = "button";
       box.className = "bucket";
       box.dataset.municipalityId = id;
       box.dataset.categoryId = categoryId;
-      box.dataset.styleStatus = style?.color_status?.trim() || "NO_STYLE_RESEARCH";
-      box.textContent = label;
+      box.dataset.styleStatus = status;
+      box.setAttribute("aria-label", `${label}。${styleNote(status)}`);
+
+      const name = document.createElement("span");
+      name.className = "bucket__name";
+      name.textContent = label;
+      const note = document.createElement("span");
+      note.className = "bucket__style-note";
+      note.textContent = styleNote(status);
+      box.append(name, note);
 
       const length = [...label].length;
-      if (length >= 13) {
-        box.classList.add("bucket--long");
-      } else if (length >= 7) {
-        box.classList.add("bucket--compact");
+      if (length >= 13) box.classList.add("bucket--long");
+      else if (length >= 7) box.classList.add("bucket--compact");
+      box.classList.add(OFFICIAL_STYLE_STATUSES.has(status) ? "bucket--official-style" : "bucket--neutral-style");
+      if (interactive) {
+        box.classList.add("bucket--interactive");
+        box.addEventListener("click", () => handleBucketChoice(box, categoryId));
       }
-
-      if (OFFICIAL_STYLE_STATUSES.has(box.dataset.styleStatus)) {
-        box.classList.add("bucket--official-style");
-      } else {
-        box.classList.add("bucket--neutral-style");
-      }
-
       bucketGrid.appendChild(box);
+    }
+  }
+
+  function resetAnswer() {
+    answerFeedback.textContent = "";
+    answerFeedback.className = "answer-feedback";
+    answerDetail.hidden = true;
+    nextItemButton.hidden = true;
+    practiceInstruction.textContent = "下の分別箱から1つ選んでください。";
+    clearBucketAnswerState();
+  }
+
+  function renderPracticeItem() {
+    practiceFinished = false;
+    const item = activeItems[activeItemIndex];
+    practiceProgress.textContent = `${activeItemIndex + 1} / ${activeItems.length}`;
+    itemImage.hidden = false;
+    itemImage.src = `./assets/items/${item.imageFile}`;
+    itemImage.alt = `${item.display_name}の教材画像`;
+    itemDisplayName.textContent = item.display_name;
+    itemCondition.textContent = `今回の条件：${item.condition}`;
+    practicePanel.classList.remove("practice-panel--complete");
+    nextItemButton.textContent = activeItemIndex + 1 === activeItems.length ? "結果を見る" : "次の品目";
+    resetAnswer();
+  }
+
+  function showPracticeCompletion() {
+    practiceFinished = true;
+    itemImage.hidden = true;
+    itemDisplayName.textContent = `${activeItems.length}問 おわりました`;
+    itemCondition.textContent = "もう一度、同じ確認済み条件で練習できます。";
+    practiceProgress.textContent = "完了";
+    practiceInstruction.textContent = "";
+    answerFeedback.textContent = "すべて正解です。";
+    answerFeedback.className = "answer-feedback answer-feedback--correct";
+    answerDetail.hidden = true;
+    nextItemButton.textContent = "もう一度";
+    nextItemButton.hidden = false;
+    practicePanel.classList.add("practice-panel--complete");
+    for (const box of bucketGrid.querySelectorAll("button.bucket")) box.disabled = true;
+  }
+
+  function handleBucketChoice(box, categoryId) {
+    if (practiceFinished || !activeItems.length) return;
+    const item = activeItems[activeItemIndex];
+    for (const candidate of bucketGrid.querySelectorAll(".bucket")) delete candidate.dataset.answerState;
+
+    if (categoryId !== item.uiCategoryId) {
+      box.dataset.answerState = "incorrect";
+      answerFeedback.textContent = "もう一度。箱の名前も確認してみましょう。";
+      answerFeedback.className = "answer-feedback answer-feedback--incorrect";
+      answerDetail.hidden = true;
+      return;
+    }
+
+    box.dataset.answerState = "correct";
+    answerFeedback.textContent = "正解です。";
+    answerFeedback.className = "answer-feedback answer-feedback--correct";
+    answerDestination.textContent = item.category_id === item.uiCategoryId
+      ? `正解の箱：${item.uiCategoryName}`
+      : `正解の箱：${item.uiCategoryName}／公式資料の詳しい区分：${item.category_name}`;
+    answerPreparation.textContent = `出す前：${item.preparation}`;
+    answerException.textContent = `条件外：${item.exception_destination}`;
+    answerDetail.hidden = false;
+    nextItemButton.hidden = false;
+    practiceInstruction.textContent = "公式ルールの補足も確認してください。";
+    for (const candidate of bucketGrid.querySelectorAll("button.bucket")) candidate.disabled = true;
+    nextItemButton.focus();
+  }
+
+  function renderMunicipality(id) {
+    activeItems = id ? [...(itemsByMunicipality.get(id) ?? [])] : [];
+    activeItemIndex = 0;
+    practiceFinished = false;
+    practicePanel.hidden = activeItems.length === 0;
+    practiceUnavailable.hidden = true;
+    styleLegend.hidden = !id;
+
+    if (!id) {
+      municipalityName.textContent = "自治体を選択してください";
+      statusText.textContent = "選択すると、その自治体の仕分け用ボックスを表示します。";
+      presentationButton.disabled = true;
+      renderBuckets("");
+      return;
+    }
+
+    const rows = bucketsByMunicipality.get(id) ?? [];
+    const unresolved = unresolvedByMunicipality.get(id) ?? 0;
+    municipalityName.textContent = municipalityLabel(id);
+    presentationButton.disabled = rows.length === 0;
+    if (activeItems.length) {
+      const holdText = unresolved ? `・確認中${unresolved}品目は出題対象外` : "";
+      statusText.textContent = `${rows.length}区分・画像練習${activeItems.length}問${holdText}`;
+      renderBuckets(id);
+      renderPracticeItem();
+    } else {
+      statusText.textContent = `${rows.length}区分`;
+      practiceUnavailable.hidden = false;
+      practiceUnavailable.textContent = "この自治体は画像仕分けPilotの対象外です。分別箱の投影のみ利用できます。";
+      renderBuckets(id);
     }
   }
 
   async function enterPresentation() {
     if (!select.value) return;
     try {
-      if (document.documentElement.requestFullscreen) {
-        await document.documentElement.requestFullscreen();
-      } else {
-        document.body.classList.add("presentation-mode");
-      }
+      if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
+      else document.body.classList.add("presentation-mode");
     } catch (error) {
       console.warn("Fullscreen API unavailable; using presentation layout only.", error);
       document.body.classList.add("presentation-mode");
@@ -289,42 +461,19 @@
 
   async function load() {
     try {
-      const styleRequest = fetch(DATA_PATHS.styleProjection, { cache: "no-store" })
-        .then((response) => response.ok ? response.text() : "")
-        .catch((error) => {
-          console.warn("Style layer unavailable; using neutral boxes.", error);
-          return "";
-        });
+      const requests = Object.values(DATA_PATHS).map((path) => fetch(path, { cache: "no-store" }));
+      const responses = await Promise.all(requests);
+      const failed = responses.find((response) => !response.ok);
+      if (failed) throw new Error(`data load failed: ${failed.url} (${failed.status})`);
+      const [municipalityText, researchText, categoryText, styleText, assetText, mappingText] =
+        await Promise.all(responses.map((response) => response.text()));
 
-      const [municipalityResponse, researchResponse, categoryResponse, styleText] = await Promise.all([
-        fetch(DATA_PATHS.municipalities, { cache: "no-store" }),
-        fetch(DATA_PATHS.municipalityResearch, { cache: "no-store" }),
-        fetch(DATA_PATHS.categories, { cache: "no-store" }),
-        styleRequest
-      ]);
-
-      if (!municipalityResponse.ok || !researchResponse.ok || !categoryResponse.ok) {
-        throw new Error(
-          `data load failed: municipalities=${municipalityResponse.status}, ` +
-          `research=${researchResponse.status}, categories=${categoryResponse.status}`
-        );
-      }
-
-      const [municipalityText, researchText, categoryText] = await Promise.all([
-        municipalityResponse.text(),
-        researchResponse.text(),
-        categoryResponse.text()
-      ]);
-
-      buildData(
-        parseCsv(municipalityText),
-        parseCsv(researchText),
-        parseCsv(categoryText)
-      );
-      buildStyleData(styleText ? parseCsv(styleText) : []);
+      buildData(parseCsv(municipalityText), parseCsv(researchText), parseCsv(categoryText));
+      buildStyleData(parseCsv(styleText));
+      buildItemData(parseCsv(assetText), parseCsv(mappingText));
       installOfficialStyleRules();
       populateMunicipalitySelect();
-      renderBuckets("");
+      renderMunicipality("");
     } catch (error) {
       console.error(error);
       select.disabled = true;
@@ -334,17 +483,27 @@
     }
   }
 
-  select.addEventListener("change", () => renderBuckets(select.value));
+  select.addEventListener("change", () => renderMunicipality(select.value));
   presentationButton.addEventListener("click", enterPresentation);
+  nextItemButton.addEventListener("click", () => {
+    if (practiceFinished) {
+      activeItemIndex = 0;
+      renderPracticeItem();
+      return;
+    }
+    if (activeItemIndex + 1 < activeItems.length) {
+      activeItemIndex += 1;
+      renderPracticeItem();
+    } else {
+      showPracticeCompletion();
+    }
+  });
 
   document.addEventListener("fullscreenchange", () => {
     document.body.classList.toggle("presentation-mode", Boolean(document.fullscreenElement));
   });
-
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !document.fullscreenElement) {
-      document.body.classList.remove("presentation-mode");
-    }
+    if (event.key === "Escape" && !document.fullscreenElement) document.body.classList.remove("presentation-mode");
   });
 
   load();
