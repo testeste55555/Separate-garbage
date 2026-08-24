@@ -1,0 +1,11 @@
+pilot_order,internal_item_id,canonical_name,display_name,image_file,asset_status
+1,I001,ペットボトル,ペットボトル,I001_pet_bottle.png,CONFIRMED
+2,I007,白色食品トレー,白いトレー,I007_white_food_tray.png,CONFIRMED
+3,I013,新聞,新聞,I013_newspaper.png,CONFIRMED
+4,I004,アルミ缶,アルミ缶,I004_aluminum_can.png,CONFIRMED
+5,I006,ガラスびん,びん,I006_glass_bottle.png,CONFIRMED
+6,I031,電球,電球,I031_light_bulb.png,CONFIRMED
+7,I029,モバイルバッテリー,モバイルバッテリー,I029_mobile_battery.png,CONFIRMED
+8,I014,段ボール,段ボール,I014_cardboard.png,CONFIRMED
+9,I033,使い捨てライター,ライター,I033_disposable_lighter.png,CONFIRMED
+10,I017,紙パック,牛乳パック,I017_milk_carton.png,CONFIRMED
