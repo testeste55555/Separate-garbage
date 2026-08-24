@@ -1,24 +1,26 @@
 name: TEMP generate M095 APP readiness
 
 on:
-  push:
-    branches:
-      - feature/app-readiness-m095
+  pull_request:
+    branches: [main]
     paths:
       - "scripts/apply_app_readiness_pilot_m095.py"
       - "scripts/validate_app_readiness_pilot_m095.py"
       - "scripts/red_team_app_readiness_pilot_m095.py"
       - ".github/workflows/tmp-generate-m095.yml"
+      - "data/research/**"
 
 permissions:
   contents: write
 
 jobs:
   generate:
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
@@ -39,6 +41,8 @@ jobs:
           python3 scripts/red_team_app_readiness_pilot_m095.py
           python3 scripts/validate_research.py
       - name: Commit generated canonical data
+        env:
+          TARGET_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -59,5 +63,5 @@ jobs:
             echo "No generated changes to commit"
           else
             git commit -m "Generate M095 APP readiness data [skip ci]"
-            git push origin HEAD:feature/app-readiness-m095
+            git push origin HEAD:"$TARGET_BRANCH"
           fi
