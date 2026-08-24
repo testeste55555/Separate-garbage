@@ -20,6 +20,7 @@
 現在の対象：
 
 - M094 広島市
+- M095 呉市
 - M104 東広島市
 
 画像ごとの出題先は `item_image_mapping_pilot_top8.csv` の画像固有mappingを利用しますが、`VERIFIED` だけでは正誤判定を有効化しません。対応する自治体・品目がAPP_READYレビューを通過していることを追加条件にします。
@@ -44,7 +45,9 @@
 - `../data/style_research/08_style_ui_projection.csv`
 - `../data/app/item_image_assets.csv`
 - `../data/app/item_image_mapping_pilot_top8.csv`
+- `../data/app/lesson_mode_app_ready_scope.csv`
 - `../data/research/app_readiness/m094_item_review.csv`
+- `../data/research/app_readiness/m095_item_review.csv`
 - `../data/research/app_readiness/m104_item_review.csv`
 
 表示用データを別正本へ複製せず、category正本・APP readinessレビュー・画像mappingを読み取り専用で組み合わせる構造です。

@@ -12,6 +12,7 @@
 
   const APP_READY_REVIEW_FILES = {
     M094: "../data/research/app_readiness/m094_item_review.csv",
+    M095: "../data/research/app_readiness/m095_item_review.csv",
     M104: "../data/research/app_readiness/m104_item_review.csv"
   };
 

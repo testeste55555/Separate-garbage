@@ -4,7 +4,8 @@
 
 主な検証点：
 
-- M094・M104のレビューが各40共通品目をカバーすること
+- M094・M095・M104のレビューが各40共通品目をカバーすること
+- `lesson_mode_app_ready_scope.csv` の対象が実装済みレビューと完全一致すること
 - 全条件枝が `branch_review_status=COMPLETE` であること
 - 画像問題のmappingが `VERIFIED` であること
 - 画像アセットが `CONFIRMED` で実ファイルと対応すること
