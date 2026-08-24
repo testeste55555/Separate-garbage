@@ -9,7 +9,10 @@ Webアプリが直接読み込む加工済みデータを置くディレクト�
 - `app_export.json`
 - 自治体別の必要最小限の分別データ
 - `item_image_assets.csv`：教材画像と共通品目の対応表
+- `item_image_mapping_pilot_top8.csv`：画像10品目とStyle Research active 8自治体の公式分別先Pilot台帳（76 VERIFIED / 4 UNRESOLVED）
 
 品目情報の正本は `data/master/04_common_items_master.csv` です。
+
+Pilotの`VERIFIED`は品目別公式根拠の確認済みを示しますが、条件枝完全性または`APP_READY`を意味しません。
 
 この領域のデータは、教師画面・学習者投映画面での利用を前提にします。
