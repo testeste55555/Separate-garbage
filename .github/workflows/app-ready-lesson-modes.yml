@@ -1,0 +1,49 @@
+name: APP_READY lesson modes
+
+on:
+  pull_request:
+    paths:
+      - "app/**"
+      - "data/app/**"
+      - "data/research/app_readiness/**"
+      - "data/research/02_categories_master.csv"
+      - "data/style_research/**"
+      - "scripts/validate_app_ready_lesson_modes.py"
+      - ".github/workflows/app-ready-lesson-modes.yml"
+  push:
+    branches: [main]
+    paths:
+      - "app/**"
+      - "data/app/**"
+      - "data/research/app_readiness/**"
+      - "data/research/02_categories_master.csv"
+      - "data/style_research/**"
+      - "scripts/validate_app_ready_lesson_modes.py"
+      - ".github/workflows/app-ready-lesson-modes.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate APP_READY lesson modes
+        run: python scripts/validate_app_ready_lesson_modes.py
+      - name: Check learner UI JavaScript syntax
+        run: node --check app/app.js
+      - name: Validate canonical research data
+        run: python scripts/validate_research.py
+      - name: Validate item image assets
+        run: python scripts/validate_item_image_assets.py
+      - name: Validate Teaching Display Layer
+        run: python scripts/validate_teaching_display_layer.py
+      - name: Validate Style Research gate
+        run: python scripts/validate_style_research.py --gate
