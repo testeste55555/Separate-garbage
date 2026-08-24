@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "scripts/apply_app_readiness_pilot_m095.py"
+      - "scripts/finalize_app_readiness_pilot_m095.py"
       - "scripts/validate_app_readiness_pilot_m095.py"
       - "scripts/red_team_app_readiness_pilot_m095.py"
       - ".github/workflows/tmp-generate-m095.yml"
@@ -32,6 +33,7 @@ jobs:
           python3 scripts/apply_app_readiness_pilot_m094.py
           python3 scripts/apply_app_readiness_pilot_m104.py
           python3 scripts/apply_app_readiness_pilot_m095.py
+          python3 scripts/finalize_app_readiness_pilot_m095.py
       - name: Validate M095 before committing generated data
         run: |
           set -euo pipefail
@@ -54,11 +56,13 @@ jobs:
             data/research/05_item_mapping_master.csv \
             data/research/06_qa_log.csv \
             data/research/07_item_mapping_coverage.csv \
+            data/research/08_category_review_evidence.csv \
             data/research/app_readiness/m095_item_review.csv \
             data/research/batches/batch_10/batch_10_municipalities.csv \
             data/research/batches/batch_10/batch_10_categories.csv \
             data/research/batches/batch_10/batch_10_sources.csv \
-            data/research/batches/batch_10/batch_10_qa.csv
+            data/research/batches/batch_10/batch_10_qa.csv \
+            data/research/batches/batch_10/batch_10_category_review_evidence.csv
           if git diff --cached --quiet; then
             echo "No generated changes to commit"
           else
