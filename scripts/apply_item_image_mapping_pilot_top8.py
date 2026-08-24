@@ -76,6 +76,9 @@ NEW_SOURCES = [
     source("M094", "S-M094-08", "小型充電式電池の出し方", "自治体公式Webページ",
            "https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1046707.html",
            "モバイルバッテリーの有害ごみ・回収ボックス経路", "広島市"),
+    source("M094", "S-M094-09", "家庭ごみ分別50音事典（あ行）", "自治体公式Webページ",
+           "https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008419.html",
+           "アルミ缶の分別先と洗浄条件", "広島市"),
     source("M095", "S-M095-03", "令和8年度からのごみの出し方", "自治体公式Webページ",
            "https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html",
            "資源物・プラスチック資源・有害危険ごみ等の対象品目と出し方", "呉市"),
@@ -112,12 +115,12 @@ R: dict[str, dict[str, tuple[str, str, str, str, str, str, str, str]]] = {
         "I001": ("C-M094-02", "S-M094-06", "「ペットボトル」の行", "PETマークのある飲料・酒類・特定調味料用ボトル", "キャップとラベルを外し、中を洗い、つぶす", "油・ソース・洗剤等のボトルはリサイクルプラ", "DIRECT_ITEM", "50音事典の品目行を採用。"),
         "I007": ("C-M094-03", "S-M094-01", "リサイクルプラ欄（食品トレイの例示）", "商品を入れた容器包装で、プラマークのある白色食品トレイ", "中身を除き、洗って乾かす", "汚れが落ちない物は可燃ごみ", "OFFICIAL_CATEGORY_RULE", "容器包装の公式例示と条件を適用。"),
         "I013": ("C-M094-06", "S-M094-01", "資源ごみ欄（紙類・新聞）", "家庭から出る新聞紙", "ひもで縛ってまとめる", "著しく汚れた紙は可燃ごみ", "DIRECT_ITEM", "公式区分欄の新聞表記を採用。"),
-        "I004": ("C-M094-06", "S-M094-04", "「空き缶」の行", "飲料・食品等のアルミ製空き缶", "中身を空にして洗う", "スプレー缶は有害ごみ", "DIRECT_ITEM", "50音事典の空き缶行を採用。"),
+        "I004": ("C-M094-06", "S-M094-09", "「アルミ缶」の行", "飲料・食品等のアルミ製空き缶", "中身を空にして洗う", "スプレー缶は同じ資源ごみだが、屋外ガス抜き等の個別条件に従う", "DIRECT_ITEM", "50音事典のアルミ缶行を採用。"),
         "I006": ("C-M094-06", "S-M094-06", "「びん(ガラス) 薬・飲料・食料品等用」の行", "薬・飲料・食料品等用のガラスびん", "中を洗って、じょうぶな袋に入れる", "乳白色の化粧品びん・マニキュアびんは不燃ごみ", "DIRECT_ITEM", "50音事典の用途別ガラスびん行を採用。"),
         "I031": ("C-M094-05", "S-M094-05", "「電球」の行", "白熱電球・LED電球", "新聞紙などに包み、内容を表示する", "蛍光管・電球形蛍光灯は有害ごみ", "DIRECT_ITEM", "50音事典の電球行を採用。"),
         "I029": ("C-M094-07", "S-M094-08", "モバイルバッテリー欄", "家庭で使用した小型充電式電池内蔵のモバイルバッテリー", "端子をテープで絶縁する", "膨張・破損品は収集日に有害ごみ、通常品は回収ボックスも可", "DIRECT_ITEM", "専用公式案内を採用。"),
         "I014": ("C-M094-06", "S-M094-01", "資源ごみ欄（段ボール）", "家庭から出る段ボール", "折りたたみ、ひもで縛る", "汚れた物は可燃ごみ", "DIRECT_ITEM", "公式区分欄の段ボール表記を採用。"),
-        "I033": ("C-M094-05", "S-M094-07", "「ライター（使い捨て）」の行", "中身を使い切った使い捨てライター", "火の気のない屋外でガスを抜き、別袋にして『ライター』と表示", "中身が残る場合も他の不燃ごみと混ぜない", "DIRECT_ITEM", "50音事典の使い捨てライター行を採用。"),
+        "I033": ("C-M094-05", "S-M094-07", "「ライター（使い捨て）」の行", "家庭用の使い捨てライター", "他の不燃ごみと袋を分け、透明・半透明のじょうぶな袋に『ライター』と表示", "他の不燃ごみと同じ袋へ混ぜない", "DIRECT_ITEM", "50音事典の使い捨てライター行を採用。"),
         "I017": ("C-M094-01", "S-M094-04", "「紙パック」「紙パック（裏にアルミ箔が貼ってあるもの）」「牛乳パック」の行", "紙パック（裏にアルミ箔が貼ってある物を含む）", "じょうぶな紙袋またはポリ袋に入れる", "牛乳パックはできるだけスーパー等の店頭回収を利用", "DIRECT_ITEM", "50音事典では市収集時は可燃ごみ。"),
     },
     "M095": {
@@ -230,7 +233,10 @@ def main() -> None:
 
     source_by_key = {(r["municipality_id"], r["source_id"]): r for r in source_rows}
     for row in NEW_SOURCES:
-        source_by_key[(row["municipality_id"], row["source_id"])] = row
+        # A later municipality-wide APP review may enrich an IS-* row.  The
+        # historical image Pilot may add a missing source but must not replace
+        # the later authoritative metadata when rebuilt.
+        source_by_key.setdefault((row["municipality_id"], row["source_id"]), row)
     source_rows = sorted(source_by_key.values(), key=lambda r: (r["municipality_id"], r["source_id"]))
     source_by_key = {(r["municipality_id"], r["source_id"]): r for r in source_rows}
 
@@ -284,6 +290,18 @@ def main() -> None:
 
             pair = (mid, iid)
             branches = map_by_pair.get(pair, [])
+            coverage = coverage_by_pair[pair]
+            # This Pilot is an evidence-staging predecessor of municipality-wide
+            # APP readiness.  A later atomic APP_READY review is authoritative;
+            # rebuilding this historical Pilot must never downgrade it.
+            if (
+                coverage.get("coverage_status") == "APP_READY"
+                and coverage.get("branch_completeness_confirmed") == "TRUE"
+                and branches
+                and all(b.get("mapping_status") == "APP_READY" for b in branches)
+            ):
+                verified += 1
+                continue
             matching = [b for b in branches if b["category_id"] == category_id]
             if matching:
                 branch = matching[0]
@@ -329,7 +347,6 @@ def main() -> None:
                 "備考": f"画像品目mapping Pilot。{basis}。APP_READY未昇格。",
             })
 
-            coverage = coverage_by_pair[pair]
             coverage.update({
                 "coverage_status": "VERIFIED",
                 "mapping_branch_count": str(len(branches)),
@@ -356,7 +373,7 @@ def main() -> None:
     write_csv(RESEARCH / "07_item_mapping_coverage.csv", COVERAGE_FIELDS, coverage_rows)
     write_csv(APP / "item_image_mapping_pilot_top8.csv", PILOT_FIELDS, pilot_rows)
 
-    print("Item image mapping pilot written: 80 pairs (76 VERIFIED, 4 UNRESOLVED, 0 APP_READY)")
+    print("Item image mapping pilot written: 80 decisions (76 VERIFIED, 4 UNRESOLVED); later APP_READY transitions preserved")
 
 
 if __name__ == "__main__":

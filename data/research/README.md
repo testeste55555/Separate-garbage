@@ -1,6 +1,6 @@
 # Research data
 
-Schema v1.2.3の調査成果物です。
+Schema v1.2.4の調査成果物です。canonicalは132 active自治体を保持します。
 
 - `pilot/`：Pilot 5自治体。QA、item mapping、40品目coverageを独立検証します。
 - `batches/batch_01/`：Batch 01 10自治体。QA、item mapping、40品目coverageを自身のbundleから検証します。
@@ -26,3 +26,5 @@ item mappingの主キーは `mapping_id` です。同一 `(municipality_id, inte
 区分網羅性は、公式総数一致なら `official_category_count`、公式総数がない手動目次照合なら `reviewed_category_count` を使用します。複数sourceは `08_category_review_evidence.csv` に正規化します。公式件数はCURRENTの公式葉区分を数え、教材UI投影親を重複計上しません。
 
 mappingの `category_source_id/url/locator` はcategory行と一致する区分根拠です。`item_evidence_source_id/url/locator` は品目別の公式根拠で、categoryとは異なる公式品目辞典・注意ページを参照できます。coverageの同名3列も品目別根拠専用で、未調査・機械抽出行は空欄です。
+
+`app_readiness/m094_item_review.csv` は、広島市の40品目・59条件枝の公式品目表記、条件、前処理、例外、source/locator、確認日・確認者を保持するAPP readiness Pilot監査表です。

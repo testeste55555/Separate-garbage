@@ -8,7 +8,7 @@
 
 収集曜日・収集時間・地区別カレンダーは構造化対象外です。カレンダーは必要に応じて、現行taxonomyの運用確認や地域variantの証拠として使用します。
 
-## 現在地（2026-08-19）
+## 現在地（2026-08-24）
 
 - MASTER固定ID台帳：**143自治体**
 - active実装対象：**132自治体**
@@ -38,26 +38,39 @@
 - canonical QA：**132 `QA_PASSED` / 0 `QA_REQUIRED`**
 - category：**1,594行**
 - structured official leaves：**1,464区分**
-- official sources：**382**（うち画像品目Pilot追加 `IS-*` 14件）
-- item mapping：**1,371条件枝**（うち画像品目Pilot 76組をVERIFIED、APP_READYは0）
+- official sources：**385**（うち品目別 `IS-*` 17件）
+- item mapping：**1,407条件枝**（M094の40品目・59条件枝をAPP_READY）
 - 40品目coverage：**5,280自治体品目pair**
 - category review evidence：**331行**
 - Schema：**v1.2.4**
-- Workflow：**v1.24**
+- Workflow：**v1.25**
 - Batch 14専用RED TEAM：**PASS**
 - canonical structural validation：**PASS**
 - Schema v1.2.4 RED TEAM：**PASS**
 - operational category semantics RED TEAM：**PASS**
 - `NEXT_BATCH_GATE`：**PASS**
-- `APP_READINESS_GATE`：**HOLD**（40共通品目のITEM_SPECIFIC公式確認・条件枝レビュー未完了）
+- `APP_READINESS_GATE`：**HOLD**（M094は40/40 APP_READY、残る131 active自治体は未完了）
+
+### APP readiness Pilot M094（2026-08-24）
+
+広島市の共通40品目を現行公式資料へ品目別に照合し、材質・汚れ・寸法・破損・内容物残存等の差を59条件枝で保持した。
+
+- 40/40品目pair：`APP_READY`
+- 59/59条件枝：`ITEM_SPECIFIC / COMPLETE / APP_READY`
+- M094自治体単位Gate：PASS
+- mutation RED TEAM：16/16 PASS
+- canonical全体Gate：HOLD（正常）
+
+公式品目表記・条件・前処理・例外・source/locatorの監査表：`data/research/app_readiness/m094_item_review.csv`
+報告：`docs/research/app_readiness_m094_pilot_report.md`
 
 ### 画像10品目 mapping Pilot（2026-08-24）
 
 Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を除くactive 8自治体について、画像10品目×8自治体＝80組を公式資料へ照合した。
 
-- `VERIFIED`：76組
+- 履歴的な品目別照合決定 `VERIFIED`：76組
 - `UNRESOLVED`：4組（江田島市・海田町の電球／使い捨てライター）
-- `APP_READY`：0組（条件枝完全性レビュー前のため正常）
+- canonicalで後続 `APP_READY`へ移行：広島市10組（M094の40品目レビューによる）
 - mutation RED TEAM：9/9 PASS
 
 品目別追加sourceは`IS-*`でcategory研究sourceと分離する。成果物・UI HANDOFF：`docs/research/item_image_mapping_pilot_top8_report.md`
@@ -82,7 +95,7 @@ Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を
 
 CI記録：`docs/research/batch_14_ci_status.txt`
 QA記録：`docs/research/batch_14_qa_report.md`
-現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.24.txt`
+現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.25.txt`
 
 ## Batch 14
 
@@ -149,7 +162,7 @@ MASTER範囲はM136〜M143です。
 - `data/research/07_item_mapping_coverage.csv`：完了自治体×40品目の調査状態
 - `data/research/08_category_review_evidence.csv`：category completeness公式証拠
 - `docs/research/`：Batch QA・CI記録
-- `docs/workflow/`：作業フロー履歴（現行 v1.24）
+- `docs/workflow/`：作業フロー履歴（現行 v1.25）
 - `data/style_research/`：公式色の観測・UI projection・出典台帳
 - `docs/style_research/`：Style Schema、QA、RED TEAM、Gate、HANDOFF
 - `scripts/build_batch_*.py`：Batch再生成

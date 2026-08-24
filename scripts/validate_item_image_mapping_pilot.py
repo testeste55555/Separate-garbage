@@ -141,35 +141,44 @@ def validate_pilot_rows(pilot: list[dict[str, str]], root: Path = ROOT) -> list[
         canonical = [
             m for m in pair_mappings
             if m.get("category_id") == row.get("category_id")
-            and m.get("mapping_status") == "VERIFIED"
+            and m.get("mapping_status") in {"VERIFIED", "APP_READY"}
             and m.get("item_evidence_source_id") == row.get("item_evidence_source_id")
         ]
         if len(canonical) != 1:
             errors.append(f"expected exactly one matching VERIFIED canonical branch: {label}")
         else:
             mapping = canonical[0]
-            field_pairs = [
-                ("条件", "condition"), ("前処理", "preparation"), ("例外分別先", "exception_destination"),
-                ("item_evidence_url", "item_evidence_url"),
-                ("item_evidence_locator", "item_evidence_locator"),
-                ("reviewed_date", "checked_date"), ("reviewed_by", "reviewer"),
-            ]
-            if any(mapping.get(left) != row.get(right) for left, right in field_pairs):
-                errors.append(f"pilot/canonical mapping detail mismatch: {label}")
-            if mapping.get("evidence_scope") != "ITEM_SPECIFIC" or mapping.get("branch_review_status") != "INCOMPLETE":
-                errors.append(f"pilot branch must remain ITEM_SPECIFIC/INCOMPLETE: {label}")
-        if cov.get("coverage_status") != "VERIFIED" or cov.get("branch_completeness_confirmed") != "FALSE":
-            errors.append(f"coverage must be VERIFIED but branch-incomplete: {label}")
-        if cov.get("item_evidence_source_id") != row.get("item_evidence_source_id") or cov.get("item_evidence_locator") != row.get("item_evidence_locator"):
-            errors.append(f"pilot/coverage evidence mismatch: {label}")
+            if cov.get("coverage_status") == "APP_READY":
+                # A later municipality-wide review may make the operational
+                # wording more specific and add condition branches.  The image
+                # Pilot must recognize that forward transition without
+                # requiring its historical text/reviewer to overwrite it.
+                if (
+                    mapping.get("mapping_status") != "APP_READY"
+                    or mapping.get("evidence_scope") != "ITEM_SPECIFIC"
+                    or mapping.get("branch_review_status") != "COMPLETE"
+                    or any(not mapping.get(field) for field in ["条件", "前処理", "例外分別先", "item_evidence_locator"])
+                ):
+                    errors.append(f"later APP_READY branch is incomplete: {label}")
+                if cov.get("branch_completeness_confirmed") != "TRUE":
+                    errors.append(f"APP_READY coverage is not branch-complete: {label}")
+            else:
+                field_pairs = [
+                    ("条件", "condition"), ("前処理", "preparation"), ("例外分別先", "exception_destination"),
+                    ("item_evidence_url", "item_evidence_url"),
+                    ("item_evidence_locator", "item_evidence_locator"),
+                    ("reviewed_date", "checked_date"), ("reviewed_by", "reviewer"),
+                ]
+                if any(mapping.get(left) != row.get(right) for left, right in field_pairs):
+                    errors.append(f"pilot/canonical mapping detail mismatch: {label}")
+                if mapping.get("evidence_scope") != "ITEM_SPECIFIC" or mapping.get("branch_review_status") != "INCOMPLETE":
+                    errors.append(f"pilot branch must remain ITEM_SPECIFIC/INCOMPLETE until later review: {label}")
+                if cov.get("coverage_status") != "VERIFIED" or cov.get("branch_completeness_confirmed") != "FALSE":
+                    errors.append(f"coverage must be VERIFIED but branch-incomplete: {label}")
+                if cov.get("item_evidence_source_id") != row.get("item_evidence_source_id") or cov.get("item_evidence_locator") != row.get("item_evidence_locator"):
+                    errors.append(f"pilot/coverage evidence mismatch: {label}")
         if int(cov.get("mapping_branch_count") or -1) != len(pair_mappings):
             errors.append(f"coverage mapping_branch_count mismatch: {label}")
-
-    if any(
-        m.get("municipality_id") in TARGETS and m.get("internal_item_id") in ITEMS and m.get("mapping_status") == "APP_READY"
-        for m in mappings
-    ):
-        errors.append("pilot must not promote any target branch to APP_READY")
     return errors
 
 
@@ -185,7 +194,18 @@ def main() -> int:
             print(f"- {error}")
         return 1
     print("ITEM_IMAGE_MAPPING_PILOT_VALIDATION_PASSED")
-    print("pairs=80 verified=76 unresolved=4 app_ready=0 municipalities=8 image_items=10")
+    coverage = {
+        (row["municipality_id"], row["internal_item_id"]): row
+        for row in rows(ROOT / "data/research/07_item_mapping_coverage.csv")
+    }
+    canonical_app_ready = sum(
+        coverage[(row["municipality_id"], row["internal_item_id"])].get("coverage_status") == "APP_READY"
+        for row in pilot
+    )
+    print(
+        "pairs=80 historical_verified=76 unresolved=4 "
+        f"canonical_app_ready={canonical_app_ready} municipalities=8 image_items=10"
+    )
     return 0
 
 
