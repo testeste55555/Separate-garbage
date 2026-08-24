@@ -15,7 +15,10 @@
   const HEX_RE = /^#[0-9A-Fa-f]{6}$/;
   const SAFE_ID_RE = /^[A-Za-z0-9_-]+$/;
   const SAFE_IMAGE_RE = /^I\d{3}_[A-Za-z0-9_]+\.png$/;
+  const ONLINE_CLASS_MODE = "ONLINE_CLASS";
+  const IN_PERSON_CLASS_MODE = "IN_PERSON_CLASS";
 
+  const lessonModeSelect = document.getElementById("lessonModeSelect");
   const select = document.getElementById("municipalitySelect");
   const presentationButton = document.getElementById("presentationButton");
   const municipalityName = document.getElementById("municipalityName");
@@ -24,17 +27,11 @@
   const practicePanel = document.getElementById("practicePanel");
   const practiceUnavailable = document.getElementById("practiceUnavailable");
   const practiceProgress = document.getElementById("practiceProgress");
+  const itemCard = document.getElementById("itemCard");
   const itemImage = document.getElementById("itemImage");
-  const itemDisplayName = document.getElementById("itemDisplayName");
-  const itemCondition = document.getElementById("itemCondition");
   const practiceInstruction = document.getElementById("practiceInstruction");
   const answerFeedback = document.getElementById("answerFeedback");
-  const answerDetail = document.getElementById("answerDetail");
-  const answerDestination = document.getElementById("answerDestination");
-  const answerPreparation = document.getElementById("answerPreparation");
-  const answerException = document.getElementById("answerException");
   const nextItemButton = document.getElementById("nextItemButton");
-  const styleLegend = document.getElementById("styleLegend");
 
   let municipalitiesById = new Map();
   let categoryByKey = new Map();
@@ -258,6 +255,22 @@
     return row ? `${row["都道府県"] ?? ""} ${row["市町村"] ?? ""}`.trim() : id;
   }
 
+  function populateLessonModeSelect() {
+    lessonModeSelect.replaceChildren();
+    const modes = [
+      ["", "授業モードを選択"],
+      [ONLINE_CLASS_MODE, "オンライン授業"],
+      [IN_PERSON_CLASS_MODE, "対面授業"]
+    ];
+    for (const [value, label] of modes) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      lessonModeSelect.appendChild(option);
+    }
+    lessonModeSelect.disabled = false;
+  }
+
   function populateMunicipalitySelect() {
     const ids = [...bucketsByMunicipality.keys()]
       .filter((id) => municipalitiesById.has(id))
@@ -276,12 +289,11 @@
     for (const id of ids) {
       const option = document.createElement("option");
       option.value = id;
-      const itemCount = itemsByMunicipality.get(id)?.length ?? 0;
-      option.textContent = `${municipalityLabel(id)}${itemCount ? `（画像練習 ${itemCount}問）` : ""}`;
+      option.textContent = municipalityLabel(id);
       select.appendChild(option);
     }
     select.disabled = false;
-    statusText.textContent = `${ids.length}自治体を選択できます。画像練習Pilotは8自治体です。`;
+    statusText.textContent = `授業モードと自治体を選択してください。${ids.length}自治体を表示できます。`;
   }
 
   function styleNote(status) {
@@ -331,10 +343,7 @@
       const name = document.createElement("span");
       name.className = "bucket__name";
       name.textContent = label;
-      const note = document.createElement("span");
-      note.className = "bucket__style-note";
-      note.textContent = styleNote(status);
-      box.append(name, note);
+      box.appendChild(name);
 
       const length = [...label].length;
       if (length >= 13) box.classList.add("bucket--long");
@@ -351,9 +360,8 @@
   function resetAnswer() {
     answerFeedback.textContent = "";
     answerFeedback.className = "answer-feedback";
-    answerDetail.hidden = true;
     nextItemButton.hidden = true;
-    practiceInstruction.textContent = "下の分別箱から1つ選んでください。";
+    practiceInstruction.textContent = "画像を見て、下の分別箱から1つ選んでください。";
     clearBucketAnswerState();
   }
 
@@ -361,11 +369,10 @@
     practiceFinished = false;
     const item = activeItems[activeItemIndex];
     practiceProgress.textContent = `${activeItemIndex + 1} / ${activeItems.length}`;
+    itemCard.hidden = false;
     itemImage.hidden = false;
     itemImage.src = `./assets/items/${item.imageFile}`;
-    itemImage.alt = `${item.display_name}の教材画像`;
-    itemDisplayName.textContent = item.display_name;
-    itemCondition.textContent = `今回の条件：${item.condition}`;
+    itemImage.alt = "仕分ける品目の画像";
     practicePanel.classList.remove("practice-panel--complete");
     nextItemButton.textContent = activeItemIndex + 1 === activeItems.length ? "結果を見る" : "次の品目";
     resetAnswer();
@@ -373,14 +380,12 @@
 
   function showPracticeCompletion() {
     practiceFinished = true;
+    itemCard.hidden = true;
     itemImage.hidden = true;
-    itemDisplayName.textContent = `${activeItems.length}問 おわりました`;
-    itemCondition.textContent = "もう一度、同じ確認済み条件で練習できます。";
     practiceProgress.textContent = "完了";
     practiceInstruction.textContent = "";
     answerFeedback.textContent = "すべて正解です。";
     answerFeedback.className = "answer-feedback answer-feedback--correct";
-    answerDetail.hidden = true;
     nextItemButton.textContent = "もう一度";
     nextItemButton.hidden = false;
     practicePanel.classList.add("practice-panel--complete");
@@ -394,38 +399,34 @@
 
     if (categoryId !== item.uiCategoryId) {
       box.dataset.answerState = "incorrect";
-      answerFeedback.textContent = "もう一度。箱の名前も確認してみましょう。";
+      answerFeedback.textContent = "ちがいます。もう一度。";
       answerFeedback.className = "answer-feedback answer-feedback--incorrect";
-      answerDetail.hidden = true;
       return;
     }
 
     box.dataset.answerState = "correct";
     answerFeedback.textContent = "正解です。";
     answerFeedback.className = "answer-feedback answer-feedback--correct";
-    answerDestination.textContent = item.category_id === item.uiCategoryId
-      ? `正解の箱：${item.uiCategoryName}`
-      : `正解の箱：${item.uiCategoryName}／公式資料の詳しい区分：${item.category_name}`;
-    answerPreparation.textContent = `出す前：${item.preparation}`;
-    answerException.textContent = `条件外：${item.exception_destination}`;
-    answerDetail.hidden = false;
     nextItemButton.hidden = false;
-    practiceInstruction.textContent = "公式ルールの補足も確認してください。";
+    practiceInstruction.textContent = "";
     for (const candidate of bucketGrid.querySelectorAll("button.bucket")) candidate.disabled = true;
     nextItemButton.focus();
   }
 
   function renderMunicipality(id) {
-    activeItems = id ? [...(itemsByMunicipality.get(id) ?? [])] : [];
+    const lessonMode = lessonModeSelect.value;
+    const availableItems = id ? [...(itemsByMunicipality.get(id) ?? [])] : [];
+    activeItems = lessonMode === ONLINE_CLASS_MODE ? availableItems : [];
     activeItemIndex = 0;
     practiceFinished = false;
     practicePanel.hidden = activeItems.length === 0;
     practiceUnavailable.hidden = true;
-    styleLegend.hidden = !id;
 
     if (!id) {
       municipalityName.textContent = "自治体を選択してください";
-      statusText.textContent = "選択すると、その自治体の仕分け用ボックスを表示します。";
+      statusText.textContent = lessonMode
+        ? "自治体を選択してください。"
+        : "授業モードと自治体を選択してください。";
       presentationButton.disabled = true;
       renderBuckets("");
       return;
@@ -434,16 +435,25 @@
     const rows = bucketsByMunicipality.get(id) ?? [];
     const unresolved = unresolvedByMunicipality.get(id) ?? 0;
     municipalityName.textContent = municipalityLabel(id);
-    presentationButton.disabled = rows.length === 0;
-    if (activeItems.length) {
+    presentationButton.disabled = rows.length === 0 || !lessonMode;
+
+    if (!lessonMode) {
+      statusText.textContent = `${rows.length}区分・授業モードを選択してください。`;
+      practiceUnavailable.hidden = false;
+      practiceUnavailable.textContent = "オンライン授業または対面授業を選択してください。";
+      renderBuckets(id);
+    } else if (lessonMode === IN_PERSON_CLASS_MODE) {
+      statusText.textContent = `${rows.length}区分・対面授業モード`;
+      renderBuckets(id);
+    } else if (activeItems.length) {
       const holdText = unresolved ? `・確認中${unresolved}品目は出題対象外` : "";
-      statusText.textContent = `${rows.length}区分・画像練習${activeItems.length}問${holdText}`;
+      statusText.textContent = `${rows.length}区分・オンライン授業モード・画像練習${activeItems.length}問${holdText}`;
       renderBuckets(id);
       renderPracticeItem();
     } else {
-      statusText.textContent = `${rows.length}区分`;
+      statusText.textContent = `${rows.length}区分・オンライン授業モード`;
       practiceUnavailable.hidden = false;
-      practiceUnavailable.textContent = "この自治体は画像仕分けPilotの対象外です。分別箱の投影のみ利用できます。";
+      practiceUnavailable.textContent = "この自治体は画像仕分けPilotの対象外です。";
       renderBuckets(id);
     }
   }
@@ -472,10 +482,12 @@
       buildStyleData(parseCsv(styleText));
       buildItemData(parseCsv(assetText), parseCsv(mappingText));
       installOfficialStyleRules();
+      populateLessonModeSelect();
       populateMunicipalitySelect();
       renderMunicipality("");
     } catch (error) {
       console.error(error);
+      lessonModeSelect.disabled = true;
       select.disabled = true;
       presentationButton.disabled = true;
       municipalityName.textContent = "データを読み込めませんでした";
@@ -483,6 +495,7 @@
     }
   }
 
+  lessonModeSelect.addEventListener("change", () => renderMunicipality(select.value));
   select.addEventListener("change", () => renderMunicipality(select.value));
   presentationButton.addEventListener("click", enterPresentation);
   nextItemButton.addEventListener("click", () => {

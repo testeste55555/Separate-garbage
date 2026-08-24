@@ -16,8 +16,8 @@
 | `apply_item_image_mapping_pilot_top8.py` | 画像10品目×Style Research active 8自治体の公式mapping 80組を冪等生成（76 VERIFIED / 4 UNRESOLVED） |
 | `validate_item_image_mapping_pilot.py` | Pilot台帳・画像・品目master・category・公式source・canonical mapping/coverageの参照整合性を検証 |
 | `red_team_item_image_mapping_pilot.py` | 地域variant混入、推測昇格、非公式URL、汎用文、レイヤー間QA日結合等をmutation検査 |
-| `validate_learner_item_sorting_pilot.py` | VERIFIED 76組の画像・category階層・Style projection・学習者UI参照整合性を検証 |
-| `red_team_learner_item_sorting_pilot.py` | UNRESOLVED混入、親子投影破壊、推測色、地域variant、画像path等をmutation検査 |
+| `validate_learner_item_sorting_pilot.py` | VERIFIED 76組の画像・category階層・Style projectionに加え、授業モード分離と学習者画面への答え・教師用説明の非表示を検証 |
+| `red_team_learner_item_sorting_pilot.py` | UNRESOLVED混入、親子投影破壊、推測色、地域variant、画像path、答え漏洩、通信状態との混同等をmutation検査 |
 | `*_v11.py` | 破壊的な旧処理を再実行しないv1.2互換entrypoint |
 
 標準検証：

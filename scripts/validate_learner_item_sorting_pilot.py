@@ -157,20 +157,26 @@ def validate_ui_projection(
     return errors, projected
 
 
-def validate_static_ui(root: Path = ROOT) -> list[str]:
+def validate_static_ui_text(html: str, javascript: str, css: str) -> list[str]:
     errors: list[str] = []
     parser = IdCollector()
-    parser.feed((root / "app/index.html").read_text(encoding="utf-8"))
+    parser.feed(html)
     required_ids = {
-        "municipalitySelect", "bucketGrid", "practicePanel", "practiceProgress",
-        "itemImage", "itemDisplayName", "itemCondition", "answerFeedback",
-        "answerDetail", "nextItemButton", "styleLegend",
+        "lessonModeSelect", "municipalitySelect", "bucketGrid", "practicePanel",
+        "practiceProgress", "itemCard", "itemImage", "practiceInstruction",
+        "answerFeedback", "nextItemButton",
     }
     missing = required_ids - parser.ids
     if missing:
         errors.append(f"learner UI missing required elements: {sorted(missing)}")
+    forbidden_ids = {
+        "itemDisplayName", "itemCondition", "answerDetail", "answerDestination",
+        "answerPreparation", "answerException",
+    }
+    leaked_ids = forbidden_ids & parser.ids
+    if leaked_ids:
+        errors.append(f"learner UI exposes answer/explanation elements: {sorted(leaked_ids)}")
 
-    javascript = (root / "app/app.js").read_text(encoding="utf-8")
     required_js = {
         "../data/app/item_image_assets.csv",
         "../data/app/item_image_mapping_pilot_top8.csv",
@@ -178,15 +184,35 @@ def validate_static_ui(root: Path = ROOT) -> list[str]:
         "findSortBucket",
         "OFFICIAL_STYLE_STATUSES",
         "practiceFinished",
+        'const ONLINE_CLASS_MODE = "ONLINE_CLASS"',
+        'const IN_PERSON_CLASS_MODE = "IN_PERSON_CLASS"',
+        "lessonModeSelect.value",
+        "activeItems = lessonMode === ONLINE_CLASS_MODE ? availableItems : [];",
+        'itemImage.alt = "仕分ける品目の画像";',
     }
     missing_js = sorted(value for value in required_js if value not in javascript)
     if missing_js:
         errors.append(f"learner UI missing safety/projection logic: {missing_js}")
-    css = (root / "app/styles.css").read_text(encoding="utf-8")
+    forbidden_js = {
+        "item.display_name", "item.condition", "item.preparation",
+        "item.exception_destination", "answerDestination", "answerPreparation",
+        "answerException", "navigator.onLine",
+    }
+    leaked_js = sorted(value for value in forbidden_js if value in javascript)
+    if leaked_js:
+        errors.append(f"learner UI leaks answer detail or confuses class mode with network state: {leaked_js}")
     for token in [":focus-visible", 'data-answer-state="correct"', 'data-answer-state="incorrect"']:
         if token not in css:
             errors.append(f"learner UI CSS missing accessibility/feedback token: {token}")
     return errors
+
+
+def validate_static_ui(root: Path = ROOT) -> list[str]:
+    return validate_static_ui_text(
+        (root / "app/index.html").read_text(encoding="utf-8"),
+        (root / "app/app.js").read_text(encoding="utf-8"),
+        (root / "app/styles.css").read_text(encoding="utf-8"),
+    )
 
 
 def main() -> int:
