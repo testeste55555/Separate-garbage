@@ -9,6 +9,7 @@ on:
       - "data/research/02_categories_master.csv"
       - "data/style_research/**"
       - "scripts/validate_app_ready_lesson_modes.py"
+      - "scripts/red_team_app_ready_lesson_modes.py"
       - ".github/workflows/app-ready-lesson-modes.yml"
   push:
     branches: [main]
@@ -19,6 +20,7 @@ on:
       - "data/research/02_categories_master.csv"
       - "data/style_research/**"
       - "scripts/validate_app_ready_lesson_modes.py"
+      - "scripts/red_team_app_ready_lesson_modes.py"
       - ".github/workflows/app-ready-lesson-modes.yml"
 
 permissions:
@@ -37,6 +39,8 @@ jobs:
           node-version: "22"
       - name: Validate APP_READY lesson modes
         run: python scripts/validate_app_ready_lesson_modes.py
+      - name: RED TEAM APP_READY lesson modes
+        run: python scripts/red_team_app_ready_lesson_modes.py
       - name: Check learner UI JavaScript syntax
         run: node --check app/app.js
       - name: Validate canonical research data
