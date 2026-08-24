@@ -5,23 +5,49 @@
     municipalities: "../data/master/01_municipalities_master.csv",
     municipalityResearch: "../data/research/04_municipalities_research.csv",
     categories: "../data/research/02_categories_master.csv",
-    styleProjection: "../data/style_research/08_style_ui_projection.csv"
+    styleProjection: "../data/style_research/08_style_ui_projection.csv",
+    itemAssets: "../data/app/item_image_assets.csv",
+    imageMappingPilot: "../data/app/item_image_mapping_pilot_top8.csv"
+  };
+
+  const APP_READY_REVIEW_FILES = {
+    M094: "../data/research/app_readiness/m094_item_review.csv",
+    M104: "../data/research/app_readiness/m104_item_review.csv"
   };
 
   const MUNICIPAL_SCOPE = "MUNICIPALITY_WIDE";
   const OFFICIAL_STYLE_STATUSES = new Set(["OFFICIAL_CONFIRMED", "OFFICIAL_DERIVED"]);
   const HEX_RE = /^#[0-9A-Fa-f]{6}$/;
   const SAFE_ID_RE = /^[A-Za-z0-9_-]+$/;
+  const SAFE_IMAGE_RE = /^I\d{3}_[A-Za-z0-9_]+\.png$/;
+  const ONLINE_CLASS_MODE = "ONLINE_CLASS";
+  const IN_PERSON_CLASS_MODE = "IN_PERSON_CLASS";
+  const EXPECTED_APP_READY_ITEM_COUNT = 40;
 
+  const lessonModeSelect = document.getElementById("lessonModeSelect");
   const select = document.getElementById("municipalitySelect");
   const presentationButton = document.getElementById("presentationButton");
   const municipalityName = document.getElementById("municipalityName");
   const statusText = document.getElementById("statusText");
   const bucketGrid = document.getElementById("bucketGrid");
+  const practicePanel = document.getElementById("practicePanel");
+  const practiceUnavailable = document.getElementById("practiceUnavailable");
+  const practiceProgress = document.getElementById("practiceProgress");
+  const itemImage = document.getElementById("itemImage");
+  const answerFeedback = document.getElementById("answerFeedback");
+  const nextItemButton = document.getElementById("nextItemButton");
 
   let municipalitiesById = new Map();
+  let categoryByKey = new Map();
   let bucketsByMunicipality = new Map();
   let stylesByBucket = new Map();
+  let assetsByItem = new Map();
+  let appReadyPairs = new Set();
+  let appReadyMunicipalities = new Set();
+  let itemsByMunicipality = new Map();
+  let activeItems = [];
+  let activeItemIndex = 0;
+  let practiceFinished = false;
 
   function parseCsv(text) {
     const rows = [];
@@ -47,10 +73,10 @@
 
       if (char === '"') {
         quoted = true;
-      } else if (char === ',') {
+      } else if (char === ",") {
         row.push(field);
         field = "";
-      } else if (char === '\n') {
+      } else if (char === "\n") {
         row.push(field.replace(/\r$/, ""));
         rows.push(row);
         row = [];
@@ -66,12 +92,10 @@
     }
 
     if (rows.length === 0) return [];
-
     const headers = rows[0].map((value, index) => {
       const clean = value.trim();
       return index === 0 ? clean.replace(/^\uFEFF/, "") : clean;
     });
-
     return rows.slice(1)
       .filter((values) => values.some((value) => value.trim() !== ""))
       .map((values) => Object.fromEntries(headers.map((header, index) => [header, values[index] ?? ""])));
@@ -86,9 +110,16 @@
     if (count <= 2) return count || 1;
     if (count <= 4) return 2;
     if (count <= 6) return 3;
-    if (count <= 8) return 4;
     if (count <= 12) return 4;
     return 5;
+  }
+
+  function categoryKey(municipalityId, categoryId) {
+    return `${municipalityId}::${categoryId}`;
+  }
+
+  function pairKey(municipalityId, itemId) {
+    return `${municipalityId}::${itemId}`;
   }
 
   function styleKey(municipalityId, categoryId, scope = MUNICIPAL_SCOPE) {
@@ -96,8 +127,11 @@
   }
 
   function buildData(municipalities, municipalityResearch, categories) {
-    municipalitiesById = new Map(
-      municipalities.map((row) => [row.municipality_id.trim(), row])
+    municipalitiesById = new Map(municipalities.map((row) => [row.municipality_id.trim(), row]));
+    categoryByKey = new Map(
+      categories
+        .filter((row) => row.municipality_id?.trim() && row.category_id?.trim())
+        .map((row) => [categoryKey(row.municipality_id.trim(), row.category_id.trim()), row])
     );
 
     const qaPassedIds = new Set(
@@ -109,12 +143,8 @@
 
     const eligible = categories.filter((row) => {
       const id = row.municipality_id?.trim();
-      return id &&
-        qaPassedIds.has(id) &&
-        row.category_id?.trim() &&
-        row["自治体正式名称"]?.trim() &&
-        row.ui_role?.trim() === "SORT_BUCKET" &&
-        row.rule_status?.trim() === "CURRENT";
+      return id && qaPassedIds.has(id) && row.category_id?.trim() && row["自治体正式名称"]?.trim() &&
+        row.ui_role?.trim() === "SORT_BUCKET" && row.rule_status?.trim() === "CURRENT";
     });
 
     bucketsByMunicipality = new Map();
@@ -127,22 +157,92 @@
     for (const rows of bucketsByMunicipality.values()) {
       rows.sort((a, b) => {
         const byOrder = numericOrder(a["表示順"]) - numericOrder(b["表示順"]);
-        if (byOrder !== 0) return byOrder;
-        return a.category_id.localeCompare(b.category_id, "ja");
+        return byOrder || a.category_id.localeCompare(b.category_id, "ja");
       });
     }
   }
 
   function buildStyleData(styleRows) {
     stylesByBucket = new Map();
-
     for (const row of styleRows) {
       const municipalityId = row.municipality_id?.trim();
       const categoryId = row.category_id?.trim();
       const scope = row.district_scope?.trim();
-
       if (!municipalityId || !categoryId || scope !== MUNICIPAL_SCOPE) continue;
       stylesByBucket.set(styleKey(municipalityId, categoryId, scope), row);
+    }
+  }
+
+  function buildAppReadyData(reviewRowsByMunicipality) {
+    appReadyPairs = new Set();
+    appReadyMunicipalities = new Set();
+
+    for (const [expectedMunicipalityId, rows] of reviewRowsByMunicipality) {
+      const municipalityIds = new Set(rows.map((row) => row.municipality_id?.trim()).filter(Boolean));
+      const itemIds = new Set(rows.map((row) => row.internal_item_id?.trim()).filter(Boolean));
+      const allComplete = rows.length > 0 && rows.every((row) => row.branch_review_status?.trim() === "COMPLETE");
+      const municipalityMatches = municipalityIds.size === 1 && municipalityIds.has(expectedMunicipalityId);
+      const completeMunicipality = municipalityMatches && allComplete && itemIds.size === EXPECTED_APP_READY_ITEM_COUNT;
+
+      if (!completeMunicipality) {
+        console.warn("APP_READY review file is incomplete and will not enable scoring.", expectedMunicipalityId);
+        continue;
+      }
+
+      appReadyMunicipalities.add(expectedMunicipalityId);
+      for (const itemId of itemIds) appReadyPairs.add(pairKey(expectedMunicipalityId, itemId));
+    }
+  }
+
+  function findSortBucket(municipalityId, categoryId) {
+    let currentId = categoryId;
+    const visited = new Set();
+
+    while (currentId && !visited.has(currentId)) {
+      visited.add(currentId);
+      const row = categoryByKey.get(categoryKey(municipalityId, currentId));
+      if (!row || row.rule_status?.trim() !== "CURRENT") return null;
+      if (row.ui_role?.trim() === "SORT_BUCKET") return row;
+      if (["HIDDEN", "EXCLUDED_NOTICE"].includes(row.ui_role?.trim())) return null;
+      currentId = row.parent_category_id?.trim();
+    }
+    return null;
+  }
+
+  function buildItemData(assetRows, imageMappingRows) {
+    assetsByItem = new Map(
+      assetRows
+        .filter((row) => row.asset_status?.trim() === "CONFIRMED")
+        .map((row) => [row.internal_item_id?.trim(), row])
+    );
+    itemsByMunicipality = new Map();
+
+    for (const row of imageMappingRows) {
+      const municipalityId = row.municipality_id?.trim();
+      const itemId = row.internal_item_id?.trim();
+      if (!municipalityId || !itemId) continue;
+      if (!appReadyMunicipalities.has(municipalityId)) continue;
+      if (!appReadyPairs.has(pairKey(municipalityId, itemId))) continue;
+      if (row.review_status?.trim() !== "VERIFIED") continue;
+
+      const asset = assetsByItem.get(itemId);
+      const imageFile = asset?.image_file?.trim();
+      const sortBucket = findSortBucket(municipalityId, row.category_id?.trim());
+      if (!asset || !sortBucket || !SAFE_IMAGE_RE.test(imageFile ?? "") || !imageFile.startsWith(`${itemId}_`)) continue;
+
+      const item = {
+        municipalityId,
+        itemId,
+        imageFile,
+        pairOrder: numericOrder(row.pair_order),
+        uiCategoryId: sortBucket.category_id.trim()
+      };
+      if (!itemsByMunicipality.has(municipalityId)) itemsByMunicipality.set(municipalityId, []);
+      itemsByMunicipality.get(municipalityId).push(item);
+    }
+
+    for (const rows of itemsByMunicipality.values()) {
+      rows.sort((a, b) => a.pairOrder - b.pairOrder);
     }
   }
 
@@ -175,10 +275,8 @@
       if (!HEX_RE.test(background ?? "") || !HEX_RE.test(border ?? "") || !HEX_RE.test(text ?? "")) continue;
 
       const selector = `.bucket[data-municipality-id="${municipalityId}"][data-category-id="${categoryId}"]`;
-      const rule = `${selector} { background-color: ${background}; border-color: ${border}; color: ${text}; }`;
-
       try {
-        sheet.insertRule(rule, sheet.cssRules.length);
+        sheet.insertRule(`${selector} { background-color: ${background}; border-color: ${border}; color: ${text}; }`, sheet.cssRules.length);
       } catch (error) {
         console.warn("Could not install municipality style rule.", error);
       }
@@ -187,8 +285,22 @@
 
   function municipalityLabel(id) {
     const row = municipalitiesById.get(id);
-    if (!row) return id;
-    return `${row["都道府県"] ?? ""} ${row["市町村"] ?? ""}`.trim();
+    return row ? `${row["都道府県"] ?? ""} ${row["市町村"] ?? ""}`.trim() : id;
+  }
+
+  function populateLessonModeSelect() {
+    lessonModeSelect.replaceChildren();
+    for (const [value, label] of [
+      ["", "授業モードを選択"],
+      [ONLINE_CLASS_MODE, "オンライン授業"],
+      [IN_PERSON_CLASS_MODE, "対面授業"]
+    ]) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      lessonModeSelect.appendChild(option);
+    }
+    lessonModeSelect.disabled = false;
   }
 
   function populateMunicipalitySelect() {
@@ -197,9 +309,8 @@
       .sort((a, b) => {
         const aa = municipalitiesById.get(a);
         const bb = municipalitiesById.get(b);
-        const prefecture = (aa["都道府県"] ?? "").localeCompare(bb["都道府県"] ?? "", "ja");
-        if (prefecture !== 0) return prefecture;
-        return (aa["市町村"] ?? "").localeCompare(bb["市町村"] ?? "", "ja");
+        return (aa["都道府県"] ?? "").localeCompare(bb["都道府県"] ?? "", "ja") ||
+          (aa["市町村"] ?? "").localeCompare(bb["市町村"] ?? "", "ja");
       });
 
     select.replaceChildren();
@@ -214,26 +325,26 @@
       option.textContent = municipalityLabel(id);
       select.appendChild(option);
     }
-
     select.disabled = false;
-    statusText.textContent = `${ids.length}自治体を選択できます。`;
+    statusText.textContent = `授業モードと自治体を選択してください。${ids.length}自治体を表示できます。`;
+  }
+
+  function clearBucketAnswerState() {
+    for (const box of bucketGrid.querySelectorAll(".bucket")) {
+      delete box.dataset.answerState;
+      if (box instanceof HTMLButtonElement) box.disabled = false;
+    }
   }
 
   function renderBuckets(id) {
     bucketGrid.replaceChildren();
-
     if (!id) {
-      municipalityName.textContent = "自治体を選択してください";
-      statusText.textContent = "選択すると、その自治体の仕分け用ボックスだけを表示します。";
-      presentationButton.disabled = true;
       bucketGrid.dataset.columns = "1";
       return;
     }
 
     const rows = bucketsByMunicipality.get(id) ?? [];
-    municipalityName.textContent = municipalityLabel(id);
-    statusText.textContent = `${rows.length}区分`;
-    presentationButton.disabled = rows.length === 0;
+    const interactive = lessonModeSelect.value === ONLINE_CLASS_MODE && activeItems.length > 0;
     bucketGrid.dataset.columns = String(displayColumns(rows.length));
 
     if (rows.length === 0) {
@@ -248,85 +359,172 @@
       const categoryId = row.category_id.trim();
       const label = row["自治体正式名称"].trim();
       const style = stylesByBucket.get(styleKey(id, categoryId));
-      const box = document.createElement("div");
+      const status = style?.color_status?.trim() || "NO_STYLE_RESEARCH";
+      const box = document.createElement(interactive ? "button" : "div");
+      if (box instanceof HTMLButtonElement) box.type = "button";
 
       box.className = "bucket";
       box.dataset.municipalityId = id;
       box.dataset.categoryId = categoryId;
-      box.dataset.styleStatus = style?.color_status?.trim() || "NO_STYLE_RESEARCH";
+      box.dataset.styleStatus = status;
       box.textContent = label;
 
       const length = [...label].length;
-      if (length >= 13) {
-        box.classList.add("bucket--long");
-      } else if (length >= 7) {
-        box.classList.add("bucket--compact");
-      }
+      if (length >= 13) box.classList.add("bucket--long");
+      else if (length >= 7) box.classList.add("bucket--compact");
+      box.classList.add(OFFICIAL_STYLE_STATUSES.has(status) ? "bucket--official-style" : "bucket--neutral-style");
 
-      if (OFFICIAL_STYLE_STATUSES.has(box.dataset.styleStatus)) {
-        box.classList.add("bucket--official-style");
-      } else {
-        box.classList.add("bucket--neutral-style");
+      if (interactive) {
+        box.classList.add("bucket--interactive");
+        box.addEventListener("click", () => handleBucketChoice(box, categoryId));
       }
-
       bucketGrid.appendChild(box);
     }
   }
 
+  function resetAnswer() {
+    answerFeedback.textContent = "";
+    answerFeedback.className = "answer-feedback";
+    nextItemButton.hidden = true;
+    clearBucketAnswerState();
+  }
+
+  function renderPracticeItem() {
+    practiceFinished = false;
+    const item = activeItems[activeItemIndex];
+    practiceProgress.textContent = `${activeItemIndex + 1} / ${activeItems.length}`;
+    itemImage.hidden = false;
+    itemImage.src = `./assets/items/${item.imageFile}`;
+    itemImage.alt = "仕分けるごみの画像";
+    practicePanel.classList.remove("practice-panel--complete");
+    resetAnswer();
+  }
+
+  function showPracticeCompletion() {
+    practiceFinished = true;
+    itemImage.hidden = true;
+    practiceProgress.textContent = "完了";
+    answerFeedback.textContent = "○";
+    answerFeedback.className = "answer-feedback answer-feedback--correct";
+    nextItemButton.textContent = "もう一度";
+    nextItemButton.hidden = false;
+    practicePanel.classList.add("practice-panel--complete");
+    for (const box of bucketGrid.querySelectorAll("button.bucket")) box.disabled = true;
+  }
+
+  function handleBucketChoice(box, categoryId) {
+    if (practiceFinished || !activeItems.length) return;
+    const item = activeItems[activeItemIndex];
+    for (const candidate of bucketGrid.querySelectorAll(".bucket")) delete candidate.dataset.answerState;
+
+    if (categoryId !== item.uiCategoryId) {
+      box.dataset.answerState = "incorrect";
+      answerFeedback.textContent = "×";
+      answerFeedback.className = "answer-feedback answer-feedback--incorrect";
+      return;
+    }
+
+    box.dataset.answerState = "correct";
+    answerFeedback.textContent = "○";
+    answerFeedback.className = "answer-feedback answer-feedback--correct";
+    nextItemButton.textContent = activeItemIndex + 1 === activeItems.length ? "結果" : "次へ";
+    nextItemButton.hidden = false;
+    for (const candidate of bucketGrid.querySelectorAll("button.bucket")) candidate.disabled = true;
+    nextItemButton.focus();
+  }
+
+  function renderMunicipality(id) {
+    const lessonMode = lessonModeSelect.value;
+    activeItems = lessonMode === ONLINE_CLASS_MODE && id ? [...(itemsByMunicipality.get(id) ?? [])] : [];
+    activeItemIndex = 0;
+    practiceFinished = false;
+    practicePanel.hidden = true;
+    practiceUnavailable.hidden = true;
+
+    if (!id) {
+      municipalityName.textContent = "自治体を選択してください";
+      statusText.textContent = lessonMode ? "自治体を選択してください。" : "授業モードと自治体を選択してください。";
+      presentationButton.disabled = true;
+      renderBuckets("");
+      return;
+    }
+
+    const rows = bucketsByMunicipality.get(id) ?? [];
+    municipalityName.textContent = municipalityLabel(id);
+    presentationButton.disabled = rows.length === 0 || !lessonMode;
+
+    if (!lessonMode) {
+      statusText.textContent = `${rows.length}区分・授業モードを選択してください。`;
+      renderBuckets(id);
+      return;
+    }
+
+    if (lessonMode === IN_PERSON_CLASS_MODE) {
+      statusText.textContent = `${rows.length}区分・対面授業モード`;
+      renderBuckets(id);
+      return;
+    }
+
+    if (activeItems.length > 0) {
+      statusText.textContent = `${rows.length}区分・オンライン授業モード・画像練習${activeItems.length}問`;
+      practicePanel.hidden = false;
+      renderBuckets(id);
+      renderPracticeItem();
+      return;
+    }
+
+    statusText.textContent = `${rows.length}区分・オンライン授業モード`;
+    practiceUnavailable.hidden = false;
+    practiceUnavailable.textContent = appReadyMunicipalities.has(id)
+      ? "この自治体の画像問題はまだ登録されていません。"
+      : "この自治体の自動正誤判定は準備中です。";
+    renderBuckets(id);
+  }
+
   async function enterPresentation() {
-    if (!select.value) return;
+    if (!select.value || !lessonModeSelect.value) return;
     try {
-      if (document.documentElement.requestFullscreen) {
-        await document.documentElement.requestFullscreen();
-      } else {
-        document.body.classList.add("presentation-mode");
-      }
+      if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
+      else document.body.classList.add("presentation-mode");
     } catch (error) {
       console.warn("Fullscreen API unavailable; using presentation layout only.", error);
       document.body.classList.add("presentation-mode");
     }
   }
 
+  async function fetchText(path) {
+    const response = await fetch(path, { cache: "no-store" });
+    if (!response.ok) throw new Error(`data load failed: ${path} (${response.status})`);
+    return response.text();
+  }
+
   async function load() {
     try {
-      const styleRequest = fetch(DATA_PATHS.styleProjection, { cache: "no-store" })
-        .then((response) => response.ok ? response.text() : "")
-        .catch((error) => {
-          console.warn("Style layer unavailable; using neutral boxes.", error);
-          return "";
-        });
+      const reviewEntries = Object.entries(APP_READY_REVIEW_FILES);
+      const requests = [
+        fetchText(DATA_PATHS.municipalities),
+        fetchText(DATA_PATHS.municipalityResearch),
+        fetchText(DATA_PATHS.categories),
+        fetchText(DATA_PATHS.styleProjection),
+        fetchText(DATA_PATHS.itemAssets),
+        fetchText(DATA_PATHS.imageMappingPilot),
+        ...reviewEntries.map(([, path]) => fetchText(path))
+      ];
 
-      const [municipalityResponse, researchResponse, categoryResponse, styleText] = await Promise.all([
-        fetch(DATA_PATHS.municipalities, { cache: "no-store" }),
-        fetch(DATA_PATHS.municipalityResearch, { cache: "no-store" }),
-        fetch(DATA_PATHS.categories, { cache: "no-store" }),
-        styleRequest
-      ]);
+      const texts = await Promise.all(requests);
+      const [municipalityText, researchText, categoryText, styleText, assetText, mappingText, ...reviewTexts] = texts;
 
-      if (!municipalityResponse.ok || !researchResponse.ok || !categoryResponse.ok) {
-        throw new Error(
-          `data load failed: municipalities=${municipalityResponse.status}, ` +
-          `research=${researchResponse.status}, categories=${categoryResponse.status}`
-        );
-      }
-
-      const [municipalityText, researchText, categoryText] = await Promise.all([
-        municipalityResponse.text(),
-        researchResponse.text(),
-        categoryResponse.text()
-      ]);
-
-      buildData(
-        parseCsv(municipalityText),
-        parseCsv(researchText),
-        parseCsv(categoryText)
-      );
-      buildStyleData(styleText ? parseCsv(styleText) : []);
+      buildData(parseCsv(municipalityText), parseCsv(researchText), parseCsv(categoryText));
+      buildStyleData(parseCsv(styleText));
+      buildAppReadyData(reviewEntries.map(([municipalityId], index) => [municipalityId, parseCsv(reviewTexts[index])]));
+      buildItemData(parseCsv(assetText), parseCsv(mappingText));
       installOfficialStyleRules();
+      populateLessonModeSelect();
       populateMunicipalitySelect();
-      renderBuckets("");
+      renderMunicipality("");
     } catch (error) {
       console.error(error);
+      lessonModeSelect.disabled = true;
       select.disabled = true;
       presentationButton.disabled = true;
       municipalityName.textContent = "データを読み込めませんでした";
@@ -334,17 +532,33 @@
     }
   }
 
-  select.addEventListener("change", () => renderBuckets(select.value));
+  lessonModeSelect.addEventListener("change", () => renderMunicipality(select.value));
+  select.addEventListener("change", () => renderMunicipality(select.value));
   presentationButton.addEventListener("click", enterPresentation);
+  nextItemButton.addEventListener("click", () => {
+    if (practiceFinished) {
+      activeItemIndex = 0;
+      nextItemButton.textContent = "次へ";
+      renderBuckets(select.value);
+      renderPracticeItem();
+      return;
+    }
+
+    if (activeItemIndex + 1 < activeItems.length) {
+      activeItemIndex += 1;
+      nextItemButton.textContent = "次へ";
+      renderBuckets(select.value);
+      renderPracticeItem();
+    } else {
+      showPracticeCompletion();
+    }
+  });
 
   document.addEventListener("fullscreenchange", () => {
     document.body.classList.toggle("presentation-mode", Boolean(document.fullscreenElement));
   });
-
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !document.fullscreenElement) {
-      document.body.classList.remove("presentation-mode");
-    }
+    if (event.key === "Escape" && !document.fullscreenElement) document.body.classList.remove("presentation-mode");
   });
 
   load();
