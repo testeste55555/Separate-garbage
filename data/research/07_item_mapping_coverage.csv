@@ -3599,46 +3599,46 @@ M093,I037,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M093,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M093,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M093,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I001,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M094-06,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008424.html,「ペットボトル」の行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M094,I002,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M094,I003,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M094,I004,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M094-04,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008420.html,「空き缶」の行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M094,I005,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I006,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M094-06,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008424.html,「びん(ガラス) 薬・飲料・食料品等用」の行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M094,I007,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M094-01,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1003182.html,リサイクルプラ欄（食品トレイの例示）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M094,I008,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I009,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I010,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I011,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I012,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M094,I013,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M094-01,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1003182.html,資源ごみ欄（紙類・新聞）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M094,I014,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M094-01,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1003182.html,資源ごみ欄（段ボール）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M094,I015,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I016,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I017,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M094-04,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008420.html,「紙パック」「紙パック（裏にアルミ箔が貼ってあるもの）」「牛乳パック」の行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M094,I018,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M094,I019,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I020,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M094,I021,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M094,I022,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M094,I023,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M094,I024,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I026,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I027,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M094,I028,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M094,I029,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M094-08,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1046707.html,モバイルバッテリー欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M094,I030,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M094,I031,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M094-05,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008422.html,「電球」の行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M094,I032,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I033,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M094-07,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008426.html,「ライター（使い捨て）」の行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M094,I034,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M094,I035,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I036,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I037,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I038,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M094,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M094,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M094,I001,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-06,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008424.html,「ペットボトル」2行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I002,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M094-01,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1003182.html,ペットボトル／ごみの出し方（キャップ）,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I003,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M094-01,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1003182.html,ペットボトル／ごみの出し方（ラベル）,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I004,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-09,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008419.html,「アルミ缶」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I005,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-10,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008421.html,「スチール缶」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I006,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-06,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008424.html,「びん(ガラス) 薬・飲料・食料品等用」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I007,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M094-01,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1003182.html,リサイクルプラ／食品トレーの例示とごみの出し方,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I008,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M094-05,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008422.html,「トレイ 発泡トレイ」「トレイ プラスチック製」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I009,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M094-06,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008424.html,「弁当ガラ(プラスチック製容器)」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I010,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M094-04,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008420.html,「菓子袋 プラスチック製」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I011,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-07,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008426.html,「レジ袋」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I012,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M094-06,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008424.html,「発泡スチロール 商品を保護するもの」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I013,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M094-01,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1003182.html,資源ごみ／出せる物の例（新聞紙）,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I014,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M094-01,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1003182.html,資源ごみ／出せる物の例（段ボール）,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I015,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-10,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008421.html,「雑誌」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I016,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M094-04,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008420.html,「菓子箱」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I017,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-04,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008420.html,「紙パック」「牛乳パック」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I018,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M094-01,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1003182.html,可燃ごみ／生ごみ・ごみの出し方,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I019,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-05,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008422.html,「ティッシュペーパー」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I020,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-04,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008420.html,「紙おむつ」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I021,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-09,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008419.html,「衣類」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I022,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-04,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008420.html,「傘」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I023,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M094-05,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008422.html,「陶磁器」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I024,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M094-04,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008420.html,「ガラス 耐熱ガラス」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I025,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M094-01,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1003182.html,資源ごみ／ガラスくず・割れたガラスの出し方,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I026,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M094-11,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008423.html,「ナイフ」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I027,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-05,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008422.html,「電池 その他」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I028,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-05,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008422.html,「電池 ボタン型電池」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I029,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-08,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1046707.html,小型充電式電池・モバイルバッテリーの出し方,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I030,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M094-04,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008420.html,「蛍光管」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I031,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M094-05,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008422.html,「電球」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I032,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M094-10,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008421.html,「スプレー缶」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I033,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-07,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008426.html,「ライター(使い捨てライター)」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I034,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M094-01,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1003182.html,不燃ごみ／小型家電・大型ごみの定義,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I035,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M094-01,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1003182.html,不燃ごみ／充電式電池を取り外せない家電製品,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I036,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-06,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008424.html,「ふとん」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I037,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M094-01,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1003182.html,大型ごみ／家電リサイクル法対象機器,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I038,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-06,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008424.html,「パソコン(本体・ディスプレイ)」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I039,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-10,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008421.html,「食用油(てんぷら油)」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M094,I040,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M094-09,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008419.html,「枝(庭木の剪定ごみ)」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
 M095,I001,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,資源物（びん類・缶類・ペットボトル）欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
 M095,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M095,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。

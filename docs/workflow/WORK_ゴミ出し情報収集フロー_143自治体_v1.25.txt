@@ -1,0 +1,39 @@
+WORK_ゴミ出し情報収集フロー_143自治体_v1.25
+制定日: 2026-08-24
+Schema: v1.2.4
+
+1. 継承
+category研究・公式粒度・地域variant・NEXT_BATCH_GATEの原則はWorkflow v1.24を継承する。
+
+2. APP readiness工程
+category網羅性と、40共通品目を教材で利用できるかの確認を混同しない。自治体単位で40品目すべてにつき、次を満たした場合だけAPP_READYとする。
+
+- 品目別公式source・URL・locator
+- 材質・汚れ・寸法・破損・内容物残存等の条件枝
+- 全条件枝の`branch_review_status=COMPLETE`
+- coverageの`branch_completeness_confirmed=TRUE`
+- checked_dateとreviewer
+
+1品目でも未確認なら、その自治体をAPP_READY自治体としない。他自治体の条件を横展開しない。
+
+3. M094 広島市 Pilot
+2026-08-24に、共通40品目を広島市の現行公式「家庭ごみの正しい出し方」・「家庭ごみ分別50音事典」・個別注意ページへ照合した。
+
+- 40品目pair
+- 59条件枝
+- 全枝 ITEM_SPECIFIC / COMPLETE / APP_READY
+- 自治体単位APP readiness: PASS
+- mutation RED TEAM: 16/16 PASS
+
+M094既存mapping_idは維持し、追加条件枝だけに新規の安定mapping_idを付与する。後続APP_READYが、画像品目Pilot等の過去生成器の再実行でVERIFIEDへ巻き戻されないことをCIで保証する。
+
+4. Gateの表示
+M094自治体単位の完了と、132 active自治体全体のAPP_READINESS_GATEを分ける。
+
+- M094: 40/40 APP_READYでPASS
+- canonical全体: M094以外が未完了のためHOLD
+
+後続自治体の完了数が増えても、全132自治体が原子的に40/40 APP_READYになるまで全体GateをPASSさせない。
+
+5. 次工程
+M094 PilotのCI・RED TEAMを通過後、同じ手順で次のactive自治体を自治体単位で公式照合する。category Batchは再開しない。地域variantでDEFERREDの自治体は、district_scopeの解決前にAPP_READYへ進めない。
