@@ -3879,46 +3879,46 @@ M103,I037,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M103,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M103,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M103,I040,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M103-01,https://www.city.otake.hiroshima.jp/material/files/group/7/reiwa8nenndogomikarenndaAtiku.pdf,text-match:せん定枝 + せん定枝,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M104,I001,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M104-04,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_all.pdf,ごみブック「ペットボトル」欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M104,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I004,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M104-04,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_all.pdf,ごみブック「アルミ缶」欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M104,I005,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I006,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M104-04,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_all.pdf,ごみブック「ビン」欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M104,I007,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M104-04,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_all.pdf,ごみブック「白色トレイ」欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M104,I008,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I009,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I010,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I011,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I012,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I013,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M104-04,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_all.pdf,ごみブック「新聞」欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M104,I014,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M104-06,https://www.city.higashihiroshima.lg.jp/soshiki/seikatsukankyo/8/4/1/15033.html,ダンボールの出し方欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M104,I015,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M104,I016,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I017,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M104-06,https://www.city.higashihiroshima.lg.jp/soshiki/seikatsukankyo/8/4/1/15033.html,雑誌・雑がみ・ダンボール欄（紙パックの例示）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M104,I018,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M104,I019,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I020,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I021,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I022,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I023,MAPPED_INITIAL,2,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M104,I024,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I026,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M104,I027,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M104,I028,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I029,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M104-05,https://www.city.higashihiroshima.lg.jp/soshiki/seikatsukankyo/8/4/1/21260.html,モバイルバッテリーの出し方欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M104,I030,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M104,I031,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M104-04,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_all.pdf,ごみブック「電球」欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M104,I032,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I033,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M104-04,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_all.pdf,ごみブック「ライター」欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M104,I034,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I035,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I036,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I037,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M104,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M104,I001,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表59頁『ペットボトル』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I002,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表57頁『ペットボトル』備考・『ペットボトルの蓋』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I003,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表57頁『ペットボトル』備考,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I004,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表33頁『アルミ缶（飲食物用）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I005,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表45頁『スチール缶（飲料・食品用）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I006,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表の飲料・食品用びん各行,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I007,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表51頁『トレイ（食品用）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I008,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表51頁『トレイ（食品用）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I009,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表57頁『弁当の容器（プラスチック製・コンビニなど）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I010,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表36頁『菓子袋（プラスチック製）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I011,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表61頁『レジ袋』・60頁『ラップ』備考,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I012,APP_READY,4,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表38頁『緩衝材（プラスチック製）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I013,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表44頁『新聞』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I014,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表47頁『ダンボール』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I015,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表42頁『雑誌』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I016,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表36頁『菓子箱（紙製）』・紙袋等,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I017,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表37頁『紙パック（飲料用）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I018,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-04,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_all.pdf,ごみブック7頁『燃やせるごみ』台所ごみ,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I019,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表49頁『ティッシュペーパー』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I020,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表37頁『紙おむつ』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I021,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表34頁『衣類』・ごみブック27頁,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I022,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表36頁『傘』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I023,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表48頁『茶碗』・42頁『皿（陶磁器製）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I024,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表41頁『コップ（ガラス製）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I025,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表のガラス製コップ・皿等の危険ごみ行,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I026,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表57頁『包丁』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I027,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表38頁『乾電池』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I028,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表58頁『ボタン電池』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I029,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M104-05,https://www.city.higashihiroshima.lg.jp/soshiki/seikatsukankyo/8/4/1/21260.html,小型充電式電池等『ごみステーション』・『窓口回収』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I030,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表40頁『蛍光管・蛍光灯』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I031,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表50頁『電球』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I032,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表45頁『スプレー缶』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I033,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表61頁『ライター』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I034,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-09,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p25-26.pdf,ごみブック25頁『小型家電回収ボックス』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I035,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M104-05,https://www.city.higashihiroshima.lg.jp/soshiki/seikatsukankyo/8/4/1/21260.html,小型充電式電池等『電池を取り外せない製品』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I036,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表56頁『布団』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I037,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-13,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p65-66.pdf,ごみブック65頁『家電4品目の処理について』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I038,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-12,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p64.pdf,ごみブック64頁『パソコンのリサイクルについて』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I039,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表33頁『油（食用油）』・53頁『廃油（食用）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M104,I040,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M104-08,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p23-24.pdf,ごみブック23頁『燃やせるごみ（直径8cm未満）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
 M105,I001,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M105-02,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,ペットボトルの行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
 M105,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M105,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。

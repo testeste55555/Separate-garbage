@@ -138,17 +138,19 @@ def validate_pilot_rows(pilot: list[dict[str, str]], root: Path = ROOT) -> list[
         elif row.get("item_evidence_url") != source.get("公式URL"):
             errors.append(f"verified source URL mismatch: {label}")
 
-        canonical = [
-            m for m in pair_mappings
-            if m.get("category_id") == row.get("category_id")
-            and m.get("mapping_status") in {"VERIFIED", "APP_READY"}
-            and m.get("item_evidence_source_id") == row.get("item_evidence_source_id")
-        ]
-        if len(canonical) != 1:
-            errors.append(f"expected exactly one matching VERIFIED canonical branch: {label}")
-        else:
-            mapping = canonical[0]
-            if cov.get("coverage_status") == "APP_READY":
+        if cov.get("coverage_status") == "APP_READY":
+            # Municipality-wide APP review may replace the Pilot's historical
+            # evidence source with a more precise item locator and may add
+            # same-category condition branches. Preserve the category decision,
+            # then validate every matching later branch as complete.
+            canonical = [
+                m for m in pair_mappings
+                if m.get("category_id") == row.get("category_id")
+                and m.get("mapping_status") == "APP_READY"
+            ]
+            if not canonical:
+                errors.append(f"expected a matching later APP_READY branch: {label}")
+            for mapping in canonical:
                 # A later municipality-wide review may make the operational
                 # wording more specific and add condition branches.  The image
                 # Pilot must recognize that forward transition without
@@ -162,7 +164,17 @@ def validate_pilot_rows(pilot: list[dict[str, str]], root: Path = ROOT) -> list[
                     errors.append(f"later APP_READY branch is incomplete: {label}")
                 if cov.get("branch_completeness_confirmed") != "TRUE":
                     errors.append(f"APP_READY coverage is not branch-complete: {label}")
+        else:
+            canonical = [
+                m for m in pair_mappings
+                if m.get("category_id") == row.get("category_id")
+                and m.get("mapping_status") == "VERIFIED"
+                and m.get("item_evidence_source_id") == row.get("item_evidence_source_id")
+            ]
+            if len(canonical) != 1:
+                errors.append(f"expected exactly one matching VERIFIED canonical branch: {label}")
             else:
+                mapping = canonical[0]
                 field_pairs = [
                     ("条件", "condition"), ("前処理", "preparation"), ("例外分別先", "exception_destination"),
                     ("item_evidence_url", "item_evidence_url"),

@@ -1,0 +1,79 @@
+name: M104 APP readiness Pilot CI
+
+on:
+  push:
+    paths:
+      - "data/research/**"
+      - "scripts/apply_app_readiness_pilot_m104.py"
+      - "scripts/validate_app_readiness_pilot_m104.py"
+      - "scripts/red_team_app_readiness_pilot_m104.py"
+      - "scripts/validate_app_readiness_pilot_m094.py"
+      - ".github/workflows/app-readiness-m104-pilot.yml"
+  pull_request:
+    paths:
+      - "data/research/**"
+      - "scripts/apply_app_readiness_pilot_m104.py"
+      - "scripts/validate_app_readiness_pilot_m104.py"
+      - "scripts/red_team_app_readiness_pilot_m104.py"
+      - "scripts/validate_app_readiness_pilot_m094.py"
+      - ".github/workflows/app-readiness-m104-pilot.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Rebuild and confirm committed review data
+        run: |
+          set -euo pipefail
+          python3 scripts/apply_item_image_mapping_pilot_top8.py
+          python3 scripts/apply_app_readiness_pilot_m094.py
+          python3 scripts/apply_app_readiness_pilot_m104.py
+          git diff --exit-code -- \
+            data/research/02_categories_master.csv \
+            data/research/03_sources_master.csv \
+            data/research/04_municipalities_research.csv \
+            data/research/05_item_mapping_master.csv \
+            data/research/06_qa_log.csv \
+            data/research/07_item_mapping_coverage.csv \
+            data/research/app_readiness/m104_item_review.csv \
+            data/research/batches/batch_10
+      - name: Validate both completed municipalities
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_app_readiness_pilot_m094.py
+          python3 scripts/red_team_app_readiness_pilot_m094.py
+          python3 scripts/validate_app_readiness_pilot_m104.py
+          python3 scripts/red_team_app_readiness_pilot_m104.py
+      - name: Canonical and established-layer regressions
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_research.py
+          python3 scripts/red_team_schema_v12.py
+          python3 scripts/red_team_operational_category_semantics.py
+          python3 scripts/validate_item_image_assets.py
+          python3 scripts/validate_item_image_mapping_pilot.py
+          python3 scripts/red_team_item_image_mapping_pilot.py
+          python3 scripts/validate_teaching_display_layer.py
+          python3 scripts/build_style_research_pilot.py
+          git diff --exit-code -- data/style_research
+          python3 scripts/validate_style_research.py --gate
+          python3 scripts/red_team_style_research.py
+          node --check app/app.js
+      - name: Confirm global APP gate honestly remains HOLD
+        run: |
+          set +e
+          python3 scripts/validate_research.py --app-readiness-gate
+          rc=$?
+          set -e
+          if [ "$rc" -ne 2 ]; then
+            echo "Expected global APP_READINESS_GATE HOLD (rc=2), got rc=$rc"
+            exit 1
+          fi
