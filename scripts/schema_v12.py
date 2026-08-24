@@ -404,8 +404,12 @@ def latest_qa_evidence_date(municipality: dict[str, str], categories: list[dict[
     values.extend(
         row.get("確認日", "") for row in categories if row.get("municipality_id") == mid
     )
+    # IS-* sources belong to the independent APP item-evidence layer.  Their
+    # acquisition date must not rewrite the municipality/category QA date;
+    # item review dates are validated on mappings and coverage instead.
     values.extend(
-        row.get("取得確認日", "") for row in sources if row.get("municipality_id") == mid
+        row.get("取得確認日", "") for row in sources
+        if row.get("municipality_id") == mid and not row.get("source_id", "").startswith("IS-")
     )
     dates = [value for value in values if valid_iso_date(value)]
     return max(dates) if dates else ""

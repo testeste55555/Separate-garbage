@@ -38,8 +38,8 @@
 - canonical QA：**132 `QA_PASSED` / 0 `QA_REQUIRED`**
 - category：**1,594行**
 - structured official leaves：**1,464区分**
-- official sources：**368**
-- item mapping：**1,322条件枝**（初期候補段階）
+- official sources：**382**（うち画像品目Pilot追加 `IS-*` 14件）
+- item mapping：**1,371条件枝**（うち画像品目Pilot 76組をVERIFIED、APP_READYは0）
 - 40品目coverage：**5,280自治体品目pair**
 - category review evidence：**331行**
 - Schema：**v1.2.4**
@@ -50,6 +50,17 @@
 - operational category semantics RED TEAM：**PASS**
 - `NEXT_BATCH_GATE`：**PASS**
 - `APP_READINESS_GATE`：**HOLD**（40共通品目のITEM_SPECIFIC公式確認・条件枝レビュー未完了）
+
+### 画像10品目 mapping Pilot（2026-08-24）
+
+Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を除くactive 8自治体について、画像10品目×8自治体＝80組を公式資料へ照合した。
+
+- `VERIFIED`：76組
+- `UNRESOLVED`：4組（江田島市・海田町の電球／使い捨てライター）
+- `APP_READY`：0組（条件枝完全性レビュー前のため正常）
+- mutation RED TEAM：9/9 PASS
+
+品目別追加sourceは`IS-*`でcategory研究sourceと分離する。成果物・UI HANDOFF：`docs/research/item_image_mapping_pilot_top8_report.md`
 
 **固定143自治体のうち、現行Schemaで安全に一意化できる132 active自治体について、resident-facing category研究の初回一巡は完了しました。**
 
