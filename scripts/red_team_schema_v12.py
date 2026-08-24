@@ -398,7 +398,15 @@ def main() -> int:
         for row in canonical_mappings
         if row["mapping_status"] not in MANUAL_MAPPING_STATUS
     }
-    initial_mapping_sync = stored_initial_keys == generated_mapping_keys - manual_mapping_keys
+    manual_mapping_pairs = {
+        (row["municipality_id"], row["internal_item_id"])
+        for row in canonical_mappings
+        if row["mapping_status"] in MANUAL_MAPPING_STATUS
+    }
+    expected_stored_initial_keys = {
+        key for key in generated_mapping_keys if key[:2] not in manual_mapping_pairs
+    }
+    initial_mapping_sync = stored_initial_keys == expected_stored_initial_keys
     stored_m001_i021 = {
         row["category_id"] for row in canonical_mappings
         if row["municipality_id"] == "M001" and row["internal_item_id"] == "I021"
