@@ -1,6 +1,8 @@
 ﻿municipality_id,source_id,資料名,資料種別,公式URL,発行主体,対象年度,ページ更新日,取得確認日,使用した情報,優先度,現行性,備考,official_verified,official_basis,official_linking_url
 M095,S-M095-01,ごみ出しカレンダー（令和8年度版）,自治体公式Webページ,https://www.city.kure.lg.jp/soshiki/19/gomidasicalender2026.html,呉市,令和8年度,2026-06-29,2026-08-19,令和8年度の7収集区分とプラスチック資源新設,1,現行,,TRUE,MUNICIPAL_DOMAIN,
 M095,S-M095-02,ごみの分別収集,自治体公式Webページ,https://www.city.kure.lg.jp/soshiki/19/gomidasicalender2026.html,呉市,令和8年度,2026-06-29,2026-08-19,各区分の代表品目・市で収集しないごみ,2,現行,,TRUE,MUNICIPAL_DOMAIN,
+M095,S-M095-03,ごみ・資源物の出し方,自治体公式Webページ,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,呉市,令和8年度／取得時点現行,,2026-08-24,市で収集しないごみ・6区分・条件・例外,1,CURRENT,M095 40品目APP readiness手動レビューの公式根拠。,TRUE,MUNICIPAL_DOMAIN,
+M095,S-M095-04,使用済パソコン・小型家電の回収方法について,自治体公式Webページ,https://www.city.kure.lg.jp/soshiki/18/kogatakaden-pc.html,呉市,令和8年度／取得時点現行,,2026-08-24,小型家電回収ボックス経路・投入口条件,1,CURRENT,M095 40品目APP readiness手動レビューの公式根拠。,TRUE,MUNICIPAL_DOMAIN,
 M096,S-M096-01,ごみの分類方法と出し方,自治体公式Webページ,https://www.city.takehara.lg.jp/soshikikarasagasu/chiikizukurika/gyomuannai/1_1/2_1/7243.html,竹原市,令和8年度,2025-04-01,2026-08-19,現行5区分、2024-2025年追記修正、各ページへの公式索引,1,現行,,TRUE,MUNICIPAL_DOMAIN,
 M096,S-M096-02,家庭ごみの分別と出し方,自治体公式PDF,https://www.city.takehara.lg.jp/material/files/group/7/01gomi.pdf,竹原市,令和8年度,現行配布,2026-08-19,もやせる物・リサイクルする物・資源物・粗大ごみ・有害ごみの5区分,2,現行,,TRUE,MUNICIPAL_DOMAIN,
 M097,S-M097-01,ごみの分別方法が一部，変わりました-2,自治体公式Webページ,https://www.city.mihara.hiroshima.jp/soshiki/23/112554.html,三原市,令和8年度,現行案内中,2026-08-19,10分別の正式名称と区分変更,1,現行,,TRUE,MUNICIPAL_DOMAIN,

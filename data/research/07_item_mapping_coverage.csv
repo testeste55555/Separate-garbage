@@ -3639,46 +3639,46 @@ M094,I037,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M094-01,https://www.city.hiroshima.lg
 M094,I038,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-06,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008424.html,「パソコン(本体・ディスプレイ)」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
 M094,I039,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M094-10,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008421.html,「食用油(てんぷら油)」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
 M094,I040,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M094-09,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1008419.html,「枝(庭木の剪定ごみ)」の行,2026-08-24,OPENAI_CODEX_M094_APP_READINESS_V1,M094の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
-M095,I001,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,資源物（びん類・缶類・ペットボトル）欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M095,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I004,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,資源物（缶類）欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M095,I005,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I006,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,資源物（びん類）欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M095,I007,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,プラスチック資源欄（トレイ）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M095,I008,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I009,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I010,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I011,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I012,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I013,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,資源物（紙類）欄（新聞）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M095,I014,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,資源物（紙類）欄（ダンボール）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M095,I015,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I016,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I017,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,資源物（紙類）欄（紙パック）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M095,I018,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I019,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I020,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I021,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M095,I022,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I023,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M095,I024,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I026,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I027,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I028,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I029,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,有害・危険ごみ欄（小型充電式電池・モバイルバッテリー）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M095,I030,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M095,I031,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,燃えないごみ欄（電球・LED電球）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M095,I032,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M095,I033,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,有害・危険ごみ欄（ライター）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M095,I034,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M095,I035,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I036,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I037,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M095,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M095,I001,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,資源物［ペットボトル］,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I002,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-09,https://www.city.kure.lg.jp/uploaded/attachment/106973.pdf,市政だより令和8年1月号6頁「4月からペットボトルのふたとラベルはプラスチック資源へ」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I003,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-09,https://www.city.kure.lg.jp/uploaded/attachment/106973.pdf,市政だより令和8年1月号6頁「4月からペットボトルのふたとラベルはプラスチック資源へ」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I004,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,資源物［缶類］,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I005,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,資源物［缶類］,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I006,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M095-04,https://www.city.kure.lg.jp/uploaded/attachment/109400.pdf,か音50音表「ガラスびん（飲料用，食品用）」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I007,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M095-09,https://www.city.kure.lg.jp/uploaded/attachment/106973.pdf,市政だより令和8年1月号4頁「トレイ類」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I008,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M095-08,https://www.city.kure.lg.jp/soshiki/18/plastic-bunbetu.html,プラスチック資源の対象条件,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I009,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M095-08,https://www.city.kure.lg.jp/soshiki/18/plastic-bunbetu.html,プラスチック資源の対象条件,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I010,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M095-08,https://www.city.kure.lg.jp/soshiki/18/plastic-bunbetu.html,プラスチック資源の対象条件,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I011,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M095-08,https://www.city.kure.lg.jp/soshiki/18/plastic-bunbetu.html,プラスチック資源の対象条件,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I012,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M095-09,https://www.city.kure.lg.jp/uploaded/attachment/106973.pdf,市政だより令和8年1月号4頁「発泡スチロール製の食品トレイ・緩衝材」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I013,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,資源物［紙類］新聞紙,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I014,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,資源物［紙類］段ボール,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I015,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,資源物［紙類］本・雑誌,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I016,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M095-04,https://www.city.kure.lg.jp/uploaded/attachment/109400.pdf,か音50音表「菓子箱（紙）」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I017,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,資源物［紙類］紙パック,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I018,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,燃えるごみ「料理くず、残飯」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I019,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,燃えるごみ「再生できない紙くず」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I020,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,燃えるごみ「おむつは、汚物を取り除いて丈夫な袋」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I021,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,燃えるごみ「再利用できない衣服など（少量）」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I022,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-04,https://www.city.kure.lg.jp/uploaded/attachment/109400.pdf,か音50音表「傘・日傘・ビニール傘」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I023,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,燃えないごみ「せともの類」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I024,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-04,https://www.city.kure.lg.jp/uploaded/attachment/109400.pdf,か音50音表「ガラス類（食器等）」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I025,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,燃えないごみ「ガラスなど割れやすいもの」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I026,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-04,https://www.city.kure.lg.jp/uploaded/attachment/109400.pdf,か音50音表「カミソリの刃」及び燃えないごみの刃物ルール,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I027,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-05,https://www.city.kure.lg.jp/soshiki/20/battery.html,小型充電式電池や乾電池・ボタン電池は有害・危険ごみ,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I028,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-05,https://www.city.kure.lg.jp/soshiki/20/battery.html,小型充電式電池や乾電池・ボタン電池は有害・危険ごみ,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I029,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-05,https://www.city.kure.lg.jp/soshiki/20/battery.html,2026年5月20日更新「モバイルバッテリー」・膨張変形品の扱い,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I030,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,有害・危険ごみ「蛍光管（割れていないもの）」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I031,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,有害・危険ごみ注記「電球、LED電灯は燃えないごみ」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I032,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,有害・危険ごみ「スプレー缶」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I033,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,有害・危険ごみ「使い捨てライター」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I034,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-07,https://www.city.kure.lg.jp/soshiki/18/kogatakaden-pc.html,小型家電回収「回収対象」及び燃えないごみの小型家電,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I035,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-07,https://www.city.kure.lg.jp/soshiki/18/kogatakaden-pc.html,回収ボックスに出せないもの注記「電池が外せない場合はそのまま小型家電回収ボックス」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I036,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,粗大ごみ「寝具類（掛けふとん、敷きふとん）」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I037,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-06,https://www.city.kure.lg.jp/soshiki/18/haiki4-3r-kaden-pc.html,家電4品目の処分方法,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I038,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-06,https://www.city.kure.lg.jp/soshiki/18/haiki4-3r-kaden-pc.html,家庭用パソコンの処分方法,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I039,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,燃えるごみ「油は、紙などに十分吸わせて」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
+M095,I040,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M095-03,https://www.city.kure.lg.jp/soshiki/19/gomidashinew-html.html,燃えるごみ「板きれ、棒きれなどは長さ50cm以下」,2026-08-24,OPENAI_CODEX_M095_APP_READINESS_V1,M095の全40品目・全条件枝を現行公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
 M096,I001,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M096,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M096,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
