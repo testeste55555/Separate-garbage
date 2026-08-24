@@ -6,7 +6,8 @@ from __future__ import annotations
 from pathlib import Path
 
 from schema_v12 import (
-    CATEGORY_REVIEW_EVIDENCE_FIELDS, MUNICIPALITY_FIELDS, read_csv, write_csv,
+    CATEGORY_REVIEW_EVIDENCE_FIELDS, MUNICIPALITY_FIELDS, QA_FIELDS,
+    compute_qa, read_csv, sync_municipality_qa_status, write_csv,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -63,22 +64,42 @@ def update_evidence(rows: list[dict[str, str]]) -> list[dict[str, str]]:
     )
 
 
-def main() -> None:
-    municipality_path = RESEARCH / "04_municipalities_research.csv"
-    evidence_path = RESEARCH / "08_category_review_evidence.csv"
+def finalize_dataset(*, municipality_path: Path, category_path: Path, source_path: Path,
+                     qa_path: Path, evidence_path: Path) -> None:
     _, municipalities = read_csv(municipality_path)
+    _, categories = read_csv(category_path)
+    _, sources = read_csv(source_path)
+    _, qa = read_csv(qa_path)
     _, evidence = read_csv(evidence_path)
-    write_csv(municipality_path, MUNICIPALITY_FIELDS, update_municipalities(municipalities))
-    write_csv(evidence_path, CATEGORY_REVIEW_EVIDENCE_FIELDS, update_evidence(evidence))
+
+    municipalities = update_municipalities(municipalities)
+    evidence = update_evidence(evidence)
+    qa = compute_qa(municipalities, categories, sources, evidence, qa)
+    municipalities = sync_municipality_qa_status(municipalities, qa)
+
+    write_csv(municipality_path, MUNICIPALITY_FIELDS, municipalities)
+    write_csv(qa_path, QA_FIELDS, qa)
+    write_csv(evidence_path, CATEGORY_REVIEW_EVIDENCE_FIELDS, evidence)
+
+
+def main() -> None:
+    finalize_dataset(
+        municipality_path=RESEARCH / "04_municipalities_research.csv",
+        category_path=RESEARCH / "02_categories_master.csv",
+        source_path=RESEARCH / "03_sources_master.csv",
+        qa_path=RESEARCH / "06_qa_log.csv",
+        evidence_path=RESEARCH / "08_category_review_evidence.csv",
+    )
 
     batch = RESEARCH / "batches/batch_10"
-    batch_municipality_path = batch / "batch_10_municipalities.csv"
-    batch_evidence_path = batch / "batch_10_category_review_evidence.csv"
-    _, batch_municipalities = read_csv(batch_municipality_path)
-    _, batch_evidence = read_csv(batch_evidence_path)
-    write_csv(batch_municipality_path, MUNICIPALITY_FIELDS, update_municipalities(batch_municipalities))
-    write_csv(batch_evidence_path, CATEGORY_REVIEW_EVIDENCE_FIELDS, update_evidence(batch_evidence))
-    print("M095_CATEGORY_REVIEW_FINALIZED reviewed_leaf_count=8 supplemental_evidence=CRE-M095-03")
+    finalize_dataset(
+        municipality_path=batch / "batch_10_municipalities.csv",
+        category_path=batch / "batch_10_categories.csv",
+        source_path=batch / "batch_10_sources.csv",
+        qa_path=batch / "batch_10_qa.csv",
+        evidence_path=batch / "batch_10_category_review_evidence.csv",
+    )
+    print("M095_CATEGORY_REVIEW_FINALIZED reviewed_leaf_count=8 supplemental_evidence=CRE-M095-03 qa_recomputed=TRUE")
 
 
 if __name__ == "__main__":
