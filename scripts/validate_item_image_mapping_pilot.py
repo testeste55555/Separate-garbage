@@ -52,6 +52,11 @@ def validate_pilot_rows(pilot: list[dict[str, str]], root: Path = ROOT) -> list[
     sources = {(r["municipality_id"], r["source_id"]): r for r in rows(root / "data/research/03_sources_master.csv")}
     mappings = rows(root / "data/research/05_item_mapping_master.csv")
     coverage = {(r["municipality_id"], r["internal_item_id"]): r for r in rows(root / "data/research/07_item_mapping_coverage.csv")}
+    lesson_ready_mids = {
+        r["municipality_id"]
+        for r in rows(root / "data/app/lesson_mode_app_ready_scope.csv")
+        if r.get("scoring_status") == "LESSON_READY_10"
+    }
     mapping_by_pair: dict[tuple[str, str], list[dict[str, str]]] = defaultdict(list)
     for mapping in mappings:
         mapping_by_pair[(mapping["municipality_id"], mapping["internal_item_id"])].append(mapping)
@@ -164,6 +169,26 @@ def validate_pilot_rows(pilot: list[dict[str, str]], root: Path = ROOT) -> list[
                     errors.append(f"later APP_READY branch is incomplete: {label}")
                 if cov.get("branch_completeness_confirmed") != "TRUE":
                     errors.append(f"APP_READY coverage is not branch-complete: {label}")
+        elif mid in lesson_ready_mids and cov.get("coverage_status") == "VERIFIED" and cov.get("branch_completeness_confirmed") == "TRUE":
+            canonical = [
+                m for m in pair_mappings
+                if m.get("category_id") == row.get("category_id")
+                and m.get("mapping_status") == "VERIFIED"
+                and m.get("branch_review_status") == "COMPLETE"
+                and m.get("条件") == row.get("condition")
+                and m.get("前処理") == row.get("preparation")
+                and m.get("例外分別先") == row.get("exception_destination")
+                and m.get("item_evidence_source_id") == row.get("item_evidence_source_id")
+            ]
+            if len(canonical) != 1:
+                errors.append(f"expected exactly one matching LESSON_READY_10 scoring branch: {label}")
+            if not pair_mappings or any(
+                mapping.get("mapping_status") != "VERIFIED"
+                or mapping.get("evidence_scope") != "ITEM_SPECIFIC"
+                or mapping.get("branch_review_status") != "COMPLETE"
+                for mapping in pair_mappings
+            ):
+                errors.append(f"LESSON_READY_10 condition grid is incomplete: {label}")
         else:
             canonical = [
                 m for m in pair_mappings
@@ -214,9 +239,15 @@ def main() -> int:
         coverage[(row["municipality_id"], row["internal_item_id"])].get("coverage_status") == "APP_READY"
         for row in pilot
     )
+    canonical_lesson_ready = sum(
+        coverage[(row["municipality_id"], row["internal_item_id"])].get("coverage_status") == "VERIFIED"
+        and coverage[(row["municipality_id"], row["internal_item_id"])].get("branch_completeness_confirmed") == "TRUE"
+        for row in pilot
+    )
     print(
         "pairs=80 historical_verified=76 unresolved=4 "
-        f"canonical_app_ready={canonical_app_ready} municipalities=8 image_items=10"
+        f"canonical_app_ready={canonical_app_ready} canonical_lesson_ready={canonical_lesson_ready} "
+        "municipalities=8 image_items=10"
     )
     return 0
 

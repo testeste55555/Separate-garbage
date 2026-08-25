@@ -1,4 +1,4 @@
-name: APP_READY lesson modes
+name: Lesson scoring modes
 
 on:
   pull_request:
@@ -6,8 +6,15 @@ on:
       - "app/**"
       - "data/app/**"
       - "data/research/app_readiness/**"
+      - "data/research/lesson_readiness/**"
+      - "data/research/03_sources_master.csv"
+      - "data/research/05_item_mapping_master.csv"
+      - "data/research/07_item_mapping_coverage.csv"
       - "data/research/02_categories_master.csv"
       - "data/style_research/**"
+      - "scripts/sync_lesson_ready_reviews.py"
+      - "scripts/validate_lesson_scoring_modes.py"
+      - "scripts/red_team_lesson_scoring_modes.py"
       - "scripts/validate_app_ready_lesson_modes.py"
       - "scripts/red_team_app_ready_lesson_modes.py"
       - ".github/workflows/app-ready-lesson-modes.yml"
@@ -17,8 +24,15 @@ on:
       - "app/**"
       - "data/app/**"
       - "data/research/app_readiness/**"
+      - "data/research/lesson_readiness/**"
+      - "data/research/03_sources_master.csv"
+      - "data/research/05_item_mapping_master.csv"
+      - "data/research/07_item_mapping_coverage.csv"
       - "data/research/02_categories_master.csv"
       - "data/style_research/**"
+      - "scripts/sync_lesson_ready_reviews.py"
+      - "scripts/validate_lesson_scoring_modes.py"
+      - "scripts/red_team_lesson_scoring_modes.py"
       - "scripts/validate_app_ready_lesson_modes.py"
       - "scripts/red_team_app_ready_lesson_modes.py"
       - ".github/workflows/app-ready-lesson-modes.yml"
@@ -37,10 +51,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Validate APP_READY lesson modes
-        run: python scripts/validate_app_ready_lesson_modes.py
-      - name: RED TEAM APP_READY lesson modes
-        run: python scripts/red_team_app_ready_lesson_modes.py
+      - name: Rebuild and confirm LESSON_READY_10 projections
+        run: |
+          python scripts/sync_lesson_ready_reviews.py
+          git diff --exit-code -- \
+            data/app/item_image_mapping_pilot_top8.csv \
+            data/research/05_item_mapping_master.csv \
+            data/research/07_item_mapping_coverage.csv
+      - name: Validate lesson scoring modes
+        run: python scripts/validate_lesson_scoring_modes.py
+      - name: RED TEAM lesson scoring modes
+        run: python scripts/red_team_lesson_scoring_modes.py
       - name: Check learner UI JavaScript syntax
         run: node --check app/app.js
       - name: Validate canonical research data

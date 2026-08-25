@@ -8,7 +8,7 @@
 
 収集曜日・収集時間・地区別カレンダーは構造化対象外です。カレンダーは必要に応じて、現行taxonomyの運用確認や地域variantの証拠として使用します。
 
-## 現在地（2026-08-24）
+## 現在地（2026-08-25）
 
 - MASTER固定ID台帳：**143自治体**
 - active実装対象：**132自治体**
@@ -38,18 +38,32 @@
 - canonical QA：**132 `QA_PASSED` / 0 `QA_REQUIRED`**
 - category：**1,597行**（通常区分に加えAPP_READYレビューで追加した参照経路を含む）
 - structured official leaves：**1,464区分**
-- official sources：**401**
-- item mapping：**1,494条件枝**（M094・M095・M104の計120品目pairをAPP_READY）
+- official sources：**408**
+- item mapping：**1,503条件枝**（APP_READY 120品目pair＋M097のLESSON_READY_10全19条件枝を含む）
 - 40品目coverage：**5,280自治体品目pair**
 - category review evidence：**332行**
 - Schema：**v1.2.4**
-- Workflow：**v1.26**
+- Workflow：**v1.27**
 - Batch 14専用RED TEAM：**PASS**
 - canonical structural validation：**PASS**
 - Schema v1.2.4 RED TEAM：**PASS**
 - operational category semantics RED TEAM：**PASS**
 - `NEXT_BATCH_GATE`：**PASS**
 - `APP_READINESS_GATE`：**HOLD**（M094・M095・M104は各40/40 APP_READY、残る129 active自治体は未完了）
+
+### LESSON_READY_10 M097（2026-08-25）
+
+オンライン画像問題の利用可能自治体を40品目APP_READYの完成順だけに依存させないため、固定画像10品目に限定した`LESSON_READY_10`を追加した。APP_READYの意味・40品目atomic昇格・global Gateは変更しない。
+
+- 対象：M097 三原市
+- 画像品目：10/10
+- 条件枝：19/19 `ITEM_SPECIFIC / COMPLETE`
+- scoring branch：各品目ちょうど1枝
+- learner UI：品目名・条件・前処理・例外を表示しない
+- canonical：10 pairは`VERIFIED + branch_completeness_confirmed=TRUE`。`APP_READY`ではない
+- mutation RED TEAM：8/8 PASS
+
+監査表：`data/research/lesson_readiness/m097_item_review.csv`
 
 ### APP readiness Pilot M095（2026-08-24）
 
@@ -96,6 +110,7 @@ Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を
 - 履歴的な品目別照合決定 `VERIFIED`：76組
 - `UNRESOLVED`：4組（江田島市・海田町の電球／使い捨てライター）
 - canonicalで後続 `APP_READY`へ移行：広島市・呉市・東広島市の計30組
+- canonicalで後続 `LESSON_READY_10`へ移行：三原市10組
 - mutation RED TEAM：9/9 PASS
 
 品目別追加sourceは`IS-*`でcategory研究sourceと分離する。成果物・UI HANDOFF：`docs/research/item_image_mapping_pilot_top8_report.md`
@@ -214,6 +229,7 @@ python3 scripts/check_next_batch_gate.py
 
 新しいcategory Batchを始めるのではなく、優先順は次のとおりです。
 
-1. **40共通品目のITEM_SPECIFIC公式証拠収集・条件枝レビュー**を132 active自治体で進め、`APP_READINESS_GATE`を解消する。
-2. 地域variantでDEFERREDとなった自治体向けに`district_scope`等のSchema/UI拡張を設計する。
-3. M065知夫村・M086新庄村など一次資料本文の安定取得が課題の自治体を、公式資料が安定して確認できる時点で再調査する。
+1. 優先自治体ごとに固定10画像品目をルールfamily単位で確認し、`LESSON_READY_10`の授業利用自治体を増やす。
+2. 同じ公式根拠を再利用しながら残り30品目も確認し、自治体単位の40/40 `APP_READY`を継続する。
+3. 地域variantでDEFERREDとなった自治体向けに`district_scope`等のSchema/UI拡張を設計する。
+4. M065知夫村・M086新庄村など一次資料本文の安定取得が課題の自治体を、公式資料が安定して確認できる時点で再調査する。
