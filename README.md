@@ -36,12 +36,12 @@
 - Batch 14：**6自治体完了**（M136・M139 DEFERRED）
 - canonical：**132自治体**
 - canonical QA：**132 `QA_PASSED` / 0 `QA_REQUIRED`**
-- category：**1,595行**（通常区分に加えM104の市収集対象外参照1件）
+- category：**1,597行**（通常区分に加えAPP_READYレビューで追加した参照経路を含む）
 - structured official leaves：**1,464区分**
-- official sources：**393**（うち品目別 `IS-*` 24件）
-- item mapping：**1,453条件枝**（M094・M104の計80品目pairをAPP_READY）
+- official sources：**401**
+- item mapping：**1,494条件枝**（M094・M095・M104の計120品目pairをAPP_READY）
 - 40品目coverage：**5,280自治体品目pair**
-- category review evidence：**331行**
+- category review evidence：**332行**
 - Schema：**v1.2.4**
 - Workflow：**v1.26**
 - Batch 14専用RED TEAM：**PASS**
@@ -49,7 +49,19 @@
 - Schema v1.2.4 RED TEAM：**PASS**
 - operational category semantics RED TEAM：**PASS**
 - `NEXT_BATCH_GATE`：**PASS**
-- `APP_READINESS_GATE`：**HOLD**（M094・M104は各40/40 APP_READY、残る130 active自治体は未完了）
+- `APP_READINESS_GATE`：**HOLD**（M094・M095・M104は各40/40 APP_READY、残る129 active自治体は未完了）
+
+### APP readiness Pilot M095（2026-08-24）
+
+呉市の共通40品目を現行公式資料へ照合し、2026年4月開始の「プラスチック資源」、危険物、回収拠点、市収集外を含む56条件枝を保持した。
+
+- 40/40品目pair：`APP_READY`
+- 56/56条件枝：`ITEM_SPECIFIC / COMPLETE / APP_READY`
+- M095自治体単位Gate：PASS
+- mutation RED TEAM：16/16 PASS
+- canonical全体Gate：HOLD（正常）
+
+監査表：`data/research/app_readiness/m095_item_review.csv`
 
 ### APP readiness Pilot M104（2026-08-24）
 
@@ -83,7 +95,7 @@ Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を
 
 - 履歴的な品目別照合決定 `VERIFIED`：76組
 - `UNRESOLVED`：4組（江田島市・海田町の電球／使い捨てライター）
-- canonicalで後続 `APP_READY`へ移行：広島市10組（M094の40品目レビューによる）
+- canonicalで後続 `APP_READY`へ移行：広島市・呉市・東広島市の計30組
 - mutation RED TEAM：9/9 PASS
 
 品目別追加sourceは`IS-*`でcategory研究sourceと分離する。成果物・UI HANDOFF：`docs/research/item_image_mapping_pilot_top8_report.md`

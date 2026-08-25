@@ -1,3 +1,4 @@
 municipality_id,municipality_name,lesson_mode,scoring_status,review_source,image_mapping_source,note
 M094,広島市,ONLINE_CLASS,APP_READY,data/research/app_readiness/m094_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETEかつ画像固有mapping VERIFIEDの場合のみ自動正誤判定
+M095,呉市,ONLINE_CLASS,APP_READY,data/research/app_readiness/m095_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETEかつ画像固有mapping VERIFIEDの場合のみ自動正誤判定
 M104,東広島市,ONLINE_CLASS,APP_READY,data/research/app_readiness/m104_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETEかつ画像固有mapping VERIFIEDの場合のみ自動正誤判定

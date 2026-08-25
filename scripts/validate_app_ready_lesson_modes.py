@@ -13,8 +13,10 @@ ROOT = Path(__file__).resolve().parents[1]
 CATEGORIES = ROOT / "data/research/02_categories_master.csv"
 ASSETS = ROOT / "data/app/item_image_assets.csv"
 IMAGE_MAPPING = ROOT / "data/app/item_image_mapping_pilot_top8.csv"
+LESSON_SCOPE = ROOT / "data/app/lesson_mode_app_ready_scope.csv"
 REVIEWS = {
     "M094": ROOT / "data/research/app_readiness/m094_item_review.csv",
+    "M095": ROOT / "data/research/app_readiness/m095_item_review.csv",
     "M104": ROOT / "data/research/app_readiness/m104_item_review.csv",
 }
 HTML = ROOT / "app/index.html"
@@ -54,8 +56,29 @@ def validate() -> list[str]:
     categories = read_rows(CATEGORIES)
     assets = read_rows(ASSETS)
     mapping = read_rows(IMAGE_MAPPING)
+    scope = read_rows(LESSON_SCOPE)
     category_by_key = {(r["municipality_id"], r["category_id"]): r for r in categories}
     asset_by_item = {r["internal_item_id"]: r for r in assets if r.get("asset_status") == "CONFIRMED"}
+
+    scope_counts = Counter(r.get("municipality_id", "") for r in scope)
+    duplicate_scope_ids = sorted(mid for mid, count in scope_counts.items() if not mid or count != 1)
+    if duplicate_scope_ids:
+        errors.append(f"lesson scope contains blank or duplicate municipality IDs: {duplicate_scope_ids}")
+    if set(scope_counts) != set(REVIEWS):
+        errors.append(
+            "lesson scope must exactly match implemented APP_READY reviews: "
+            f"scope={sorted(scope_counts)} reviews={sorted(REVIEWS)}"
+        )
+    scope_by_mid = {r.get("municipality_id", ""): r for r in scope}
+    for mid, review_path in REVIEWS.items():
+        row = scope_by_mid.get(mid, {})
+        expected_review_source = review_path.relative_to(ROOT).as_posix()
+        if row.get("lesson_mode") != "ONLINE_CLASS" or row.get("scoring_status") != "APP_READY":
+            errors.append(f"{mid}: lesson scope must be ONLINE_CLASS/APP_READY")
+        if row.get("review_source") != expected_review_source:
+            errors.append(f"{mid}: lesson scope review_source mismatch")
+        if row.get("image_mapping_source") != IMAGE_MAPPING.relative_to(ROOT).as_posix():
+            errors.append(f"{mid}: lesson scope image_mapping_source mismatch")
 
     ready_pairs: set[tuple[str, str]] = set()
     for mid, path in REVIEWS.items():
@@ -129,6 +152,7 @@ def validate() -> list[str]:
         'const IN_PERSON_CLASS_MODE = "IN_PERSON_CLASS"',
         "APP_READY_REVIEW_FILES",
         "m094_item_review.csv",
+        "m095_item_review.csv",
         "m104_item_review.csv",
         "EXPECTED_APP_READY_ITEM_COUNT = 40",
         'row.branch_review_status?.trim() === "COMPLETE"',
@@ -165,7 +189,11 @@ def main() -> int:
             print(f"- {error}")
         return 1
     print("APP_READY_LESSON_MODE_VALIDATION_PASSED")
-    print("app_ready_municipalities=2 app_ready_image_pairs=20 modes=ONLINE_CLASS,IN_PERSON_CLASS")
+    print(
+        f"app_ready_municipalities={len(REVIEWS)} "
+        f"app_ready_image_pairs={EXPECTED_IMAGE_ITEMS * len(REVIEWS)} "
+        "modes=ONLINE_CLASS,IN_PERSON_CLASS"
+    )
     return 0
 
 
