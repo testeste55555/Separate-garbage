@@ -7,13 +7,8 @@
     categories: "../data/research/02_categories_master.csv",
     styleProjection: "../data/style_research/08_style_ui_projection.csv",
     itemAssets: "../data/app/item_image_assets.csv",
-    imageMappingPilot: "../data/app/item_image_mapping_pilot_top8.csv"
-  };
-
-  const APP_READY_REVIEW_FILES = {
-    M094: "../data/research/app_readiness/m094_item_review.csv",
-    M095: "../data/research/app_readiness/m095_item_review.csv",
-    M104: "../data/research/app_readiness/m104_item_review.csv"
+    imageMappingPilot: "../data/app/item_image_mapping_pilot_top8.csv",
+    lessonScope: "../data/app/lesson_mode_app_ready_scope.csv"
   };
 
   const MUNICIPAL_SCOPE = "MUNICIPALITY_WIDE";
@@ -23,7 +18,15 @@
   const SAFE_IMAGE_RE = /^I\d{3}_[A-Za-z0-9_]+\.png$/;
   const ONLINE_CLASS_MODE = "ONLINE_CLASS";
   const IN_PERSON_CLASS_MODE = "IN_PERSON_CLASS";
+  const APP_READY_STATUS = "APP_READY";
+  const LESSON_READY_STATUS = "LESSON_READY_10";
   const EXPECTED_APP_READY_ITEM_COUNT = 40;
+  const EXPECTED_LESSON_READY_ITEM_COUNT = 10;
+  const LESSON_IMAGE_ITEM_IDS = new Set([
+    "I001", "I004", "I006", "I007", "I013",
+    "I014", "I017", "I029", "I031", "I033"
+  ]);
+  const REVIEW_SOURCE_RE = /^data\/research\/(?:app_readiness|lesson_readiness)\/m\d{3}_item_review\.csv$/;
 
   const lessonModeSelect = document.getElementById("lessonModeSelect");
   const select = document.getElementById("municipalitySelect");
@@ -43,8 +46,8 @@
   let bucketsByMunicipality = new Map();
   let stylesByBucket = new Map();
   let assetsByItem = new Map();
-  let appReadyPairs = new Set();
-  let appReadyMunicipalities = new Set();
+  let scoringReadyPairs = new Set();
+  let scoringReadyMunicipalities = new Set();
   let itemsByMunicipality = new Map();
   let activeItems = [];
   let activeItemIndex = 0;
@@ -174,24 +177,36 @@
     }
   }
 
-  function buildAppReadyData(reviewRowsByMunicipality) {
-    appReadyPairs = new Set();
-    appReadyMunicipalities = new Set();
+  function buildScoringReadyData(scopeRows, reviewRowsByMunicipality) {
+    scoringReadyPairs = new Set();
+    scoringReadyMunicipalities = new Set();
 
-    for (const [expectedMunicipalityId, rows] of reviewRowsByMunicipality) {
+    for (const scope of scopeRows) {
+      const expectedMunicipalityId = scope.municipality_id?.trim();
+      const scoringStatus = scope.scoring_status?.trim();
+      const requiredItemCount = Number.parseInt(scope.required_item_count?.trim(), 10);
+      const rows = reviewRowsByMunicipality.get(expectedMunicipalityId) ?? [];
+      const expectedCount = scoringStatus === APP_READY_STATUS
+        ? EXPECTED_APP_READY_ITEM_COUNT
+        : scoringStatus === LESSON_READY_STATUS
+          ? EXPECTED_LESSON_READY_ITEM_COUNT
+          : 0;
       const municipalityIds = new Set(rows.map((row) => row.municipality_id?.trim()).filter(Boolean));
       const itemIds = new Set(rows.map((row) => row.internal_item_id?.trim()).filter(Boolean));
       const allComplete = rows.length > 0 && rows.every((row) => row.branch_review_status?.trim() === "COMPLETE");
       const municipalityMatches = municipalityIds.size === 1 && municipalityIds.has(expectedMunicipalityId);
-      const completeMunicipality = municipalityMatches && allComplete && itemIds.size === EXPECTED_APP_READY_ITEM_COUNT;
+      const fixedLessonItemsMatch = scoringStatus !== LESSON_READY_STATUS ||
+        (itemIds.size === LESSON_IMAGE_ITEM_IDS.size && [...itemIds].every((itemId) => LESSON_IMAGE_ITEM_IDS.has(itemId)));
+      const completeMunicipality = municipalityMatches && allComplete && expectedCount > 0 &&
+        requiredItemCount === expectedCount && itemIds.size === expectedCount && fixedLessonItemsMatch;
 
       if (!completeMunicipality) {
-        console.warn("APP_READY review file is incomplete and will not enable scoring.", expectedMunicipalityId);
+        console.warn("Scoring review is incomplete and will not enable scoring.", expectedMunicipalityId);
         continue;
       }
 
-      appReadyMunicipalities.add(expectedMunicipalityId);
-      for (const itemId of itemIds) appReadyPairs.add(pairKey(expectedMunicipalityId, itemId));
+      scoringReadyMunicipalities.add(expectedMunicipalityId);
+      for (const itemId of itemIds) scoringReadyPairs.add(pairKey(expectedMunicipalityId, itemId));
     }
   }
 
@@ -222,8 +237,8 @@
       const municipalityId = row.municipality_id?.trim();
       const itemId = row.internal_item_id?.trim();
       if (!municipalityId || !itemId) continue;
-      if (!appReadyMunicipalities.has(municipalityId)) continue;
-      if (!appReadyPairs.has(pairKey(municipalityId, itemId))) continue;
+      if (!scoringReadyMunicipalities.has(municipalityId)) continue;
+      if (!scoringReadyPairs.has(pairKey(municipalityId, itemId))) continue;
       if (row.review_status?.trim() !== "VERIFIED") continue;
 
       const asset = assetsByItem.get(itemId);
@@ -476,7 +491,7 @@
 
     statusText.textContent = `${rows.length}区分・オンライン授業モード`;
     practiceUnavailable.hidden = false;
-    practiceUnavailable.textContent = appReadyMunicipalities.has(id)
+    practiceUnavailable.textContent = scoringReadyMunicipalities.has(id)
       ? "この自治体の画像問題はまだ登録されていません。"
       : "この自治体の自動正誤判定は準備中です。";
     renderBuckets(id);
@@ -501,7 +516,6 @@
 
   async function load() {
     try {
-      const reviewEntries = Object.entries(APP_READY_REVIEW_FILES);
       const requests = [
         fetchText(DATA_PATHS.municipalities),
         fetchText(DATA_PATHS.municipalityResearch),
@@ -509,15 +523,28 @@
         fetchText(DATA_PATHS.styleProjection),
         fetchText(DATA_PATHS.itemAssets),
         fetchText(DATA_PATHS.imageMappingPilot),
-        ...reviewEntries.map(([, path]) => fetchText(path))
+        fetchText(DATA_PATHS.lessonScope)
       ];
 
       const texts = await Promise.all(requests);
-      const [municipalityText, researchText, categoryText, styleText, assetText, mappingText, ...reviewTexts] = texts;
+      const [municipalityText, researchText, categoryText, styleText, assetText, mappingText, scopeText] = texts;
+      const scopeRows = parseCsv(scopeText);
+      const reviewEntries = scopeRows.map((row) => {
+        const municipalityId = row.municipality_id?.trim();
+        const source = row.review_source?.trim();
+        if (!municipalityId || !REVIEW_SOURCE_RE.test(source ?? "")) {
+          throw new Error(`unsafe scoring review source: ${municipalityId || "UNKNOWN"}`);
+        }
+        return [municipalityId, `../${source}`];
+      });
+      const reviewTexts = await Promise.all(reviewEntries.map(([, path]) => fetchText(path)));
 
       buildData(parseCsv(municipalityText), parseCsv(researchText), parseCsv(categoryText));
       buildStyleData(parseCsv(styleText));
-      buildAppReadyData(reviewEntries.map(([municipalityId], index) => [municipalityId, parseCsv(reviewTexts[index])]));
+      buildScoringReadyData(
+        scopeRows,
+        new Map(reviewEntries.map(([municipalityId], index) => [municipalityId, parseCsv(reviewTexts[index])]))
+      );
       buildItemData(parseCsv(assetText), parseCsv(mappingText));
       installOfficialStyleRules();
       populateLessonModeSelect();

@@ -41,6 +41,7 @@ jobs:
           python3 scripts/apply_app_readiness_pilot_m104.py
           python3 scripts/apply_app_readiness_pilot_m095.py
           python3 scripts/finalize_app_readiness_pilot_m095.py
+          python3 scripts/sync_lesson_ready_reviews.py
           git diff --exit-code -- \
             data/research/02_categories_master.csv \
             data/research/03_sources_master.csv \
@@ -49,6 +50,7 @@ jobs:
             data/research/06_qa_log.csv \
             data/research/07_item_mapping_coverage.csv \
             data/research/08_category_review_evidence.csv \
+            data/research/lesson_readiness/m097_item_review.csv \
             data/research/app_readiness/m095_item_review.csv \
             data/research/batches/batch_10/batch_10_municipalities.csv \
             data/research/batches/batch_10/batch_10_categories.csv \
@@ -79,8 +81,8 @@ jobs:
           git diff --exit-code -- data/style_research
           python3 scripts/validate_style_research.py --gate
           python3 scripts/red_team_style_research.py
-          python3 scripts/validate_app_ready_lesson_modes.py
-          python3 scripts/red_team_app_ready_lesson_modes.py
+          python3 scripts/validate_lesson_scoring_modes.py
+          python3 scripts/red_team_lesson_scoring_modes.py
           node --check app/app.js
       - name: Confirm global APP gate honestly remains HOLD
         run: |

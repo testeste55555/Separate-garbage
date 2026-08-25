@@ -3,7 +3,8 @@
 
 The two district-variant municipalities in the Style Research TOP10 (Fukuyama
 and Onomichi) are intentionally excluded.  This script is deterministic and
-may be rerun safely; it never promotes a branch to APP_READY.
+may be rerun safely; it never promotes a branch to APP_READY.  Audited
+LESSON_READY_10 projections are reapplied after this historical Pilot rebuild.
 """
 
 from __future__ import annotations
@@ -373,7 +374,18 @@ def main() -> None:
     write_csv(RESEARCH / "07_item_mapping_coverage.csv", COVERAGE_FIELDS, coverage_rows)
     write_csv(APP / "item_image_mapping_pilot_top8.csv", PILOT_FIELDS, pilot_rows)
 
-    print("Item image mapping pilot written: 80 decisions (76 VERIFIED, 4 UNRESOLVED); later APP_READY transitions preserved")
+    # A later LESSON_READY_10 review is authoritative for its ten audited
+    # pairs.  Reproject it after rebuilding this historical Pilot so reruns
+    # cannot downgrade COMPLETE branches or the selected scoring branch.
+    from sync_lesson_ready_reviews import synchronize
+
+    lesson_pairs, lesson_branches, lesson_image_updates = synchronize()
+
+    print(
+        "Item image mapping pilot written: 80 decisions (76 VERIFIED, 4 UNRESOLVED); "
+        "later APP_READY/LESSON_READY transitions preserved "
+        f"(lesson_pairs={lesson_pairs}, branches={lesson_branches}, image_updates={lesson_image_updates})"
+    )
 
 
 if __name__ == "__main__":

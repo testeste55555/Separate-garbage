@@ -10,12 +10,13 @@
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.23.txt`：上位見出し数とresident-facing official leaf総数の分離、検索サービスformal status、2026年改定後の同日収集と分別単位の区別をBatch 13で固定した履歴版
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.24.txt`：初回category研究一巡完了後の運用基準
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.25.txt`：M094広島市APP readiness Pilotの履歴版
-- `WORK_ゴミ出し情報収集フロー_143自治体_v1.26.txt`：**現行版**。M104東広島市を40/40 APP_READYへ昇格し、市収集対象外をEXCLUDED_NOTICEとして分離
+- `WORK_ゴミ出し情報収集フロー_143自治体_v1.26.txt`：M104東広島市APP_READY化までの履歴版
+- `WORK_ゴミ出し情報収集フロー_143自治体_v1.27.txt`：**現行版**。LESSON_READY_10をAPP_READYから分離し、M097三原市の画像10品目・19条件枝を有効化
 
 ## 現在地
 
 - Schema：v1.2.4
-- Workflow：v1.26
+- Workflow：v1.27
 - 固定ID：143自治体
 - active実装対象：132自治体
 - DEFERRED：11自治体
@@ -32,9 +33,9 @@
   - M139 丸亀市
 - canonical：132自治体
 - QA：132/132 `QA_PASSED`
-- category：1,595行（構造化公式葉1,464区分＋M104市収集対象外参照）
-- source：393
-- item mapping：1,453条件枝
+- category：1,597行
+- source：408
+- item mapping：1,503条件枝
 - coverage：5,280 pair
 - category review evidence：331
 - Batch 14 RED TEAM：PASS
@@ -42,11 +43,22 @@
 - Schema v1.2.4 RED TEAM：PASS
 - operational category semantics RED TEAM：PASS
 - NEXT_BATCH_GATE：PASS
-- APP_READINESS_GATE：HOLD（M094・M104の2/132自治体完了）
+- APP_READINESS_GATE：HOLD（M094・M095・M104の3/132自治体完了）
+- lesson scoring：APP_READY 3自治体＋LESSON_READY_10 M097三原市、計40画像pair
 
 **固定143自治体のうち、現行Schemaで安全に一意化できる132 active自治体について、resident-facing category研究の初回一巡は完了。**
 
 `APP_READINESS_GATE=HOLD`は正常な状態であり、40共通品目のITEM_SPECIFIC公式証拠・条件枝レビュー未完了を示す。category研究完了とは別Gateである。
+
+## LESSON_READY_10
+
+固定画像10品目だけをオンライン練習へ早期投入する安全境界。APP_READYの40品目atomic昇格とglobal Gateは変更しない。
+
+- M097三原市：10/10品目、19/19条件枝COMPLETE
+- canonical：`VERIFIED + branch_completeness_confirmed=TRUE`
+- scoring branch：各品目1枝
+- 残り30品目：未完了を維持し、APP_READY 0/40として扱う
+- UI：画像・正式分別BOX・○/×のみ。条件・前処理・例外・出典は教師側に保持
 
 ## Batch 14
 
@@ -74,8 +86,9 @@ GitHub ActionsによるBatch 14検証は、Batch structural validation・専用R
 
 固定IDのactive自治体を追加するcategory Batchはありません。次は主に次の3系統です。
 
-1. 40共通品目の`ITEM_SPECIFIC`公式証拠と全条件枝レビューを進め、`APP_READINESS_GATE`を解消する。
-2. 地域variant DEFERRED自治体向けに`district_scope`等のSchema/UI拡張を設計する。
-3. M065知夫村・M086新庄村など一次資料本文の安定取得が課題の自治体を、公式資料が安定確認できる時点で再調査する。
+1. 固定画像10品目をルールfamily単位で確認し、優先自治体を`LESSON_READY_10`へ進める。
+2. 同じ公式根拠から残り30品目を継続確認し、40/40 `APP_READY`と`APP_READINESS_GATE`解消へ進める。
+3. 地域variant DEFERRED自治体向けに`district_scope`等のSchema/UI拡張を設計する。
+4. M065知夫村・M086新庄村など一次資料本文の安定取得が課題の自治体を、公式資料が安定確認できる時点で再調査する。
 
 `NEXT_BATCH_GATE=PASS`は構造上次工程へ進めることを示し、未処理active自治体が残っていることを意味しない。

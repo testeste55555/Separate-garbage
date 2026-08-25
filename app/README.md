@@ -15,15 +15,19 @@
 
 ### 自動正誤判定の安全境界
 
-自動正誤判定は、40共通品目の全条件枝レビューが `COMPLETE` となった **APP_READY自治体**だけで有効にします。
+自動正誤判定は、次のいずれかを通過した自治体だけで有効にします。
+
+- **APP_READY**：40共通品目の全条件枝レビューが`COMPLETE`
+- **LESSON_READY_10**：固定画像10品目の全条件枝レビューが`COMPLETE`で、各画像にscoring branchが1つだけ
 
 現在の対象：
 
 - M094 広島市
 - M095 呉市
+- M097 三原市（LESSON_READY_10）
 - M104 東広島市
 
-画像ごとの出題先は `item_image_mapping_pilot_top8.csv` の画像固有mappingを利用しますが、`VERIFIED` だけでは正誤判定を有効化しません。対応する自治体・品目がAPP_READYレビューを通過していることを追加条件にします。
+画像ごとの出題先は `item_image_mapping_pilot_top8.csv` の画像固有mappingを利用しますが、`VERIFIED`だけでは正誤判定を有効化しません。対応する自治体・品目が明示的scopeと全条件枝レビューを通過していることを追加条件にします。M097は40品目APP_READYではなく、残り30品目は自動判定に使用しません。
 
 ### 学習者画面に出さない情報
 
@@ -49,5 +53,6 @@
 - `../data/research/app_readiness/m094_item_review.csv`
 - `../data/research/app_readiness/m095_item_review.csv`
 - `../data/research/app_readiness/m104_item_review.csv`
+- `../data/research/lesson_readiness/m097_item_review.csv`
 
-表示用データを別正本へ複製せず、category正本・APP readinessレビュー・画像mappingを読み取り専用で組み合わせる構造です。
+表示用データを別正本へ複製せず、category正本・readinessレビュー・画像mappingを読み取り専用で組み合わせる構造です。scope CSVからreview fileを動的に読み込むため、後続自治体の追加で`app.js`の自治体一覧を編集しません。

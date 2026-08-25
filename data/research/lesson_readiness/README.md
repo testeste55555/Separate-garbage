@@ -1,0 +1,23 @@
+# LESSON_READY_10 review grids
+
+固定画像10品目をオンライン授業の自動正誤判定へ投入するための教師用監査表です。40品目`APP_READY`とは独立します。
+
+自治体追加時は、既存reviewをコピーして自治体・公式根拠・全条件枝を個別確認し、次を満たします。
+
+- 固定10品目を過不足なく含む
+- 分別先又は前処理が変わる条件枝を省略しない
+- 全枝`ITEM_SPECIFIC / COMPLETE`
+- 品目ごとに画像と一致する`scoring_branch=TRUE`を1枝だけ指定
+- 通常枝だけでなく例外の公式source・URL・locatorも保持
+- 地域variantの正式名称・条件を他地域と統合しない
+- 非BOX経路を通常の仕分けBOXにしない
+
+反映と検証：
+
+```bash
+python3 scripts/sync_lesson_ready_reviews.py
+python3 scripts/validate_lesson_scoring_modes.py
+python3 scripts/red_team_lesson_scoring_modes.py
+```
+
+`sync_lesson_ready_reviews.py`はreviewをcanonicalへ`VERIFIED / COMPLETE`として投影します。`APP_READY`への昇格は行いません。

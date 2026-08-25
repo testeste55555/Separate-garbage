@@ -43,3 +43,15 @@ Therefore:
 ## Audit requirement
 
 Every pair must retain the basis used (`DIRECT_ITEM`, `OFFICIAL_RULE_DERIVED`, `GENERAL_RULE_DERIVED`, or `UNRESOLVED`), the official category/source used where applicable, and whether condition review is still required.
+
+## LESSON_READY_10 boundary
+
+`LESSON_READY_10` is a lesson-scoring eligibility layer, not a partial `APP_READY` promotion.
+
+- scope is the fixed ten confirmed image items;
+- every destination-changing condition branch must be `ITEM_SPECIFIC / COMPLETE`;
+- each item must identify exactly one scoring branch matching the confirmed image;
+- non-scoring exceptions and their official evidence remain teacher-side audit data;
+- canonical coverage remains `VERIFIED` even when branch completeness is `TRUE`;
+- the municipality is not counted by `APP_READINESS_GATE` until all 40 items meet APP_READY requirements;
+- an `EXCLUDED_NOTICE` or other non-sort route is never projected as an ordinary learner box.

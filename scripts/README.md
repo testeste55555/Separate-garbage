@@ -16,6 +16,9 @@
 | `apply_item_image_mapping_pilot_top8.py` | 画像10品目×Style Research active 8自治体の公式mapping 80組を冪等生成（76 VERIFIED / 4 UNRESOLVED） |
 | `validate_item_image_mapping_pilot.py` | Pilot台帳・画像・品目master・category・公式source・canonical mapping/coverageの参照整合性を検証 |
 | `red_team_item_image_mapping_pilot.py` | 地域variant混入、推測昇格、非公式URL、汎用文、レイヤー間QA日結合等をmutation検査 |
+| `sync_lesson_ready_reviews.py` | 明示的LESSON_READY_10監査表をcanonical VERIFIED/COMPLETE・coverage・画像scoring branchへ自治体非依存で投影 |
+| `validate_lesson_scoring_modes.py` | APP_READY 40品目とLESSON_READY_10固定10品目のscope・全条件枝・公式根拠・UI境界を共通検証 |
+| `red_team_lesson_scoring_modes.py` | 欠落枝・二重scoring・根拠欠落・偽APP_READY等をmutation検査 |
 | `*_v11.py` | 破壊的な旧処理を再実行しないv1.2互換entrypoint |
 
 標準検証：
@@ -32,6 +35,9 @@ python3 scripts/red_team_schema_v12.py
 python3 scripts/apply_item_image_mapping_pilot_top8.py
 python3 scripts/validate_item_image_mapping_pilot.py
 python3 scripts/red_team_item_image_mapping_pilot.py
+python3 scripts/sync_lesson_ready_reviews.py
+python3 scripts/validate_lesson_scoring_modes.py
+python3 scripts/red_team_lesson_scoring_modes.py
 ```
 
 次Batchへ進むGateは `python3 scripts/check_next_batch_gate.py` です。構造、公式出典、区分網羅性QA、canonical union、merge冪等性、RED TEAMを要求しますが、40品目のAPP_READYは要求しません。

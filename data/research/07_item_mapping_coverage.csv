@@ -3719,23 +3719,23 @@ M096,I037,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M096,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M096,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M096,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M097,I001,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M097-01,https://www.city.mihara.hiroshima.jp/soshiki/23/112554.html,ペットボトル欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M097,I001,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M097-08,https://www.city.mihara.hiroshima.jp/soshiki/23/112567.html,「ペットボトル（蓋とラベルを外したもの）」欄,2026-08-25,OPENAI_CODEX_M097_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M097,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M097,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M097,I004,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M097-01,https://www.city.mihara.hiroshima.jp/soshiki/23/112554.html,びん・飲料缶欄（アルミ缶）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M097,I004,VERIFIED,3,TRUE,ITEM_SPECIFIC,IS-M097-08,https://www.city.mihara.hiroshima.jp/soshiki/23/112567.html,「びん・飲料缶」欄の飲料用アルミ缶,2026-08-25,OPENAI_CODEX_M097_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M097,I005,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M097,I006,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M097-01,https://www.city.mihara.hiroshima.jp/soshiki/23/112554.html,びん・飲料缶欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M097,I007,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M097-04,https://www.city.mihara.hiroshima.jp/soshiki/23/112724.html,「食品用トレイ」の行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M097,I006,VERIFIED,3,TRUE,ITEM_SPECIFIC,IS-M097-08,https://www.city.mihara.hiroshima.jp/soshiki/23/112567.html,「びん・飲料缶」欄のきれいなびん,2026-08-25,OPENAI_CODEX_M097_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M097,I007,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M097-09,https://www.city.mihara.hiroshima.jp/soshiki/23/112569.html,「容器包装プラスチック」欄の食品トレイ,2026-08-25,OPENAI_CODEX_M097_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M097,I008,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M097,I009,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M097,I010,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M097,I011,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M097,I012,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M097,I013,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M097-04,https://www.city.mihara.hiroshima.jp/soshiki/23/112724.html,「新聞紙」の行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M097,I014,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M097-05,https://www.city.mihara.hiroshima.jp/soshiki/23/112725.html,「ダンボール」の行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M097,I013,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M097-04,https://www.city.mihara.hiroshima.jp/soshiki/23/112724.html,「新聞」の行,2026-08-25,OPENAI_CODEX_M097_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M097,I014,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M097-05,https://www.city.mihara.hiroshima.jp/soshiki/23/112725.html,「段ボール」の行,2026-08-25,OPENAI_CODEX_M097_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M097,I015,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M097,I016,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M097,I017,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M097-03,https://www.city.mihara.hiroshima.jp/soshiki/23/112720.html,「紙パック」「牛乳パック」の行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M097,I017,VERIFIED,1,TRUE,ITEM_SPECIFIC,IS-M097-03,https://www.city.mihara.hiroshima.jp/soshiki/23/112720.html,「牛乳パック」の行,2026-08-25,OPENAI_CODEX_M097_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M097,I018,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M097,I019,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M097,I020,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
@@ -3747,11 +3747,11 @@ M097,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M097,I026,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M097,I027,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M097,I028,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M097,I029,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M097-01,https://www.city.mihara.hiroshima.jp/soshiki/23/112554.html,電池の外せない小型家電・充電式小型家電欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M097,I029,VERIFIED,1,TRUE,ITEM_SPECIFIC,IS-M097-10,https://www.city.mihara.hiroshima.jp/soshiki/23/125113.html,「電池が取り外せない場合」製品例のモバイルバッテリー,2026-08-25,OPENAI_CODEX_M097_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M097,I030,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M097,I031,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M097-06,https://www.city.mihara.hiroshima.jp/soshiki/23/112728.html,「電球」の行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M097,I031,VERIFIED,1,TRUE,ITEM_SPECIFIC,IS-M097-09,https://www.city.mihara.hiroshima.jp/soshiki/23/112569.html,「蛍光灯（有害ごみ）」欄「電球を含む」,2026-08-25,OPENAI_CODEX_M097_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M097,I032,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M097,I033,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M097-01,https://www.city.mihara.hiroshima.jp/soshiki/23/112554.html,発火性危険ごみ欄（ライター）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M097,I033,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M097-12,https://www.city.mihara.hiroshima.jp/soshiki/23/112745.html,「ライター（使い捨て）」の行,2026-08-25,OPENAI_CODEX_M097_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M097,I034,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M097,I035,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M097,I036,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
