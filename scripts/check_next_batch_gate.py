@@ -9,6 +9,7 @@ from pathlib import Path
 from merge_research import main as merge_main
 from red_team_schema_v12 import main as red_team_main
 from schema_v12 import RESEARCH, completed_batch_dirs
+from sync_lesson_ready_reviews import synchronize as sync_lesson_ready
 from validate_research import compare_canonical_union
 from validation_v12 import validate_dataset
 
@@ -67,8 +68,10 @@ def main() -> int:
 
     before = hashes()
     merge_main()
+    sync_lesson_ready()
     first = hashes()
     merge_main()
+    sync_lesson_ready()
     second = hashes()
     if not (before == first == second):
         structural_errors.append("canonical merge is not a no-change idempotent operation")

@@ -6,6 +6,7 @@
 
 - APP_READYレビューが各40共通品目をカバーすること
 - LESSON_READY_10レビューが固定画像10品目をカバーし、各品目にscoring branchを1つだけ持つこと
+- scopeに固定した必須条件枝数とreview行数が一致し、例外枝だけの削除も拒否すること
 - `lesson_mode_app_ready_scope.csv` の対象が実装済みレビューと完全一致すること
 - 全条件枝が `branch_review_status=COMPLETE` であること
 - canonical mapping/coverageがレビューと一致し、LESSON_READY_10をAPP_READYとして数えないこと
@@ -15,4 +16,4 @@
 - 学習者画面に品目名、条件、前処理、例外説明を出さないこと
 - オンライン／対面がネットワーク状態ではなく授業モードとして実装されること
 
-`red_team_lesson_scoring_modes.py`は、10品目欠落、二重scoring branch、条件枝未完、公式根拠欠落、誤category、10品目からAPP_READYへの偽昇格をmutationで検出します。旧`red_team_app_ready_lesson_modes.py`は互換entrypointです。
+`red_team_lesson_scoring_modes.py`は、scope内のすべての`LESSON_READY_10`自治体に対して、10品目欠落、条件枝削除、二重scoring branch、条件枝未完、公式根拠欠落、誤category、10品目からAPP_READYへの偽昇格をmutationで検出します。旧`red_team_app_ready_lesson_modes.py`は互換entrypointです。

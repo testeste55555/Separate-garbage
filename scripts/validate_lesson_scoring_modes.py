@@ -150,12 +150,21 @@ def validate_scope_review(
         required_count = int(scope_row.get("required_item_count", ""))
     except ValueError:
         required_count = -1
+    try:
+        required_branch_count = int(scope_row.get("required_branch_count", ""))
+    except ValueError:
+        required_branch_count = -1
     if status not in {APP_READY, LESSON_READY}:
         errors.append(f"{mid}: unsupported scoring status {status}")
     if required_count != len(expected_items) or set(by_item) != expected_items:
         errors.append(
             f"{mid}: review item scope mismatch required={required_count} "
             f"actual={len(by_item)} expected={len(expected_items)}"
+        )
+    if required_branch_count <= 0 or required_branch_count != len(review_rows):
+        errors.append(
+            f"{mid}: review branch scope mismatch required={required_branch_count} "
+            f"actual={len(review_rows)}"
         )
 
     for iid, rows in sorted(by_item.items()):

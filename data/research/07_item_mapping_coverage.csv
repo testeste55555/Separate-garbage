@@ -3919,23 +3919,23 @@ M104,I037,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-13,https://www.city.higashihiro
 M104,I038,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-12,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p64.pdf,ごみブック64頁『パソコンのリサイクルについて』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
 M104,I039,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表33頁『油（食用油）』・53頁『廃油（食用）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
 M104,I040,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M104-08,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p23-24.pdf,ごみブック23頁『燃やせるごみ（直径8cm未満）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
-M105,I001,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M105-02,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,ペットボトルの行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M105,I001,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M105-01,https://www.city.hatsukaichi.hiroshima.jp/uploaded/attachment/93105.pdf,11～12頁「ペットボトル」および出し方2～3,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M105,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M105,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I004,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M105-02,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,アルミ缶の行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M105,I004,VERIFIED,3,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,50音表「アルミ缶（飲料缶、かんづめ缶）」の行,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M105,I005,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I006,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M105-02,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,ガラスびんの行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M105,I007,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M105-02,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,白色トレイの行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M105,I006,VERIFIED,3,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,50音表「瓶（薬品、化粧瓶除く）」の行,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M105,I007,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M105-01,https://www.city.hatsukaichi.hiroshima.jp/uploaded/attachment/93105.pdf,11～12頁「白色の発泡スチロール製食品トレイ」および出し方2・5,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M105,I008,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M105,I009,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M105,I010,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M105,I011,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M105,I012,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I013,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M105-02,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,新聞の行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M105,I014,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M105-02,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,ダンボールの行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M105,I013,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M105-01,https://www.city.hatsukaichi.hiroshima.jp/uploaded/attachment/93105.pdf,13頁「新聞紙・チラシ」および出し方1・3,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M105,I014,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M105-01,https://www.city.hatsukaichi.hiroshima.jp/uploaded/attachment/93105.pdf,13頁「ダンボール」および出し方1～2,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M105,I015,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M105,I016,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I017,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M105-02,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,紙パックの行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M105,I017,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,50音表「紙パック（内側が白いもの）」「牛乳パック」の行,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M105,I018,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M105,I019,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M105,I020,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
@@ -3947,11 +3947,11 @@ M105,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M105,I026,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M105,I027,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M105,I028,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I029,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M105-02,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,モバイルバッテリーの行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M105,I029,VERIFIED,1,TRUE,ITEM_SPECIFIC,IS-M105-05,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/128679.html,「リチウムイオン電池を単独で処分する場合」,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M105,I030,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M105,I031,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M105-02,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,電球の行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M105,I031,VERIFIED,3,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,50音表「電球（白熱電球）」の行,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M105,I032,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M105,I033,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M105-02,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,ライターの行,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M105,I033,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,50音表「ライター」の行,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M105,I034,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M105,I035,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M105,I036,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。

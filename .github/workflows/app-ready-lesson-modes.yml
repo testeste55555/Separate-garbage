@@ -15,6 +15,7 @@ on:
       - "scripts/sync_lesson_ready_reviews.py"
       - "scripts/validate_lesson_scoring_modes.py"
       - "scripts/red_team_lesson_scoring_modes.py"
+      - "scripts/check_next_batch_gate.py"
       - "scripts/validate_app_ready_lesson_modes.py"
       - "scripts/red_team_app_ready_lesson_modes.py"
       - ".github/workflows/app-ready-lesson-modes.yml"
@@ -33,6 +34,7 @@ on:
       - "scripts/sync_lesson_ready_reviews.py"
       - "scripts/validate_lesson_scoring_modes.py"
       - "scripts/red_team_lesson_scoring_modes.py"
+      - "scripts/check_next_batch_gate.py"
       - "scripts/validate_app_ready_lesson_modes.py"
       - "scripts/red_team_app_ready_lesson_modes.py"
       - ".github/workflows/app-ready-lesson-modes.yml"
@@ -66,6 +68,8 @@ jobs:
         run: node --check app/app.js
       - name: Validate canonical research data
         run: python scripts/validate_research.py
+      - name: Confirm canonical merge remains idempotent after lesson projection
+        run: python scripts/check_next_batch_gate.py
       - name: Validate item image assets
         run: python scripts/validate_item_image_assets.py
       - name: Validate Teaching Display Layer
