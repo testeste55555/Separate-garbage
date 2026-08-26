@@ -11,7 +11,7 @@
 | `validate_research.py` | batchまたはcanonical検証 |
 | `validation_v12.py` | 構造検証、NEXT_BATCH_GATE、APP_READINESS_GATEを分離した共通validator |
 | `merge_research.py` | Pilotと完成batchの7成果物をmergeし、`mapping_id` 単位で手動VERIFIED/APP_READY枝を保持 |
-| `check_next_batch_gate.py` | 全bundle、canonical union、二重merge冪等性、RED TEAMを統合した次Batch判定 |
+| `check_next_batch_gate.py` | 全bundle、canonical union、LESSON_READY再投影込みの二重merge冪等性、RED TEAMを統合した次Batch判定 |
 | `red_team_schema_v12.py` | バッチ数・件数に依存しない24観点RED TEAM（Batch 02対象・QA・複数source証拠を含む） |
 | `apply_item_image_mapping_pilot_top8.py` | 画像10品目×Style Research active 8自治体の公式mapping 80組を冪等生成（76 VERIFIED / 4 UNRESOLVED） |
 | `validate_item_image_mapping_pilot.py` | Pilot台帳・画像・品目master・category・公式source・canonical mapping/coverageの参照整合性を検証 |

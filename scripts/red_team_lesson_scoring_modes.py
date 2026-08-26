@@ -35,22 +35,86 @@ def main() -> int:
             print(f"- {error}")
         return 1
 
-    scope = next(row for row in read_rows(LESSON_SCOPE) if row.get("scoring_status") == LESSON_READY)
-    fields, baseline = read_csv(ROOT / scope["review_source"])
     context = build_context()
-    cases: list[tuple[str, dict[str, str], list[dict[str, str]]]] = []
-    cases.append(("item removed", scope, [row for row in baseline if row.get("internal_item_id") != "I031"]))
-    cases.append(("second scoring branch enabled", scope, mutate(baseline, "I001", "2", "scoring_branch", "TRUE")))
-    cases.append(("condition branch incomplete", scope, mutate(baseline, "I033", "2", "branch_review_status", "INCOMPLETE")))
-    cases.append(("official item source removed", scope, mutate(baseline, "I007", "1", "item_evidence_source_id", "")))
-    cases.append(("exception source removed", scope, mutate(baseline, "I029", "1", "exception_evidence_source_id", "")))
-    cases.append(("wrong answer category injected", scope, mutate(baseline, "I006", "1", "category_id", "C-M097-01")))
-    cases.append(("canonical wording drift", scope, mutate(baseline, "I014", "1", "preparation", "そのまま出す")))
-    promoted_scope = {**scope, "scoring_status": "APP_READY", "required_item_count": "40"}
-    cases.append(("10-item review falsely promoted to APP_READY", promoted_scope, baseline))
+    cases: list[tuple[str, dict[str, str], list[str], list[dict[str, str]]]] = []
+    scopes = [row for row in read_rows(LESSON_SCOPE) if row.get("scoring_status") == LESSON_READY]
+    for scope in scopes:
+        municipality_id = scope["municipality_id"]
+        fields, baseline = read_csv(ROOT / scope["review_source"])
+        prefix = f"{municipality_id}: "
+        cases.append(
+            (
+                prefix + "item removed",
+                scope,
+                fields,
+                [row for row in baseline if row.get("internal_item_id") != "I031"],
+            )
+        )
+        cases.append(
+            (
+                prefix + "condition branch removed",
+                scope,
+                fields,
+                [
+                    row
+                    for row in baseline
+                    if not (row.get("internal_item_id") == "I004" and row.get("branch_order") == "2")
+                ],
+            )
+        )
+        cases.append(
+            (
+                prefix + "second scoring branch enabled",
+                scope,
+                fields,
+                mutate(baseline, "I001", "2", "scoring_branch", "TRUE"),
+            )
+        )
+        cases.append(
+            (
+                prefix + "condition branch incomplete",
+                scope,
+                fields,
+                mutate(baseline, "I033", "2", "branch_review_status", "INCOMPLETE"),
+            )
+        )
+        cases.append(
+            (
+                prefix + "official item source removed",
+                scope,
+                fields,
+                mutate(baseline, "I007", "1", "item_evidence_source_id", ""),
+            )
+        )
+        cases.append(
+            (
+                prefix + "exception source removed",
+                scope,
+                fields,
+                mutate(baseline, "I029", "1", "exception_evidence_source_id", ""),
+            )
+        )
+        cases.append(
+            (
+                prefix + "wrong answer category injected",
+                scope,
+                fields,
+                mutate(baseline, "I006", "1", "category_id", "C-INVALID-01"),
+            )
+        )
+        cases.append(
+            (
+                prefix + "canonical wording drift",
+                scope,
+                fields,
+                mutate(baseline, "I014", "1", "preparation", "そのまま出す"),
+            )
+        )
+        promoted_scope = {**scope, "scoring_status": "APP_READY", "required_item_count": "40"}
+        cases.append((prefix + "10-item review falsely promoted to APP_READY", promoted_scope, fields, baseline))
 
     escaped: list[str] = []
-    for name, candidate_scope, candidate_rows in cases:
+    for name, candidate_scope, fields, candidate_rows in cases:
         if not validate_scope_review(candidate_scope, fields, candidate_rows, context):
             escaped.append(name)
     if escaped:

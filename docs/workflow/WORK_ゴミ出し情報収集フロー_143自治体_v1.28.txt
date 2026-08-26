@@ -1,0 +1,69 @@
+WORK ゴミ出し情報収集フロー 143自治体 v1.28
+checked: 2026-08-25
+
+1. 目的
+
+40品目APP_READYの安全要件を下げず、オンライン授業で使用する固定画像10品目を優先自治体ごとに早期利用可能にする。
+
+2. readinessの分離
+
+APP_READY:
+- 共通40品目すべてを自治体単位でatomicに昇格
+- 全条件枝 ITEM_SPECIFIC / COMPLETE
+- coverage 40/40 APP_READY
+- global APP_READINESS_GATEは全132 active自治体完成までHOLD
+
+LESSON_READY_10:
+- item_image_assets.csvのCONFIRMED固定10品目だけを対象
+- 10品目の分別先変更・前処理変更に関わる条件枝をすべてCOMPLETE
+- 各品目で画像と一致するscoring_branchをちょうど1枝指定
+- canonical mappingはVERIFIED / COMPLETE、coverageはVERIFIED / branch_completeness_confirmed=TRUE
+- APP_READY自治体数・APP_READINESS_GATEには加算しない
+- 残り30品目は未完了状態を維持する
+
+3. 現行LESSON_READY_10
+
+M097 三原市:
+- 10/10画像品目
+- 19/19条件枝 COMPLETE
+
+M105 廿日市市:
+- 10/10画像品目
+- 22/22条件枝 COMPLETE
+- 現行公式50音表と2026年度版ごみ分別ガイドを正本として使用
+- ペットボトル、缶・びん、白色トレイ、古紙、電球、充電池、ライターの条件差を保持
+- 白熱電球、蛍光管、LED電球の分別先を統合しない
+- 破損・膨張・発熱したリチウムイオン電池は通常BOXへ投影せず、直接搬入の教師用例外として保持
+- 使い捨てライターは公式根拠にないガス抜き手順を補わない
+
+4. 自動正誤判定
+
+オンライン授業モードのみ有効。次の両方を必須とする。
+
+- 明示的scopeがAPP_READY又はLESSON_READY_10
+- 画像固有mappingがVERIFIEDで、対象reviewのscoring可能枝と一致
+
+学習者画面には品目名、条件、前処理、例外、正解説明、公式出典を表示しない。
+
+5. 汎用化
+
+- scope CSVからreview_sourceを動的に読み込み、自治体追加時のapp.js編集を不要化
+- sync_lesson_ready_reviews.pyで全review CSVをcanonical mapping/coverage/image mappingへ投影
+- validate_lesson_scoring_modes.pyでAPP_READYとLESSON_READY_10を共通検証
+- red_team_lesson_scoring_modes.pyで全LESSON_READY_10自治体に9 mutationずつ適用
+- 欠落品目、二重scoring、未完枝、根拠欠落、誤category、偽APP_READY昇格を検出
+
+6. Gate
+
+- LESSON_READY_10: M097、M105 PASS
+- lesson scoring municipalities: 5（M094、M095、M097、M104、M105）
+- lesson scoring image pairs: 50
+- LESSON_READY_10 condition branches: 41
+- LESSON_READY_10 mutation RED TEAM: 18/18 PASS
+- APP_READY municipalities: 3/132
+- APP_READY pairs: 120/5,280
+- APP_READINESS_GATE: HOLD（正常）
+
+7. 次工程
+
+次の優先active自治体はM106安芸高田市。固定10画像品目をルールfamily単位でレビューし、LESSON_READY_10へ進める。同じ公式根拠を残り30品目のAPP_READYレビューへ再利用する。M098尾道市・M099福山市等の地域variant自治体はvariantを統合せず、district_scope等の解決後に個別処理する。

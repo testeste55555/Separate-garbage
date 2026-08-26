@@ -38,18 +38,32 @@
 - canonical QA：**132 `QA_PASSED` / 0 `QA_REQUIRED`**
 - category：**1,597行**（通常区分に加えAPP_READYレビューで追加した参照経路を含む）
 - structured official leaves：**1,464区分**
-- official sources：**408**
-- item mapping：**1,503条件枝**（APP_READY 120品目pair＋M097のLESSON_READY_10全19条件枝を含む）
+- official sources：**413**
+- item mapping：**1,515条件枝**（APP_READY 120品目pair＋M097・M105のLESSON_READY_10全41条件枝を含む）
 - 40品目coverage：**5,280自治体品目pair**
 - category review evidence：**332行**
 - Schema：**v1.2.4**
-- Workflow：**v1.27**
+- Workflow：**v1.28**
 - Batch 14専用RED TEAM：**PASS**
 - canonical structural validation：**PASS**
 - Schema v1.2.4 RED TEAM：**PASS**
 - operational category semantics RED TEAM：**PASS**
 - `NEXT_BATCH_GATE`：**PASS**
 - `APP_READINESS_GATE`：**HOLD**（M094・M095・M104は各40/40 APP_READY、残る129 active自治体は未完了）
+
+### LESSON_READY_10 M105（2026-08-25）
+
+廿日市市の固定画像10品目について、現行公式50音表と2026年度版ごみ分別ガイドを正本に全条件枝を確認した。APP_READYの意味・40品目atomic昇格・global Gateは変更しない。
+
+- 対象：M105 廿日市市
+- 画像品目：10/10
+- 条件枝：22/22 `ITEM_SPECIFIC / COMPLETE`
+- scoring branch：各品目ちょうど1枝
+- 白色トレイの材質・色・汚れ、びん・缶の対象条件、白熱／蛍光／LED電球、リチウムイオン電池の異常品経路を別枝で保持
+- canonical：10 pairは`VERIFIED + branch_completeness_confirmed=TRUE`。`APP_READY`ではない
+- LESSON_READY_10全自治体mutation RED TEAM：18/18 PASS
+
+監査表：`data/research/lesson_readiness/m105_item_review.csv`
 
 ### LESSON_READY_10 M097（2026-08-25）
 
@@ -61,7 +75,7 @@
 - scoring branch：各品目ちょうど1枝
 - learner UI：品目名・条件・前処理・例外を表示しない
 - canonical：10 pairは`VERIFIED + branch_completeness_confirmed=TRUE`。`APP_READY`ではない
-- mutation RED TEAM：8/8 PASS
+- 自治体別mutation：9/9 PASS
 
 監査表：`data/research/lesson_readiness/m097_item_review.csv`
 
@@ -110,7 +124,7 @@ Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を
 - 履歴的な品目別照合決定 `VERIFIED`：76組
 - `UNRESOLVED`：4組（江田島市・海田町の電球／使い捨てライター）
 - canonicalで後続 `APP_READY`へ移行：広島市・呉市・東広島市の計30組
-- canonicalで後続 `LESSON_READY_10`へ移行：三原市10組
+- canonicalで後続 `LESSON_READY_10`へ移行：三原市・廿日市市の計20組
 - mutation RED TEAM：9/9 PASS
 
 品目別追加sourceは`IS-*`でcategory研究sourceと分離する。成果物・UI HANDOFF：`docs/research/item_image_mapping_pilot_top8_report.md`
@@ -135,7 +149,7 @@ Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を
 
 CI記録：`docs/research/batch_14_ci_status.txt`
 QA記録：`docs/research/batch_14_qa_report.md`
-現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.26.txt`
+現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.28.txt`
 
 ## Batch 14
 
@@ -202,7 +216,7 @@ MASTER範囲はM136〜M143です。
 - `data/research/07_item_mapping_coverage.csv`：完了自治体×40品目の調査状態
 - `data/research/08_category_review_evidence.csv`：category completeness公式証拠
 - `docs/research/`：Batch QA・CI記録
-- `docs/workflow/`：作業フロー履歴（現行 v1.26）
+- `docs/workflow/`：作業フロー履歴（現行 v1.28）
 - `data/style_research/`：公式色の観測・UI projection・出典台帳
 - `docs/style_research/`：Style Schema、QA、RED TEAM、Gate、HANDOFF
 - `scripts/build_batch_*.py`：Batch再生成
