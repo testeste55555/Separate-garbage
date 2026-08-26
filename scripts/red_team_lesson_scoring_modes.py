@@ -9,11 +9,13 @@ import sys
 from validate_lesson_scoring_modes import (
     LESSON_READY,
     LESSON_SCOPE,
+    PREFLIGHT_BLOCKERS,
     ROOT,
     build_context,
     read_csv,
     read_rows,
     validate,
+    validate_preflight_blockers,
     validate_scope_review,
 )
 
@@ -25,6 +27,12 @@ def mutate(rows: list[dict[str, str]], iid: str, branch: str, field: str, value:
             row[field] = value
             return candidate
     raise AssertionError(f"row not found: {iid}/{branch}")
+
+
+def mutate_blocker(rows: list[dict[str, str]], field: str, value: str) -> list[dict[str, str]]:
+    candidate = copy.deepcopy(rows)
+    candidate[0][field] = value
+    return candidate
 
 
 def main() -> int:
@@ -117,12 +125,45 @@ def main() -> int:
     for name, candidate_scope, fields, candidate_rows in cases:
         if not validate_scope_review(candidate_scope, fields, candidate_rows, context):
             escaped.append(name)
+    blocker_fields, blockers = read_csv(PREFLIGHT_BLOCKERS)
+    all_scope = read_rows(LESSON_SCOPE)
+    image_mapping = read_rows(ROOT / "data/app/item_image_mapping_pilot_top8.csv")
+    preflight_cases = [
+        (
+            "preflight: blocked municipality injected into scoring scope",
+            blocker_fields,
+            blockers,
+            [*all_scope, {"municipality_id": "M106"}],
+        ),
+        (
+            "preflight: EXCLUDED_NOTICE replaced by sorting category",
+            blocker_fields,
+            mutate_blocker(blockers, "category_id", "C-M106-12"),
+            all_scope,
+        ),
+        (
+            "preflight: direct official source removed",
+            blocker_fields,
+            mutate_blocker(blockers, "evidence_source_id", ""),
+            all_scope,
+        ),
+        (
+            "preflight: fixed image viability check made partial",
+            blocker_fields,
+            mutate_blocker(blockers, "checked_item_count", "9"),
+            all_scope,
+        ),
+    ]
+    for name, fields, candidate_rows, candidate_scope in preflight_cases:
+        if not validate_preflight_blockers(fields, candidate_rows, context, candidate_scope, image_mapping):
+            escaped.append(name)
     if escaped:
         print("LESSON_SCORING_RED_TEAM_FAILED")
         for name in escaped:
             print(f"- mutation escaped validator: {name}")
         return 1
-    print(f"LESSON_SCORING_RED_TEAM_PASSED mutations={len(cases)}/{len(cases)}")
+    mutation_count = len(cases) + len(preflight_cases)
+    print(f"LESSON_SCORING_RED_TEAM_PASSED mutations={mutation_count}/{mutation_count}")
     return 0
 
 

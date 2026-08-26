@@ -14,7 +14,7 @@ Webアプリが直接読み込む加工済みデータを置くディレクト�
 
 品目情報の正本は `data/master/04_common_items_master.csv` です。
 
-Pilotの`VERIFIED`だけでは学習者画面の自動正誤判定を有効にしません。`branch_completeness_confirmed=TRUE`、明示的lesson scope、画像固有mappingの`VERIFIED`をすべて要求します。
+Pilotの`VERIFIED`だけでは学習者画面の自動正誤判定を有効にしません。`branch_completeness_confirmed=TRUE`、明示的lesson scope、画像固有mappingの`VERIFIED`、`CURRENT SORT_BUCKET`への解決をすべて要求します。M106/I029のような`EXCLUDED_NOTICE`は公式経路を確認済みでも自動正誤判定へ使用しません。
 
 オンライン授業モードで画像問題を有効にする経路は2つです。
 

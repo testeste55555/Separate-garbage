@@ -50,6 +50,16 @@ def main() -> int:
     m106_nonburn = rows[("M106", "燃えないごみ")]
     checks.append(("Akitakata preserves 3 container and 4 nonburnable child leaves", children[m106_container["category_id"]] == 3 and children[m106_nonburn["category_id"]] == 4 and counted_category_total("M106", cats) == 11, ""))
     checks.append(("Akitakata aerosol rule is no-hole", "穴あけ不要" in rows[("M106", "かん類")].get("出す前の処理", ""), rows[("M106", "かん類")].get("出す前の処理", "")))
+    m106_battery = rows[("M106", "販売店やリサイクル業者に引き取ってもらう")]
+    checks.append((
+        "Akitakata mobile battery remains a non-scoring excluded route",
+        m106_battery.get("ui_role") == "EXCLUDED_NOTICE"
+        and m106_battery.get("collection_channel") == "NOT_COLLECTED"
+        and m106_battery.get("自治体収集外か") == "TRUE"
+        and m106_battery.get("source_id") == "S-M106-02"
+        and "小型家電回収ボックス" in m106_battery.get("入れてはいけない物", ""),
+        m106_battery.get("ui_role", ""),
+    ))
 
     checks.append(("Etajima uses current 2026 eight-category poster", counted_category_total("M107", cats) == 8 and "資源ごみ（古紙・布類）" in names["M107"] and "資源ごみ（古紙）" not in names["M107"] and "資源ごみ（布類）" not in names["M107"], str(names["M107"])))
     checks.append(("Etajima unpunctured aerosol path retained", "穴を開けず" in rows[("M107", "有害・危険ごみ")].get("出す前の処理", ""), rows[("M107", "有害・危険ごみ")].get("出す前の処理", "")))
@@ -86,7 +96,14 @@ def main() -> int:
 
     checks.append(("coverage exactly ten x forty", len(cov) == 400 and Counter(r["municipality_id"] for r in cov) == Counter({mid: 40 for mid in TARGETS}), f"coverage={len(cov)}"))
     checks.append(("no generic/filler category detail survives", not any(is_placeholder_category_value(r.get(f, "")) for r in cats for f in CATEGORY_DETAIL_FIELDS), f"categories={len(cats)}"))
-    checks.append(("all category evidence uses research date", all(r.get("確認日") == "2026-08-19" for r in cats), ""))
+    checks.append((
+        "category evidence dates preserve the later M106 direct notice",
+        all(
+            r.get("確認日") == ("2026-08-26" if r.get("category_id") == "C-M106-14" else "2026-08-19")
+            for r in cats
+        ),
+        "",
+    ))
 
     passed = sum(ok for _, ok, _ in checks)
     for name, ok, detail in checks:

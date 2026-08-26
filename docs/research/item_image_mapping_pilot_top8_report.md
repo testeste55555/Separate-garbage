@@ -37,6 +37,10 @@ M098尾道市とM099福山市は地域別CURRENT taxonomyが併存するため�
 
 蛍光管・危険物一般の記載を、電球・ライターの個別分別先へ読み替えていない。公式50音辞典等で確認できた時点で別レビューする。
 
+### M106 I029の現行資料優先訂正（2026-08-26）
+
+安芸高田市の現行モバイルバッテリー直接案内は、一般ごみと小型家電回収ボックスへの投入を不可とし、販売店・リサイクル業者への引取を指定している。旧Pilotの一般的な「小型充電式電池」記載から`有害ごみ`へ投影した判断を撤回し、`C-M106-14 / EXCLUDED_NOTICE`へ訂正した。`VERIFIED`は公式経路の確認を意味するが、この行は通常の仕分けBOXにも`LESSON_READY_10`にも使用しない。
+
 ## データ境界
 
 - `data/app/item_image_mapping_pilot_top8.csv` は画像10品目と自治体分別先のPilot判断台帳。
@@ -44,6 +48,7 @@ M098尾道市とM099福山市は地域別CURRENT taxonomyが併存するため�
 - 品目別追加公式sourceは`IS-*`名前空間で保持する。
 - `IS-*`の取得日はAPP品目レビューに使うが、自治体/category QA日を更新しない。両Gateを独立させる。
 - `branch_review_status=INCOMPLETE`、`branch_completeness_confirmed=FALSE`を維持し、`APP_READY`へは昇格しない。
+- 直接品目案内が通常categoryの一般記載と競合する場合は直接品目案内を優先し、非BOX経路を`EXCLUDED_NOTICE`として保持する。
 
 ## UI HANDOFF
 
@@ -57,6 +62,7 @@ M098尾道市とM099福山市は地域別CURRENT taxonomyが併存するため�
 
 - Pilot validator：PASS（80組、76 VERIFIED、4 UNRESOLVED、0 APP_READY）
 - mutation RED TEAM：9/9 PASS
+- M106 LESSON_READY_10 preflight blocker validator／mutation：PASS
 - canonical research validation：PASS
 - item image assets validation：PASS
 - Teaching Display Layer：PASS

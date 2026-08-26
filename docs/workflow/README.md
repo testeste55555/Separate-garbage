@@ -12,12 +12,13 @@
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.25.txt`：M094広島市APP readiness Pilotの履歴版
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.26.txt`：M104東広島市APP_READY化までの履歴版
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.27.txt`：LESSON_READY_10をAPP_READYから分離し、M097三原市の画像10品目・19条件枝を有効化した履歴版
-- `WORK_ゴミ出し情報収集フロー_143自治体_v1.28.txt`：**現行版**。M105廿日市市の画像10品目・22条件枝を追加し、mutation RED TEAMを全LESSON_READY_10自治体へ汎用化
+- `WORK_ゴミ出し情報収集フロー_143自治体_v1.28.txt`：M105廿日市市の画像10品目・22条件枝を追加し、mutation RED TEAMを全LESSON_READY_10自治体へ汎用化した履歴版
+- `WORK_ゴミ出し情報収集フロー_143自治体_v1.29.txt`：**現行版**。固定10品目のscoring viability preflightを導入し、M106安芸高田市を非BOX経路で安全停止
 
 ## 現在地
 
 - Schema：v1.2.4
-- Workflow：v1.28
+- Workflow：v1.29
 - 固定ID：143自治体
 - active実装対象：132自治体
 - DEFERRED：11自治体
@@ -34,11 +35,11 @@
   - M139 丸亀市
 - canonical：132自治体
 - QA：132/132 `QA_PASSED`
-- category：1,597行
-- source：413
+- category：1,598行
+- source：415
 - item mapping：1,515条件枝
 - coverage：5,280 pair
-- category review evidence：332
+- category review evidence：333
 - Batch 14 RED TEAM：PASS
 - canonical structural validation：PASS
 - Schema v1.2.4 RED TEAM：PASS
@@ -46,6 +47,7 @@
 - NEXT_BATCH_GATE：PASS
 - APP_READINESS_GATE：HOLD（M094・M095・M104の3/132自治体完了）
 - lesson scoring：APP_READY 3自治体＋LESSON_READY_10 M097三原市・M105廿日市市、計50画像pair
+- LESSON_READY_10 preflight blocker：M106安芸高田市（I029が`EXCLUDED_NOTICE`）
 
 **固定143自治体のうち、現行Schemaで安全に一意化できる132 active自治体について、resident-facing category研究の初回一巡は完了。**
 
@@ -62,6 +64,7 @@
 - 残り30品目：未完了を維持し、APP_READY 0/40として扱う
 - UI：画像・正式分別BOX・○/×のみ。条件・前処理・例外・出典は教師側に保持
 - mutation RED TEAM：全2自治体に9ケースずつ、18/18 PASS
+- preflight blocker mutation RED TEAM：4/4 PASS（合計22/22）
 
 ## Batch 14
 

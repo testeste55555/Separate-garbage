@@ -7,6 +7,7 @@ import csv
 import re
 import sys
 from collections import Counter, defaultdict
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,6 +19,7 @@ ITEMS = ROOT / "data/master/04_common_items_master.csv"
 ASSETS = ROOT / "data/app/item_image_assets.csv"
 IMAGE_MAPPING = ROOT / "data/app/item_image_mapping_pilot_top8.csv"
 LESSON_SCOPE = ROOT / "data/app/lesson_mode_app_ready_scope.csv"
+PREFLIGHT_BLOCKERS = ROOT / "data/research/lesson_readiness/lesson_ready_10_preflight_blockers.csv"
 HTML = ROOT / "app/index.html"
 JS = ROOT / "app/app.js"
 CSS = ROOT / "app/styles.css"
@@ -38,6 +40,12 @@ REVIEW_FIELDS = [
 LESSON_EXTRA_FIELDS = [
     "scoring_branch", "exception_evidence_source_id", "exception_evidence_url",
     "exception_evidence_locator",
+]
+PREFLIGHT_FIELDS = [
+    "municipality_id", "municipality_name", "preflight_status", "checked_item_count",
+    "required_item_count", "blocked_item_id", "blocked_item_name", "blocker_type",
+    "official_destination", "category_id", "evidence_source_id", "evidence_url",
+    "evidence_locator", "checked_date", "reviewer", "note",
 ]
 
 
@@ -79,6 +87,7 @@ def build_context(root: Path = ROOT) -> dict[str, object]:
     sources = read_rows(root / SOURCES.relative_to(ROOT))
     mappings = read_rows(root / MAPPINGS.relative_to(ROOT))
     coverage = read_rows(root / COVERAGE.relative_to(ROOT))
+    municipalities = read_rows(root / "data/research/04_municipalities_research.csv")
     items = read_rows(root / ITEMS.relative_to(ROOT))
     assets = read_rows(root / ASSETS.relative_to(ROOT))
     return {
@@ -88,6 +97,7 @@ def build_context(root: Path = ROOT) -> dict[str, object]:
             (r["municipality_id"], r["internal_item_id"], r["branch_order"]): r for r in mappings
         },
         "coverage_by_key": {(r["municipality_id"], r["internal_item_id"]): r for r in coverage},
+        "municipality_by_id": {r["municipality_id"]: r for r in municipalities},
         "item_by_id": {r["internal_item_id"]: r for r in items},
         "image_item_ids": {
             r["internal_item_id"] for r in assets if r.get("asset_status") == "CONFIRMED"
@@ -113,6 +123,133 @@ def validate_official_reference(
         errors.append(f"{label}: source is not current official evidence")
     elif source.get("公式URL") != url:
         errors.append(f"{label}: source URL mismatch")
+
+
+def validate_preflight_blockers(
+    blocker_fields: list[str],
+    blocker_rows: list[dict[str, str]],
+    context: dict[str, object],
+    scope: list[dict[str, str]],
+    image_mapping: list[dict[str, str]],
+) -> list[str]:
+    """Reject lesson scope when a fixed image item only has a non-BOX route."""
+    errors: list[str] = []
+    category_by_key = context["category_by_key"]
+    source_by_key = context["source_by_key"]
+    mapping_by_key = context["mapping_by_key"]
+    coverage_by_key = context["coverage_by_key"]
+    item_by_id = context["item_by_id"]
+    image_item_ids = context["image_item_ids"]
+    municipality_by_id = context["municipality_by_id"]
+    assert isinstance(category_by_key, dict)
+    assert isinstance(source_by_key, dict)
+    assert isinstance(mapping_by_key, dict)
+    assert isinstance(coverage_by_key, dict)
+    assert isinstance(item_by_id, dict)
+    assert isinstance(image_item_ids, set)
+    assert isinstance(municipality_by_id, dict)
+
+    if blocker_fields != PREFLIGHT_FIELDS:
+        errors.append(f"preflight blocker header mismatch: {blocker_fields}")
+    pairs = [
+        (row.get("municipality_id", ""), row.get("blocked_item_id", ""))
+        for row in blocker_rows
+    ]
+    if len(pairs) != len(set(pairs)):
+        errors.append("duplicate lesson preflight blocker pair")
+    scoped_mids = {row.get("municipality_id", "") for row in scope}
+
+    for row in blocker_rows:
+        mid = row.get("municipality_id", "")
+        iid = row.get("blocked_item_id", "")
+        label = f"preflight {mid}/{iid}"
+        if any(not row.get(field) for field in PREFLIGHT_FIELDS):
+            errors.append(f"{label}: blank required blocker field")
+            continue
+        if row.get("preflight_status") != "BLOCKED_NON_SORT_BUCKET" or row.get("blocker_type") != "NON_SORT_BUCKET_ROUTE":
+            errors.append(f"{label}: unsupported blocker enum")
+        if mid in scoped_mids:
+            errors.append(f"{label}: blocked municipality entered lesson scoring scope")
+        if row.get("municipality_name") != municipality_by_id.get(mid, {}).get("市町村"):
+            errors.append(f"{label}: municipality name differs from canonical research")
+        if iid not in image_item_ids:
+            errors.append(f"{label}: blocked item is not in the fixed image set")
+        item = item_by_id.get(iid, {})
+        if row.get("blocked_item_name") != item.get("一般管理用名称"):
+            errors.append(f"{label}: blocked item name differs from common item master")
+        try:
+            checked_count = int(row.get("checked_item_count", ""))
+            required_count = int(row.get("required_item_count", ""))
+        except ValueError:
+            checked_count = required_count = -1
+        if checked_count != EXPECTED_IMAGE_ITEMS or required_count != EXPECTED_IMAGE_ITEMS:
+            errors.append(f"{label}: preflight must cover all {EXPECTED_IMAGE_ITEMS} fixed image items")
+        try:
+            checked_date = date.fromisoformat(row.get("checked_date", ""))
+        except ValueError:
+            errors.append(f"{label}: invalid checked_date")
+        else:
+            if checked_date > date.today():
+                errors.append(f"{label}: checked_date is in the future")
+
+        category_id = row.get("category_id", "")
+        category = category_by_key.get((mid, category_id), {})
+        if not (
+            category.get("rule_status") == "CURRENT"
+            and category.get("ui_role") == "EXCLUDED_NOTICE"
+            and category.get("自治体収集外か") == "TRUE"
+        ):
+            errors.append(f"{label}: blocker category is not a current EXCLUDED_NOTICE")
+        if row.get("official_destination") != category.get("自治体正式名称"):
+            errors.append(f"{label}: official destination/category name mismatch")
+        if resolve_sort_bucket(mid, category_id, category_by_key):
+            errors.append(f"{label}: blocker unexpectedly resolves to a SORT_BUCKET")
+        validate_official_reference(
+            errors,
+            label=label,
+            mid=mid,
+            source_id=row.get("evidence_source_id", ""),
+            url=row.get("evidence_url", ""),
+            locator=row.get("evidence_locator", ""),
+            source_by_key=source_by_key,
+        )
+
+        image_rows = [
+            candidate for candidate in image_mapping
+            if candidate.get("municipality_id") == mid and candidate.get("internal_item_id") == iid
+        ]
+        if len(image_rows) != 1:
+            errors.append(f"{label}: image mapping row missing or duplicated")
+        else:
+            image_row = image_rows[0]
+            comparisons = {
+                "review_status": "VERIFIED",
+                "category_id": category_id,
+                "item_evidence_source_id": row.get("evidence_source_id", ""),
+                "item_evidence_url": row.get("evidence_url", ""),
+                "item_evidence_locator": row.get("evidence_locator", ""),
+            }
+            if any(image_row.get(field) != value for field, value in comparisons.items()):
+                errors.append(f"{label}: blocker/image mapping mismatch")
+
+        coverage = coverage_by_key.get((mid, iid), {})
+        if not (
+            coverage.get("coverage_status") == "VERIFIED"
+            and coverage.get("branch_completeness_confirmed") == "FALSE"
+            and coverage.get("item_evidence_source_id") == row.get("evidence_source_id")
+        ):
+            errors.append(f"{label}: canonical coverage does not preserve the blocked preflight state")
+        canonical = [
+            mapping for (mapping_mid, mapping_iid, _), mapping in mapping_by_key.items()
+            if mapping_mid == mid
+            and mapping_iid == iid
+            and mapping.get("category_id") == category_id
+            and mapping.get("mapping_status") == "VERIFIED"
+            and mapping.get("branch_review_status") == "INCOMPLETE"
+        ]
+        if len(canonical) != 1:
+            errors.append(f"{label}: expected one non-scoring canonical EXCLUDED_NOTICE branch")
+    return errors
 
 
 def validate_scope_review(
@@ -253,7 +390,10 @@ def validate(root: Path = ROOT) -> list[str]:
     assets = read_rows(root / ASSETS.relative_to(ROOT))
     image_mapping = read_rows(root / IMAGE_MAPPING.relative_to(ROOT))
     scope = read_rows(root / LESSON_SCOPE.relative_to(ROOT))
+    blocker_fields, blocker_rows = read_csv(root / PREFLIGHT_BLOCKERS.relative_to(ROOT))
     asset_by_item = {r["internal_item_id"]: r for r in assets if r.get("asset_status") == "CONFIRMED"}
+
+    errors.extend(validate_preflight_blockers(blocker_fields, blocker_rows, context, scope, image_mapping))
 
     scope_counts = Counter(row.get("municipality_id", "") for row in scope)
     duplicate_scope_ids = sorted(mid for mid, count in scope_counts.items() if not mid or count != 1)
@@ -402,11 +542,13 @@ def main() -> int:
             print(f"- {error}")
         return 1
     scope = read_rows(LESSON_SCOPE)
+    blockers = read_rows(PREFLIGHT_BLOCKERS)
     counts = Counter(row["scoring_status"] for row in scope)
     print("LESSON_SCORING_MODE_VALIDATION_PASSED")
     print(
         f"scoring_municipalities={len(scope)} image_pairs={len(scope) * EXPECTED_IMAGE_ITEMS} "
-        f"app_ready={counts[APP_READY]} lesson_ready_10={counts[LESSON_READY]}"
+        f"app_ready={counts[APP_READY]} lesson_ready_10={counts[LESSON_READY]} "
+        f"preflight_blockers={len(blockers)}"
     )
     return 0
 

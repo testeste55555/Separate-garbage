@@ -38,7 +38,19 @@ PILOT_FIELDS = [
 ]
 
 
-def source(mid: str, sid: str, title: str, kind: str, url: str, used: str, issuer: str) -> dict[str, str]:
+def source(
+    mid: str,
+    sid: str,
+    title: str,
+    kind: str,
+    url: str,
+    used: str,
+    issuer: str,
+    *,
+    checked: str = CHECKED,
+    updated: str = "",
+    note: str = "画像品目mapping Pilotの品目別公式根拠として追加。",
+) -> dict[str, str]:
     return {
         "municipality_id": mid,
         # Supplemental, reviewed item sources use the IS-* namespace so the
@@ -49,12 +61,12 @@ def source(mid: str, sid: str, title: str, kind: str, url: str, used: str, issue
         "公式URL": url,
         "発行主体": issuer,
         "対象年度": "2026年度／取得時点現行",
-        "ページ更新日": "",
-        "取得確認日": CHECKED,
+        "ページ更新日": updated,
+        "取得確認日": checked,
         "使用した情報": used,
         "優先度": "1",
         "現行性": "CURRENT",
-        "備考": "画像品目mapping Pilotの品目別公式根拠として追加。",
+        "備考": note,
         "official_verified": "TRUE",
         "official_basis": "MUNICIPAL_DOMAIN",
         "official_linking_url": "",
@@ -104,6 +116,11 @@ NEW_SOURCES = [
     source("M104", "S-M104-06", "雑誌・雑がみ・ダンボールの出し方", "自治体公式Webページ",
            "https://www.city.higashihiroshima.lg.jp/soshiki/seikatsukankyo/8/4/1/15033.html",
            "ダンボール・紙パックの資源回収区分", "東広島市"),
+    source("M106", "S-M106-02", "リチウムイオン電池からの火災に注意！！", "自治体公式Webページ",
+           "https://www.akitakata.jp/ja/shisei/section/119/m148-copy-5/",
+           "モバイルバッテリーを一般ごみ・小型家電回収ボックスへ出せないことと販売店等の引取経路", "安芸高田市",
+           checked="2026-08-26", updated="2025-08-07",
+           note="M106 LESSON_READY_10 scoring viability preflightの直接品目根拠として追加。"),
     source("M109", "S-M109-03", "モバイルバッテリー等の捨て方", "自治体公式Webページ",
            "https://www.town.kaita.lg.jp/img/koenokouhou/202404/22.html",
            "モバイルバッテリーの有害ごみ区分と絶縁", "海田町"),
@@ -179,7 +196,7 @@ R: dict[str, dict[str, tuple[str, str, str, str, str, str, str, str]]] = {
         "I004": ("C-M106-08", "S-M106-01", "かん類欄", "飲料・食品用のアルミ缶", "中を洗う", "スプレー缶は有害ごみ", "DIRECT_ITEM", "公式家庭ごみページの品目欄を採用。"),
         "I006": ("C-M106-09", "S-M106-01", "びん類欄", "飲料・食品用のガラスびん", "ふたを外し、中を洗う", "割れたびん等は陶器・ガラス類", "DIRECT_ITEM", "公式家庭ごみページの品目欄を採用。"),
         "I031": ("C-M106-12", "S-M106-01", "有害ごみ欄（電球）", "家庭用電球", "割れないよう箱等に入れる", "製品種別により燃えないごみ又は有害ごみの案内に従う", "DIRECT_ITEM", "公式家庭ごみページの品目欄を採用。"),
-        "I029": ("C-M106-12", "S-M106-01", "有害ごみ欄（小型充電式電池）", "小型充電式電池を内蔵するモバイルバッテリー", "端子をテープで絶縁する", "膨張・破損品は市へ相談", "OFFICIAL_CATEGORY_RULE", "小型充電式電池の公式ルールを適用。"),
+        "I029": ("C-M106-14", "S-M106-02", "3.廃棄方法", "リチウムイオン電池を搭載したモバイルバッテリー", "購入した販売店等へ引取を依頼する", "一般ごみ及び小型家電回収ボックスへは出せない", "DIRECT_ITEM", "現行の直接品目案内を優先し、通常の仕分けBOXへ投影しない。"),
         "I014": ("C-M106-02", "S-M106-01", "古紙類欄（ダンボール）", "家庭から出るダンボール", "折りたたみ、ひもで縛る", "汚れた物は燃えるごみ", "DIRECT_ITEM", "公式家庭ごみページの品目欄を採用。"),
         "I033": ("C-M106-10", "S-M106-01", "小型家電、電源コード、金物など欄（ライター）", "中身を使い切った使い捨てライター", "ガスを使い切り、他のごみと分ける", "中身が残る場合は市へ相談", "DIRECT_ITEM", "公式家庭ごみページの品目欄を採用。"),
         "I017": ("C-M106-04", "S-M106-01", "紙パック欄", "内側が白い紙パック", "洗い、開いて乾かす", "内側アルミ加工や汚れた物は燃えるごみ", "DIRECT_ITEM", "公式家庭ごみページの専用区分を採用。"),
@@ -211,6 +228,18 @@ UNRESOLVED = {
     ("M107", "I033"): "令和8年度版資料で『使い捨てライター』の品目単位の分別先を確証できない。危険物一般から推測しない。",
     ("M109", "I031"): "令和8年度版資料で『電球』の品目単位の分別先を確証できない。蛍光管の記載から推測しない。",
     ("M109", "I033"): "令和8年度版資料で『使い捨てライター』の品目単位の分別先を確証できない。危険物一般から推測しない。",
+}
+
+DECISION_META = {
+    ("M106", "I029"): ("2026-08-26", "OPENAI_CODEX_M106_LESSON_PREFLIGHT_V1"),
+}
+
+# M106/I029 originally required a Pilot-only branch because the Batch 11
+# category did not yet model the official non-collection route. The corrected
+# Batch now owns that category and deterministic mapping ID, so the obsolete
+# Pilot-only ID must not survive canonical no-loss merges as a duplicate.
+PREFERRED_MAPPING_IDS = {
+    ("M106", "I029"): "MAP-M106-I029-C-M106-14",
 }
 
 
@@ -253,6 +282,7 @@ def main() -> None:
         for iid in ITEMS:
             order += 1
             item = items[iid]
+            checked_date, reviewer = DECISION_META.get((mid, iid), (CHECKED, REVIEWER))
             base = {
                 "pair_order": str(order),
                 "municipality_id": mid,
@@ -260,8 +290,8 @@ def main() -> None:
                 "internal_item_id": iid,
                 "canonical_name": item["一般管理用名称"],
                 "display_name": item["教材表示名"],
-                "checked_date": CHECKED,
-                "reviewer": REVIEWER,
+                "checked_date": checked_date,
+                "reviewer": reviewer,
             }
             if (mid, iid) in UNRESOLVED:
                 pilot_rows.append({
@@ -291,6 +321,17 @@ def main() -> None:
 
             pair = (mid, iid)
             branches = map_by_pair.get(pair, [])
+            preferred_mapping_id = PREFERRED_MAPPING_IDS.get(pair)
+            if preferred_mapping_id and any(b.get("mapping_id") == preferred_mapping_id for b in branches):
+                stale_ids = {
+                    b.get("mapping_id", "")
+                    for b in branches
+                    if b.get("mapping_id") == f"MAP-{mid}-{iid}-PILOT-01"
+                }
+                if stale_ids:
+                    mapping_rows[:] = [b for b in mapping_rows if b.get("mapping_id") not in stale_ids]
+                    branches = [b for b in branches if b.get("mapping_id") not in stale_ids]
+                    map_by_pair[pair] = branches
             coverage = coverage_by_pair[pair]
             # This Pilot is an evidence-staging predecessor of municipality-wide
             # APP readiness.  A later atomic APP_READY review is authoritative;
@@ -310,16 +351,27 @@ def main() -> None:
                 # stale auto-generated alternatives remain outside APP_READY but
                 # are not expected in the current canonical data.
             else:
-                branch = {field: "" for field in MAPPING_FIELDS}
-                branch.update({
-                    "mapping_id": f"MAP-{mid}-{iid}-PILOT-01",
-                    "municipality_id": mid,
-                    "internal_item_id": iid,
-                    "branch_order": str(len(branches) + 1),
-                })
-                mapping_rows.append(branch)
-                branches.append(branch)
-                map_by_pair[pair] = branches
+                # A newer direct item notice can correct a historical Pilot
+                # category. Reuse that Pilot-owned branch instead of creating a
+                # duplicate mapping ID or preserving the superseded route.
+                historical_pilot = [
+                    b for b in branches
+                    if b.get("mapping_id") == f"MAP-{mid}-{iid}-PILOT-01"
+                    and b.get("mapping_status") != "APP_READY"
+                ]
+                if len(historical_pilot) == 1:
+                    branch = historical_pilot[0]
+                else:
+                    branch = {field: "" for field in MAPPING_FIELDS}
+                    branch.update({
+                        "mapping_id": f"MAP-{mid}-{iid}-PILOT-01",
+                        "municipality_id": mid,
+                        "internal_item_id": iid,
+                        "branch_order": str(len(branches) + 1),
+                    })
+                    mapping_rows.append(branch)
+                    branches.append(branch)
+                    map_by_pair[pair] = branches
 
             category_source = source_by_key[(mid, category["source_id"])]
             branch.update({
@@ -339,12 +391,12 @@ def main() -> None:
                 "item_evidence_source_id": source_id,
                 "item_evidence_url": evidence_source["公式URL"],
                 "item_evidence_locator": locator,
-                "確認日": CHECKED,
+                "確認日": checked_date,
                 "mapping_status": "VERIFIED",
                 "evidence_scope": "ITEM_SPECIFIC",
                 "branch_review_status": "INCOMPLETE",
-                "reviewed_date": CHECKED,
-                "reviewed_by": REVIEWER,
+                "reviewed_date": checked_date,
+                "reviewed_by": reviewer,
                 "備考": f"画像品目mapping Pilot。{basis}。APP_READY未昇格。",
             })
 
@@ -356,8 +408,8 @@ def main() -> None:
                 "item_evidence_source_id": source_id,
                 "item_evidence_url": evidence_source["公式URL"],
                 "item_evidence_locator": locator,
-                "reviewed_date": CHECKED,
-                "reviewed_by": REVIEWER,
+                "reviewed_date": checked_date,
+                "reviewed_by": reviewer,
                 "notes": "画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。",
             })
             verified += 1

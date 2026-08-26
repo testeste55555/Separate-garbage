@@ -1,0 +1,2 @@
+municipality_id,municipality_name,preflight_status,checked_item_count,required_item_count,blocked_item_id,blocked_item_name,blocker_type,official_destination,category_id,evidence_source_id,evidence_url,evidence_locator,checked_date,reviewer,note
+M106,安芸高田市,BLOCKED_NON_SORT_BUCKET,10,10,I029,モバイルバッテリー,NON_SORT_BUCKET_ROUTE,販売店やリサイクル業者に引き取ってもらう,C-M106-14,IS-M106-02,https://www.akitakata.jp/ja/shisei/section/119/m148-copy-5/,3.廃棄方法,2026-08-26,OPENAI_CODEX_M106_LESSON_PREFLIGHT_V1,固定10品目のうちI029が自治体の通常SORT_BUCKETへ投影できないためLESSON_READY_10へ昇格しない。

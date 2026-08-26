@@ -234,6 +234,7 @@ CRE-M105-01,CR-M105-CATEGORY-COVERAGE,M105,S-M105-01,燃やせる・資源・埋
 CRE-M105-02,CR-M105-CATEGORY-COVERAGE,M105,S-M105-02,資源ごみ(1)〜(5)を含む各正式名称と品目条件,SUPPLEMENTAL_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
 CRE-M105-03,CR-M105-CATEGORY-COVERAGE,M105,S-M105-03,市内各地域で6種10分別が稼働すること,SUPPLEMENTAL_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
 CRE-M106-01,CR-M106-CATEGORY-COVERAGE,M106,S-M106-01,燃える・古紙・容器包装・燃えない・有害・粗大と、分類ごとに袋を分ける子区分・前処理,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M106-02,CR-M106-CATEGORY-COVERAGE,M106,S-M106-02,モバイルバッテリーを一般ごみ・小型家電回収ボックスへ出せないことと販売店等の引取経路,SUPPLEMENTAL_INDEX,2026-08-26 Batch 11 resident-facing category completeness review
 CRE-M107-01,CR-M107-CATEGORY-COVERAGE,M107,S-M107-01,令和8年度の現行8住民区分、代表品目、資源ごみ3系統,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
 CRE-M107-02,CR-M107-CATEGORY-COVERAGE,M107,S-M107-02,有害・危険ごみ。使い切り必須、穴を開けずに出す場合の表示方法,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
 CRE-M107-03,CR-M107-CATEGORY-COVERAGE,M107,S-M107-03,令和8年度改定版が現行であること、5言語版の公開,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review

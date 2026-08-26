@@ -1,0 +1,84 @@
+WORK ゴミ出し情報収集フロー 143自治体 v1.29
+checked: 2026-08-26
+
+1. 目的
+
+40品目APP_READYの安全要件を下げず、オンライン授業で使用する固定画像10品目を優先自治体ごとに早期利用可能にする。固定10品目の詳細な全条件枝レビューへ入る前にscoring viability preflightを行い、非BOX経路による昇格不能を早期に検出する。
+
+2. readinessの分離
+
+APP_READY:
+- 共通40品目すべてを自治体単位でatomicに昇格
+- 全条件枝 ITEM_SPECIFIC / COMPLETE
+- coverage 40/40 APP_READY又は公式証跡によるVERIFIED_NOT_APPLICABLE
+- global APP_READINESS_GATEは全132 active自治体完成までHOLD
+
+LESSON_READY_10:
+- item_image_assets.csvのCONFIRMED固定10品目だけを対象
+- 10品目の分別先変更・前処理変更に関わる条件枝をすべてCOMPLETE
+- 各品目で画像と一致するscoring_branchをちょうど1枝指定
+- scoring branchはCURRENT SORT_BUCKETへ解決できること
+- canonical mappingはVERIFIED / COMPLETE、coverageはVERIFIED / branch_completeness_confirmed=TRUE
+- APP_READY自治体数・APP_READINESS_GATEには加算しない
+- 残り30品目は未完了状態を維持する
+
+3. scoring viability preflight
+
+優先自治体の詳細review CSVを作る前に、固定10画像品目を過不足なく確認する。
+
+- 10/10品目について、画像に一致する通常条件がCURRENT SORT_BUCKETへ解決可能かを確認する。
+- 直接品目案内と一般category案内が競合する場合、現行の直接品目案内を優先する。
+- HIDDEN、EXCLUDED_NOTICE、自治体収集外、販売店・メーカー・拠点等だけの経路は通常BOXとして扱わない。
+- 非BOX品目が1つでもあれば`lesson_ready_10_preflight_blockers.csv`へ公式source・URL・locatorを記録し、その自治体をlesson scopeへ追加しない。
+- blocker自治体の全条件枝レビューは開始せず、次の優先自治体へ進む。APP_READYの40品目レビュー可否とは分離する。
+- validatorはblocker自治体のscope混入、SORT_BUCKETへの誤変更、公式根拠欠落、10品目未確認を拒否する。
+
+4. 現行LESSON_READY_10
+
+M097 三原市:
+- 10/10画像品目
+- 19/19条件枝 COMPLETE
+
+M105 廿日市市:
+- 10/10画像品目
+- 22/22条件枝 COMPLETE
+- 現行公式50音表と2026年度版ごみ分別ガイドを正本として使用
+- 白熱電球、蛍光管、LED電球の分別先を統合しない
+- 破損・膨張・発熱したリチウムイオン電池は通常BOXへ投影しない
+
+5. M106 安芸高田市 preflight結果
+
+- 固定10画像品目の通常BOX投影可否を10/10確認
+- I029モバイルバッテリーの現行直接案内は、一般ごみ及び小型家電回収ボックスへの投入を不可とし、販売店・リサイクル業者への引取を指定
+- 旧Pilotの一般的な小型充電式電池記載から有害ごみへ投影した判断を撤回
+- `C-M106-14 / EXCLUDED_NOTICE / NOT_COLLECTED`として保持
+- preflight status: BLOCKED_NON_SORT_BUCKET
+- LESSON_READY_10へ昇格せず、lesson scopeへ追加しない
+
+6. 自動正誤判定
+
+オンライン授業モードのみ有効。次のすべてを必須とする。
+
+- 明示的scopeがAPP_READY又はLESSON_READY_10
+- 画像固有mappingがVERIFIED
+- 対象reviewのscoring可能枝と一致
+- 正解categoryがCURRENT SORT_BUCKETへ解決可能
+- preflight blocker自治体ではない
+
+学習者画面には品目名、条件、前処理、例外、正解説明、公式出典を表示しない。
+
+7. Gate
+
+- LESSON_READY_10: M097、M105 PASS
+- lesson scoring municipalities: 5（M094、M095、M097、M104、M105）
+- lesson scoring image pairs: 50
+- LESSON_READY_10 condition branches: 41
+- M106 preflight blocker validator: PASS
+- LESSON_READY_10 mutation RED TEAM: 22/22 PASS（既存review 18、preflight 4）
+- APP_READY municipalities: 3/132
+- APP_READY pairs: 120/5,280
+- APP_READINESS_GATE: HOLD（正常）
+
+8. 次工程
+
+次の優先active自治体はM109海田町。最初に固定10画像品目のscoring viability preflightを実施し、10品目すべてが通常SORT_BUCKETへ投影可能な場合だけ全条件枝reviewへ進める。M098尾道市・M099福山市等の地域variant自治体はvariantを統合せず、district_scope等の解決後に個別処理する。

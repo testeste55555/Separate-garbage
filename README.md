@@ -8,7 +8,7 @@
 
 収集曜日・収集時間・地区別カレンダーは構造化対象外です。カレンダーは必要に応じて、現行taxonomyの運用確認や地域variantの証拠として使用します。
 
-## 現在地（2026-08-25）
+## 現在地（2026-08-26）
 
 - MASTER固定ID台帳：**143自治体**
 - active実装対象：**132自治体**
@@ -36,20 +36,34 @@
 - Batch 14：**6自治体完了**（M136・M139 DEFERRED）
 - canonical：**132自治体**
 - canonical QA：**132 `QA_PASSED` / 0 `QA_REQUIRED`**
-- category：**1,597行**（通常区分に加えAPP_READYレビューで追加した参照経路を含む）
+- category：**1,598行**（通常区分に加えAPP_READYレビュー・preflightで追加した参照経路を含む）
 - structured official leaves：**1,464区分**
-- official sources：**413**
+- official sources：**415**
 - item mapping：**1,515条件枝**（APP_READY 120品目pair＋M097・M105のLESSON_READY_10全41条件枝を含む）
 - 40品目coverage：**5,280自治体品目pair**
-- category review evidence：**332行**
+- category review evidence：**333行**
 - Schema：**v1.2.4**
-- Workflow：**v1.28**
+- Workflow：**v1.29**
 - Batch 14専用RED TEAM：**PASS**
 - canonical structural validation：**PASS**
 - Schema v1.2.4 RED TEAM：**PASS**
 - operational category semantics RED TEAM：**PASS**
 - `NEXT_BATCH_GATE`：**PASS**
 - `APP_READINESS_GATE`：**HOLD**（M094・M095・M104は各40/40 APP_READY、残る129 active自治体は未完了）
+
+### LESSON_READY_10 preflight M106（2026-08-26）
+
+安芸高田市の固定画像10品目を詳細な全条件枝レビューへ進める前に、10/10品目が通常の`SORT_BUCKET`へ投影可能かを先行確認した。I029モバイルバッテリーは現行の直接品目案内で販売店・リサイクル業者の引取とされ、一般ごみ・小型家電回収ボックスは不可のため、M106は`LESSON_READY_10`へ昇格しない。
+
+- I029の旧`有害ごみ`判断を撤回し、`C-M106-14 / EXCLUDED_NOTICE`へ訂正
+- preflight結果：`BLOCKED_NON_SORT_BUCKET`
+- lesson scope：追加なし（5自治体・50画像pairを維持）
+- APP_READY：3/132、120/5,280を維持
+- global `APP_READINESS_GATE`：HOLD（正常）
+- lesson scoring validator：PASS
+- mutation RED TEAM：22/22 PASS（既存18＋preflight 4）
+
+停止理由台帳：`data/research/lesson_readiness/lesson_ready_10_preflight_blockers.csv`
 
 ### LESSON_READY_10 M105（2026-08-25）
 
@@ -123,6 +137,7 @@ Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を
 
 - 履歴的な品目別照合決定 `VERIFIED`：76組
 - `UNRESOLVED`：4組（江田島市・海田町の電球／使い捨てライター）
+- M106/I029は現行の直接品目案内を優先し、`有害ごみ`から非BOXの`EXCLUDED_NOTICE`へ訂正
 - canonicalで後続 `APP_READY`へ移行：広島市・呉市・東広島市の計30組
 - canonicalで後続 `LESSON_READY_10`へ移行：三原市・廿日市市の計20組
 - mutation RED TEAM：9/9 PASS
@@ -149,7 +164,7 @@ Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を
 
 CI記録：`docs/research/batch_14_ci_status.txt`
 QA記録：`docs/research/batch_14_qa_report.md`
-現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.28.txt`
+現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.29.txt`
 
 ## Batch 14
 
