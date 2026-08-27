@@ -7,6 +7,9 @@
 - M097 三原市：10品目・19条件枝
 - M105 廿日市市：10品目・22条件枝
 - M106 安芸高田市：10品目・18条件枝。I029は非通常収集categoryを保持し、教材のみ`SIMPLIFIED_ACTION`へ投影
+- M107 江田島市：10品目・18条件枝。I007白色発泡トレーは店頭回収categoryを保持し、教材のみ`SIMPLIFIED_ACTION`へ投影
+- M108 府中町：10品目・18条件枝。全10品目を通常の公式categoryへ投影
+- M109 海田町：10品目・18条件枝。全10品目を通常の公式categoryへ投影
 - M098 尾道市：1 lesson variant group・10採点pair
 - M099 福山市：3 lesson variant group・30採点pair
 

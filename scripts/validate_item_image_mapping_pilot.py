@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the 10 image items x 8 active Style Research municipalities pilot."""
+"""Validate the 10 image items x 9 active Style Research municipalities pilot."""
 
 from __future__ import annotations
 
@@ -14,10 +14,10 @@ from schema_v12 import read_csv
 
 ROOT = Path(__file__).resolve().parents[1]
 PILOT_PATH = ROOT / "data" / "app" / "item_image_mapping_pilot_top8.csv"
-TARGETS = ("M094", "M095", "M097", "M104", "M105", "M106", "M107", "M109")
+TARGETS = ("M094", "M095", "M097", "M104", "M105", "M106", "M107", "M108", "M109")
 ITEMS = ("I001", "I007", "I013", "I004", "I006", "I031", "I029", "I014", "I033", "I017")
 VARIANT_HOLD = {"M098", "M099"}
-EXPECTED_UNRESOLVED = {("M107", "I031"), ("M107", "I033"), ("M109", "I031"), ("M109", "I033")}
+EXPECTED_UNRESOLVED: set[tuple[str, str]] = set()
 EXPECTED_FIELDS = [
     "pair_order", "municipality_id", "municipality_name", "internal_item_id",
     "canonical_name", "display_name", "review_status", "evidence_basis",
@@ -63,8 +63,8 @@ def validate_pilot_rows(pilot: list[dict[str, str]], root: Path = ROOT) -> list[
 
     actual_pairs = [(r.get("municipality_id", ""), r.get("internal_item_id", "")) for r in pilot]
     expected_pairs = {(mid, iid) for mid in TARGETS for iid in ITEMS}
-    if len(pilot) != 80:
-        errors.append(f"pilot row count must be 80: {len(pilot)}")
+    if len(pilot) != 90:
+        errors.append(f"pilot row count must be 90: {len(pilot)}")
     if len(set(actual_pairs)) != len(actual_pairs):
         errors.append("duplicate municipality/item pair")
     if set(actual_pairs) != expected_pairs:
@@ -73,7 +73,7 @@ def validate_pilot_rows(pilot: list[dict[str, str]], root: Path = ROOT) -> list[
         errors.append("district-variant M098/M099 must not enter this municipality-wide pilot")
 
     status_counts = Counter(r.get("review_status", "") for r in pilot)
-    if status_counts != Counter({"VERIFIED": 76, "UNRESOLVED": 4}):
+    if status_counts != Counter({"VERIFIED": 90}):
         errors.append(f"unexpected review status counts: {dict(status_counts)}")
 
     for expected_order, row in enumerate(pilot, start=1):
@@ -247,9 +247,9 @@ def main() -> int:
         for row in pilot
     )
     print(
-        "pairs=80 historical_verified=76 unresolved=4 "
+        "pairs=90 historical_verified=90 unresolved=0 "
         f"canonical_app_ready={canonical_app_ready} canonical_lesson_ready={canonical_lesson_ready} "
-        "municipalities=8 image_items=10"
+        "municipalities=9 image_items=10"
     )
     return 0
 

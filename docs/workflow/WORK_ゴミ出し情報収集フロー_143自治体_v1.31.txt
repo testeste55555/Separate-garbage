@@ -1,0 +1,53 @@
+ゴミ出し情報収集フロー 143自治体 v1.31
+更新日: 2026-08-27
+現行版
+
+1. 目的
+
+自治体公式の詳細な分別・非通常収集エビデンスを削らず保持しながら、配属前教育の学習者向けアプリには必要十分な行動粒度だけを投影する。
+
+2. readinessの境界
+
+- APP_READY: 共通40品目の全条件枝がITEM_SPECIFIC / COMPLETE。
+- LESSON_READY_10: 固定画像10品目の全条件枝がITEM_SPECIFIC / COMPLETEで、各品目に画像と一致するscoring branchが1枝。
+- LESSON_READY_10はAPP_READYへの昇格ではない。残り30品目の未完了とglobal APP_READINESS_GATE=HOLDを維持する。
+- HOLDは固定10品目の教材正答を安全に決められない実質的な公式矛盾・未解決差分がある場合に限る。
+
+3. エビデンス層と教材投影層
+
+- category、source、mapping、condition、preparation、exception、collection_channel、ui_roleは公式根拠どおり詳細に保持する。
+- 通常収集品目はCURRENT SORT_BUCKETへ解決できることを必須とする。
+- EXCLUDED_NOTICEや非通常収集品目を有害ごみ等の通常SORT_BUCKETへ便宜的に投影しない。
+- 非通常収集品目でも、安全な単一行動として採点できる場合はSIMPLIFIED_ACTIONを利用できる。
+- SIMPLIFIED_ACTIONは自治体正式区分ではなく教材用簡略行動箱であることをデータ上明示する。
+- 販売店名、施設名、持込方法、特殊回収経路、条件詳細は学習者UIへ表示しない。
+
+4. 授業モードと地域差
+
+- ONLINE_CLASS: 固定画像10品目、必要十分な採点BOX、○/×判定を表示する。
+- IN_PERSON_CLASS: 画像問題を使わず、日常生活で必要な主要分別箱だけを表示する。
+- 対面主要分別箱とオンライン固定10品目専用BOXは別データとして管理する。
+- 行政上の地区差や収集日程差だけではlesson_variant_groupを増やさない。固定10品目の正答又は対面主要BOXが変わる場合だけ学習者地域選択を設ける。
+
+5. Batch 11 M107〜M109
+
+- M107 江田島市: 固定10品目10/10、18/18条件枝COMPLETE。I007白色発泡トレーは現行ポスターがスーパー等の回収容器を指示するため、C-M107-09 NOT_COLLECTED / EXCLUDED_NOTICEを正本とし、教材はSIMPLIFIED_ACTION「回収・確認」。I031電球・LED電球、I033使い捨てライターは市公式サイト掲載中の品目別ガイドで有害・危険ごみと確認。
+- M108 府中町: 固定10品目10/10、18/18条件枝COMPLETE。I029モバイルバッテリーは通常の有害ごみが公式に明記されるためOFFICIAL_CATEGORY。販売店返却の詳細は教材へ表示しない。
+- M109 海田町: 固定10品目10/10、18/18条件枝COMPLETE。I029は有害ごみ、I031は埋立ごみ、I033は使い切り条件付き資源物としてOFFICIAL_CATEGORY。
+- 3自治体とも固定10品目正答・対面主要BOXを変える地域差はなく、学習者向け地域選択を追加しない。
+
+6. 必須検証
+
+- M107〜M109の固定10品目を過不足なく検証する。
+- 非通常収集品目が通常SORT_BUCKETへ誤投影されない。
+- SIMPLIFIED_ACTIONが通常分別区分と区別される。
+- 学習者UIに特殊回収経路・施設・条件詳細を出さない。
+- M097、M105、M106〜M109のLESSON_READY_10を回帰確認する。
+- M098、M099の地域variant LESSON_READY_10を回帰確認する。
+- M094、M095、M104のAPP_READYを回帰確認する。
+- global APP_READINESS_GATE=HOLDを維持する。
+- validatorとmutation RED TEAMをともにPASSさせる。
+
+7. Human Gate
+
+変更はbranchで実施し、commitとPRを作成する。mainへ直接mergeしない。CI結果とPR差分をHuman Gateへ提示して停止する。

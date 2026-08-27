@@ -13,10 +13,11 @@
 | `merge_research.py` | Pilotと完成batchの7成果物をmergeし、`mapping_id` 単位で手動VERIFIED/APP_READY枝を保持 |
 | `check_next_batch_gate.py` | 全bundle、canonical union、LESSON_READY再投影込みの二重merge冪等性、RED TEAMを統合した次Batch判定 |
 | `red_team_schema_v12.py` | バッチ数・件数に依存しない24観点RED TEAM（Batch 02対象・QA・複数source証拠を含む） |
-| `apply_item_image_mapping_pilot_top8.py` | 画像10品目×Style Research active 8自治体の公式mapping 80組を冪等生成（76 VERIFIED / 4 UNRESOLVED） |
+| `apply_item_image_mapping_pilot_top8.py` | 歴史的ファイル名を維持し、画像10品目×active 9自治体の公式mapping 90組を冪等生成（90 VERIFIED） |
 | `validate_item_image_mapping_pilot.py` | Pilot台帳・画像・品目master・category・公式source・canonical mapping/coverageの参照整合性を検証 |
 | `red_team_item_image_mapping_pilot.py` | 地域variant混入、推測昇格、非公式URL、汎用文、レイヤー間QA日結合等をmutation検査 |
 | `sync_lesson_ready_reviews.py` | 明示的LESSON_READY_10監査表をcanonical VERIFIED/COMPLETE・coverage・画像scoring branchへ自治体非依存で投影 |
+| `build_lesson_ready_m107_m109.py` | M107〜M109の18条件枝監査表・オンライン採点BOX・対面主要BOX・固定10品目投影を冪等生成 |
 | `validate_lesson_scoring_modes.py` | APP_READY 40品目とLESSON_READY_10固定10品目のscope・全条件枝・公式根拠・通常category／SIMPLIFIED_ACTION・UI境界を共通検証 |
 | `red_team_lesson_scoring_modes.py` | 欠落枝・二重scoring・根拠欠落・非通常収集の通常BOX誤投影・特殊経路UI漏出・偽APP_READY等をmutation検査 |
 | `*_v11.py` | 破壊的な旧処理を再実行しないv1.2互換entrypoint |

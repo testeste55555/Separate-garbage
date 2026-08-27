@@ -45,6 +45,7 @@ LESSON_EXTRA_FIELDS = [
 EXPECTED_REGRESSION_STATUS = {
     "M094": APP_READY, "M095": APP_READY, "M104": APP_READY,
     "M097": LESSON_READY, "M105": LESSON_READY, "M106": LESSON_READY,
+    "M107": LESSON_READY, "M108": LESSON_READY, "M109": LESSON_READY,
 }
 FORBIDDEN_LEARNER_ROUTE_TERMS = {
     "販売店", "リサイクル業者", "施設", "持込", "持ち込み", "引取", "小型家電回収ボックス",
@@ -205,16 +206,22 @@ def validate_teaching_projection(
         else:
             errors.append(f"{mid}/{iid}: invalid projection kind")
 
-    m106_items = {row.get("internal_item_id") for row in scoring_projection if row.get("municipality_id") == "M106"}
-    if m106_items != EXPECTED_IMAGE_ITEMS_SET:
-        errors.append(f"M106: teaching projection must cover the fixed 10 items, got {sorted(m106_items)}")
-    m106_online = [row for row in teaching_boxes if row.get("municipality_id") == "M106" and row.get("class_mode") == "ONLINE_CLASS"]
-    m106_in_person = [row for row in teaching_boxes if row.get("municipality_id") == "M106" and row.get("class_mode") == "IN_PERSON_CLASS"]
-    if len(m106_online) != 9 or len(m106_in_person) != 6:
-        errors.append(f"M106: expected 9 online scoring boxes and 6 in-person major boxes")
-    i029 = next((row for row in scoring_projection if row.get("municipality_id") == "M106" and row.get("internal_item_id") == "I029"), {})
-    if i029.get("projection_kind") != "SIMPLIFIED_ACTION":
-        errors.append("M106/I029: non-normal route must use SIMPLIFIED_ACTION")
+    expected_box_counts = {"M106": (9, 6), "M107": (5, 8), "M108": (9, 8), "M109": (8, 5)}
+    for mid, (online_count, in_person_count) in expected_box_counts.items():
+        items = {row.get("internal_item_id") for row in scoring_projection if row.get("municipality_id") == mid}
+        if items != EXPECTED_IMAGE_ITEMS_SET:
+            errors.append(f"{mid}: teaching projection must cover the fixed 10 items, got {sorted(items)}")
+        online = [row for row in teaching_boxes if row.get("municipality_id") == mid and row.get("class_mode") == "ONLINE_CLASS"]
+        in_person = [row for row in teaching_boxes if row.get("municipality_id") == mid and row.get("class_mode") == "IN_PERSON_CLASS"]
+        if len(online) != online_count or len(in_person) != in_person_count:
+            errors.append(f"{mid}: expected {online_count} online scoring boxes and {in_person_count} in-person major boxes")
+    simplified = {
+        (row.get("municipality_id"), row.get("internal_item_id"))
+        for row in scoring_projection if row.get("projection_kind") == "SIMPLIFIED_ACTION"
+    }
+    expected_simplified = {("M106", "I029"), ("M107", "I007")}
+    if simplified != expected_simplified:
+        errors.append(f"SIMPLIFIED_ACTION target mismatch: {sorted(simplified)}")
     return errors
 
 

@@ -126,37 +126,60 @@ def main() -> int:
     scoring_projection = read_rows(SCORING_PROJECTION)
     assert isinstance(category_by_key, dict)
 
-    def mutate_projection(field: str, value: str) -> list[dict[str, str]]:
+    def mutate_projection(mid: str, iid: str, field: str, value: str) -> list[dict[str, str]]:
         candidate = copy.deepcopy(scoring_projection)
         for row in candidate:
-            if row.get("municipality_id") == "M106" and row.get("internal_item_id") == "I029":
+            if row.get("municipality_id") == mid and row.get("internal_item_id") == iid:
                 row[field] = value
                 return candidate
-        raise AssertionError("M106/I029 projection not found")
+        raise AssertionError(f"{mid}/{iid} projection not found")
 
-    def mutate_action_box(field: str, value: str) -> list[dict[str, str]]:
+    def mutate_action_box(mid: str, field: str, value: str) -> list[dict[str, str]]:
         candidate = copy.deepcopy(teaching_boxes)
         for row in candidate:
-            if row.get("municipality_id") == "M106" and row.get("box_kind") == "SIMPLIFIED_ACTION":
+            if row.get("municipality_id") == mid and row.get("box_kind") == "SIMPLIFIED_ACTION":
                 row[field] = value
                 return candidate
-        raise AssertionError("M106 SIMPLIFIED_ACTION box not found")
+        raise AssertionError(f"{mid} SIMPLIFIED_ACTION box not found")
 
     projection_cases = [
         (
             "M106/I029 non-normal category misprojected to SORT_BUCKET",
             teaching_boxes,
-            mutate_projection("category_id", "C-M106-12"),
+            mutate_projection("M106", "I029", "category_id", "C-M106-12"),
         ),
         (
             "M106 SIMPLIFIED_ACTION relabeled as normal scoring box",
-            mutate_action_box("box_kind", "FIXED_10_SCORING"),
+            mutate_action_box("M106", "box_kind", "FIXED_10_SCORING"),
             scoring_projection,
         ),
         (
             "M106 learner label leaks special collection route",
-            mutate_action_box("display_name", "販売店へ持込"),
+            mutate_action_box("M106", "display_name", "販売店へ持込"),
             scoring_projection,
+        ),
+        (
+            "M107/I007 non-normal category misprojected to SORT_BUCKET",
+            teaching_boxes,
+            mutate_projection("M107", "I007", "category_id", "C-M107-01"),
+        ),
+        (
+            "M107 SIMPLIFIED_ACTION relabeled as normal scoring box",
+            mutate_action_box("M107", "box_kind", "FIXED_10_SCORING"),
+            scoring_projection,
+        ),
+        (
+            "M107 learner label leaks special collection route",
+            mutate_action_box("M107", "display_name", "スーパーの回収施設へ持込"),
+            scoring_projection,
+        ),
+        (
+            "M107/I007 action projection removed",
+            teaching_boxes,
+            [
+                row for row in scoring_projection
+                if not (row.get("municipality_id") == "M107" and row.get("internal_item_id") == "I007")
+            ],
         ),
         (
             "M106/I029 action projection removed",
