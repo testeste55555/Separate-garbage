@@ -1,0 +1,5 @@
+lesson_variant_group_id,municipality_id,display_name,learner_selection_required,display_order,readiness_status,note
+LV-M098-01,M098,尾道市,FALSE,1,LESSON_READY_10,6 district_scopeを固定10品目の教材上1グループへ集約
+LV-M099-01,M099,一般地域,TRUE,1,LESSON_READY_10,内海町・沼隈町・走島町を除く
+LV-M099-02,M099,内海町・沼隈町,TRUE,2,LESSON_READY_10,固定10品目では紙パックを紙類として扱う
+LV-M099-03,M099,走島町,TRUE,3,LESSON_READY_10,新聞・段ボール・紙パックを通常紙類箱へ投影しない

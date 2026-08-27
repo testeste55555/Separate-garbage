@@ -1,0 +1,11 @@
+district_scope_id,municipality_id,district_name,lesson_variant_group_id,display_order,learner_visible,official_source_id,official_url,official_locator,note
+DS-M098-01,M098,尾道地域,LV-M098-01,1,FALSE,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,ページ全体（向島・御調・因島・瀬戸田以外）,将来の追加品目で差が生じた場合に再割当できる内部索引
+DS-M098-02,M098,向島町（立花以外）,LV-M098-01,2,FALSE,S-M098-02,https://www.city.onomichi.hiroshima.jp/soshiki/16/3020.html,「資源回収（向島町立花以外）」,固定10品目ではLV-M098-01へ集約
+DS-M098-03,M098,向島町（立花）,LV-M098-01,3,FALSE,S-M098-02,https://www.city.onomichi.hiroshima.jp/soshiki/16/3020.html,「資源回収（向島町立花）」,袋・コンテナ差だけでは学習者選択を増やさない
+DS-M098-04,M098,御調町,LV-M098-01,4,FALSE,S-M098-03,https://www.city.onomichi.hiroshima.jp/soshiki/16/3027.html,ページ全体,固定10品目ではLV-M098-01へ集約
+DS-M098-05,M098,因島地域,LV-M098-01,5,FALSE,S-M098-04,https://www.city.onomichi.hiroshima.jp/soshiki/18/3322.html,ページ全体,固定10品目ではLV-M098-01へ集約
+DS-M098-06,M098,瀬戸田町,LV-M098-01,6,FALSE,S-M098-05,https://www.city.onomichi.hiroshima.jp/soshiki/18/3337.html,ページ全体,固定10品目ではLV-M098-01へ集約
+DS-M099-01,M099,一般地域,LV-M099-01,1,FALSE,S-M099-01,https://www.city.fukuyama.hiroshima.jp/uploaded/life/395517_2433553_misc.pdf,1頁「紙類（走島町を除く。）」・4頁の地域別収集回数,内海町・沼隈町・走島町を除く
+DS-M099-02,M099,内海町,LV-M099-02,2,FALSE,S-M099-03,https://www.city.fukuyama.hiroshima.jp/uploaded/attachment/273294.pdf,内海町版5頁「紙類」,沼隈町と固定10品目の正答が同じため同一lesson group
+DS-M099-03,M099,沼隈町,LV-M099-02,3,FALSE,S-M099-04,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314393.html,「沼隈町で回収する紙類」,内海町と固定10品目の正答が同じため同一lesson group
+DS-M099-04,M099,走島町,LV-M099-03,4,FALSE,S-M099-01,https://www.city.fukuyama.hiroshima.jp/uploaded/life/395517_2433553_misc.pdf,1頁「紙類（走島町を除く。）」・4頁「紙類」収集対象外,新聞・段ボール・紙パックは通常紙類箱へ投影しない

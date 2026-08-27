@@ -13,11 +13,12 @@
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.26.txt`：M104東広島市APP_READY化までの履歴版
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.27.txt`：LESSON_READY_10をAPP_READYから分離し、M097三原市の画像10品目・19条件枝を有効化した履歴版
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.28.txt`：**現行版**。M105廿日市市の画像10品目・22条件枝を追加し、mutation RED TEAMを全LESSON_READY_10自治体へ汎用化
+- `WORK_ゴミ出し情報収集フロー_143自治体_v1.29.txt`：**現行版**。M098尾道市・M099福山市で`district_scope`と`lesson_variant_group`を分離し、完全taxonomyのDEFERREDを維持したまま固定10品目の地域variantを有効化
 
 ## 現在地
 
 - Schema：v1.2.4
-- Workflow：v1.28
+- Workflow：v1.29
 - 固定ID：143自治体
 - active実装対象：132自治体
 - DEFERRED：11自治体
@@ -45,7 +46,7 @@
 - operational category semantics RED TEAM：PASS
 - NEXT_BATCH_GATE：PASS
 - APP_READINESS_GATE：HOLD（M094・M095・M104の3/132自治体完了）
-- lesson scoring：APP_READY 3自治体＋LESSON_READY_10 M097三原市・M105廿日市市、計50画像pair
+- lesson scoring：自治体単位50画像pair＋M098/M099の4地域variant group 40画像pair、計90画像pair
 
 **固定143自治体のうち、現行Schemaで安全に一意化できる132 active自治体について、resident-facing category研究の初回一巡は完了。**
 
@@ -57,6 +58,8 @@
 
 - M097三原市：10/10品目、19/19条件枝COMPLETE
 - M105廿日市市：10/10品目、22/22条件枝COMPLETE
+- M098尾道市：6内部scopeを1教材groupへ集約、10/10採点pair
+- M099福山市：4内部scopeを3教材groupへ集約、30/30採点pair
 - canonical：`VERIFIED + branch_completeness_confirmed=TRUE`
 - scoring branch：各品目1枝
 - 残り30品目：未完了を維持し、APP_READY 0/40として扱う

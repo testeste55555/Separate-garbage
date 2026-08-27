@@ -8,7 +8,7 @@
 
 収集曜日・収集時間・地区別カレンダーは構造化対象外です。カレンダーは必要に応じて、現行taxonomyの運用確認や地域variantの証拠として使用します。
 
-## 現在地（2026-08-25）
+## 現在地（2026-08-27）
 
 - MASTER固定ID台帳：**143自治体**
 - active実装対象：**132自治体**
@@ -43,13 +43,28 @@
 - 40品目coverage：**5,280自治体品目pair**
 - category review evidence：**332行**
 - Schema：**v1.2.4**
-- Workflow：**v1.28**
+- Workflow：**v1.29**
 - Batch 14専用RED TEAM：**PASS**
 - canonical structural validation：**PASS**
 - Schema v1.2.4 RED TEAM：**PASS**
 - operational category semantics RED TEAM：**PASS**
 - `NEXT_BATCH_GATE`：**PASS**
 - `APP_READINESS_GATE`：**HOLD**（M094・M095・M104は各40/40 APP_READY、残る129 active自治体は未完了）
+
+### 地域variant LESSON_READY_10 M098/M099（2026-08-27）
+
+完全な地域別category taxonomyと固定画像10品目に必要な教材差を分離し、`district_scope → lesson_variant_group → teaching box / scoring`を追加した。M098/M099の40品目・完全taxonomy側`DEFERRED`は維持する。
+
+- M098 尾道市：6内部scopeを1教材groupへ集約。地域選択を表示しない
+- M099 福山市：4内部scopeを一般地域／内海町・沼隈町／走島町の3教材groupへ集約
+- M099一般：紙パックは「資源回収・確認」
+- M099内海町・沼隈町：新聞・段ボール・紙パックは「紙類」
+- M099走島町：新聞・段ボール・紙パックは「資源回収・確認」
+- 固定10品目：4 group×10＝40採点pair
+- mutation RED TEAM：12/12 PASS
+- learner UI：内部district名・条件・前処理・例外・出典を表示しない
+
+データ：`data/app/district_scopes.csv`、`data/app/lesson_variant_groups.csv`、`data/app/lesson_variant_teaching_boxes.csv`、`data/app/lesson_variant_item_scoring.csv`
 
 ### LESSON_READY_10 M105（2026-08-25）
 
@@ -143,7 +158,7 @@ Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を
 - 中間RED TEAM: PASS
 - 最終RED TEAM: 24/24 PASS
 - `NEXT_STYLE_BATCH_GATE`: PASS
-- M098尾道市・M099福山市のアプリ接続: HOLD（地域variant対応category正本待ち）
+- M098尾道市・M099福山市の完全category/style接続: HOLD。固定10品目の授業用variantは中立色の主要箱で接続済み
 
 成果物索引: `docs/style_research/README.md`
 
@@ -218,6 +233,10 @@ MASTER範囲はM136〜M143です。
 - `docs/research/`：Batch QA・CI記録
 - `docs/workflow/`：作業フロー履歴（現行 v1.28）
 - `data/style_research/`：公式色の観測・UI projection・出典台帳
+- `data/app/district_scopes.csv`：地域variantの内部地域索引
+- `data/app/lesson_variant_groups.csv`：固定10品目に必要な学習者向け地域グループ
+- `data/app/lesson_variant_teaching_boxes.csv`：地域variant用の授業用主要箱
+- `data/app/lesson_variant_item_scoring.csv`：地域variant group別の固定10品目採点
 - `docs/style_research/`：Style Schema、QA、RED TEAM、Gate、HANDOFF
 - `scripts/build_batch_*.py`：Batch再生成
 - `scripts/red_team_batch_*.py`：Batch専用RED TEAM

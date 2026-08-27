@@ -17,3 +17,7 @@
 - オンライン／対面がネットワーク状態ではなく授業モードとして実装されること
 
 `red_team_lesson_scoring_modes.py`は、scope内のすべての`LESSON_READY_10`自治体に対して、10品目欠落、条件枝削除、二重scoring branch、条件枝未完、公式根拠欠落、誤category、10品目からAPP_READYへの偽昇格をmutationで検出します。旧`red_team_app_ready_lesson_modes.py`は互換entrypointです。
+
+`validate_lesson_variants.py`は、M098/M099の`district_scope`と`lesson_variant_group`を分離して検証します。尾道市で地域選択を増やさないこと、福山市で紙類の正答差を3グループに維持すること、各グループが固定10品目を過不足なく持つこと、教師用条件・例外を学習者UIへ出さないことを確認します。
+
+`red_team_lesson_variants.py`は、向島町立花の不要分割、沼隈町の誤グループ化、福山市3グループの紙パック・新聞の誤採点、内部district scopeの学習者露出など12 mutationを拒否します。

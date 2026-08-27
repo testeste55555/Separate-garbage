@@ -1,0 +1,14 @@
+municipality_id,source_id,資料名,資料種別,公式URL,発行主体,対象年度,ページ更新日,取得確認日,使用した情報,優先度,現行性,備考,official_verified,official_basis,official_linking_url
+M098,S-M098-01,ごみ・資源物の分別方法（向島、御調、因島、瀬戸田以外の地域）,自治体公式Webページ,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,尾道市,令和8年度,2026-04-01,2026-08-27,固定10品目の主要分別先・尾道地域の資源回収・有害ごみ,1,現行,,TRUE,MUNICIPAL_DOMAIN,
+M098,S-M098-02,ごみ・資源物の分別方法（向島町）,自治体公式Webページ,https://www.city.onomichi.hiroshima.jp/soshiki/16/3020.html,尾道市,令和8年度,2026-04-01,2026-08-27,向島町立花以外・立花の地域範囲と資源回収差,2,現行,,TRUE,MUNICIPAL_DOMAIN,
+M098,S-M098-03,ごみ・資源物の分別方法（御調町地域）,自治体公式Webページ,https://www.city.onomichi.hiroshima.jp/soshiki/16/3027.html,尾道市,令和8年度,2026-04-01,2026-08-27,御調町の地域範囲と固定10品目主要分別先,3,現行,,TRUE,MUNICIPAL_DOMAIN,
+M098,S-M098-04,ごみ・資源物の分別方法（因島地域）,自治体公式Webページ,https://www.city.onomichi.hiroshima.jp/soshiki/18/3322.html,尾道市,令和8年度,2026-04-01,2026-08-27,因島地域の地域範囲と固定10品目主要分別先,4,現行,,TRUE,MUNICIPAL_DOMAIN,
+M098,S-M098-05,ごみ・資源物の分別方法（瀬戸田町地域）,自治体公式Webページ,https://www.city.onomichi.hiroshima.jp/soshiki/18/3337.html,尾道市,令和8年度,2026-04-01,2026-08-27,瀬戸田町の地域範囲と固定10品目主要分別先,5,現行,,TRUE,MUNICIPAL_DOMAIN,
+M099,S-M099-01,2026年度 福山市一般廃棄物処理実施計画,自治体公式PDF,https://www.city.fukuyama.hiroshima.jp/uploaded/life/395517_2433553_misc.pdf,福山市,令和8年度,2026-04-01,2026-08-27,家庭ごみ7区分・固定10品目の主要分類・紙類の地域差,1,現行,,TRUE,MUNICIPAL_DOMAIN,
+M099,S-M099-02,ごみ分別ガイドブック,自治体公式Webページ,https://www.city.fukuyama.hiroshima.jp/site/kankyo/89267.html,福山市,令和8年度,2024-03-31,2026-08-27,市内版・内海町版ガイドへの公式導線,2,現行案内中,,TRUE,MUNICIPAL_DOMAIN,
+M099,S-M099-03,福山市ごみ分別ガイドブック 内海町版,自治体公式PDF,https://www.city.fukuyama.hiroshima.jp/uploaded/attachment/273294.pdf,福山市,令和8年度,2024-04,2026-08-27,内海町の固定10品目主要分別先・紙パックを含む紙類,3,現行案内中,現行ガイドページから内海町版として案内,TRUE,MUNICIPAL_DOMAIN,https://www.city.fukuyama.hiroshima.jp/site/kankyo/89267.html
+M099,S-M099-04,沼隈町の紙類,自治体公式Webページ,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314393.html,福山市,令和8年度,2024-02-01,2026-08-27,沼隈町の新聞・段ボール・紙パックを含む紙類4区分,4,現行案内中,,TRUE,MUNICIPAL_DOMAIN,
+M099,S-M099-05,2026年度家庭ごみ収集日程表,自治体公式Webページ,https://www.city.fukuyama.hiroshima.jp/site/kankyo/390886.html,福山市,令和8年度,2026-02-20,2026-08-27,地域別現行収集体系と使用済乾電池等の現行運用,5,現行,,TRUE,MUNICIPAL_DOMAIN,
+M099,S-M099-06,ごみ分別辞典,自治体公式Webページ,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,福山市,令和8年度,2025-03-31,2026-08-27,使い捨てライター等の品目別分別先,6,現行,,TRUE,MUNICIPAL_DOMAIN,
+M099,S-M099-07,火災防止のため正しい分別にご協力ください,自治体公式Webページ,https://www.city.fukuyama.hiroshima.jp/site/kankyo/309477.html,福山市,令和8年度,2023-09-21,2026-08-27,モバイルバッテリー・使い捨てライターの分別先と安全な前処理,7,現行案内中,,TRUE,MUNICIPAL_DOMAIN,
+M099,S-M099-08,「蛍光灯」や「ストーブ類」の出し方,自治体公式Webページ,https://www.city.fukuyama.hiroshima.jp/site/kankyo/1430.html,福山市,令和8年度,2025-04-01,2026-08-27,白熱電球・LED電球・蛍光灯の分別先,8,現行,,TRUE,MUNICIPAL_DOMAIN,
