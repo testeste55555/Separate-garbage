@@ -27,6 +27,7 @@ def main() -> int:
     errors, _, _ = validate_dataset(label="BATCH_11", **p)
     _, munis = read_csv(p["municipality_path"])
     _, cats = read_csv(p["category_path"])
+    _, sources = read_csv(p["source_path"])
     _, qa = read_csv(p["qa_path"])
     _, cov = read_csv(p["coverage_path"])
     _, evidence = read_csv(p["review_evidence_path"])
@@ -37,6 +38,7 @@ def main() -> int:
     names = {mid: {r["自治体正式名称"] for r in cats if r["municipality_id"] == mid and r.get("rule_status") == "CURRENT"} for mid in TARGETS}
     rows = {(r["municipality_id"], r["自治体正式名称"]): r for r in cats if r.get("rule_status") == "CURRENT"}
     children = Counter(r.get("parent_category_id", "") for r in cats if r.get("parent_category_id"))
+    source_by_key = {(r["municipality_id"], r["source_id"]): r for r in sources}
 
     checks = []
     checks.append(("structural validation passes", not errors, f"errors={len(errors)}"))
@@ -86,7 +88,14 @@ def main() -> int:
 
     checks.append(("coverage exactly ten x forty", len(cov) == 400 and Counter(r["municipality_id"] for r in cov) == Counter({mid: 40 for mid in TARGETS}), f"coverage={len(cov)}"))
     checks.append(("no generic/filler category detail survives", not any(is_placeholder_category_value(r.get(f, "")) for r in cats for f in CATEGORY_DETAIL_FIELDS), f"categories={len(cats)}"))
-    checks.append(("all category evidence uses research date", all(r.get("確認日") == "2026-08-19" for r in cats), ""))
+    checks.append((
+        "all category evidence dates match their cited source review dates",
+        all(
+            r.get("確認日") == source_by_key.get((r["municipality_id"], r["source_id"]), {}).get("取得確認日")
+            for r in cats
+        ),
+        "",
+    ))
 
     passed = sum(ok for _, ok, _ in checks)
     for name, ok, detail in checks:

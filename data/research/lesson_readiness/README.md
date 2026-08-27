@@ -6,6 +6,7 @@
 
 - M097 三原市：10品目・19条件枝
 - M105 廿日市市：10品目・22条件枝
+- M106 安芸高田市：10品目・18条件枝。I029は非通常収集categoryを保持し、教材のみ`SIMPLIFIED_ACTION`へ投影
 - M098 尾道市：1 lesson variant group・10採点pair
 - M099 福山市：3 lesson variant group・30採点pair
 
@@ -20,6 +21,7 @@ M098/M099は自治体単位の完全categoryを作らず、`data/app/district_sc
 - 通常枝だけでなく例外の公式source・URL・locatorも保持
 - 地域variantの正式名称・条件を他地域と統合しない
 - 非BOX経路を通常の仕分けBOXにしない
+- 非通常収集categoryを保持したまま教材用簡略行動箱へ投影する場合は、`SIMPLIFIED_ACTION`を明示し、特殊回収経路・施設・条件詳細を学習者UIへ出さない
 
 反映と検証：
 

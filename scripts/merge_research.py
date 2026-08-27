@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from pathlib import Path
 
 from schema_v12 import completed_batch_dirs, read_csv, write_csv
@@ -61,7 +62,8 @@ def merge_sources(target: Path, inputs: list[Path]) -> None:
 
 
 def merge_review_table(target: Path, inputs: list[Path], key_fields: list[str], status_field: str,
-                       manual_statuses: set[str]) -> None:
+                       manual_statuses: set[str],
+                       sort_key: Callable[[dict[str, str]], tuple[object, ...]] | None = None) -> None:
     existing = {}
     if target.exists():
         _, rows = read_csv(target)
@@ -83,7 +85,8 @@ def merge_review_table(target: Path, inputs: list[Path], key_fields: list[str], 
     for key, row in existing.items():
         if key not in merged and row.get(status_field) in manual_statuses:
             merged[key] = row
-    write_csv(target, fields, sorted(merged.values(), key=lambda row: tuple(row[field] for field in key_fields)))
+    row_sort_key = sort_key or (lambda row: tuple(row[field] for field in key_fields))
+    write_csv(target, fields, sorted(merged.values(), key=row_sort_key))
     print(f"{target.relative_to(ROOT)}={len(merged)}")
 
 
@@ -115,6 +118,10 @@ def main() -> None:
     merge_review_table(
         RESEARCH / "05_item_mapping_master.csv", mapping_inputs,
         ["mapping_id"], "mapping_status", {"VERIFIED", "APP_READY"},
+        sort_key=lambda row: (
+            row["municipality_id"], row["internal_item_id"],
+            int(row["branch_order"]), row["mapping_id"],
+        ),
     )
     merge_review_table(
         RESEARCH / "07_item_mapping_coverage.csv", coverage_inputs,

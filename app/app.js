@@ -9,6 +9,8 @@
     itemAssets: "../data/app/item_image_assets.csv",
     imageMappingPilot: "../data/app/item_image_mapping_pilot_top8.csv",
     lessonScope: "../data/app/lesson_mode_app_ready_scope.csv",
+    lessonTeachingBoxes: "../data/app/lesson_teaching_boxes.csv",
+    lessonItemScoringProjection: "../data/app/lesson_item_scoring_projection.csv",
     districtScopes: "../data/app/district_scopes.csv",
     lessonVariantGroups: "../data/app/lesson_variant_groups.csv",
     lessonVariantBoxes: "../data/app/lesson_variant_teaching_boxes.csv",
@@ -55,6 +57,9 @@
   let scoringReadyPairs = new Set();
   let scoringReadyMunicipalities = new Set();
   let itemsByMunicipality = new Map();
+  let lessonBoxesByMunicipalityAndMode = new Map();
+  let lessonProjectionByPair = new Map();
+  let lessonTeachingMunicipalities = new Set();
   let lessonVariantGroupsByMunicipality = new Map();
   let lessonVariantGroupById = new Map();
   let lessonVariantBoxesByGroupAndMode = new Map();
@@ -236,6 +241,36 @@
     return null;
   }
 
+  function buildLessonTeachingData(boxRows, projectionRows) {
+    lessonBoxesByMunicipalityAndMode = new Map();
+    lessonProjectionByPair = new Map();
+    lessonTeachingMunicipalities = new Set();
+
+    for (const row of boxRows) {
+      const municipalityId = row.municipality_id?.trim();
+      const boxId = row.teaching_box_id?.trim();
+      const classMode = row.class_mode?.trim();
+      if (!municipalityId || !boxId || ![ONLINE_CLASS_MODE, IN_PERSON_CLASS_MODE].includes(classMode)) continue;
+      const key = `${municipalityId}::${classMode}`;
+      if (!lessonBoxesByMunicipalityAndMode.has(key)) lessonBoxesByMunicipalityAndMode.set(key, []);
+      lessonBoxesByMunicipalityAndMode.get(key).push(row);
+      lessonTeachingMunicipalities.add(municipalityId);
+    }
+    for (const rows of lessonBoxesByMunicipalityAndMode.values()) {
+      rows.sort((a, b) => numericOrder(a.display_order) - numericOrder(b.display_order));
+    }
+
+    for (const row of projectionRows) {
+      const municipalityId = row.municipality_id?.trim();
+      const itemId = row.internal_item_id?.trim();
+      const boxId = row.teaching_box_id?.trim();
+      if (!municipalityId || !itemId || !boxId || row.review_status?.trim() !== "COMPLETE") continue;
+      const onlineBoxes = lessonBoxesByMunicipalityAndMode.get(`${municipalityId}::${ONLINE_CLASS_MODE}`) ?? [];
+      if (!onlineBoxes.some((box) => box.teaching_box_id?.trim() === boxId)) continue;
+      lessonProjectionByPair.set(pairKey(municipalityId, itemId), row);
+    }
+  }
+
   function buildItemData(assetRows, imageMappingRows) {
     assetsByItem = new Map(
       assetRows
@@ -254,15 +289,18 @@
 
       const asset = assetsByItem.get(itemId);
       const imageFile = asset?.image_file?.trim();
-      const sortBucket = findSortBucket(municipalityId, row.category_id?.trim());
-      if (!asset || !sortBucket || !SAFE_IMAGE_RE.test(imageFile ?? "") || !imageFile.startsWith(`${itemId}_`)) continue;
+      const projection = lessonProjectionByPair.get(pairKey(municipalityId, itemId));
+      const sortBucket = projection ? null : findSortBucket(municipalityId, row.category_id?.trim());
+      const projectionMatches = projection?.category_id?.trim() === row.category_id?.trim();
+      const uiCategoryId = projectionMatches ? projection.teaching_box_id.trim() : sortBucket?.category_id?.trim();
+      if (!asset || !uiCategoryId || !SAFE_IMAGE_RE.test(imageFile ?? "") || !imageFile.startsWith(`${itemId}_`)) continue;
 
       const item = {
         municipalityId,
         itemId,
         imageFile,
         pairOrder: numericOrder(row.pair_order),
-        uiCategoryId: sortBucket.category_id.trim()
+        uiCategoryId
       };
       if (!itemsByMunicipality.has(municipalityId)) itemsByMunicipality.set(municipalityId, []);
       itemsByMunicipality.get(municipalityId).push(item);
@@ -395,7 +433,9 @@
   }
 
   function populateMunicipalitySelect() {
-    const ids = [...new Set([...bucketsByMunicipality.keys(), ...lessonVariantGroupsByMunicipality.keys()])]
+    const ids = [...new Set([
+      ...bucketsByMunicipality.keys(), ...lessonVariantGroupsByMunicipality.keys(), ...lessonTeachingMunicipalities
+    ])]
       .filter((id) => municipalitiesById.has(id))
       .sort((a, b) => {
         const aa = municipalitiesById.get(a);
@@ -459,6 +499,9 @@
       if (![ONLINE_CLASS_MODE, IN_PERSON_CLASS_MODE].includes(classMode)) return [];
       return lessonVariantBoxesByGroupAndMode.get(`${activeLessonVariantGroupId}::${classMode}`) ?? [];
     }
+    const classMode = lessonModeSelect.value;
+    const lessonRows = lessonBoxesByMunicipalityAndMode.get(`${id}::${classMode}`) ?? [];
+    if (lessonRows.length > 0) return lessonRows;
     return bucketsByMunicipality.get(id) ?? [];
   }
 
@@ -477,7 +520,6 @@
     }
 
     const rows = displayRows(id);
-    const usesLessonVariant = Boolean(activeLessonVariantGroupId);
     const interactive = lessonModeSelect.value === ONLINE_CLASS_MODE && activeItems.length > 0;
     bucketGrid.dataset.columns = String(displayColumns(rows.length));
 
@@ -490,9 +532,10 @@
     }
 
     for (const row of rows) {
-      const categoryId = usesLessonVariant ? row.teaching_box_id.trim() : row.category_id.trim();
-      const label = usesLessonVariant ? row.display_name.trim() : row["自治体正式名称"].trim();
-      const style = usesLessonVariant ? null : stylesByBucket.get(styleKey(id, categoryId));
+      const usesTeachingBox = Boolean(row.teaching_box_id?.trim());
+      const categoryId = usesTeachingBox ? row.teaching_box_id.trim() : row.category_id.trim();
+      const label = usesTeachingBox ? row.display_name.trim() : row["自治体正式名称"].trim();
+      const style = usesTeachingBox ? null : stylesByBucket.get(styleKey(id, categoryId));
       const status = style?.color_status?.trim() || "NO_STYLE_RESEARCH";
       const box = document.createElement(interactive ? "button" : "div");
       if (box instanceof HTMLButtonElement) box.type = "button";
@@ -654,6 +697,8 @@
         fetchText(DATA_PATHS.itemAssets),
         fetchText(DATA_PATHS.imageMappingPilot),
         fetchText(DATA_PATHS.lessonScope),
+        fetchText(DATA_PATHS.lessonTeachingBoxes),
+        fetchText(DATA_PATHS.lessonItemScoringProjection),
         fetchText(DATA_PATHS.districtScopes),
         fetchText(DATA_PATHS.lessonVariantGroups),
         fetchText(DATA_PATHS.lessonVariantBoxes),
@@ -663,6 +708,7 @@
       const texts = await Promise.all(requests);
       const [
         municipalityText, researchText, categoryText, styleText, assetText, mappingText, scopeText,
+        teachingBoxText, scoringProjectionText,
         districtScopeText, variantGroupText, variantBoxText, variantScoringText
       ] = texts;
       const scopeRows = parseCsv(scopeText);
@@ -682,6 +728,7 @@
         scopeRows,
         new Map(reviewEntries.map(([municipalityId], index) => [municipalityId, parseCsv(reviewTexts[index])]))
       );
+      buildLessonTeachingData(parseCsv(teachingBoxText), parseCsv(scoringProjectionText));
       buildItemData(parseCsv(assetText), parseCsv(mappingText));
       buildLessonVariantData(
         parseCsv(districtScopeText),

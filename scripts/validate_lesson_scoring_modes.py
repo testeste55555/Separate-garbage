@@ -18,6 +18,8 @@ ITEMS = ROOT / "data/master/04_common_items_master.csv"
 ASSETS = ROOT / "data/app/item_image_assets.csv"
 IMAGE_MAPPING = ROOT / "data/app/item_image_mapping_pilot_top8.csv"
 LESSON_SCOPE = ROOT / "data/app/lesson_mode_app_ready_scope.csv"
+TEACHING_BOXES = ROOT / "data/app/lesson_teaching_boxes.csv"
+SCORING_PROJECTION = ROOT / "data/app/lesson_item_scoring_projection.csv"
 HTML = ROOT / "app/index.html"
 JS = ROOT / "app/app.js"
 CSS = ROOT / "app/styles.css"
@@ -26,6 +28,7 @@ APP_READY = "APP_READY"
 LESSON_READY = "LESSON_READY_10"
 EXPECTED_APP_READY_ITEMS = {f"I{i:03d}" for i in range(1, 41)}
 EXPECTED_IMAGE_ITEMS = 10
+EXPECTED_IMAGE_ITEMS_SET = {"I001", "I004", "I006", "I007", "I013", "I014", "I017", "I029", "I031", "I033"}
 IMAGE_RE = re.compile(r"I\d{3}_[A-Za-z0-9_]+\.png")
 REVIEW_PATH_RE = re.compile(r"data/research/(?:app_readiness|lesson_readiness)/m\d{3}_item_review\.csv")
 CURRENT_SOURCE = {"CURRENT", "現行", "現行案内中"}
@@ -39,6 +42,13 @@ LESSON_EXTRA_FIELDS = [
     "scoring_branch", "exception_evidence_source_id", "exception_evidence_url",
     "exception_evidence_locator",
 ]
+EXPECTED_REGRESSION_STATUS = {
+    "M094": APP_READY, "M095": APP_READY, "M104": APP_READY,
+    "M097": LESSON_READY, "M105": LESSON_READY, "M106": LESSON_READY,
+}
+FORBIDDEN_LEARNER_ROUTE_TERMS = {
+    "販売店", "リサイクル業者", "施設", "持込", "持ち込み", "引取", "小型家電回収ボックス",
+}
 
 
 def read_csv(path: Path) -> tuple[list[str], list[dict[str, str]]]:
@@ -81,6 +91,8 @@ def build_context(root: Path = ROOT) -> dict[str, object]:
     coverage = read_rows(root / COVERAGE.relative_to(ROOT))
     items = read_rows(root / ITEMS.relative_to(ROOT))
     assets = read_rows(root / ASSETS.relative_to(ROOT))
+    teaching_boxes = read_rows(root / TEACHING_BOXES.relative_to(ROOT))
+    scoring_projection = read_rows(root / SCORING_PROJECTION.relative_to(ROOT))
     return {
         "category_by_key": {(r["municipality_id"], r["category_id"]): r for r in categories},
         "source_by_key": {(r["municipality_id"], r["source_id"]): r for r in sources},
@@ -91,6 +103,14 @@ def build_context(root: Path = ROOT) -> dict[str, object]:
         "item_by_id": {r["internal_item_id"]: r for r in items},
         "image_item_ids": {
             r["internal_item_id"] for r in assets if r.get("asset_status") == "CONFIRMED"
+        },
+        "teaching_boxes": teaching_boxes,
+        "teaching_box_by_key": {
+            (r["municipality_id"], r["class_mode"], r["teaching_box_id"]): r for r in teaching_boxes
+        },
+        "scoring_projection": scoring_projection,
+        "projection_by_pair": {
+            (r["municipality_id"], r["internal_item_id"]): r for r in scoring_projection
         },
     }
 
@@ -115,6 +135,89 @@ def validate_official_reference(
         errors.append(f"{label}: source URL mismatch")
 
 
+def validate_teaching_projection(
+    teaching_boxes: list[dict[str, str]],
+    scoring_projection: list[dict[str, str]],
+    category_by_key: dict[tuple[str, str], dict[str, str]],
+) -> list[str]:
+    """Keep learner actions separate from the detailed official category layer."""
+    errors: list[str] = []
+    box_counts = Counter(
+        (row.get("municipality_id", ""), row.get("class_mode", ""), row.get("teaching_box_id", ""))
+        for row in teaching_boxes
+    )
+    duplicates = sorted(key for key, count in box_counts.items() if "" in key or count != 1)
+    if duplicates:
+        errors.append(f"teaching boxes contain blank or duplicate keys: {duplicates}")
+    box_by_key = {
+        (row.get("municipality_id", ""), row.get("class_mode", ""), row.get("teaching_box_id", "")): row
+        for row in teaching_boxes
+    }
+
+    for row in teaching_boxes:
+        mid = row.get("municipality_id", "")
+        box_id = row.get("teaching_box_id", "")
+        mode = row.get("class_mode", "")
+        kind = row.get("box_kind", "")
+        label = row.get("display_name", "")
+        category = category_by_key.get((mid, row.get("category_id", "")), {})
+        if mode not in {"ONLINE_CLASS", "IN_PERSON_CLASS"}:
+            errors.append(f"{mid}/{box_id}: invalid class mode")
+        if kind not in {"FIXED_10_SCORING", "SIMPLIFIED_ACTION", "MAJOR_CATEGORY"}:
+            errors.append(f"{mid}/{box_id}: invalid teaching box kind")
+        if mode == "ONLINE_CLASS" and kind == "MAJOR_CATEGORY":
+            errors.append(f"{mid}/{box_id}: online fixed scoring uses a major-category box")
+        if mode == "IN_PERSON_CLASS" and kind != "MAJOR_CATEGORY":
+            errors.append(f"{mid}/{box_id}: in-person boxes must be MAJOR_CATEGORY")
+        if not category or category.get("rule_status") != "CURRENT":
+            errors.append(f"{mid}/{box_id}: teaching box lacks a current evidence category")
+        if not label or any(term in label for term in FORBIDDEN_LEARNER_ROUTE_TERMS):
+            errors.append(f"{mid}/{box_id}: learner label exposes a special collection route")
+
+    projection_counts = Counter(
+        (row.get("municipality_id", ""), row.get("internal_item_id", "")) for row in scoring_projection
+    )
+    duplicate_pairs = sorted(key for key, count in projection_counts.items() if "" in key or count != 1)
+    if duplicate_pairs:
+        errors.append(f"scoring projection contains blank or duplicate pairs: {duplicate_pairs}")
+
+    for row in scoring_projection:
+        mid = row.get("municipality_id", "")
+        iid = row.get("internal_item_id", "")
+        category_id = row.get("category_id", "")
+        projection_kind = row.get("projection_kind", "")
+        box = box_by_key.get((mid, "ONLINE_CLASS", row.get("teaching_box_id", "")), {})
+        category = category_by_key.get((mid, category_id), {})
+        sort_bucket = resolve_sort_bucket(mid, category_id, category_by_key)
+        if row.get("review_status") != "COMPLETE" or not box:
+            errors.append(f"{mid}/{iid}: incomplete or missing online scoring projection")
+            continue
+        if box.get("category_id") != category_id:
+            errors.append(f"{mid}/{iid}: projection/category evidence mismatch")
+        if projection_kind == "SIMPLIFIED_ACTION":
+            if box.get("box_kind") != "SIMPLIFIED_ACTION":
+                errors.append(f"{mid}/{iid}: SIMPLIFIED_ACTION is not distinct from official scoring boxes")
+            if sort_bucket or category.get("ui_role") != "EXCLUDED_NOTICE" or category.get("collection_channel") != "NOT_COLLECTED":
+                errors.append(f"{mid}/{iid}: simplified action does not preserve a non-normal category")
+        elif projection_kind == "OFFICIAL_CATEGORY":
+            if box.get("box_kind") != "FIXED_10_SCORING" or not sort_bucket:
+                errors.append(f"{mid}/{iid}: normal answer is not backed by a CURRENT SORT_BUCKET")
+        else:
+            errors.append(f"{mid}/{iid}: invalid projection kind")
+
+    m106_items = {row.get("internal_item_id") for row in scoring_projection if row.get("municipality_id") == "M106"}
+    if m106_items != EXPECTED_IMAGE_ITEMS_SET:
+        errors.append(f"M106: teaching projection must cover the fixed 10 items, got {sorted(m106_items)}")
+    m106_online = [row for row in teaching_boxes if row.get("municipality_id") == "M106" and row.get("class_mode") == "ONLINE_CLASS"]
+    m106_in_person = [row for row in teaching_boxes if row.get("municipality_id") == "M106" and row.get("class_mode") == "IN_PERSON_CLASS"]
+    if len(m106_online) != 9 or len(m106_in_person) != 6:
+        errors.append(f"M106: expected 9 online scoring boxes and 6 in-person major boxes")
+    i029 = next((row for row in scoring_projection if row.get("municipality_id") == "M106" and row.get("internal_item_id") == "I029"), {})
+    if i029.get("projection_kind") != "SIMPLIFIED_ACTION":
+        errors.append("M106/I029: non-normal route must use SIMPLIFIED_ACTION")
+    return errors
+
+
 def validate_scope_review(
     scope_row: dict[str, str],
     review_fields: list[str],
@@ -130,12 +233,14 @@ def validate_scope_review(
     coverage_by_key = context["coverage_by_key"]
     item_by_id = context["item_by_id"]
     image_item_ids = context["image_item_ids"]
+    projection_by_pair = context["projection_by_pair"]
     assert isinstance(category_by_key, dict)
     assert isinstance(source_by_key, dict)
     assert isinstance(mapping_by_key, dict)
     assert isinstance(coverage_by_key, dict)
     assert isinstance(item_by_id, dict)
     assert isinstance(image_item_ids, set)
+    assert isinstance(projection_by_pair, dict)
 
     if review_fields[: len(REVIEW_FIELDS)] != REVIEW_FIELDS:
         errors.append(f"{mid}: review header does not start with the common audit fields")
@@ -221,6 +326,15 @@ def validate_scope_review(
                     locator=row.get("exception_evidence_locator", ""),
                     source_by_key=source_by_key,
                 )
+                if row.get("scoring_branch") == "TRUE":
+                    category_id = row.get("category_id", "")
+                    projection = projection_by_pair.get((mid, iid), {})
+                    if not resolve_sort_bucket(mid, category_id, category_by_key):
+                        if not (
+                            projection.get("projection_kind") == "SIMPLIFIED_ACTION"
+                            and projection.get("category_id") == category_id
+                        ):
+                            errors.append(f"{label}: non-normal scoring category lacks SIMPLIFIED_ACTION projection")
             mapping = mapping_by_key.get((mid, iid, row.get("branch_order", "")), {})
             comparisons = {
                 "official_item_wording": "自治体での品目表記",
@@ -249,7 +363,14 @@ def validate(root: Path = ROOT) -> list[str]:
     errors: list[str] = []
     context = build_context(root)
     category_by_key = context["category_by_key"]
+    teaching_boxes = context["teaching_boxes"]
+    scoring_projection = context["scoring_projection"]
+    projection_by_pair = context["projection_by_pair"]
     assert isinstance(category_by_key, dict)
+    assert isinstance(teaching_boxes, list)
+    assert isinstance(scoring_projection, list)
+    assert isinstance(projection_by_pair, dict)
+    errors.extend(validate_teaching_projection(teaching_boxes, scoring_projection, category_by_key))
     assets = read_rows(root / ASSETS.relative_to(ROOT))
     image_mapping = read_rows(root / IMAGE_MAPPING.relative_to(ROOT))
     scope = read_rows(root / LESSON_SCOPE.relative_to(ROOT))
@@ -306,6 +427,9 @@ def validate(root: Path = ROOT) -> list[str]:
 
     interactive: list[tuple[str, str]] = []
     scope_by_mid = {row["municipality_id"]: row for row in scope}
+    for mid, expected_status in EXPECTED_REGRESSION_STATUS.items():
+        if scope_by_mid.get(mid, {}).get("scoring_status") != expected_status:
+            errors.append(f"{mid}: scoring readiness regression; expected {expected_status}")
     for row in image_mapping:
         mid = row.get("municipality_id", "")
         iid = row.get("internal_item_id", "")
@@ -338,8 +462,13 @@ def validate(root: Path = ROOT) -> list[str]:
             errors.append(f"{mid}/{iid}: image file missing")
             continue
         if not resolve_sort_bucket(mid, row.get("category_id", ""), category_by_key):
-            errors.append(f"{mid}/{iid}: scoring answer is not a CURRENT SORT_BUCKET")
-            continue
+            projection = projection_by_pair.get((mid, iid), {})
+            if not (
+                projection.get("projection_kind") == "SIMPLIFIED_ACTION"
+                and projection.get("category_id") == row.get("category_id", "")
+            ):
+                errors.append(f"{mid}/{iid}: scoring answer is neither CURRENT SORT_BUCKET nor safe SIMPLIFIED_ACTION")
+                continue
         interactive.append((mid, iid))
 
     counts = Counter(mid for mid, _ in interactive)
@@ -372,7 +501,10 @@ def validate(root: Path = ROOT) -> list[str]:
         'const IN_PERSON_CLASS_MODE = "IN_PERSON_CLASS"',
         'const LESSON_READY_STATUS = "LESSON_READY_10"',
         'lessonScope: "../data/app/lesson_mode_app_ready_scope.csv"',
+        'lessonTeachingBoxes: "../data/app/lesson_teaching_boxes.csv"',
+        'lessonItemScoringProjection: "../data/app/lesson_item_scoring_projection.csv"',
         "buildScoringReadyData",
+        "buildLessonTeachingData",
         'row.branch_review_status?.trim() === "COMPLETE"',
         "scoringReadyMunicipalities.has(municipalityId)",
         "scoringReadyPairs.has(pairKey(municipalityId, itemId))",
