@@ -12,8 +12,8 @@
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.25.txt`：M094広島市APP readiness Pilotの履歴版
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.26.txt`：M104東広島市APP_READY化までの履歴版
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.27.txt`：LESSON_READY_10をAPP_READYから分離し、M097三原市の画像10品目・19条件枝を有効化した履歴版
-- `WORK_ゴミ出し情報収集フロー_143自治体_v1.28.txt`：**現行版**。M105廿日市市の画像10品目・22条件枝を追加し、mutation RED TEAMを全LESSON_READY_10自治体へ汎用化
-- `WORK_ゴミ出し情報収集フロー_143自治体_v1.29.txt`：**現行版**。M098尾道市・M099福山市で`district_scope`と`lesson_variant_group`を分離し、完全taxonomyのDEFERREDを維持したまま固定10品目の地域variantを有効化
+- `WORK_ゴミ出し情報収集フロー_143自治体_v1.28.txt`：M105廿日市市の画像10品目・22条件枝を追加し、mutation RED TEAMを全LESSON_READY_10自治体へ汎用化した履歴版
+- `WORK_ゴミ出し情報収集フロー_143自治体_v1.29.txt`：**現行版**。M098尾道市・M099福山市で`district_scope`と`lesson_variant_group`を分離し、オンライン固定10品目BOXと対面主要分別箱を分離
 
 ## 現在地
 
@@ -63,7 +63,7 @@
 - canonical：`VERIFIED + branch_completeness_confirmed=TRUE`
 - scoring branch：各品目1枝
 - 残り30品目：未完了を維持し、APP_READY 0/40として扱う
-- UI：画像・正式分別BOX・○/×のみ。条件・前処理・例外・出典は教師側に保持
+- UI：オンラインは画像・採点BOX・○/×、対面は主要分別箱。`資源回収・確認`は紙類差を示す教材用簡略行動箱で、条件・前処理・例外・出典は教師側に保持
 - mutation RED TEAM：全2自治体に9ケースずつ、18/18 PASS
 
 ## Batch 14

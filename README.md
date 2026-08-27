@@ -17,7 +17,7 @@
   - M076 備前市：地区別CURRENT分別体系が併存
   - M086 新庄村：公式一次資料本文を安定取得できず全区分を全件照合できない
   - M098 尾道市：尾道・向島・御調・因島・瀬戸田でCURRENT体系が併存
-  - M099 福山市：市内一般・内海町・沼隈町で住民向け分別単位に差
+  - M099 福山市：市内一般・内海町・沼隈町・走島町で住民向け分別単位に差
   - M100 府中市：府中地区と上下地区で住民向け表示単位・正式名称に差
   - M120 萩市：大島・見島・相島地区で一部分別区分が異なる
   - M123 岩国市：地域群により食品トレー等の分別先・排出方法が異なる
@@ -56,12 +56,15 @@
 完全な地域別category taxonomyと固定画像10品目に必要な教材差を分離し、`district_scope → lesson_variant_group → teaching box / scoring`を追加した。M098/M099の40品目・完全taxonomy側`DEFERRED`は維持する。
 
 - M098 尾道市：6内部scopeを1教材groupへ集約。地域選択を表示しない
+- M098固定10品目：6 scopeすべてを同一正答セットとして確認し、I031電球は教材上「有害ごみ系」に統一
 - M099 福山市：4内部scopeを一般地域／内海町・沼隈町／走島町の3教材groupへ集約
 - M099一般：紙パックは「資源回収・確認」
 - M099内海町・沼隈町：新聞・段ボール・紙パックは「紙類」
 - M099走島町：新聞・段ボール・紙パックは「資源回収・確認」
 - 固定10品目：4 group×10＝40採点pair
-- mutation RED TEAM：12/12 PASS
+- 対面授業：固定10品目専用BOXではなく、各groupの主要分別箱を表示
+- 「資源回収・確認」：自治体正式区分ではなく、紙類差を示す教材用簡略行動箱
+- variant mutation RED TEAM：18/18 PASS
 - learner UI：内部district名・条件・前処理・例外・出典を表示しない
 
 データ：`data/app/district_scopes.csv`、`data/app/lesson_variant_groups.csv`、`data/app/lesson_variant_teaching_boxes.csv`、`data/app/lesson_variant_item_scoring.csv`

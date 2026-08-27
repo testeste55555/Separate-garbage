@@ -9,7 +9,7 @@
 - M098 尾道市：1 lesson variant group・10採点pair
 - M099 福山市：3 lesson variant group・30採点pair
 
-M098/M099は自治体単位の完全categoryを作らず、`data/app/district_scopes.csv`と`lesson_variant_*`の地域variant専用層で保持します。尾道市の6内部scopeは教材上1グループ、福山市の4内部scopeは教材上3グループです。完全taxonomy・40品目`APP_READY`側の`DEFERRED`を解除するものではありません。
+M098/M099は自治体単位の完全categoryを作らず、`data/app/district_scopes.csv`と`lesson_variant_*`の地域variant専用層で保持します。尾道市は6内部scopeの固定10品目正答が教材上同一であることを確認して1グループとし、I031の資料表記差は「有害ごみ系」へ教材正規化します。福山市の4内部scopeは教材上3グループとし、内海町・沼隈町は再分割しません。完全taxonomy・40品目`APP_READY`側の`DEFERRED`を解除するものではありません。
 
 自治体追加時は、既存reviewをコピーして自治体・公式根拠・全条件枝を個別確認し、次を満たします。
 

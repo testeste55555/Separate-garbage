@@ -22,6 +22,8 @@ APP_JS = ROOT / "app/app.js"
 APP_HTML = ROOT / "app/index.html"
 
 TARGETS = {"M098", "M099"}
+ONLINE_CLASS_MODE = "ONLINE_CLASS"
+IN_PERSON_CLASS_MODE = "IN_PERSON_CLASS"
 IMAGE_ITEMS = {"I001", "I004", "I006", "I007", "I013", "I014", "I017", "I029", "I031", "I033"}
 EXPECTED_GROUPS = {
     "M098": {"LV-M098-01"},
@@ -63,6 +65,24 @@ EXPECTED_ANSWERS = {
         "I007": "TB-M099-03-01", "I013": "TB-M099-03-05", "I014": "TB-M099-03-05",
         "I017": "TB-M099-03-05", "I029": "TB-M099-03-04", "I031": "TB-M099-03-03",
         "I033": "TB-M099-03-04",
+    },
+}
+EXPECTED_IN_PERSON_BOXES = {
+    "LV-M098-01": {
+        "もやせるごみ", "もやせないごみ", "容器包装プラスチック", "ペットボトル",
+        "資源回収", "有害ごみ", "粗大ごみ",
+    },
+    "LV-M099-01": {
+        "燃やせるごみ", "容器包装プラスチックごみ", "資源ごみ", "紙類",
+        "不燃（破砕）ごみ", "燃やせる粗大ごみ", "使用済乾電池等", "資源回収・確認",
+    },
+    "LV-M099-02": {
+        "燃やせるごみ", "容器包装プラスチックごみ", "資源ごみ", "紙類",
+        "不燃（破砕）ごみ", "燃やせる粗大ごみ", "使用済乾電池等",
+    },
+    "LV-M099-03": {
+        "燃やせるごみ", "容器包装プラスチックごみ", "資源ごみ",
+        "不燃（破砕）ごみ", "燃やせる粗大ごみ", "使用済乾電池等", "資源回収・確認",
     },
 }
 CURRENT_SOURCE = {"CURRENT", "現行", "現行案内中"}
@@ -147,14 +167,39 @@ def validate_records(data: dict[str, list[dict[str, str]]], root: Path = ROOT) -
         if not row.get("official_locator"):
             errors.append(f"{sid}: district source locator is blank")
 
+    m098_scopes = [row for row in scopes if row.get("municipality_id") == "M098"]
+    if len(m098_scopes) != 6 or any(
+        row.get("fixed_10_answer_set_id") != "M098-FIXED10-V1" or
+        row.get("fixed_10_confirmation_status") != "CONFIRMED" or
+        row.get("i031_answer_family") != "有害ごみ系" or
+        not row.get("i031_evidence_locator")
+        for row in m098_scopes
+    ):
+        errors.append("M098 all six district scopes must confirm one fixed-10 answer set and the I031 hazardous-waste teaching family")
+
     box_ids = [row.get("teaching_box_id", "") for row in boxes]
     if any(not value for value in box_ids) or len(box_ids) != len(set(box_ids)):
         errors.append("teaching box IDs must be globally unique and nonblank")
     box_by_id = {row.get("teaching_box_id", ""): row for row in boxes}
+    in_person_names: dict[str, set[str]] = defaultdict(set)
     for row in boxes:
         gid = row.get("lesson_variant_group_id", "")
-        if gid not in group_by_id or not row.get("display_name") or not row.get("display_order"):
+        class_mode = row.get("class_mode", "")
+        box_kind = row.get("box_kind", "")
+        if (gid not in group_by_id or not row.get("display_name") or not row.get("display_order") or
+                class_mode not in {ONLINE_CLASS_MODE, IN_PERSON_CLASS_MODE} or
+                box_kind not in {"FIXED_10_SCORING", "MAJOR_CATEGORY", "SIMPLIFIED_ACTION"}):
             errors.append(f"{row.get('teaching_box_id', '')}: invalid teaching box")
+        if class_mode == IN_PERSON_CLASS_MODE:
+            in_person_names[gid].add(row.get("display_name", ""))
+            if box_kind == "FIXED_10_SCORING":
+                errors.append(f"{row.get('teaching_box_id', '')}: fixed-10-only box leaked into in-person mode")
+        if row.get("display_name") == "資源回収・確認" and box_kind != "SIMPLIFIED_ACTION":
+            errors.append(f"{row.get('teaching_box_id', '')}: 資源回収・確認 must be marked as a simplified teaching action")
+        if any(token in row.get("display_name", "") for token in {"フェリー", "持込", "施設", "特殊回収"}):
+            errors.append(f"{row.get('teaching_box_id', '')}: special route leaked into learner-facing box")
+    if dict(in_person_names) != EXPECTED_IN_PERSON_BOXES:
+        errors.append(f"in-person major teaching boxes mismatch: {dict(in_person_names)}")
 
     scoring_counts = Counter((row.get("lesson_variant_group_id", ""), row.get("internal_item_id", "")) for row in scoring)
     duplicate_pairs = sorted(pair for pair, count in scoring_counts.items() if count != 1)
@@ -173,6 +218,8 @@ def validate_records(data: dict[str, list[dict[str, str]]], root: Path = ROOT) -
         box = box_by_id.get(box_id, {})
         if box.get("lesson_variant_group_id") != gid:
             errors.append(f"{gid}/{iid}: answer box is outside the lesson group")
+        if box.get("class_mode") != ONLINE_CLASS_MODE:
+            errors.append(f"{gid}/{iid}: scoring answer must use an online fixed-10 box")
         if row.get("review_status") != "COMPLETE":
             errors.append(f"{gid}/{iid}: review is not COMPLETE")
         for field in ("condition", "preparation", "exception_destination", "evidence_locator", "checked_date", "reviewer"):
@@ -214,6 +261,7 @@ def validate_records(data: dict[str, list[dict[str, str]]], root: Path = ROOT) -
         'lessonVariantBoxes: "../data/app/lesson_variant_teaching_boxes.csv"',
         'lessonVariantScoring: "../data/app/lesson_variant_item_scoring.csv"',
         "buildLessonVariantData", "activeLessonVariantGroupId", "learner_selection_required",
+        "lessonVariantBoxesByGroupAndMode", "IN_PERSON_CLASS_MODE", "ONLINE_CLASS_MODE",
     }:
         if token not in js:
             errors.append(f"learner JavaScript missing variant safety token: {token}")

@@ -57,7 +57,7 @@
   let itemsByMunicipality = new Map();
   let lessonVariantGroupsByMunicipality = new Map();
   let lessonVariantGroupById = new Map();
-  let lessonVariantBoxesByGroup = new Map();
+  let lessonVariantBoxesByGroupAndMode = new Map();
   let lessonVariantItemsByGroup = new Map();
   let activeLessonVariantGroupId = "";
   let activeItems = [];
@@ -279,7 +279,7 @@
     );
     lessonVariantGroupsByMunicipality = new Map();
     lessonVariantGroupById = new Map();
-    lessonVariantBoxesByGroup = new Map();
+    lessonVariantBoxesByGroupAndMode = new Map();
     lessonVariantItemsByGroup = new Map();
 
     for (const row of groupRows) {
@@ -300,11 +300,14 @@
     for (const row of boxRows) {
       const groupId = row.lesson_variant_group_id?.trim();
       const boxId = row.teaching_box_id?.trim();
-      if (!groupId || !boxId || !lessonVariantGroupById.has(groupId)) continue;
-      if (!lessonVariantBoxesByGroup.has(groupId)) lessonVariantBoxesByGroup.set(groupId, []);
-      lessonVariantBoxesByGroup.get(groupId).push(row);
+      const classMode = row.class_mode?.trim();
+      if (!groupId || !boxId || ![ONLINE_CLASS_MODE, IN_PERSON_CLASS_MODE].includes(classMode) ||
+          !lessonVariantGroupById.has(groupId)) continue;
+      const key = `${groupId}::${classMode}`;
+      if (!lessonVariantBoxesByGroupAndMode.has(key)) lessonVariantBoxesByGroupAndMode.set(key, []);
+      lessonVariantBoxesByGroupAndMode.get(key).push(row);
     }
-    for (const rows of lessonVariantBoxesByGroup.values()) {
+    for (const rows of lessonVariantBoxesByGroupAndMode.values()) {
       rows.sort((a, b) => numericOrder(a.display_order) - numericOrder(b.display_order));
     }
 
@@ -315,7 +318,7 @@
       if (!groupId || !itemId || !boxId || row.review_status?.trim() !== "COMPLETE") continue;
       const group = lessonVariantGroupById.get(groupId);
       if (!group || group.municipality_id?.trim() !== row.municipality_id?.trim()) continue;
-      const boxes = lessonVariantBoxesByGroup.get(groupId) ?? [];
+      const boxes = lessonVariantBoxesByGroupAndMode.get(`${groupId}::${ONLINE_CLASS_MODE}`) ?? [];
       if (!boxes.some((box) => box.teaching_box_id?.trim() === boxId)) continue;
       const asset = assetsByItem.get(itemId);
       const imageFile = asset?.image_file?.trim();
@@ -451,7 +454,11 @@
   }
 
   function displayRows(id) {
-    if (activeLessonVariantGroupId) return lessonVariantBoxesByGroup.get(activeLessonVariantGroupId) ?? [];
+    if (activeLessonVariantGroupId) {
+      const classMode = lessonModeSelect.value;
+      if (![ONLINE_CLASS_MODE, IN_PERSON_CLASS_MODE].includes(classMode)) return [];
+      return lessonVariantBoxesByGroupAndMode.get(`${activeLessonVariantGroupId}::${classMode}`) ?? [];
+    }
     return bucketsByMunicipality.get(id) ?? [];
   }
 
