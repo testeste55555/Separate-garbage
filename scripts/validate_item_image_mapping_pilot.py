@@ -121,7 +121,9 @@ def validate_pilot_rows(pilot: list[dict[str, str]], root: Path = ROOT) -> list[
                 errors.append(f"unresolved pair was promoted in coverage: {label}")
             continue
 
-        if row.get("review_status") != "VERIFIED" or row.get("evidence_basis") not in {"DIRECT_ITEM", "OFFICIAL_CATEGORY_RULE"}:
+        if row.get("review_status") != "VERIFIED" or row.get("evidence_basis") not in {
+            "DIRECT_ITEM", "OFFICIAL_CATEGORY_RULE", "OFFICIAL_RULE_DERIVED",
+        }:
             errors.append(f"bad verified decision enum: {label}")
         required = [
             "category_id", "category_name", "condition", "preparation", "exception_destination",

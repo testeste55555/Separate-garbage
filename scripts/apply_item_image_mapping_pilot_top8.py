@@ -38,7 +38,10 @@ PILOT_FIELDS = [
 ]
 
 
-def source(mid: str, sid: str, title: str, kind: str, url: str, used: str, issuer: str) -> dict[str, str]:
+def source(
+    mid: str, sid: str, title: str, kind: str, url: str, used: str, issuer: str,
+    *, checked: str = CHECKED, updated: str = "", note: str = "画像品目mapping Pilotの品目別公式根拠として追加。",
+) -> dict[str, str]:
     return {
         "municipality_id": mid,
         # Supplemental, reviewed item sources use the IS-* namespace so the
@@ -49,12 +52,12 @@ def source(mid: str, sid: str, title: str, kind: str, url: str, used: str, issue
         "公式URL": url,
         "発行主体": issuer,
         "対象年度": "2026年度／取得時点現行",
-        "ページ更新日": "",
-        "取得確認日": CHECKED,
+        "ページ更新日": updated,
+        "取得確認日": checked,
         "使用した情報": used,
         "優先度": "1",
         "現行性": "CURRENT",
-        "備考": "画像品目mapping Pilotの品目別公式根拠として追加。",
+        "備考": note,
         "official_verified": "TRUE",
         "official_basis": "MUNICIPAL_DOMAIN",
         "official_linking_url": "",
@@ -104,6 +107,11 @@ NEW_SOURCES = [
     source("M104", "S-M104-06", "雑誌・雑がみ・ダンボールの出し方", "自治体公式Webページ",
            "https://www.city.higashihiroshima.lg.jp/soshiki/seikatsukankyo/8/4/1/15033.html",
            "ダンボール・紙パックの資源回収区分", "東広島市"),
+    source("M106", "S-M106-02", "リチウムイオン電池からの火災に注意！！", "自治体公式Webページ",
+           "https://www.akitakata.jp/ja/shisei/section/119/m148-copy-5/",
+           "モバイルバッテリーを一般ごみ・小型家電回収ボックスへ出せないことと販売店等の引取経路", "安芸高田市",
+           checked="2026-08-27", updated="2025-08-07",
+           note="M106 LESSON_READY_10の直接品目根拠として追加。"),
     source("M109", "S-M109-03", "モバイルバッテリー等の捨て方", "自治体公式Webページ",
            "https://www.town.kaita.lg.jp/img/koenokouhou/202404/22.html",
            "モバイルバッテリーの有害ごみ区分と絶縁", "海田町"),
@@ -176,10 +184,10 @@ R: dict[str, dict[str, tuple[str, str, str, str, str, str, str, str]]] = {
         "I001": ("C-M106-06", "S-M106-01", "ペットボトル欄", "PETマークのある飲料・特定調味料用ボトル", "キャップとラベルを外し、中を洗う", "汚れが落ちない物は燃えるごみ", "DIRECT_ITEM", "公式家庭ごみページの品目欄を採用。"),
         "I007": ("C-M106-05", "S-M106-01", "プラスチック製容器包装欄（食品トレイ）", "プラマークのある白色食品トレイ", "中身を除き、洗って乾かす", "汚れが落ちない物は燃えるごみ", "OFFICIAL_CATEGORY_RULE", "公式対象例と共通条件を適用。"),
         "I013": ("C-M106-02", "S-M106-01", "古紙類欄（新聞）", "新聞・折込広告", "種類別にまとめ、ひもで縛る", "汚れた紙・禁忌紙は燃えるごみ", "DIRECT_ITEM", "公式家庭ごみページの品目欄を採用。"),
-        "I004": ("C-M106-08", "S-M106-01", "かん類欄", "飲料・食品用のアルミ缶", "中を洗う", "スプレー缶は有害ごみ", "DIRECT_ITEM", "公式家庭ごみページの品目欄を採用。"),
+        "I004": ("C-M106-08", "S-M106-01", "かん類欄", "飲料・食品用のアルミ缶", "中を洗う", "スプレー缶・カセットボンベは使い切り穴を開けずにかん類", "DIRECT_ITEM", "公式家庭ごみページの品目欄を採用。"),
         "I006": ("C-M106-09", "S-M106-01", "びん類欄", "飲料・食品用のガラスびん", "ふたを外し、中を洗う", "割れたびん等は陶器・ガラス類", "DIRECT_ITEM", "公式家庭ごみページの品目欄を採用。"),
         "I031": ("C-M106-12", "S-M106-01", "有害ごみ欄（電球）", "家庭用電球", "割れないよう箱等に入れる", "製品種別により燃えないごみ又は有害ごみの案内に従う", "DIRECT_ITEM", "公式家庭ごみページの品目欄を採用。"),
-        "I029": ("C-M106-12", "S-M106-01", "有害ごみ欄（小型充電式電池）", "小型充電式電池を内蔵するモバイルバッテリー", "端子をテープで絶縁する", "膨張・破損品は市へ相談", "OFFICIAL_CATEGORY_RULE", "小型充電式電池の公式ルールを適用。"),
+        "I029": ("C-M106-14", "S-M106-02", "3.廃棄方法", "リチウムイオン電池を搭載したモバイルバッテリー", "購入した販売店等へ引取を依頼する", "一般ごみ及び小型家電回収ボックスへは出せない", "DIRECT_ITEM", "現行の直接品目案内を優先し、通常の分別BOXへ投影しない。"),
         "I014": ("C-M106-02", "S-M106-01", "古紙類欄（ダンボール）", "家庭から出るダンボール", "折りたたみ、ひもで縛る", "汚れた物は燃えるごみ", "DIRECT_ITEM", "公式家庭ごみページの品目欄を採用。"),
         "I033": ("C-M106-10", "S-M106-01", "小型家電、電源コード、金物など欄（ライター）", "中身を使い切った使い捨てライター", "ガスを使い切り、他のごみと分ける", "中身が残る場合は市へ相談", "DIRECT_ITEM", "公式家庭ごみページの品目欄を採用。"),
         "I017": ("C-M106-04", "S-M106-01", "紙パック欄", "内側が白い紙パック", "洗い、開いて乾かす", "内側アルミ加工や汚れた物は燃えるごみ", "DIRECT_ITEM", "公式家庭ごみページの専用区分を採用。"),

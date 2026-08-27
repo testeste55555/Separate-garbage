@@ -1,0 +1,53 @@
+ゴミ出し情報収集フロー 143自治体 v1.30
+更新日: 2026-08-27
+現行版
+
+1. 目的
+
+自治体公式の詳細な分別・非通常収集エビデンスを削らず保持しながら、配属前教育の学習者向けアプリには必要十分な行動粒度だけを投影する。
+
+2. readinessの境界
+
+- APP_READY: 共通40品目の全条件枝がITEM_SPECIFIC / COMPLETE。
+- LESSON_READY_10: 固定画像10品目の全条件枝がITEM_SPECIFIC / COMPLETEで、各品目に画像と一致するscoring branchが1枝。
+- LESSON_READY_10はAPP_READYへの昇格ではない。残り30品目の未完了とglobal APP_READINESS_GATE=HOLDを維持する。
+
+3. エビデンス層と教材投影層
+
+- category、source、condition、preparation、exception、collection_channel、ui_roleは公式根拠どおり詳細に保持する。
+- 通常収集品目はCURRENT SORT_BUCKETへ解決できることを必須とする。
+- 非通常収集品目を有害ごみ等の通常SORT_BUCKETへ便宜的に投影しない。
+- 非通常収集品目でも、安全な単一行動として採点できる場合はSIMPLIFIED_ACTIONを利用できる。
+- SIMPLIFIED_ACTIONは自治体正式区分ではなく教材用簡略行動箱であることをデータ上明示する。
+- 販売店名、施設名、持込方法、特殊回収経路、条件詳細は学習者UIへ表示しない。
+
+4. 授業モード
+
+- ONLINE_CLASS: 固定画像10品目、採点BOX、○/×判定を表示する。
+- IN_PERSON_CLASS: 授業で必要な主要分別箱を表示する。
+- 対面主要分別箱とオンライン固定10品目専用BOXは別データとして管理する。
+
+5. M106 安芸高田市
+
+- 固定10品目: 10/10確認済み、18/18条件枝COMPLETE。
+- 9品目: 公式通常収集categoryへ投影。
+- I029モバイルバッテリー: C-M106-14、NOT_COLLECTED、EXCLUDED_NOTICEを正本とする。
+- I029公式経路: 販売店・リサイクル業者等への引取。一般ごみ・小型家電回収BOXへ出さない。
+- I029教材正答: SIMPLIFIED_ACTION「回収・確認」。通常の有害ごみへ投影しない。
+- ONLINE_CLASS: 9採点BOX。
+- IN_PERSON_CLASS: 燃えるごみ、古紙類、容器包装類、燃えないごみ、有害ごみ、粗大ごみの6主要分別箱。
+
+6. 必須検証
+
+- 非通常収集品目が通常SORT_BUCKETへ誤投影されない。
+- SIMPLIFIED_ACTIONが通常分別区分と区別される。
+- 学習者UIに特殊回収経路・施設・条件詳細を出さない。
+- M097、M105、M106のLESSON_READY_10を回帰確認する。
+- M098、M099の地域variant LESSON_READY_10を回帰確認する。
+- M094、M095、M104のAPP_READYを回帰確認する。
+- global APP_READINESS_GATE=HOLDを維持する。
+- validatorとmutation RED TEAMをともにPASSさせる。
+
+7. Human Gate
+
+変更はbranchで実施し、commitとPRを作成する。mainへ直接mergeしない。CI結果とPR差分をHuman Gateへ提示して停止する。

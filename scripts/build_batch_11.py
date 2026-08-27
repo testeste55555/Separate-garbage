@@ -19,13 +19,14 @@ from schema_v12 import (
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "research" / "batches" / "batch_11"
 CHECKED = "2026-08-19"
+M106_LESSON_CHECKED = "2026-08-27"
 REVIEWER = "OPENAI_CHATGPT_BATCH11_REVIEW"
 NS = "NOT_STATED_IN_CITED_SOURCE"
 TARGETS = {f"M{i:03d}" for i in range(106, 116)}
 REGISTRY_FIELDS = ["municipality_id","host","authority_type","authority_name","verification_url","verified_date","notes"]
 
 municipality_specs = {
-    "M106": dict(pref="広島県", city="安芸高田市", processor="芸北広域環境施設組合", top="https://www.akitakata.jp/ja/shisei/section/siminseikatu/gomi22/", guide="https://www.akitakata.jp/ja/shisei/section/siminseikatu/gomi22/", note="現行公式ページの住民向け区分を採用。容器包装類と燃えないごみは『分類ごとに袋を分ける』ため公式子葉を保持。"),
+    "M106": dict(pref="広島県", city="安芸高田市", processor="芸北広域環境施設組合", top="https://www.akitakata.jp/ja/shisei/section/siminseikatu/gomi22/", guide="https://www.akitakata.jp/ja/shisei/section/siminseikatu/gomi22/", note="現行公式ページの住民向け区分を採用。容器包装類と燃えないごみは『分類ごとに袋を分ける』ため公式子葉を保持。モバイルバッテリーの直接案内は非通常収集経路として保持。"),
     "M107": dict(pref="広島県", city="江田島市", processor="江田島市", top="https://www.city.etajima.hiroshima.jp/cms/articles/show/11923", guide="https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf", note="令和8年度改定ポスターを採用。古紙・布類は現行ポスターで一つの資源ごみ区分として扱う。"),
     "M108": dict(pref="広島県", city="府中町", processor="府中町", top="https://www.town.fuchu.hiroshima.jp/site/kankyousenta/34617.html", guide="https://www.town.fuchu.hiroshima.jp/uploaded/attachment/31359.pdf", note="令和8年度ごみの正しい出し方を採用。有価物は品目ごとに分けて順番に収集するため4公式子葉を保持。"),
     "M109": dict(pref="広島県", city="海田町", processor="海田町", top="https://www.town.kaita.lg.jp/soshiki/10/135455.html", guide="https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf", note="令和8年度家庭ごみの正しい出し方を採用。資源物内の5住民区分を公式子葉として保持。"),
@@ -39,7 +40,10 @@ municipality_specs = {
 
 # title, kind, url, updated, used, issuer
 source_specs = {
-    "M106": [("家庭ごみの出し方", "自治体公式Webページ", municipality_specs["M106"]["top"], "2025-11-06", "燃える・古紙・容器包装・燃えない・有害・粗大と、分類ごとに袋を分ける子区分・前処理", "安芸高田市")],
+    "M106": [
+        ("家庭ごみの出し方", "自治体公式Webページ", municipality_specs["M106"]["top"], "2025-11-06", "燃える・古紙・容器包装・燃えない・有害・粗大と、分類ごとに袋を分ける子区分・前処理", "安芸高田市"),
+        ("リチウムイオン電池からの火災に注意！！", "自治体公式Webページ", "https://www.akitakata.jp/ja/shisei/section/119/m148-copy-5/", "2025-08-07", "モバイルバッテリーを一般ごみ・小型家電回収ボックスへ出せないことと販売店等の引取経路", "安芸高田市"),
+    ],
     "M107": [
         ("家庭ごみの種類と正しい出し方（令和8年度改定版）", "自治体公式PDF", municipality_specs["M107"]["guide"], "2026-04-30", "令和8年度の現行8住民区分、代表品目、資源ごみ3系統", "江田島市"),
         ("スプレー缶のごみ出しについて", "自治体公式Webページ", "https://www.city.etajima.hiroshima.jp/cms/articles/show/11608", "2026-01-05", "有害・危険ごみ。使い切り必須、穴を開けずに出す場合の表示方法", "江田島市"),
@@ -74,15 +78,16 @@ categories: list[dict[str, str]] = []
 
 def add(mid: str, name: str, rep: str, *, source: int = 1, parent: str = "", ui: str = "SORT_BUCKET",
         level: str = "PRIMARY", channel: str = "CURBSIDE", forbidden: str = NS, cond: str = "", fallback: str = NS,
-        prep: str = NS, bag: str = "", size: str = "", bulky: str = "FALSE", note: str = "") -> None:
+        prep: str = NS, bag: str = "", size: str = "", bulky: str = "FALSE", note: str = "",
+        excluded: str = "FALSE", paid: str = "FALSE", checked: str = CHECKED) -> None:
     categories.append({
         "municipality_id": mid, "自治体正式名称": name, "category_group": parent or name, "parent_name": parent,
         "classification_level": level, "collection_channel": channel, "代表品目": rep, "入れてはいけない物": forbidden,
         "適用条件": cond, "条件外の扱い": fallback, "出す前の処理": prep, "袋・容器のルール": bag,
         "サイズ・条件": size, "粗大ごみ扱いか": bulky, "予約が必要か": "TRUE" if channel == "BOOKED_PICKUP" else "FALSE",
-        "有料か": "FALSE", "料金ルール": "", "自治体収集外か": "FALSE", "注意事項": note,
+        "有料か": paid, "料金ルール": "", "自治体収集外か": excluded, "注意事項": note,
         "source_index": str(source), "出典ページ・該当箇所": name, "ui_role": ui, "rule_status": "CURRENT",
-        "effective_from": "", "effective_to": "",
+        "effective_from": "", "effective_to": "", "確認日": checked,
     })
 
 # M106 安芸高田市 — two projection parents, 11 official resident leaves.
@@ -99,6 +104,16 @@ add("M106", "小型家電、電源コード、金物など", "なべ・フライ
 add("M106", "陶器 ガラス類", "食器・茶碗・皿・植木鉢・ガラス等", parent="燃えないごみ", level="SUBCATEGORY", ui="REFERENCE_ONLY", prep="破片・かけらは袋が破れないよう紙などに包む。重さ10kg以下")
 add("M106", "有害ごみ", "乾電池・蛍光管・電球・水銀式体温計・ボタン電池・小型充電式電池", prep="蛍光管は壊さず10本以内にくくり指定袋を付ける。乾電池は指定袋に入れ口を固くしばる")
 add("M106", "粗大ごみ", "家具・寝具・自転車・ストーブ・カーペット等", ui="REFERENCE_ONLY", bulky="TRUE", prep="粗大ごみ処理券を使用。ストーブ等は燃料を抜く。電源コードは器具から切り取る")
+add(
+    "M106", "販売店やリサイクル業者に引き取ってもらう",
+    "モバイルバッテリー・リチウムイオン電池・ニッカド電池",
+    source=2, ui="EXCLUDED_NOTICE", level="EXCLUDED", channel="NOT_COLLECTED",
+    forbidden="一般ごみ・小型家電回収ボックス", cond="家庭から廃棄する対象電池",
+    fallback="市の通常収集区分へ出さない", prep="購入した販売店等へ引取を依頼する",
+    bag="市指定袋・小型家電回収ボックスへ入れない", excluded="TRUE", paid="CONDITIONAL",
+    note="火災防止のため一般ごみ及び小型家電回収ボックスでは回収不可",
+    checked=M106_LESSON_CHECKED,
+)
 
 # M107 江田島市 — 2026 poster combines old-paper and cloth resources: 8 current leaves.
 add("M107", "燃えるごみ", "生ごみ・木くず・再生できない紙類・布類・プラスチック類等", source=1, prep="生ごみは水切り。枝木等は現行ポスターの寸法条件に従う")
@@ -246,10 +261,14 @@ def build_sources() -> list[dict[str, str]]:
     rows = []
     for mid in sorted(TARGETS):
         for i, (title, kind, url, updated, used, issuer) in enumerate(source_specs[mid], 1):
+            m106_non_collection = mid == "M106" and i == 2
             rows.append({
                 "municipality_id": mid, "source_id": f"S-{mid}-{i:02d}", "資料名": title, "資料種別": kind,
-                "公式URL": url, "発行主体": issuer, "対象年度": "令和8年度", "ページ更新日": updated,
-                "取得確認日": CHECKED, "使用した情報": used, "優先度": str(i), "現行性": "現行", "備考": "",
+                "公式URL": url, "発行主体": issuer,
+                "対象年度": "2026年度／取得時点現行" if m106_non_collection else "令和8年度",
+                "ページ更新日": updated, "取得確認日": M106_LESSON_CHECKED if m106_non_collection else CHECKED,
+                "使用した情報": used, "優先度": str(i), "現行性": "CURRENT" if m106_non_collection else "現行",
+                "備考": "M106 LESSON_READY_10の非通常収集品目に対するcategory根拠。" if m106_non_collection else "",
                 "official_verified": "", "official_basis": "", "official_linking_url": "",
             })
     return rows
@@ -277,7 +296,8 @@ def build_categories() -> list[dict[str, str]]:
                 "粗大ごみ扱いか": raw["粗大ごみ扱いか"], "予約が必要か": raw["予約が必要か"],
                 "有料か": raw["有料か"], "料金ルール": raw["料金ルール"], "自治体収集外か": raw["自治体収集外か"],
                 "注意事項": raw["注意事項"], "source_id": f"S-{mid}-{sidx:02d}", "出典URL": src[2],
-                "出典ページ・該当箇所": raw["出典ページ・該当箇所"], "確認日": CHECKED,
+                "出典ページ・該当箇所": "3.廃棄方法" if mid == "M106" and sidx == 2 else raw["出典ページ・該当箇所"],
+                "確認日": raw["確認日"],
                 "ui_role": raw["ui_role"], "rule_status": raw["rule_status"], "effective_from": raw["effective_from"],
                 "effective_to": raw["effective_to"],
             })
@@ -319,7 +339,7 @@ def build_review_evidence() -> list[dict[str, str]]:
                 "review_evidence_id": f"CRE-{mid}-{i:02d}", "review_id": f"CR-{mid}-CATEGORY-COVERAGE",
                 "municipality_id": mid, "source_id": f"S-{mid}-{i:02d}", "locator": src[4],
                 "evidence_role": "PRIMARY_INDEX" if i == 1 else "SUPPLEMENTAL_INDEX",
-                "notes": f"{CHECKED} Batch 11 resident-facing category completeness review",
+                "notes": f"{M106_LESSON_CHECKED if mid == 'M106' and i == 2 else CHECKED} Batch 11 resident-facing category completeness review",
             })
     return rows
 

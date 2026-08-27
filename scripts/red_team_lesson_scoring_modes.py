@@ -10,11 +10,14 @@ from validate_lesson_scoring_modes import (
     LESSON_READY,
     LESSON_SCOPE,
     ROOT,
+    SCORING_PROJECTION,
+    TEACHING_BOXES,
     build_context,
     read_csv,
     read_rows,
     validate,
     validate_scope_review,
+    validate_teaching_projection,
 )
 
 
@@ -117,12 +120,63 @@ def main() -> int:
     for name, candidate_scope, fields, candidate_rows in cases:
         if not validate_scope_review(candidate_scope, fields, candidate_rows, context):
             escaped.append(name)
+
+    category_by_key = context["category_by_key"]
+    teaching_boxes = read_rows(TEACHING_BOXES)
+    scoring_projection = read_rows(SCORING_PROJECTION)
+    assert isinstance(category_by_key, dict)
+
+    def mutate_projection(field: str, value: str) -> list[dict[str, str]]:
+        candidate = copy.deepcopy(scoring_projection)
+        for row in candidate:
+            if row.get("municipality_id") == "M106" and row.get("internal_item_id") == "I029":
+                row[field] = value
+                return candidate
+        raise AssertionError("M106/I029 projection not found")
+
+    def mutate_action_box(field: str, value: str) -> list[dict[str, str]]:
+        candidate = copy.deepcopy(teaching_boxes)
+        for row in candidate:
+            if row.get("municipality_id") == "M106" and row.get("box_kind") == "SIMPLIFIED_ACTION":
+                row[field] = value
+                return candidate
+        raise AssertionError("M106 SIMPLIFIED_ACTION box not found")
+
+    projection_cases = [
+        (
+            "M106/I029 non-normal category misprojected to SORT_BUCKET",
+            teaching_boxes,
+            mutate_projection("category_id", "C-M106-12"),
+        ),
+        (
+            "M106 SIMPLIFIED_ACTION relabeled as normal scoring box",
+            mutate_action_box("box_kind", "FIXED_10_SCORING"),
+            scoring_projection,
+        ),
+        (
+            "M106 learner label leaks special collection route",
+            mutate_action_box("display_name", "販売店へ持込"),
+            scoring_projection,
+        ),
+        (
+            "M106/I029 action projection removed",
+            teaching_boxes,
+            [
+                row for row in scoring_projection
+                if not (row.get("municipality_id") == "M106" and row.get("internal_item_id") == "I029")
+            ],
+        ),
+    ]
+    for name, candidate_boxes, candidate_projection in projection_cases:
+        if not validate_teaching_projection(candidate_boxes, candidate_projection, category_by_key):
+            escaped.append(name)
     if escaped:
         print("LESSON_SCORING_RED_TEAM_FAILED")
         for name in escaped:
             print(f"- mutation escaped validator: {name}")
         return 1
-    print(f"LESSON_SCORING_RED_TEAM_PASSED mutations={len(cases)}/{len(cases)}")
+    mutation_count = len(cases) + len(projection_cases)
+    print(f"LESSON_SCORING_RED_TEAM_PASSED mutations={mutation_count}/{mutation_count}")
     return 0
 
 

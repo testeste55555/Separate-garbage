@@ -36,14 +36,14 @@
 - Batch 14：**6自治体完了**（M136・M139 DEFERRED）
 - canonical：**132自治体**
 - canonical QA：**132 `QA_PASSED` / 0 `QA_REQUIRED`**
-- category：**1,597行**（通常区分に加えAPP_READYレビューで追加した参照経路を含む）
+- category：**1,598行**（通常区分に加えAPP_READY／LESSON_READY_10レビューで追加した参照経路を含む）
 - structured official leaves：**1,464区分**
-- official sources：**413**
-- item mapping：**1,515条件枝**（APP_READY 120品目pair＋M097・M105のLESSON_READY_10全41条件枝を含む）
+- official sources：**415**
+- item mapping：**1,523条件枝**（APP_READY 120品目pair＋M097・M105・M106のLESSON_READY_10全59条件枝を含む）
 - 40品目coverage：**5,280自治体品目pair**
-- category review evidence：**332行**
+- category review evidence：**333行**
 - Schema：**v1.2.4**
-- Workflow：**v1.29**
+- Workflow：**v1.30**
 - Batch 14専用RED TEAM：**PASS**
 - canonical structural validation：**PASS**
 - Schema v1.2.4 RED TEAM：**PASS**
@@ -69,6 +69,25 @@
 
 データ：`data/app/district_scopes.csv`、`data/app/lesson_variant_groups.csv`、`data/app/lesson_variant_teaching_boxes.csv`、`data/app/lesson_variant_item_scoring.csv`
 
+### LESSON_READY_10 M106（2026-08-27）
+
+安芸高田市の固定画像10品目を再確認し、9品目は通常収集category、I029モバイルバッテリーは公式の非通常収集categoryとして監査した。データ・エビデンス層は詳細を保持し、学習者向けアプリだけを必要十分な粒度へ簡略化する。
+
+- 対象：M106 安芸高田市
+- 画像品目：10/10
+- 条件枝：18/18 `ITEM_SPECIFIC / COMPLETE`
+- scoring branch：各品目ちょうど1枝
+- I029公式経路：販売店・リサイクル業者等への引取。一般ごみ・小型家電回収BOXへは出さない
+- I029教材投影：自治体正式区分ではない`SIMPLIFIED_ACTION`「回収・確認」。通常の「有害ごみ」へ投影しない
+- オンライン授業：固定10品目用9採点BOX＋画像＋○/×
+- 対面授業：固定10品目専用BOXと分離した6主要分別箱
+- learner UI：販売店名・施設名・持込方法・条件・前処理・例外・出典を表示しない
+- canonical：10 pairは`VERIFIED + branch_completeness_confirmed=TRUE`。`APP_READY`ではない
+- LESSON_READY_10 mutation RED TEAM：31/31 PASS
+
+監査表：`data/research/lesson_readiness/m106_item_review.csv`
+教材投影：`data/app/lesson_teaching_boxes.csv`、`data/app/lesson_item_scoring_projection.csv`
+
 ### LESSON_READY_10 M105（2026-08-25）
 
 廿日市市の固定画像10品目について、現行公式50音表と2026年度版ごみ分別ガイドを正本に全条件枝を確認した。APP_READYの意味・40品目atomic昇格・global Gateは変更しない。
@@ -79,7 +98,7 @@
 - scoring branch：各品目ちょうど1枝
 - 白色トレイの材質・色・汚れ、びん・缶の対象条件、白熱／蛍光／LED電球、リチウムイオン電池の異常品経路を別枝で保持
 - canonical：10 pairは`VERIFIED + branch_completeness_confirmed=TRUE`。`APP_READY`ではない
-- LESSON_READY_10全自治体mutation RED TEAM：18/18 PASS
+- LESSON_READY_10全自治体mutation RED TEAM：31/31 PASS
 
 監査表：`data/research/lesson_readiness/m105_item_review.csv`
 
@@ -167,7 +186,7 @@ Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を
 
 CI記録：`docs/research/batch_14_ci_status.txt`
 QA記録：`docs/research/batch_14_qa_report.md`
-現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.29.txt`
+現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.30.txt`
 
 ## Batch 14
 
@@ -234,12 +253,14 @@ MASTER範囲はM136〜M143です。
 - `data/research/07_item_mapping_coverage.csv`：完了自治体×40品目の調査状態
 - `data/research/08_category_review_evidence.csv`：category completeness公式証拠
 - `docs/research/`：Batch QA・CI記録
-- `docs/workflow/`：作業フロー履歴（現行 v1.29）
+- `docs/workflow/`：作業フロー履歴（現行 v1.30）
 - `data/style_research/`：公式色の観測・UI projection・出典台帳
 - `data/app/district_scopes.csv`：地域variantの内部地域索引
 - `data/app/lesson_variant_groups.csv`：固定10品目に必要な学習者向け地域グループ
 - `data/app/lesson_variant_teaching_boxes.csv`：地域variant用の授業用主要箱
 - `data/app/lesson_variant_item_scoring.csv`：地域variant group別の固定10品目採点
+- `data/app/lesson_teaching_boxes.csv`：一般自治体のオンライン採点BOX／対面主要分別箱
+- `data/app/lesson_item_scoring_projection.csv`：一般自治体の通常category／SIMPLIFIED_ACTION採点投影
 - `docs/style_research/`：Style Schema、QA、RED TEAM、Gate、HANDOFF
 - `scripts/build_batch_*.py`：Batch再生成
 - `scripts/red_team_batch_*.py`：Batch専用RED TEAM

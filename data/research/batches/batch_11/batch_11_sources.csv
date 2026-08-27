@@ -1,5 +1,6 @@
 ﻿municipality_id,source_id,資料名,資料種別,公式URL,発行主体,対象年度,ページ更新日,取得確認日,使用した情報,優先度,現行性,備考,official_verified,official_basis,official_linking_url
 M106,S-M106-01,家庭ごみの出し方,自治体公式Webページ,https://www.akitakata.jp/ja/shisei/section/siminseikatu/gomi22/,安芸高田市,令和8年度,2025-11-06,2026-08-19,燃える・古紙・容器包装・燃えない・有害・粗大と、分類ごとに袋を分ける子区分・前処理,1,現行,,TRUE,MUNICIPAL_DOMAIN,
+M106,S-M106-02,リチウムイオン電池からの火災に注意！！,自治体公式Webページ,https://www.akitakata.jp/ja/shisei/section/119/m148-copy-5/,安芸高田市,2026年度／取得時点現行,2025-08-07,2026-08-27,モバイルバッテリーを一般ごみ・小型家電回収ボックスへ出せないことと販売店等の引取経路,2,CURRENT,M106 LESSON_READY_10の非通常収集品目に対するcategory根拠。,TRUE,MUNICIPAL_DOMAIN,
 M107,S-M107-01,家庭ごみの種類と正しい出し方（令和8年度改定版）,自治体公式PDF,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,江田島市,令和8年度,2026-04-30,2026-08-19,令和8年度の現行8住民区分、代表品目、資源ごみ3系統,1,現行,,TRUE,MUNICIPAL_DOMAIN,
 M107,S-M107-02,スプレー缶のごみ出しについて,自治体公式Webページ,https://www.city.etajima.hiroshima.jp/cms/articles/show/11608,江田島市,令和8年度,2026-01-05,2026-08-19,有害・危険ごみ。使い切り必須、穴を開けずに出す場合の表示方法,2,現行,,TRUE,MUNICIPAL_DOMAIN,
 M107,S-M107-03,『家庭ごみの種類と正しい出し方』ポスターをご利用ください,自治体公式Webページ,https://www.city.etajima.hiroshima.jp/cms/articles/show/11923,江田島市,令和8年度,2026-04-30,2026-08-19,令和8年度改定版が現行であること、5言語版の公開,3,現行,,TRUE,MUNICIPAL_DOMAIN,
