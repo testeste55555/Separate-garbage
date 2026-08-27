@@ -64,7 +64,7 @@
 - 固定10品目：4 group×10＝40採点pair
 - 対面授業：固定10品目専用BOXではなく、各groupの主要分別箱を表示
 - 「資源回収・確認」：自治体正式区分ではなく、紙類差を示す教材用簡略行動箱
-- variant mutation RED TEAM：18/18 PASS
+- variant mutation RED TEAM：19/19 PASS
 - learner UI：内部district名・条件・前処理・例外・出典を表示しない
 
 データ：`data/app/district_scopes.csv`、`data/app/lesson_variant_groups.csv`、`data/app/lesson_variant_teaching_boxes.csv`、`data/app/lesson_variant_item_scoring.csv`
@@ -167,7 +167,7 @@ Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を
 
 CI記録：`docs/research/batch_14_ci_status.txt`
 QA記録：`docs/research/batch_14_qa_report.md`
-現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.28.txt`
+現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.29.txt`
 
 ## Batch 14
 
@@ -234,7 +234,7 @@ MASTER範囲はM136〜M143です。
 - `data/research/07_item_mapping_coverage.csv`：完了自治体×40品目の調査状態
 - `data/research/08_category_review_evidence.csv`：category completeness公式証拠
 - `docs/research/`：Batch QA・CI記録
-- `docs/workflow/`：作業フロー履歴（現行 v1.28）
+- `docs/workflow/`：作業フロー履歴（現行 v1.29）
 - `data/style_research/`：公式色の観測・UI projection・出典台帳
 - `data/app/district_scopes.csv`：地域variantの内部地域索引
 - `data/app/lesson_variant_groups.csv`：固定10品目に必要な学習者向け地域グループ

@@ -172,10 +172,26 @@ def validate_records(data: dict[str, list[dict[str, str]]], root: Path = ROOT) -
         row.get("fixed_10_answer_set_id") != "M098-FIXED10-V1" or
         row.get("fixed_10_confirmation_status") != "CONFIRMED" or
         row.get("i031_answer_family") != "有害ごみ系" or
+        not row.get("i031_evidence_source_id") or
+        not row.get("i031_evidence_url") or
         not row.get("i031_evidence_locator")
         for row in m098_scopes
     ):
         errors.append("M098 all six district scopes must confirm one fixed-10 answer set and the I031 hazardous-waste teaching family")
+    for row in m098_scopes:
+        sid = row.get("district_scope_id", "")
+        source = sources.get(("M098", row.get("i031_evidence_source_id", "")), {})
+        if not source or source.get("official_verified") != "TRUE" or source.get("現行性") not in CURRENT_SOURCE:
+            errors.append(f"{sid}: I031 evidence is not current official evidence")
+        elif source.get("公式URL") != row.get("i031_evidence_url"):
+            errors.append(f"{sid}: I031 evidence URL mismatch")
+    innoshima = next((row for row in m098_scopes if row.get("district_scope_id") == "DS-M098-05"), {})
+    if (
+        innoshima.get("i031_evidence_source_id") != "S-M098-06" or
+        innoshima.get("i031_evidence_url") != "https://www.city.onomichi.hiroshima.jp/uploaded/attachment/57907.pdf" or
+        "4頁" not in innoshima.get("i031_evidence_locator", "")
+    ):
+        errors.append("DS-M098-05: I031 must cite the April 2026 Innoshima guide PDF page 4")
 
     box_ids = [row.get("teaching_box_id", "") for row in boxes]
     if any(not value for value in box_ids) or len(box_ids) != len(set(box_ids)):

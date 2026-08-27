@@ -86,7 +86,7 @@ M098/M099の完全taxonomy・40品目APP_READY側はDEFERREDを維持する。
 python3 scripts/validate_lesson_variants.py
 python3 scripts/red_team_lesson_variants.py
 
-variant mutation RED TEAMは18ケースをすべて拒否する。
+variant mutation RED TEAMは19ケースをすべて拒否する。
 
 既存検証も併用する。
 
