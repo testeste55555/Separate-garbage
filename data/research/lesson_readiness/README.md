@@ -6,6 +6,10 @@
 
 - M097 三原市：10品目・19条件枝
 - M105 廿日市市：10品目・22条件枝
+- M098 尾道市：1 lesson variant group・10採点pair
+- M099 福山市：3 lesson variant group・30採点pair
+
+M098/M099は自治体単位の完全categoryを作らず、`data/app/district_scopes.csv`と`lesson_variant_*`の地域variant専用層で保持します。尾道市は6内部scopeの固定10品目正答が教材上同一であることを確認して1グループとし、I031の資料表記差は「有害ごみ系」へ教材正規化します。福山市の4内部scopeは教材上3グループとし、内海町・沼隈町は再分割しません。完全taxonomy・40品目`APP_READY`側の`DEFERRED`を解除するものではありません。
 
 自治体追加時は、既存reviewをコピーして自治体・公式根拠・全条件枝を個別確認し、次を満たします。
 
@@ -23,6 +27,8 @@
 python3 scripts/sync_lesson_ready_reviews.py
 python3 scripts/validate_lesson_scoring_modes.py
 python3 scripts/red_team_lesson_scoring_modes.py
+python3 scripts/validate_lesson_variants.py
+python3 scripts/red_team_lesson_variants.py
 ```
 
 `sync_lesson_ready_reviews.py`はreviewをcanonicalへ`VERIFIED / COMPLETE`として投影します。`APP_READY`への昇格は行いません。

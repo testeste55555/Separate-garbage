@@ -40,6 +40,11 @@ body { min-height: 100vh; }
   min-width: 220px;
 }
 
+.control-group--variant {
+  flex: 0 1 300px;
+  min-width: 240px;
+}
+
 label { font-weight: 700; }
 
 select, button {

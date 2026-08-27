@@ -8,7 +8,11 @@
     styleProjection: "../data/style_research/08_style_ui_projection.csv",
     itemAssets: "../data/app/item_image_assets.csv",
     imageMappingPilot: "../data/app/item_image_mapping_pilot_top8.csv",
-    lessonScope: "../data/app/lesson_mode_app_ready_scope.csv"
+    lessonScope: "../data/app/lesson_mode_app_ready_scope.csv",
+    districtScopes: "../data/app/district_scopes.csv",
+    lessonVariantGroups: "../data/app/lesson_variant_groups.csv",
+    lessonVariantBoxes: "../data/app/lesson_variant_teaching_boxes.csv",
+    lessonVariantScoring: "../data/app/lesson_variant_item_scoring.csv"
   };
 
   const MUNICIPAL_SCOPE = "MUNICIPALITY_WIDE";
@@ -30,6 +34,8 @@
 
   const lessonModeSelect = document.getElementById("lessonModeSelect");
   const select = document.getElementById("municipalitySelect");
+  const lessonVariantControl = document.getElementById("lessonVariantControl");
+  const lessonVariantGroup = document.getElementById("lessonVariantGroup");
   const presentationButton = document.getElementById("presentationButton");
   const municipalityName = document.getElementById("municipalityName");
   const statusText = document.getElementById("statusText");
@@ -49,6 +55,11 @@
   let scoringReadyPairs = new Set();
   let scoringReadyMunicipalities = new Set();
   let itemsByMunicipality = new Map();
+  let lessonVariantGroupsByMunicipality = new Map();
+  let lessonVariantGroupById = new Map();
+  let lessonVariantBoxesByGroupAndMode = new Map();
+  let lessonVariantItemsByGroup = new Map();
+  let activeLessonVariantGroupId = "";
   let activeItems = [];
   let activeItemIndex = 0;
   let practiceFinished = false;
@@ -262,6 +273,70 @@
     }
   }
 
+  function buildLessonVariantData(districtScopeRows, groupRows, boxRows, scoringRows) {
+    const knownScopeMunicipalities = new Set(
+      districtScopeRows.map((row) => row.municipality_id?.trim()).filter(Boolean)
+    );
+    lessonVariantGroupsByMunicipality = new Map();
+    lessonVariantGroupById = new Map();
+    lessonVariantBoxesByGroupAndMode = new Map();
+    lessonVariantItemsByGroup = new Map();
+
+    for (const row of groupRows) {
+      const groupId = row.lesson_variant_group_id?.trim();
+      const municipalityId = row.municipality_id?.trim();
+      if (!groupId || !municipalityId || !knownScopeMunicipalities.has(municipalityId)) continue;
+      if (row.readiness_status?.trim() !== LESSON_READY_STATUS) continue;
+      lessonVariantGroupById.set(groupId, row);
+      if (!lessonVariantGroupsByMunicipality.has(municipalityId)) {
+        lessonVariantGroupsByMunicipality.set(municipalityId, []);
+      }
+      lessonVariantGroupsByMunicipality.get(municipalityId).push(row);
+    }
+    for (const rows of lessonVariantGroupsByMunicipality.values()) {
+      rows.sort((a, b) => numericOrder(a.display_order) - numericOrder(b.display_order));
+    }
+
+    for (const row of boxRows) {
+      const groupId = row.lesson_variant_group_id?.trim();
+      const boxId = row.teaching_box_id?.trim();
+      const classMode = row.class_mode?.trim();
+      if (!groupId || !boxId || ![ONLINE_CLASS_MODE, IN_PERSON_CLASS_MODE].includes(classMode) ||
+          !lessonVariantGroupById.has(groupId)) continue;
+      const key = `${groupId}::${classMode}`;
+      if (!lessonVariantBoxesByGroupAndMode.has(key)) lessonVariantBoxesByGroupAndMode.set(key, []);
+      lessonVariantBoxesByGroupAndMode.get(key).push(row);
+    }
+    for (const rows of lessonVariantBoxesByGroupAndMode.values()) {
+      rows.sort((a, b) => numericOrder(a.display_order) - numericOrder(b.display_order));
+    }
+
+    for (const row of scoringRows) {
+      const groupId = row.lesson_variant_group_id?.trim();
+      const itemId = row.internal_item_id?.trim();
+      const boxId = row.teaching_box_id?.trim();
+      if (!groupId || !itemId || !boxId || row.review_status?.trim() !== "COMPLETE") continue;
+      const group = lessonVariantGroupById.get(groupId);
+      if (!group || group.municipality_id?.trim() !== row.municipality_id?.trim()) continue;
+      const boxes = lessonVariantBoxesByGroupAndMode.get(`${groupId}::${ONLINE_CLASS_MODE}`) ?? [];
+      if (!boxes.some((box) => box.teaching_box_id?.trim() === boxId)) continue;
+      const asset = assetsByItem.get(itemId);
+      const imageFile = asset?.image_file?.trim();
+      if (!asset || !SAFE_IMAGE_RE.test(imageFile ?? "") || !imageFile.startsWith(`${itemId}_`)) continue;
+      if (!lessonVariantItemsByGroup.has(groupId)) lessonVariantItemsByGroup.set(groupId, []);
+      lessonVariantItemsByGroup.get(groupId).push({
+        municipalityId: row.municipality_id.trim(),
+        itemId,
+        imageFile,
+        pairOrder: numericOrder(itemId.slice(1)),
+        uiCategoryId: boxId
+      });
+    }
+    for (const rows of lessonVariantItemsByGroup.values()) {
+      rows.sort((a, b) => a.pairOrder - b.pairOrder);
+    }
+  }
+
   function findAppStyleSheet() {
     return [...document.styleSheets].find((sheet) => {
       if (!sheet.href) return false;
@@ -320,7 +395,7 @@
   }
 
   function populateMunicipalitySelect() {
-    const ids = [...bucketsByMunicipality.keys()]
+    const ids = [...new Set([...bucketsByMunicipality.keys(), ...lessonVariantGroupsByMunicipality.keys()])]
       .filter((id) => municipalitiesById.has(id))
       .sort((a, b) => {
         const aa = municipalitiesById.get(a);
@@ -345,6 +420,48 @@
     statusText.textContent = `授業モードと自治体を選択してください。${ids.length}自治体を表示できます。`;
   }
 
+  function configureLessonVariantSelection(id) {
+    const groups = lessonVariantGroupsByMunicipality.get(id) ?? [];
+    lessonVariantGroup.replaceChildren();
+    activeLessonVariantGroupId = "";
+
+    if (groups.length === 0) {
+      lessonVariantControl.hidden = true;
+      lessonVariantGroup.disabled = true;
+      return;
+    }
+
+    const requiresSelection = groups.some((row) => row.learner_selection_required?.trim() === "TRUE");
+    if (groups.length === 1 && !requiresSelection) {
+      activeLessonVariantGroupId = groups[0].lesson_variant_group_id.trim();
+      lessonVariantControl.hidden = true;
+      lessonVariantGroup.disabled = true;
+      return;
+    }
+
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "地域を選択";
+    lessonVariantGroup.appendChild(placeholder);
+    for (const row of groups) {
+      const option = document.createElement("option");
+      option.value = row.lesson_variant_group_id.trim();
+      option.textContent = row.display_name.trim();
+      lessonVariantGroup.appendChild(option);
+    }
+    lessonVariantControl.hidden = false;
+    lessonVariantGroup.disabled = false;
+  }
+
+  function displayRows(id) {
+    if (activeLessonVariantGroupId) {
+      const classMode = lessonModeSelect.value;
+      if (![ONLINE_CLASS_MODE, IN_PERSON_CLASS_MODE].includes(classMode)) return [];
+      return lessonVariantBoxesByGroupAndMode.get(`${activeLessonVariantGroupId}::${classMode}`) ?? [];
+    }
+    return bucketsByMunicipality.get(id) ?? [];
+  }
+
   function clearBucketAnswerState() {
     for (const box of bucketGrid.querySelectorAll(".bucket")) {
       delete box.dataset.answerState;
@@ -359,7 +476,8 @@
       return;
     }
 
-    const rows = bucketsByMunicipality.get(id) ?? [];
+    const rows = displayRows(id);
+    const usesLessonVariant = Boolean(activeLessonVariantGroupId);
     const interactive = lessonModeSelect.value === ONLINE_CLASS_MODE && activeItems.length > 0;
     bucketGrid.dataset.columns = String(displayColumns(rows.length));
 
@@ -372,9 +490,9 @@
     }
 
     for (const row of rows) {
-      const categoryId = row.category_id.trim();
-      const label = row["自治体正式名称"].trim();
-      const style = stylesByBucket.get(styleKey(id, categoryId));
+      const categoryId = usesLessonVariant ? row.teaching_box_id.trim() : row.category_id.trim();
+      const label = usesLessonVariant ? row.display_name.trim() : row["自治体正式名称"].trim();
+      const style = usesLessonVariant ? null : stylesByBucket.get(styleKey(id, categoryId));
       const status = style?.color_status?.trim() || "NO_STYLE_RESEARCH";
       const box = document.createElement(interactive ? "button" : "div");
       if (box instanceof HTMLButtonElement) box.type = "button";
@@ -451,7 +569,11 @@
 
   function renderMunicipality(id) {
     const lessonMode = lessonModeSelect.value;
-    activeItems = lessonMode === ONLINE_CLASS_MODE && id ? [...(itemsByMunicipality.get(id) ?? [])] : [];
+    activeItems = lessonMode === ONLINE_CLASS_MODE && id
+      ? activeLessonVariantGroupId
+        ? [...(lessonVariantItemsByGroup.get(activeLessonVariantGroupId) ?? [])]
+        : [...(itemsByMunicipality.get(id) ?? [])]
+      : [];
     activeItemIndex = 0;
     practiceFinished = false;
     practicePanel.hidden = true;
@@ -465,9 +587,17 @@
       return;
     }
 
-    const rows = bucketsByMunicipality.get(id) ?? [];
+    const variantGroups = lessonVariantGroupsByMunicipality.get(id) ?? [];
+    const needsVariantSelection = variantGroups.length > 1 && !activeLessonVariantGroupId;
+    const rows = displayRows(id);
     municipalityName.textContent = municipalityLabel(id);
-    presentationButton.disabled = rows.length === 0 || !lessonMode;
+    presentationButton.disabled = rows.length === 0 || !lessonMode || needsVariantSelection;
+
+    if (needsVariantSelection) {
+      statusText.textContent = "地域を選択してください。";
+      renderBuckets("");
+      return;
+    }
 
     if (!lessonMode) {
       statusText.textContent = `${rows.length}区分・授業モードを選択してください。`;
@@ -491,7 +621,7 @@
 
     statusText.textContent = `${rows.length}区分・オンライン授業モード`;
     practiceUnavailable.hidden = false;
-    practiceUnavailable.textContent = scoringReadyMunicipalities.has(id)
+    practiceUnavailable.textContent = activeLessonVariantGroupId || scoringReadyMunicipalities.has(id)
       ? "この自治体の画像問題はまだ登録されていません。"
       : "この自治体の自動正誤判定は準備中です。";
     renderBuckets(id);
@@ -523,11 +653,18 @@
         fetchText(DATA_PATHS.styleProjection),
         fetchText(DATA_PATHS.itemAssets),
         fetchText(DATA_PATHS.imageMappingPilot),
-        fetchText(DATA_PATHS.lessonScope)
+        fetchText(DATA_PATHS.lessonScope),
+        fetchText(DATA_PATHS.districtScopes),
+        fetchText(DATA_PATHS.lessonVariantGroups),
+        fetchText(DATA_PATHS.lessonVariantBoxes),
+        fetchText(DATA_PATHS.lessonVariantScoring)
       ];
 
       const texts = await Promise.all(requests);
-      const [municipalityText, researchText, categoryText, styleText, assetText, mappingText, scopeText] = texts;
+      const [
+        municipalityText, researchText, categoryText, styleText, assetText, mappingText, scopeText,
+        districtScopeText, variantGroupText, variantBoxText, variantScoringText
+      ] = texts;
       const scopeRows = parseCsv(scopeText);
       const reviewEntries = scopeRows.map((row) => {
         const municipalityId = row.municipality_id?.trim();
@@ -546,6 +683,12 @@
         new Map(reviewEntries.map(([municipalityId], index) => [municipalityId, parseCsv(reviewTexts[index])]))
       );
       buildItemData(parseCsv(assetText), parseCsv(mappingText));
+      buildLessonVariantData(
+        parseCsv(districtScopeText),
+        parseCsv(variantGroupText),
+        parseCsv(variantBoxText),
+        parseCsv(variantScoringText)
+      );
       installOfficialStyleRules();
       populateLessonModeSelect();
       populateMunicipalitySelect();
@@ -561,7 +704,14 @@
   }
 
   lessonModeSelect.addEventListener("change", () => renderMunicipality(select.value));
-  select.addEventListener("change", () => renderMunicipality(select.value));
+  select.addEventListener("change", () => {
+    configureLessonVariantSelection(select.value);
+    renderMunicipality(select.value);
+  });
+  lessonVariantGroup.addEventListener("change", () => {
+    activeLessonVariantGroupId = lessonVariantGroup.value;
+    renderMunicipality(select.value);
+  });
   presentationButton.addEventListener("click", enterPresentation);
   nextItemButton.addEventListener("click", () => {
     if (practiceFinished) {

@@ -8,7 +8,7 @@
 
 収集曜日・収集時間・地区別カレンダーは構造化対象外です。カレンダーは必要に応じて、現行taxonomyの運用確認や地域variantの証拠として使用します。
 
-## 現在地（2026-08-25）
+## 現在地（2026-08-27）
 
 - MASTER固定ID台帳：**143自治体**
 - active実装対象：**132自治体**
@@ -17,7 +17,7 @@
   - M076 備前市：地区別CURRENT分別体系が併存
   - M086 新庄村：公式一次資料本文を安定取得できず全区分を全件照合できない
   - M098 尾道市：尾道・向島・御調・因島・瀬戸田でCURRENT体系が併存
-  - M099 福山市：市内一般・内海町・沼隈町で住民向け分別単位に差
+  - M099 福山市：市内一般・内海町・沼隈町・走島町で住民向け分別単位に差
   - M100 府中市：府中地区と上下地区で住民向け表示単位・正式名称に差
   - M120 萩市：大島・見島・相島地区で一部分別区分が異なる
   - M123 岩国市：地域群により食品トレー等の分別先・排出方法が異なる
@@ -43,13 +43,31 @@
 - 40品目coverage：**5,280自治体品目pair**
 - category review evidence：**332行**
 - Schema：**v1.2.4**
-- Workflow：**v1.28**
+- Workflow：**v1.29**
 - Batch 14専用RED TEAM：**PASS**
 - canonical structural validation：**PASS**
 - Schema v1.2.4 RED TEAM：**PASS**
 - operational category semantics RED TEAM：**PASS**
 - `NEXT_BATCH_GATE`：**PASS**
 - `APP_READINESS_GATE`：**HOLD**（M094・M095・M104は各40/40 APP_READY、残る129 active自治体は未完了）
+
+### 地域variant LESSON_READY_10 M098/M099（2026-08-27）
+
+完全な地域別category taxonomyと固定画像10品目に必要な教材差を分離し、`district_scope → lesson_variant_group → teaching box / scoring`を追加した。M098/M099の40品目・完全taxonomy側`DEFERRED`は維持する。
+
+- M098 尾道市：6内部scopeを1教材groupへ集約。地域選択を表示しない
+- M098固定10品目：6 scopeすべてを同一正答セットとして確認し、I031電球は教材上「有害ごみ系」に統一
+- M099 福山市：4内部scopeを一般地域／内海町・沼隈町／走島町の3教材groupへ集約
+- M099一般：紙パックは「資源回収・確認」
+- M099内海町・沼隈町：新聞・段ボール・紙パックは「紙類」
+- M099走島町：新聞・段ボール・紙パックは「資源回収・確認」
+- 固定10品目：4 group×10＝40採点pair
+- 対面授業：固定10品目専用BOXではなく、各groupの主要分別箱を表示
+- 「資源回収・確認」：自治体正式区分ではなく、紙類差を示す教材用簡略行動箱
+- variant mutation RED TEAM：19/19 PASS
+- learner UI：内部district名・条件・前処理・例外・出典を表示しない
+
+データ：`data/app/district_scopes.csv`、`data/app/lesson_variant_groups.csv`、`data/app/lesson_variant_teaching_boxes.csv`、`data/app/lesson_variant_item_scoring.csv`
 
 ### LESSON_READY_10 M105（2026-08-25）
 
@@ -143,13 +161,13 @@ Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を
 - 中間RED TEAM: PASS
 - 最終RED TEAM: 24/24 PASS
 - `NEXT_STYLE_BATCH_GATE`: PASS
-- M098尾道市・M099福山市のアプリ接続: HOLD（地域variant対応category正本待ち）
+- M098尾道市・M099福山市の完全category/style接続: HOLD。固定10品目の授業用variantは中立色の主要箱で接続済み
 
 成果物索引: `docs/style_research/README.md`
 
 CI記録：`docs/research/batch_14_ci_status.txt`
 QA記録：`docs/research/batch_14_qa_report.md`
-現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.28.txt`
+現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.29.txt`
 
 ## Batch 14
 
@@ -216,8 +234,12 @@ MASTER範囲はM136〜M143です。
 - `data/research/07_item_mapping_coverage.csv`：完了自治体×40品目の調査状態
 - `data/research/08_category_review_evidence.csv`：category completeness公式証拠
 - `docs/research/`：Batch QA・CI記録
-- `docs/workflow/`：作業フロー履歴（現行 v1.28）
+- `docs/workflow/`：作業フロー履歴（現行 v1.29）
 - `data/style_research/`：公式色の観測・UI projection・出典台帳
+- `data/app/district_scopes.csv`：地域variantの内部地域索引
+- `data/app/lesson_variant_groups.csv`：固定10品目に必要な学習者向け地域グループ
+- `data/app/lesson_variant_teaching_boxes.csv`：地域variant用の授業用主要箱
+- `data/app/lesson_variant_item_scoring.csv`：地域variant group別の固定10品目採点
 - `docs/style_research/`：Style Schema、QA、RED TEAM、Gate、HANDOFF
 - `scripts/build_batch_*.py`：Batch再生成
 - `scripts/red_team_batch_*.py`：Batch専用RED TEAM
