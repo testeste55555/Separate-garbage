@@ -35,6 +35,18 @@ jobs:
           PY
       - name: Patch permanent generators and validators
         run: python3 scripts/prepare_m110_m112_lesson_ready.py
+      - name: Update Batch 11 RED TEAM category boundary
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('scripts/red_team_batch_11.py')
+          text = path.read_text(encoding='utf-8')
+          old = '''    names = {mid: {r["自治体正式名称"] for r in cats if r["municipality_id"] == mid and r.get("rule_status") == "CURRENT"} for mid in TARGETS}\n'''
+          new = '''    names = {mid: {r["自治体正式名称"] for r in cats if r["municipality_id"] == mid and r.get("rule_status") == "CURRENT" and r.get("ui_role") != "EXCLUDED_NOTICE"} for mid in TARGETS}\n'''
+          if text.count(old) != 1:
+              raise SystemExit('Batch 11 RED TEAM names boundary not found')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
       - name: Rebuild Batch 11 canonical evidence
         run: |
           set -euo pipefail
