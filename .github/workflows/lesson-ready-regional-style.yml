@@ -1,0 +1,88 @@
+name: Regional LESSON_READY_10 and BOX style CI
+
+on:
+  push:
+    paths:
+      - "app/**"
+      - "data/app/**"
+      - "data/master/05_deferred_municipalities.csv"
+      - "data/master/07_implementation_priority.csv"
+      - "data/research/lesson_readiness/**"
+      - "docs/research/lesson_ready_regional_batch_2026-08-28.md"
+      - "docs/style_research/15_lesson_box_style_resolver.md"
+      - "scripts/build_lesson_ready_regional_batch.py"
+      - "scripts/validate_lesson_variants.py"
+      - "scripts/red_team_lesson_variants.py"
+      - "scripts/validate_lesson_box_style_resolver.py"
+      - "scripts/red_team_lesson_box_style_resolver.py"
+      - "scripts/validate_implementation_priority.py"
+      - "scripts/red_team_implementation_priority.py"
+      - ".github/workflows/lesson-ready-regional-style.yml"
+  pull_request:
+    paths:
+      - "app/**"
+      - "data/app/**"
+      - "data/master/05_deferred_municipalities.csv"
+      - "data/master/07_implementation_priority.csv"
+      - "data/research/lesson_readiness/**"
+      - "docs/research/lesson_ready_regional_batch_2026-08-28.md"
+      - "docs/style_research/15_lesson_box_style_resolver.md"
+      - "scripts/build_lesson_ready_regional_batch.py"
+      - "scripts/validate_lesson_variants.py"
+      - "scripts/red_team_lesson_variants.py"
+      - "scripts/validate_lesson_box_style_resolver.py"
+      - "scripts/red_team_lesson_box_style_resolver.py"
+      - "scripts/validate_implementation_priority.py"
+      - "scripts/red_team_implementation_priority.py"
+      - ".github/workflows/lesson-ready-regional-style.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Rebuild and confirm committed regional lesson data
+        run: |
+          set -euo pipefail
+          python3 scripts/build_lesson_ready_regional_batch.py
+          git diff --exit-code -- \
+            data/app/district_scopes.csv \
+            data/app/lesson_teaching_boxes.csv \
+            data/app/lesson_variant_groups.csv \
+            data/app/lesson_variant_item_scoring.csv \
+            data/app/lesson_variant_teaching_boxes.csv \
+            data/master/05_deferred_municipalities.csv \
+            data/master/07_implementation_priority.csv \
+            data/research/lesson_readiness/lesson_variant_sources.csv
+      - name: Validate and mutation RED TEAM
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_lesson_variants.py
+          python3 scripts/red_team_lesson_variants.py
+          python3 scripts/validate_lesson_box_style_resolver.py
+          python3 scripts/red_team_lesson_box_style_resolver.py
+          python3 scripts/validate_implementation_priority.py
+          python3 scripts/red_team_implementation_priority.py
+          node --check app/app.js
+      - name: Existing readiness, style, and canonical regressions
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_lesson_scoring_modes.py
+          python3 scripts/red_team_lesson_scoring_modes.py
+          python3 scripts/validate_app_ready_lesson_modes.py
+          python3 scripts/red_team_app_ready_lesson_modes.py
+          python3 scripts/validate_style_research.py
+          python3 scripts/red_team_style_research.py
+          python3 scripts/validation_v12.py
+          python3 scripts/validate_teaching_display_layer.py
+          python3 scripts/validate_item_image_assets.py
