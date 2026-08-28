@@ -271,10 +271,15 @@ def build_sources() -> list[dict[str, str]]:
     for mid in sorted(TARGETS):
         for i, (title, kind, url, updated, used, issuer) in enumerate(source_specs[mid], 1):
             m106_non_collection = mid == "M106" and i == 2
+            m107_legacy_guide = mid == "M107" and i == 4
             rows.append({
                 "municipality_id": mid, "source_id": f"S-{mid}-{i:02d}", "資料名": title, "資料種別": kind,
                 "公式URL": url, "発行主体": issuer,
-                "対象年度": "2026年度／取得時点現行" if m106_non_collection else "令和8年度",
+                "対象年度": (
+                    "2026年度／取得時点現行" if m106_non_collection
+                    else "平成29年度" if m107_legacy_guide
+                    else "令和8年度"
+                ),
                 "ページ更新日": updated, "取得確認日": M106_LESSON_CHECKED if m106_non_collection else CHECKED,
                 "使用した情報": used, "優先度": str(i), "現行性": "CURRENT" if m106_non_collection else "現行",
                 "備考": "M106 LESSON_READY_10の非通常収集品目に対するcategory根拠。" if m106_non_collection else "",
