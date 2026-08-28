@@ -54,6 +54,8 @@ def main() -> int:
     checks.append(("Akitakata aerosol rule is no-hole", "穴あけ不要" in rows[("M106", "かん類")].get("出す前の処理", ""), rows[("M106", "かん類")].get("出す前の処理", "")))
 
     checks.append(("Etajima uses current 2026 eight-category poster", counted_category_total("M107", cats) == 8 and "資源ごみ（古紙・布類）" in names["M107"] and "資源ごみ（古紙）" not in names["M107"] and "資源ごみ（布類）" not in names["M107"], str(names["M107"])))
+    etajima_tray = rows[("M107", "スーパーなどの回収容器へ（食品トレー（発泡スチロール））")]
+    checks.append(("Etajima foam tray remains non-normal evidence", etajima_tray.get("ui_role") == "EXCLUDED_NOTICE" and etajima_tray.get("collection_channel") == "NOT_COLLECTED" and etajima_tray.get("自治体収集外か") == "TRUE", etajima_tray.get("ui_role", "")))
     checks.append(("Etajima unpunctured aerosol path retained", "穴を開けず" in rows[("M107", "有害・危険ごみ")].get("出す前の処理", ""), rows[("M107", "有害・危険ごみ")].get("出す前の処理", "")))
 
     fuchu_parent = rows[("M108", "有価物")]

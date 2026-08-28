@@ -3999,23 +3999,23 @@ M106,I037,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M106,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M106,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M106,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M107,I001,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,資源ごみ（ペットボトル）欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M107,I001,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,資源ごみ（ペットボトル）欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M107,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M107,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M107,I004,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,資源ごみ（びん・缶）欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M107,I004,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,資源ごみ（びん・缶）欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M107,I005,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M107,I006,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,資源ごみ（びん・缶）欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M107,I007,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,燃えるごみ欄（プラスチック類）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M107,I006,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,資源ごみ（びん・缶）欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M107,I007,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,注記『食品トレー（発泡スチロール）はスーパーなどの回収容器へ』,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M107,I008,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M107,I009,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M107,I010,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M107,I011,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M107,I012,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M107,I013,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,資源ごみ（古紙・布類）欄（新聞）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M107,I014,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,資源ごみ（古紙・布類）欄（ダンボール）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M107,I012,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
+M107,I013,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,資源ごみ（古紙・布類）欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M107,I014,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,資源ごみ（古紙・布類）欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M107,I015,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M107,I016,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M107,I017,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,資源ごみ（古紙・布類）欄（紙パック）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M107,I017,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,資源ごみ（古紙・布類）欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M107,I018,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M107,I019,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M107,I020,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
@@ -4027,11 +4027,11 @@ M107,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M107,I026,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M107,I027,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M107,I028,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M107,I029,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,有害・危険ごみ欄（モバイルバッテリー）,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M107,I029,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M107-01,https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf,有害・危険ごみ欄（モバイルバッテリー）,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M107,I030,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M107,I031,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M107,I031,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M107-04,https://www.city.etajima.hiroshima.jp/cms/files/uploads/29gomishiwake.pdf,分別一覧『電球』『LED電球』の行,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M107,I032,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M107-02,https://www.city.etajima.hiroshima.jp/cms/articles/show/11608,text-match:スプレー缶 + 有害・危険ごみ,2026-08-20,AUTO_BRANCH_DESTINATION_REVIEW_V1,VERIFIED全branchの分別先集合が公式item候補集合と一致し、各branchに強い公式item sourceあり。
-M107,I033,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M107,I033,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M107-04,https://www.city.etajima.hiroshima.jp/cms/files/uploads/29gomishiwake.pdf,分別一覧『使い捨てライター』の行,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M107,I034,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M107,I035,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M107,I036,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
@@ -4039,23 +4039,23 @@ M107,I037,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M107,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M107,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M107,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M108,I001,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
+M108,I001,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M108-01,https://www.town.fuchu.hiroshima.jp/uploaded/attachment/31359.pdf,7頁 ペットボトル欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M108,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M108,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M108,I004,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M108,I004,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M108-01,https://www.town.fuchu.hiroshima.jp/uploaded/attachment/31359.pdf,5頁 有価物『ビン・缶』欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M108,I005,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M108,I006,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M108,I007,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
+M108,I006,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M108-01,https://www.town.fuchu.hiroshima.jp/uploaded/attachment/31359.pdf,5頁 有価物『ビン・缶』欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M108,I007,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M108-01,https://www.town.fuchu.hiroshima.jp/uploaded/attachment/31359.pdf,7頁 白色トレイ欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M108,I008,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M108,I009,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M108,I010,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M108,I011,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M108,I012,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M108,I013,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M108,I014,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
+M108,I013,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M108-01,https://www.town.fuchu.hiroshima.jp/uploaded/attachment/31359.pdf,5頁 有価物『新聞・雑誌・雑がみ』欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M108,I014,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M108-01,https://www.town.fuchu.hiroshima.jp/uploaded/attachment/31359.pdf,5頁 有価物『ダンボール』欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M108,I015,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M108,I016,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M108,I017,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
+M108,I017,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M108-01,https://www.town.fuchu.hiroshima.jp/uploaded/attachment/31359.pdf,7頁 紙パック欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M108,I018,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M108,I019,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M108,I020,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
@@ -4067,11 +4067,11 @@ M108,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M108,I026,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M108,I027,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M108,I028,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M108,I029,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M108,I029,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M108-01,https://www.town.fuchu.hiroshima.jp/uploaded/attachment/31359.pdf,6頁 有害ごみ欄『モバイルバッテリー』,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M108,I030,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M108,I031,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M108,I031,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M108-01,https://www.town.fuchu.hiroshima.jp/uploaded/attachment/31359.pdf,6頁 埋立ごみ欄『白熱球（LED含む）』,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M108,I032,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M108,I033,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M108,I033,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M108-01,https://www.town.fuchu.hiroshima.jp/uploaded/attachment/31359.pdf,4頁 普通ごみ欄『ライター』,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M108,I034,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M108,I035,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M108,I036,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
@@ -4079,23 +4079,23 @@ M108,I037,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M108,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M108,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M108,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M109,I001,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,1頁 資源物「ペットボトル」欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M109,I001,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,1頁 資源物『ペットボトル』欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M109,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M109,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M109,I004,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,1頁 資源物「缶・金属類」欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M109,I004,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,1頁 資源物『缶・金属類』欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M109,I005,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M109,I006,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,1頁 資源物「ビン類」欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M109,I007,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,1頁 資源物「その他」白色トレイ欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M109,I006,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,1頁 資源物『ビン類』欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M109,I007,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,1頁 資源物『その他』白色トレイ欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M109,I008,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M109,I009,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M109,I010,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M109,I011,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M109,I012,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M109,I013,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,1頁 資源物「紙・布類」新聞欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
-M109,I014,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,1頁 資源物「紙・布類」ダンボール欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M109,I013,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,1頁 資源物『紙・布類』欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M109,I014,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,1頁 資源物『紙・布類』欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M109,I015,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M109,I016,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M109,I017,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,1頁 資源物「紙・布類」紙パック欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M109,I017,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,1頁 資源物『紙・布類』紙パック欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M109,I018,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M109,I019,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M109,I020,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
@@ -4107,11 +4107,11 @@ M109,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M109,I026,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M109,I027,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M109,I028,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M109,I029,VERIFIED,1,FALSE,ITEM_SPECIFIC,IS-M109-03,https://www.town.kaita.lg.jp/img/koenokouhou/202404/22.html,モバイルバッテリー・小型充電式電池欄,2026-08-24,OPENAI_CODEX_IMAGE_MAPPING_PILOT_V1,画像品目mapping Pilotで公式根拠を確認。条件枝完全性は未確定。
+M109,I029,VERIFIED,1,TRUE,ITEM_SPECIFIC,IS-M109-03,https://www.town.kaita.lg.jp/img/koenokouhou/202404/22.html,モバイルバッテリー・小型充電式電池欄,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M109,I030,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M109,I031,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M109,I031,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,2頁 50音一覧『電球（蛍光管を除く）』,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M109,I032,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M109,I033,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M109,I033,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M109-01,https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf,2頁 50音一覧『ライター（使い切る）』,2026-08-27,OPENAI_CODEX_BATCH11_M107_M109_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M109,I034,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M109,I035,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M109,I036,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。

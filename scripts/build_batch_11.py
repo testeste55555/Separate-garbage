@@ -27,7 +27,7 @@ REGISTRY_FIELDS = ["municipality_id","host","authority_type","authority_name","v
 
 municipality_specs = {
     "M106": dict(pref="広島県", city="安芸高田市", processor="芸北広域環境施設組合", top="https://www.akitakata.jp/ja/shisei/section/siminseikatu/gomi22/", guide="https://www.akitakata.jp/ja/shisei/section/siminseikatu/gomi22/", note="現行公式ページの住民向け区分を採用。容器包装類と燃えないごみは『分類ごとに袋を分ける』ため公式子葉を保持。モバイルバッテリーの直接案内は非通常収集経路として保持。"),
-    "M107": dict(pref="広島県", city="江田島市", processor="江田島市", top="https://www.city.etajima.hiroshima.jp/cms/articles/show/11923", guide="https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf", note="令和8年度改定ポスターを採用。古紙・布類は現行ポスターで一つの資源ごみ区分として扱う。"),
+    "M107": dict(pref="広島県", city="江田島市", processor="江田島市", top="https://www.city.etajima.hiroshima.jp/cms/articles/show/11923", guide="https://www.city.etajima.hiroshima.jp/cms/articles/download/11923/1/R8_nihonngo.pdf", note="令和8年度改定ポスターを採用。古紙・布類は現行ポスターで一つの資源ごみ区分として扱う。白色発泡トレーの店頭回収指示は通常収集外の詳細categoryとして保持する。"),
     "M108": dict(pref="広島県", city="府中町", processor="府中町", top="https://www.town.fuchu.hiroshima.jp/site/kankyousenta/34617.html", guide="https://www.town.fuchu.hiroshima.jp/uploaded/attachment/31359.pdf", note="令和8年度ごみの正しい出し方を採用。有価物は品目ごとに分けて順番に収集するため4公式子葉を保持。"),
     "M109": dict(pref="広島県", city="海田町", processor="海田町", top="https://www.town.kaita.lg.jp/soshiki/10/135455.html", guide="https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf", note="令和8年度家庭ごみの正しい出し方を採用。資源物内の5住民区分を公式子葉として保持。"),
     "M110": dict(pref="広島県", city="熊野町", processor="熊野町", top="https://www.town.kumano.lg.jp/8/1/3/2/3569.html", guide="https://www.town.kumano.lg.jp/8/1/3/2/3569.html", note="令和8年度の現行6区分を保持。資源物(1)(2)内部の小分類を人工的な独立categoryへ増やさない。"),
@@ -48,6 +48,7 @@ source_specs = {
         ("家庭ごみの種類と正しい出し方（令和8年度改定版）", "自治体公式PDF", municipality_specs["M107"]["guide"], "2026-04-30", "令和8年度の現行8住民区分、代表品目、資源ごみ3系統", "江田島市"),
         ("スプレー缶のごみ出しについて", "自治体公式Webページ", "https://www.city.etajima.hiroshima.jp/cms/articles/show/11608", "2026-01-05", "有害・危険ごみ。使い切り必須、穴を開けずに出す場合の表示方法", "江田島市"),
         ("『家庭ごみの種類と正しい出し方』ポスターをご利用ください", "自治体公式Webページ", municipality_specs["M107"]["top"], "2026-04-30", "令和8年度改定版が現行であること、5言語版の公開", "江田島市"),
+        ("ごみの出し方・分け方ガイド（平成29年度改訂版）", "自治体公式PDF", "https://www.city.etajima.hiroshima.jp/cms/files/uploads/29gomishiwake.pdf", "平成29年度改訂版／取得時点掲載中", "品目別一覧の電球・LED電球・使い捨てライターの分別先と条件", "江田島市"),
     ],
     "M108": [
         ("令和8年度 ごみの正しい出し方", "自治体公式PDF", municipality_specs["M108"]["guide"], "令和8年度", "普通ごみ・有価物4子葉・埋立・有害・PET・紙パック・白色トレイ・大型ごみ", "府中町"),
@@ -124,6 +125,14 @@ add("M107", "資源ごみ（びん・缶）", "飲食用びん・缶等", source
 add("M107", "資源ごみ（古紙・布類）", "古紙・衣類等", source=1, prep="古紙は種類別にまとめる")
 add("M107", "資源ごみ（ペットボトル）", "PETマークのペットボトル", source=1, prep="中を洗い、ふた・ラベルを外す")
 add("M107", "有害・危険ごみ", "乾電池・モバイルバッテリー・蛍光管・水銀製品・スプレー缶等", source=2, prep="スプレー缶は中身を使い切る。穴を開けずに出す場合は袋に入れ、穴を開けていない旨を表示する")
+add(
+    "M107", "スーパーなどの回収容器へ（食品トレー（発泡スチロール））",
+    "白色の発泡スチロール製食品トレー", source=1, ui="EXCLUDED_NOTICE",
+    level="EXCLUDED", channel="NOT_COLLECTED",
+    forbidden="市の通常収集区分へ混ぜない", cond="食品トレー（発泡スチロール）",
+    fallback="弁当等の非発泡食品トレーは燃えるごみ", prep="汚れを落として店頭回収へ",
+    excluded="TRUE", note="令和8年度改定ポスターの明示的な店頭回収指示",
+)
 
 # M108 府中町 — 有価物 is a projection parent with four separately collected leaves.
 add("M108", "普通ごみ", "台所ごみ・紙くず・木くず・革・ゴム・プラスチック等", prep="生ごみは水切り。指定寸法を超える物は大型ごみ")
@@ -262,10 +271,15 @@ def build_sources() -> list[dict[str, str]]:
     for mid in sorted(TARGETS):
         for i, (title, kind, url, updated, used, issuer) in enumerate(source_specs[mid], 1):
             m106_non_collection = mid == "M106" and i == 2
+            m107_legacy_guide = mid == "M107" and i == 4
             rows.append({
                 "municipality_id": mid, "source_id": f"S-{mid}-{i:02d}", "資料名": title, "資料種別": kind,
                 "公式URL": url, "発行主体": issuer,
-                "対象年度": "2026年度／取得時点現行" if m106_non_collection else "令和8年度",
+                "対象年度": (
+                    "2026年度／取得時点現行" if m106_non_collection
+                    else "平成29年度" if m107_legacy_guide
+                    else "令和8年度"
+                ),
                 "ページ更新日": updated, "取得確認日": M106_LESSON_CHECKED if m106_non_collection else CHECKED,
                 "使用した情報": used, "優先度": str(i), "現行性": "CURRENT" if m106_non_collection else "現行",
                 "備考": "M106 LESSON_READY_10の非通常収集品目に対するcategory根拠。" if m106_non_collection else "",

@@ -29,7 +29,7 @@ def main() -> int:
         ("unofficial evidence URL rejected", mutated(base, lambda rows: row(rows, "M095", "I006").update({"item_evidence_url": "https://example.com/bottle"}))),
         ("missing evidence locator rejected", mutated(base, lambda rows: row(rows, "M105", "I029").update({"item_evidence_locator": ""}))),
         ("generic placeholder rule rejected", mutated(base, lambda rows: row(rows, "M095", "I013").update({"preparation": "種類別にまとめ、必要に応じて洗浄・乾燥"}))),
-        ("unresolved item cannot claim guessed category", mutated(base, lambda rows: row(rows, "M107", "I031").update({"review_status": "VERIFIED", "category_id": "C-M107-08"}))),
+        ("resolved official category tamper rejected", mutated(base, lambda rows: row(rows, "M107", "I031").update({"category_id": "C-M107-02"}))),
         ("canonical evidence mismatch rejected", mutated(base, lambda rows: row(rows, "M104", "I029").update({"item_evidence_source_id": "IS-M104-04"}))),
     ]
 

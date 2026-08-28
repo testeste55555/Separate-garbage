@@ -14,12 +14,13 @@
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.27.txt`：LESSON_READY_10をAPP_READYから分離し、M097三原市の画像10品目・19条件枝を有効化した履歴版
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.28.txt`：M105廿日市市の画像10品目・22条件枝を追加し、mutation RED TEAMを全LESSON_READY_10自治体へ汎用化した履歴版
 - `WORK_ゴミ出し情報収集フロー_143自治体_v1.29.txt`：M098尾道市・M099福山市で`district_scope`と`lesson_variant_group`を分離し、オンライン固定10品目BOXと対面主要分別箱を分離した履歴版
-- `WORK_ゴミ出し情報収集フロー_143自治体_v1.30.txt`：**現行版**。一般自治体にも`SIMPLIFIED_ACTION`を適用可能にし、M106の非通常収集I029を詳細エビデンスのまま教材用「回収・確認」へ安全投影
+- `WORK_ゴミ出し情報収集フロー_143自治体_v1.30.txt`：一般自治体にも`SIMPLIFIED_ACTION`を適用可能にし、M106の非通常収集I029を教材用「回収・確認」へ安全投影
+- `WORK_ゴミ出し情報収集フロー_143自治体_v1.31.txt`：**現行版**。Batch 11のM107〜M109を追加し、M107白色発泡トレーの非通常収集を詳細層に保持して教材のみ簡略化
 
 ## 現在地
 
 - Schema：v1.2.4
-- Workflow：v1.30
+- Workflow：v1.31
 - 固定ID：143自治体
 - active実装対象：132自治体
 - DEFERRED：11自治体
@@ -36,11 +37,11 @@
   - M139 丸亀市
 - canonical：132自治体
 - QA：132/132 `QA_PASSED`
-- category：1,598行
-- source：415
-- item mapping：1,523条件枝
+- category：1,599行
+- source：416
+- item mapping：1,557条件枝
 - coverage：5,280 pair
-- category review evidence：333
+- category review evidence：334
 - Batch 14 RED TEAM：PASS
 - canonical structural validation：PASS
 - Schema v1.2.4 RED TEAM：PASS
@@ -60,13 +61,16 @@
 - M097三原市：10/10品目、19/19条件枝COMPLETE
 - M105廿日市市：10/10品目、22/22条件枝COMPLETE
 - M106安芸高田市：10/10品目、18/18条件枝COMPLETE。I029は非通常収集categoryを保持して教材用`SIMPLIFIED_ACTION`「回収・確認」へ投影
+- M107江田島市：10/10品目、18/18条件枝COMPLETE。I007白色発泡トレーは非通常収集categoryを保持して教材用`SIMPLIFIED_ACTION`「回収・確認」へ投影
+- M108府中町：10/10品目、18/18条件枝COMPLETE。全品目を通常公式categoryへ投影
+- M109海田町：10/10品目、18/18条件枝COMPLETE。全品目を通常公式categoryへ投影
 - M098尾道市：6内部scopeを1教材groupへ集約、10/10採点pair
 - M099福山市：4内部scopeを3教材groupへ集約、30/30採点pair
 - canonical：`VERIFIED + branch_completeness_confirmed=TRUE`
 - scoring branch：各品目1枝
 - 残り30品目：未完了を維持し、APP_READY 0/40として扱う
 - UI：オンラインは画像・採点BOX・○/×、対面は主要分別箱。`SIMPLIFIED_ACTION`は自治体正式区分ではない教材用簡略行動箱で、条件・前処理・例外・特殊経路・出典は教師側に保持
-- mutation RED TEAM：自治体別9ケース＋M106投影境界4ケース、31/31 PASS
+- mutation RED TEAM：6自治体×9ケース＋M106/M107投影境界8ケース、62/62 PASS
 
 ## Batch 14
 

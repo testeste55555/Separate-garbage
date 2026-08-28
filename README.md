@@ -36,14 +36,14 @@
 - Batch 14：**6自治体完了**（M136・M139 DEFERRED）
 - canonical：**132自治体**
 - canonical QA：**132 `QA_PASSED` / 0 `QA_REQUIRED`**
-- category：**1,598行**（通常区分に加えAPP_READY／LESSON_READY_10レビューで追加した参照経路を含む）
+- category：**1,599行**（通常区分に加えAPP_READY／LESSON_READY_10レビューで追加した参照経路を含む）
 - structured official leaves：**1,464区分**
-- official sources：**415**
-- item mapping：**1,523条件枝**（APP_READY 120品目pair＋M097・M105・M106のLESSON_READY_10全59条件枝を含む）
+- official sources：**416**
+- item mapping：**1,557条件枝**（APP_READY 120品目pair＋M097・M105・M106〜M109のLESSON_READY_10全113条件枝を含む）
 - 40品目coverage：**5,280自治体品目pair**
-- category review evidence：**333行**
+- category review evidence：**334行**
 - Schema：**v1.2.4**
-- Workflow：**v1.30**
+- Workflow：**v1.31**
 - Batch 14専用RED TEAM：**PASS**
 - canonical structural validation：**PASS**
 - Schema v1.2.4 RED TEAM：**PASS**
@@ -69,6 +69,21 @@
 
 データ：`data/app/district_scopes.csv`、`data/app/lesson_variant_groups.csv`、`data/app/lesson_variant_teaching_boxes.csv`、`data/app/lesson_variant_item_scoring.csv`
 
+### LESSON_READY_10 Batch 11 M107〜M109（2026-08-27）
+
+Batch 11の江田島市・府中町・海田町を、固定画像10品目の公式根拠・条件枝を詳細層に保持したまま教材へ投影した。地域差は収集日程上の差であり、固定10品目正答・対面主要BOXを変えないため、学習者向け地域選択は追加しない。
+
+- M107 江田島市：10/10品目、18/18条件枝COMPLETE。I007白色発泡トレーは現行ポスターの店頭回収指示を`NOT_COLLECTED / EXCLUDED_NOTICE`として保持し、教材だけ`SIMPLIFIED_ACTION`「回収・確認」へ投影
+- M107 I031/I033：市公式サイト掲載中の品目別ガイドで電球・LED電球・使い捨てライターを有害・危険ごみと確認
+- M108 府中町：10/10品目、18/18条件枝COMPLETE。I029は公式の通常「有害ごみ」へ`OFFICIAL_CATEGORY`投影
+- M109 海田町：10/10品目、18/18条件枝COMPLETE。I029は公式の通常「有害ごみ」、I031は「埋立ごみ」、I033は使い切り条件付き「資源物」
+- オンライン授業：固定10品目に必要な採点BOX＋画像＋○/×
+- 対面授業：画像問題を使わず主要分別箱のみ
+- learner UI：店名・施設名・持込方法・特殊回収経路・条件詳細を表示しない
+- LESSON_READY_10 mutation RED TEAM：62/62 PASS
+
+監査表：`data/research/lesson_readiness/m107_item_review.csv`、`m108_item_review.csv`、`m109_item_review.csv`
+
 ### LESSON_READY_10 M106（2026-08-27）
 
 安芸高田市の固定画像10品目を再確認し、9品目は通常収集category、I029モバイルバッテリーは公式の非通常収集categoryとして監査した。データ・エビデンス層は詳細を保持し、学習者向けアプリだけを必要十分な粒度へ簡略化する。
@@ -83,7 +98,7 @@
 - 対面授業：固定10品目専用BOXと分離した6主要分別箱
 - learner UI：販売店名・施設名・持込方法・条件・前処理・例外・出典を表示しない
 - canonical：10 pairは`VERIFIED + branch_completeness_confirmed=TRUE`。`APP_READY`ではない
-- LESSON_READY_10 mutation RED TEAM：31/31 PASS
+- LESSON_READY_10 mutation RED TEAM：62/62 PASS（M107〜M109追加後）
 
 監査表：`data/research/lesson_readiness/m106_item_review.csv`
 教材投影：`data/app/lesson_teaching_boxes.csv`、`data/app/lesson_item_scoring_projection.csv`
@@ -98,7 +113,7 @@
 - scoring branch：各品目ちょうど1枝
 - 白色トレイの材質・色・汚れ、びん・缶の対象条件、白熱／蛍光／LED電球、リチウムイオン電池の異常品経路を別枝で保持
 - canonical：10 pairは`VERIFIED + branch_completeness_confirmed=TRUE`。`APP_READY`ではない
-- LESSON_READY_10全自治体mutation RED TEAM：31/31 PASS
+- LESSON_READY_10全自治体mutation RED TEAM：62/62 PASS
 
 監査表：`data/research/lesson_readiness/m105_item_review.csv`
 
@@ -156,7 +171,7 @@
 
 ### 画像10品目 mapping Pilot（2026-08-24）
 
-Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を除くactive 8自治体について、画像10品目×8自治体＝80組を公式資料へ照合した。
+Style Research対象のうち地域variant専用層を使う尾道市・福山市を除くactive 9自治体について、画像10品目×9自治体＝90組を公式資料へ照合した。
 
 - 履歴的な品目別照合決定 `VERIFIED`：76組
 - `UNRESOLVED`：4組（江田島市・海田町の電球／使い捨てライター）
@@ -173,7 +188,7 @@ Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を
 広島県TOP10の公式分別色を、category正本から独立した追加レイヤーとして実装した。
 
 - 固定TOP10: 10自治体（再ランキングなし）
-- category参照可能: 8自治体・51 CURRENT/SORT_BUCKET
+- category参照可能: 9自治体（通常categoryに加え非通常収集categoryを教材用簡略行動へ安全投影）
 - 公式色観測: 61
 - UI projection: OFFICIAL_DERIVED 47 / NOT_CONFIRMED 4
 - style公式出典: 26
@@ -186,7 +201,7 @@ Style Research TOP10のうち地域variantでDEFERREDの尾道市・福山市を
 
 CI記録：`docs/research/batch_14_ci_status.txt`
 QA記録：`docs/research/batch_14_qa_report.md`
-現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.30.txt`
+現行Workflow：`docs/workflow/WORK_ゴミ出し情報収集フロー_143自治体_v1.31.txt`
 
 ## Batch 14
 
@@ -253,7 +268,7 @@ MASTER範囲はM136〜M143です。
 - `data/research/07_item_mapping_coverage.csv`：完了自治体×40品目の調査状態
 - `data/research/08_category_review_evidence.csv`：category completeness公式証拠
 - `docs/research/`：Batch QA・CI記録
-- `docs/workflow/`：作業フロー履歴（現行 v1.30）
+- `docs/workflow/`：作業フロー履歴（現行 v1.31）
 - `data/style_research/`：公式色の観測・UI projection・出典台帳
 - `data/app/district_scopes.csv`：地域variantの内部地域索引
 - `data/app/lesson_variant_groups.csv`：固定10品目に必要な学習者向け地域グループ
