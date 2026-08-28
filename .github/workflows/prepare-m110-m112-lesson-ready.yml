@@ -54,6 +54,36 @@ jobs:
           python3 scripts/validate_research.py --batch batch_11 --next-batch-gate
           python3 scripts/red_team_batch_11.py
           python3 scripts/merge_research.py
+      - name: Migrate reviewed M112 rows to corrected S-M112-02 URL
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import csv
+          ROOT = Path('.')
+          NEW = 'https://www.akiota.jp/uploaded/attachment/9504.pdf'
+          def rewrite(path, fields):
+              p = ROOT / path
+              with p.open(encoding='utf-8-sig', newline='') as f:
+                  reader = csv.DictReader(f)
+                  rows = list(reader)
+                  names = reader.fieldnames
+              changed = 0
+              for row in rows:
+                  if row.get('municipality_id') != 'M112':
+                      continue
+                  if row.get('category_source_id') == 'S-M112-02' and 'category_source_url' in row:
+                      if row.get('category_source_url') != NEW:
+                          row['category_source_url'] = NEW; changed += 1
+                  if row.get('item_evidence_source_id') == 'S-M112-02' and 'item_evidence_url' in row:
+                      if row.get('item_evidence_url') != NEW:
+                          row['item_evidence_url'] = NEW; changed += 1
+              with p.open('w', encoding='utf-8-sig', newline='') as f:
+                  writer = csv.DictWriter(f, fieldnames=names, lineterminator='\n')
+                  writer.writeheader(); writer.writerows(rows)
+              print(path, 'url_fields_updated=', changed)
+          rewrite('data/research/05_item_mapping_master.csv', None)
+          rewrite('data/research/07_item_mapping_coverage.csv', None)
+          PY
       - name: Build and synchronize lesson-ready projections
         run: |
           set -euo pipefail
