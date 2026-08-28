@@ -10,6 +10,9 @@
 - M107 江田島市：10品目・18条件枝。I007白色発泡トレーは店頭回収categoryを保持し、教材のみ`SIMPLIFIED_ACTION`へ投影
 - M108 府中町：10品目・18条件枝。全10品目を通常の公式categoryへ投影
 - M109 海田町：10品目・18条件枝。全10品目を通常の公式categoryへ投影
+- M110 熊野町：10品目・18条件枝。I029はステーション収集外categoryを保持し、教材のみ`SIMPLIFIED_ACTION`へ投影
+- M111 坂町：10品目・18条件枝。I029は町収集外categoryを保持し、教材のみ`SIMPLIFIED_ACTION`へ投影
+- M112 安芸太田町：10品目・18条件枝。全10品目を通常の公式categoryへ投影
 - M098 尾道市：1 lesson variant group・10採点pair
 - M099 福山市：3 lesson variant group・30採点pair
 
@@ -29,6 +32,8 @@ M098/M099は自治体単位の完全categoryを作らず、`data/app/district_sc
 反映と検証：
 
 ```bash
+python3 scripts/build_lesson_ready_m107_m109.py
+python3 scripts/build_lesson_ready_batch11.py
 python3 scripts/sync_lesson_ready_reviews.py
 python3 scripts/validate_lesson_scoring_modes.py
 python3 scripts/red_team_lesson_scoring_modes.py

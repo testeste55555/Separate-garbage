@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the 10 image items x 9 active Style Research municipalities pilot."""
+"""Validate the fixed image10 grid for all municipality-wide scoring scopes."""
 
 from __future__ import annotations
 
@@ -14,7 +14,6 @@ from schema_v12 import read_csv
 
 ROOT = Path(__file__).resolve().parents[1]
 PILOT_PATH = ROOT / "data" / "app" / "item_image_mapping_pilot_top8.csv"
-TARGETS = ("M094", "M095", "M097", "M104", "M105", "M106", "M107", "M108", "M109")
 ITEMS = ("I001", "I007", "I013", "I004", "I006", "I031", "I029", "I014", "I033", "I017")
 VARIANT_HOLD = {"M098", "M099"}
 EXPECTED_UNRESOLVED: set[tuple[str, str]] = set()
@@ -52,9 +51,11 @@ def validate_pilot_rows(pilot: list[dict[str, str]], root: Path = ROOT) -> list[
     sources = {(r["municipality_id"], r["source_id"]): r for r in rows(root / "data/research/03_sources_master.csv")}
     mappings = rows(root / "data/research/05_item_mapping_master.csv")
     coverage = {(r["municipality_id"], r["internal_item_id"]): r for r in rows(root / "data/research/07_item_mapping_coverage.csv")}
+    scoring_scope = rows(root / "data/app/lesson_mode_app_ready_scope.csv")
+    target_mids = tuple(r["municipality_id"] for r in scoring_scope)
     lesson_ready_mids = {
         r["municipality_id"]
-        for r in rows(root / "data/app/lesson_mode_app_ready_scope.csv")
+        for r in scoring_scope
         if r.get("scoring_status") == "LESSON_READY_10"
     }
     mapping_by_pair: dict[tuple[str, str], list[dict[str, str]]] = defaultdict(list)
@@ -62,9 +63,10 @@ def validate_pilot_rows(pilot: list[dict[str, str]], root: Path = ROOT) -> list[
         mapping_by_pair[(mapping["municipality_id"], mapping["internal_item_id"])].append(mapping)
 
     actual_pairs = [(r.get("municipality_id", ""), r.get("internal_item_id", "")) for r in pilot]
-    expected_pairs = {(mid, iid) for mid in TARGETS for iid in ITEMS}
-    if len(pilot) != 90:
-        errors.append(f"pilot row count must be 90: {len(pilot)}")
+    expected_pairs = {(mid, iid) for mid in target_mids for iid in ITEMS}
+    expected_count = len(expected_pairs)
+    if len(pilot) != expected_count:
+        errors.append(f"pilot row count must be {expected_count}: {len(pilot)}")
     if len(set(actual_pairs)) != len(actual_pairs):
         errors.append("duplicate municipality/item pair")
     if set(actual_pairs) != expected_pairs:
@@ -73,7 +75,7 @@ def validate_pilot_rows(pilot: list[dict[str, str]], root: Path = ROOT) -> list[
         errors.append("district-variant M098/M099 must not enter this municipality-wide pilot")
 
     status_counts = Counter(r.get("review_status", "") for r in pilot)
-    if status_counts != Counter({"VERIFIED": 90}):
+    if status_counts != Counter({"VERIFIED": expected_count}):
         errors.append(f"unexpected review status counts: {dict(status_counts)}")
 
     for expected_order, row in enumerate(pilot, start=1):
@@ -246,10 +248,11 @@ def main() -> int:
         and coverage[(row["municipality_id"], row["internal_item_id"])].get("branch_completeness_confirmed") == "TRUE"
         for row in pilot
     )
+    municipality_count = len({row["municipality_id"] for row in pilot})
     print(
-        "pairs=90 historical_verified=90 unresolved=0 "
+        f"pairs={len(pilot)} verified={len(pilot)} unresolved=0 "
         f"canonical_app_ready={canonical_app_ready} canonical_lesson_ready={canonical_lesson_ready} "
-        "municipalities=9 image_items=10"
+        f"municipalities={municipality_count} image_items=10"
     )
     return 0
 

@@ -14,6 +14,7 @@ on:
       - "data/style_research/**"
       - "scripts/sync_lesson_ready_reviews.py"
       - "scripts/build_lesson_ready_m107_m109.py"
+      - "scripts/build_lesson_ready_batch11.py"
       - "scripts/validate_lesson_scoring_modes.py"
       - "scripts/red_team_lesson_scoring_modes.py"
       - "scripts/validate_lesson_variants.py"
@@ -36,6 +37,7 @@ on:
       - "data/style_research/**"
       - "scripts/sync_lesson_ready_reviews.py"
       - "scripts/build_lesson_ready_m107_m109.py"
+      - "scripts/build_lesson_ready_batch11.py"
       - "scripts/validate_lesson_scoring_modes.py"
       - "scripts/red_team_lesson_scoring_modes.py"
       - "scripts/validate_lesson_variants.py"
@@ -62,6 +64,7 @@ jobs:
       - name: Rebuild and confirm LESSON_READY_10 projections
         run: |
           python scripts/build_lesson_ready_m107_m109.py
+          python scripts/build_lesson_ready_batch11.py
           python scripts/sync_lesson_ready_reviews.py
           git diff --exit-code -- \
             data/app/lesson_mode_app_ready_scope.csv \
@@ -71,6 +74,9 @@ jobs:
             data/research/lesson_readiness/m107_item_review.csv \
             data/research/lesson_readiness/m108_item_review.csv \
             data/research/lesson_readiness/m109_item_review.csv \
+            data/research/lesson_readiness/m110_item_review.csv \
+            data/research/lesson_readiness/m111_item_review.csv \
+            data/research/lesson_readiness/m112_item_review.csv \
             data/research/05_item_mapping_master.csv \
             data/research/07_item_mapping_coverage.csv
       - name: Validate lesson scoring modes

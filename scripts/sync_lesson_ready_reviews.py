@@ -23,6 +23,7 @@ CATEGORY_PATH = ROOT / "data/research/02_categories_master.csv"
 IMAGE_MAPPING_PATH = ROOT / "data/app/item_image_mapping_pilot_top8.csv"
 
 LESSON_STATUS = "LESSON_READY_10"
+IMAGE_ITEM_ORDER = ["I001", "I007", "I013", "I004", "I006", "I031", "I029", "I014", "I033", "I017"]
 REVIEW_FIELDS = [
     "municipality_id", "internal_item_id", "branch_order", "canonical_name", "display_name",
     "official_item_wording", "category_id", "category_name", "condition", "preparation",
@@ -146,6 +147,35 @@ def synchronize() -> tuple[int, int, int]:
         if len(scoring) != 1:
             raise ValueError(f"{pair} must have exactly one scoring branch")
         scoring_branch_by_pair[pair] = scoring[0]
+    scope_name_by_mid = {row["municipality_id"]: row["municipality_name"] for row in csv_rows(SCOPE_PATH)}
+    existing_image_pairs = {(row.get("municipality_id", ""), row.get("internal_item_id", "")) for row in image_rows}
+    for pair, scoring in sorted(scoring_branch_by_pair.items()):
+        if pair in existing_image_pairs:
+            continue
+        mid, iid = pair
+        image_rows.append({
+            "pair_order": "0",
+            "municipality_id": mid,
+            "municipality_name": scope_name_by_mid[mid],
+            "internal_item_id": iid,
+            "canonical_name": scoring["canonical_name"],
+            "display_name": scoring["display_name"],
+            "review_status": "VERIFIED",
+            "evidence_basis": scoring["evidence_basis"],
+            "category_id": scoring["category_id"],
+            "category_name": scoring["category_name"],
+            "condition": scoring["condition"],
+            "preparation": scoring["preparation"],
+            "exception_destination": scoring["exception_destination"],
+            "item_evidence_source_id": scoring["item_evidence_source_id"],
+            "item_evidence_url": scoring["item_evidence_url"],
+            "item_evidence_locator": scoring["item_evidence_locator"],
+            "checked_date": scoring["checked_date"],
+            "reviewer": scoring["reviewer"],
+            "note": "LESSON_READY_10のscoring_branchと同期。詳細条件は教師用reviewに保持。",
+        })
+        existing_image_pairs.add(pair)
+
     image_updates = 0
     for row in image_rows:
         pair = (row.get("municipality_id", ""), row.get("internal_item_id", ""))
@@ -168,6 +198,12 @@ def synchronize() -> tuple[int, int, int]:
             "note": "LESSON_READY_10のscoring_branchと同期。詳細条件は教師用reviewに保持。",
         })
         image_updates += 1
+
+    scope_order = {row["municipality_id"]: index for index, row in enumerate(csv_rows(SCOPE_PATH))}
+    item_order = {iid: index for index, iid in enumerate(IMAGE_ITEM_ORDER)}
+    image_rows.sort(key=lambda row: (scope_order.get(row.get("municipality_id", ""), 9999), item_order.get(row.get("internal_item_id", ""), 9999)))
+    for order, row in enumerate(image_rows, 1):
+        row["pair_order"] = str(order)
 
     write_csv(MAPPING_PATH, MAPPING_FIELDS, new_mappings)
     write_csv(COVERAGE_PATH, COVERAGE_FIELDS, new_coverage)

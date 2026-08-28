@@ -8,7 +8,7 @@
 
 収集曜日・収集時間・地区別カレンダーは構造化対象外です。カレンダーは必要に応じて、現行taxonomyの運用確認や地域variantの証拠として使用します。
 
-## 現在地（2026-08-27）
+## 現在地（2026-08-28）
 
 - MASTER固定ID台帳：**143自治体**
 - active実装対象：**132自治体**
@@ -36,12 +36,13 @@
 - Batch 14：**6自治体完了**（M136・M139 DEFERRED）
 - canonical：**132自治体**
 - canonical QA：**132 `QA_PASSED` / 0 `QA_REQUIRED`**
-- category：**1,599行**（通常区分に加えAPP_READY／LESSON_READY_10レビューで追加した参照経路を含む）
+- category：**1,601行**（通常区分に加えAPP_READY／LESSON_READY_10レビューで追加した参照経路を含む）
 - structured official leaves：**1,464区分**
-- official sources：**416**
-- item mapping：**1,557条件枝**（APP_READY 120品目pair＋M097・M105・M106〜M109のLESSON_READY_10全113条件枝を含む）
+- official sources：**420**
+- item mapping：**1,604条件枝**（APP_READY 120品目pair＋M097・M105〜M112のLESSON_READY_10全167条件枝を含む）
 - 40品目coverage：**5,280自治体品目pair**
-- category review evidence：**334行**
+- category review evidence：**338行**
+- オンライン画像採点grid：**120 pair / 120 VERIFIED**（APP_READY 3自治体30 pair＋LESSON_READY_10 9自治体90 pair）
 - Schema：**v1.2.4**
 - Workflow：**v1.31**
 - Batch 14専用RED TEAM：**PASS**
@@ -68,6 +69,23 @@
 - learner UI：内部district名・条件・前処理・例外・出典を表示しない
 
 データ：`data/app/district_scopes.csv`、`data/app/lesson_variant_groups.csv`、`data/app/lesson_variant_teaching_boxes.csv`、`data/app/lesson_variant_item_scoring.csv`
+
+### LESSON_READY_10 Batch 11 M110〜M112（2026-08-28）
+
+Batch 11第2波として熊野町・坂町・安芸太田町を固定画像10品目の教材利用へ追加した。既存の詳細なsource/category/condition/exceptionは保持し、学習者向け投影だけを必要十分な粒度へ簡潔化する。
+
+- M110 熊野町：10/10品目、18/18条件枝COMPLETE。I029モバイルバッテリーは町の通常収集外であることを詳細層に保持し、教材のみ`SIMPLIFIED_ACTION`「回収・確認」へ投影
+- M111 坂町：10/10品目、18/18条件枝COMPLETE。I029モバイルバッテリーは町の通常収集外として保持し、教材のみ`SIMPLIFIED_ACTION`「回収・確認」へ投影
+- M112 安芸太田町：10/10品目、18/18条件枝COMPLETE。固定10品目はすべて通常の公式categoryへ投影
+- M112令和8年版公式PDFは現行source URLへ訂正し、既存VERIFIED mapping/coverageの参照URLも同一sourceへ同期
+- オンライン授業：固定10品目に必要な採点BOX＋画像＋○/×
+- 対面授業：固定10品目専用BOXではなく主要分別箱のみ
+- learner UI：施設名・持込方法・特殊回収経路・条件・前処理・例外・出典を表示しない
+- Batch 11 RED TEAM：28/28 PASS
+- LESSON_READY_10 mutation RED TEAM：95/95 PASS
+- image mapping RED TEAM：9/9 PASS
+
+監査表：`data/research/lesson_readiness/m110_item_review.csv`、`m111_item_review.csv`、`m112_item_review.csv`
 
 ### LESSON_READY_10 Batch 11 M107〜M109（2026-08-27）
 

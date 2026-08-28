@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "research" / "batches" / "batch_11"
 CHECKED = "2026-08-19"
 M106_LESSON_CHECKED = "2026-08-27"
+LESSON_CHECKED = "2026-08-28"
 REVIEWER = "OPENAI_CHATGPT_BATCH11_REVIEW"
 NS = "NOT_STATED_IN_CITED_SOURCE"
 TARGETS = {f"M{i:03d}" for i in range(106, 116)}
@@ -32,7 +33,7 @@ municipality_specs = {
     "M109": dict(pref="広島県", city="海田町", processor="海田町", top="https://www.town.kaita.lg.jp/soshiki/10/135455.html", guide="https://www.town.kaita.lg.jp/uploaded/life/44980_122640_misc.pdf", note="令和8年度家庭ごみの正しい出し方を採用。資源物内の5住民区分を公式子葉として保持。"),
     "M110": dict(pref="広島県", city="熊野町", processor="熊野町", top="https://www.town.kumano.lg.jp/8/1/3/2/3569.html", guide="https://www.town.kumano.lg.jp/8/1/3/2/3569.html", note="令和8年度の現行6区分を保持。資源物(1)(2)内部の小分類を人工的な独立categoryへ増やさない。"),
     "M111": dict(pref="広島県", city="坂町", processor="坂町", top="https://www.town.saka.lg.jp/2014/04/01/gomi_dashikata/", guide="https://www.town.saka.lg.jp/2014/04/01/gomi_dashikata/", note="令和8年度現行ページを採用。資源ごみは住民が8品目に分けて出すため公式子葉を保持。"),
-    "M112": dict(pref="広島県", city="安芸太田町", processor="安芸太田町／ポックルくろだおクリーンセンター", top="https://www.akiota.jp/soshiki/13/2397.html", guide="https://www.akiota.jp/uploaded/attachment/9505.pdf", note="令和8年版家庭ごみ分別五十音事典を採用。資源・燃えない・プラスチックは区分ごとに分けるため12公式葉を保持。"),
+    "M112": dict(pref="広島県", city="安芸太田町", processor="安芸太田町／ポックルくろだおクリーンセンター", top="https://www.akiota.jp/soshiki/13/2397.html", guide="https://www.akiota.jp/uploaded/attachment/9504.pdf", note="令和8年版家庭ごみ分別五十音事典を採用。資源・燃えない・プラスチックは区分ごとに分けるため12公式葉を保持。"),
     "M113": dict(pref="広島県", city="北広島町", processor="芸北広域環境施設組合", top="https://www.town.kitahiroshima.lg.jp/soshiki/14/17696.html", guide="https://www.town.kitahiroshima.lg.jp/uploaded/attachment/23637.pdf", note="町公式が芸北広域環境施設組合の収集を明示し、令和8年度の分け方・出し方一覧表を現行資料として案内。"),
     "M114": dict(pref="広島県", city="大崎上島町", processor="大崎上島町", top="https://www.town.osakikamijima.hiroshima.jp/soshiki/joge_suido/1_1/1/1133.html", guide="https://www.town.osakikamijima.hiroshima.jp/soshiki/joge_suido/1_1/1/1133.html", note="令和8年4月の変更後ルールを採用。公式6上位分類のうち不燃・資源は住民向け2子葉ずつを保持。"),
     "M115": dict(pref="広島県", city="世羅町", processor="世羅町", top="https://www.town.sera.hiroshima.jp/soshiki/4/317.html", guide="https://www.town.sera.hiroshima.jp/soshiki/4/317.html", note="令和8年度現行ページを採用。不燃ごみは『それぞれ別々の袋』の5公式子葉を保持。地域差は日程のみ。"),
@@ -61,11 +62,17 @@ source_specs = {
     "M110": [
         ("熊野町 ごみの正しい出し方", "自治体公式Webページ", municipality_specs["M110"]["top"], "2026-07-01", "可燃・資源物(1)・資源物(2)・埋立・有害・大型の現行6区分", "熊野町"),
         ("資源物（1）", "自治体公式Webページ", "https://www.town.kumano.lg.jp/8/1/3/2/1/3572.html", "2026-03-31", "紙・衣類・PET・プラ容器包装の内部小分類と前処理", "熊野町"),
+        ("広報くまの（リチウムイオン電池の出し方）", "自治体公式PDF", "https://www.town.kumano.lg.jp/material/files/group/4/6903ebcd016.pdf", "2025-11", "リチウムイオン電池をステーション収集せず環境事務所へ直接搬入すること", "熊野町"),
+        ("ごみ分別50音一覧", "自治体公式Excel", "https://www.town.kumano.lg.jp/material/files/group/11/bunbetsu50onn.xls", "2026-07-01時点掲載中", "固定10品目の品目別分別先と条件", "熊野町"),
     ],
-    "M111": [("ごみの出し方", "自治体公式Webページ", municipality_specs["M111"]["top"], "2026-03-27", "もやせる・粗大2種・埋立・有害・資源8子葉と前処理", "坂町")],
+    "M111": [
+        ("ごみの出し方", "自治体公式Webページ", municipality_specs["M111"]["top"], "2026-03-27", "もやせる・粗大2種・埋立・有害・資源8子葉と前処理", "坂町"),
+        ("ごみ分別表（50音順）", "自治体公式PDF", "https://www.town.saka.lg.jp/wp-content/uploads/2014/04/%E3%81%94%E3%81%BF%E5%88%86%E5%88%A5%E8%A1%A8.pdf", "取得時点掲載中", "電球・使い捨てライター・リチウム電池等の品目別分別先", "坂町"),
+    ],
     "M112": [
         ("ごみ（一般廃棄物）の分別収集と処理について", "自治体公式Webページ", municipality_specs["M112"]["top"], "2026-06-22", "現行の上位分別体系と令和8年版資料への公式導線", "安芸太田町"),
         ("令和8年版 安芸太田町 家庭ごみ分別五十音事典", "自治体公式PDF", municipality_specs["M112"]["guide"], "令和8年版", "12住民区分、区分ごとの指定袋、前処理・穴あけ不要ルール", "安芸太田町"),
+        ("リチウムイオン電池・モバイルバッテリー等の出し方", "自治体公式Webページ", "https://www.akiota.jp/soshiki/13/17462.html", "2026-07-31", "モバイルバッテリー・電球等の小型電化製品及び有害物区分", "安芸太田町"),
     ],
     "M113": [
         ("家庭ごみの分け方・出し方", "自治体公式Webページ", municipality_specs["M113"]["top"], "2026-04-13", "芸北広域環境施設組合が収集主体であること、令和8年度資料・分別アプリへの現行導線", "北広島町"),
@@ -167,6 +174,14 @@ add("M110", "資源物（2）", "びん・飲料缶・金属類", prep=NS)
 add("M110", "埋立ごみ", "陶磁器・ガラス等", prep="危険物は安全に包む")
 add("M110", "有害ごみ", "乾電池・蛍光管・水銀製品等", prep="小分類ごとに分け、蛍光管は破損を防ぐ")
 add("M110", "大型ごみ", "大型家庭ごみ", ui="REFERENCE_ONLY", bulky="TRUE", prep="電池・燃料等を外す")
+add(
+    "M110", "環境事務所へ直接搬入（リチウムイオン電池等）",
+    "リチウムイオン電池・モバイルバッテリー", source=3, ui="EXCLUDED_NOTICE",
+    level="EXCLUDED", channel="NOT_COLLECTED", forbidden="ごみステーションへ出さない",
+    cond="家庭から出るリチウムイオン電池等", fallback="町の通常収集区分へ出さない",
+    prep="端子を絶縁して環境事務所へ直接搬入する", excluded="TRUE",
+    note="火災防止のためステーションでは収集しない", checked=LESSON_CHECKED,
+)
 
 # M111 坂町 — 資源ごみ projection parent with eight resident leaves.
 add("M111", "もやせるごみ", "生ごみ・紙くず・可燃性家庭ごみ", prep="生ごみは水切り。透明・半透明袋で出す")
@@ -183,6 +198,14 @@ add("M111", "ダンボール", "ダンボール", parent="資源ごみ", level="
 add("M111", "衣類", "古着等", parent="資源ごみ", level="SUBCATEGORY", ui="REFERENCE_ONLY", prep="透明・半透明袋で出す")
 add("M111", "ペットボトル", "飲料用PETボトル", parent="資源ごみ", level="SUBCATEGORY", ui="REFERENCE_ONLY", prep="ふたを外して洗う。ラベルは外さなくてもよい")
 add("M111", "白色トレイ", "白色食品トレイ", parent="資源ごみ", level="SUBCATEGORY", ui="REFERENCE_ONLY", prep="洗って乾かす。白色のみ")
+add(
+    "M111", "町で収集しないごみ（リチウム電池等）",
+    "リチウム電池・モバイルバッテリー", source=2, ui="EXCLUDED_NOTICE",
+    level="EXCLUDED", channel="NOT_COLLECTED", forbidden="町の通常収集へ出さない",
+    cond="家庭から出るリチウム電池等", fallback="販売店等の回収先を確認する",
+    prep="販売店等へ相談する", excluded="TRUE",
+    note="町収集外の品目別案内", checked=LESSON_CHECKED,
+)
 
 # M112 安芸太田町 — 12 resident leaves under three projection parents plus burnable/bulky.
 add("M112", "燃えるごみ", "生ごみ・紙くず・木竹製品等", source=2, prep="水切りする。木・竹製品は原則30cm以下。指定袋1袋10kg未満")
@@ -272,15 +295,21 @@ def build_sources() -> list[dict[str, str]]:
         for i, (title, kind, url, updated, used, issuer) in enumerate(source_specs[mid], 1):
             m106_non_collection = mid == "M106" and i == 2
             m107_legacy_guide = mid == "M107" and i == 4
+            lesson_current_source = (
+                (mid == "M110" and i in {3, 4})
+                or (mid == "M111" and i == 2)
+                or (mid == "M112" and i == 3)
+            )
             rows.append({
                 "municipality_id": mid, "source_id": f"S-{mid}-{i:02d}", "資料名": title, "資料種別": kind,
                 "公式URL": url, "発行主体": issuer,
                 "対象年度": (
-                    "2026年度／取得時点現行" if m106_non_collection
+                    "2026年度／取得時点現行" if (m106_non_collection or lesson_current_source)
                     else "平成29年度" if m107_legacy_guide
                     else "令和8年度"
                 ),
-                "ページ更新日": updated, "取得確認日": M106_LESSON_CHECKED if m106_non_collection else CHECKED,
+                "ページ更新日": updated,
+                "取得確認日": (M106_LESSON_CHECKED if m106_non_collection else LESSON_CHECKED if lesson_current_source else CHECKED),
                 "使用した情報": used, "優先度": str(i), "現行性": "CURRENT" if m106_non_collection else "現行",
                 "備考": "M106 LESSON_READY_10の非通常収集品目に対するcategory根拠。" if m106_non_collection else "",
                 "official_verified": "", "official_basis": "", "official_linking_url": "",

@@ -189,6 +189,36 @@ def main() -> int:
                 if not (row.get("municipality_id") == "M106" and row.get("internal_item_id") == "I029")
             ],
         ),
+        (
+            "M110/I029 non-normal category misprojected to SORT_BUCKET",
+            teaching_boxes,
+            mutate_projection("M110", "I029", "category_id", "C-M110-05"),
+        ),
+        (
+            "M110 learner label leaks special collection route",
+            mutate_action_box("M110", "display_name", "環境事務所へ持込"),
+            scoring_projection,
+        ),
+        (
+            "M110/I029 action projection removed",
+            teaching_boxes,
+            [row for row in scoring_projection if not (row.get("municipality_id") == "M110" and row.get("internal_item_id") == "I029")],
+        ),
+        (
+            "M111/I029 non-normal category misprojected to SORT_BUCKET",
+            teaching_boxes,
+            mutate_projection("M111", "I029", "category_id", "C-M111-05"),
+        ),
+        (
+            "M111 learner label leaks special collection route",
+            mutate_action_box("M111", "display_name", "販売店へ持込"),
+            scoring_projection,
+        ),
+        (
+            "M111/I029 action projection removed",
+            teaching_boxes,
+            [row for row in scoring_projection if not (row.get("municipality_id") == "M111" and row.get("internal_item_id") == "I029")],
+        ),
     ]
     for name, candidate_boxes, candidate_projection in projection_cases:
         if not validate_teaching_projection(candidate_boxes, candidate_projection, category_by_key):
