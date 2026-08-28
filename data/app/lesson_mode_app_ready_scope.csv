@@ -8,3 +8,6 @@ M106,安芸高田市,ONLINE_CLASS,LESSON_READY_10,10,18,data/research/lesson_rea
 M107,江田島市,ONLINE_CLASS,LESSON_READY_10,10,18,data/research/lesson_readiness/m107_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,画像10品目の全条件枝COMPLETE。M107のI007のみ非通常収集categoryをSIMPLIFIED_ACTIONへ投影。40品目APP_READYではない
 M108,府中町,ONLINE_CLASS,LESSON_READY_10,10,18,data/research/lesson_readiness/m108_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,画像10品目の全条件枝COMPLETE。通常収集categoryへ安全に投影。40品目APP_READYではない
 M109,海田町,ONLINE_CLASS,LESSON_READY_10,10,18,data/research/lesson_readiness/m109_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,画像10品目の全条件枝COMPLETE。通常収集categoryへ安全に投影。40品目APP_READYではない
+M110,熊野町,ONLINE_CLASS,LESSON_READY_10,10,18,data/research/lesson_readiness/m110_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,画像10品目の全条件枝COMPLETE。I029のみ非通常収集categoryをSIMPLIFIED_ACTIONへ投影。40品目APP_READYではない
+M111,坂町,ONLINE_CLASS,LESSON_READY_10,10,18,data/research/lesson_readiness/m111_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,画像10品目の全条件枝COMPLETE。I029のみ非通常収集categoryをSIMPLIFIED_ACTIONへ投影。40品目APP_READYではない
+M112,安芸太田町,ONLINE_CLASS,LESSON_READY_10,10,18,data/research/lesson_readiness/m112_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,画像10品目の全条件枝COMPLETE。通常収集categoryへ安全に投影。40品目APP_READYではない

@@ -35,7 +35,7 @@ def main() -> int:
     by = {r["municipality_id"]: r for r in munis}
     q = {r["municipality_id"]: r for r in qa}
     evc = Counter(r["municipality_id"] for r in evidence)
-    names = {mid: {r["自治体正式名称"] for r in cats if r["municipality_id"] == mid and r.get("rule_status") == "CURRENT"} for mid in TARGETS}
+    names = {mid: {r["自治体正式名称"] for r in cats if r["municipality_id"] == mid and r.get("rule_status") == "CURRENT" and r.get("ui_role") != "EXCLUDED_NOTICE"} for mid in TARGETS}
     rows = {(r["municipality_id"], r["自治体正式名称"]): r for r in cats if r.get("rule_status") == "CURRENT"}
     children = Counter(r.get("parent_category_id", "") for r in cats if r.get("parent_category_id"))
     source_by_key = {(r["municipality_id"], r["source_id"]): r for r in sources}

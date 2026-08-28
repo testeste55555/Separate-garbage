@@ -11,9 +11,13 @@ CRE-M109-01,CR-M109-CATEGORY-COVERAGE,M109,S-M109-01,可燃・埋立・資源物
 CRE-M109-02,CR-M109-CATEGORY-COVERAGE,M109,S-M109-02,令和8年度日本語版と外国語版が現行であること,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
 CRE-M110-01,CR-M110-CATEGORY-COVERAGE,M110,S-M110-01,可燃・資源物(1)・資源物(2)・埋立・有害・大型の現行6区分,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
 CRE-M110-02,CR-M110-CATEGORY-COVERAGE,M110,S-M110-02,紙・衣類・PET・プラ容器包装の内部小分類と前処理,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M110-03,CR-M110-CATEGORY-COVERAGE,M110,S-M110-03,リチウムイオン電池をステーション収集せず環境事務所へ直接搬入すること,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M110-04,CR-M110-CATEGORY-COVERAGE,M110,S-M110-04,固定10品目の品目別分別先と条件,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
 CRE-M111-01,CR-M111-CATEGORY-COVERAGE,M111,S-M111-01,もやせる・粗大2種・埋立・有害・資源8子葉と前処理,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M111-02,CR-M111-CATEGORY-COVERAGE,M111,S-M111-02,電球・使い捨てライター・リチウム電池等の品目別分別先,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
 CRE-M112-01,CR-M112-CATEGORY-COVERAGE,M112,S-M112-01,現行の上位分別体系と令和8年版資料への公式導線,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
 CRE-M112-02,CR-M112-CATEGORY-COVERAGE,M112,S-M112-02,12住民区分、区分ごとの指定袋、前処理・穴あけ不要ルール,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
+CRE-M112-03,CR-M112-CATEGORY-COVERAGE,M112,S-M112-03,モバイルバッテリー・電球等の小型電化製品及び有害物区分,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
 CRE-M113-01,CR-M113-CATEGORY-COVERAGE,M113,S-M113-01,芸北広域環境施設組合が収集主体であること、令和8年度資料・分別アプリへの現行導線,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
 CRE-M113-02,CR-M113-CATEGORY-COVERAGE,M113,S-M113-02,芸北広域の住民向け分別体系と子区分,SUPPLEMENTAL_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
 CRE-M114-01,CR-M114-CATEGORY-COVERAGE,M114,S-M114-01,令和8年4月変更後の6上位分類と不燃・資源の住民向け子区分,PRIMARY_INDEX,2026-08-19 Batch 11 resident-facing category completeness review
