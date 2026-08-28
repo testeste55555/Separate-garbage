@@ -344,27 +344,6 @@ def ensure_style_source_columns() -> None:
         write_rows(path, fields, rows)
 
 
-def update_deferred_notes() -> None:
-    fields, rows = read_rows("data/master/05_deferred_municipalities.csv")
-    notes = {
-        "M076": "canonical 40品目はDEFERREDを維持。地区variant layerでfixed10のみLESSON_READY_10実装済み。",
-        "M098": "canonical 40品目はDEFERREDを維持。6 internal district scopesを1 learner groupに統合しfixed10のみLESSON_READY_10実装済み。",
-        "M099": "canonical 40品目はDEFERREDを維持。一般・内海町/沼隈町・走島町の3 learner groupsでfixed10のみLESSON_READY_10実装済み。",
-        "M100": "canonical 40品目はDEFERREDを維持。府中・上下の2 learner groupsでfixed10のみLESSON_READY_10実装済み。",
-        "M120": "canonical 40品目はDEFERREDを維持。本土側fixed10のみLESSON_READY_10実装済み。島しょ部は今回の教材対象外。",
-        "M123": "canonical 40品目はDEFERREDを維持。食品トレーの正答差を2 learner groupsでfixed10のみLESSON_READY_10実装済み。",
-        "M127": "canonical 40品目はDEFERREDを維持。美祢・美東・秋芳の3 learner groupsでfixed10のみLESSON_READY_10実装済み。",
-        "M136": "canonical 40品目はDEFERREDを維持。市共通1 learner groupでfixed10のみLESSON_READY_10実装済み。",
-        "M139": "canonical 40品目はDEFERREDを維持。主要分別体系を1 learner groupとしてfixed10のみLESSON_READY_10実装済み。",
-    }
-    for row in rows:
-        if row["municipality_id"] in notes:
-            row["reason"] = notes[row["municipality_id"]]
-            row["deferred_date"] = CHECKED_DATE
-            row["decision_source"] = "LESSON_VARIANT_BOUNDARY"
-    write_rows("data/master/05_deferred_municipalities.csv", fields, rows)
-
-
 def main() -> None:
     replace_target_rows("data/research/lesson_readiness/lesson_variant_sources.csv", build_source_rows())
     replace_target_rows("data/app/lesson_variant_groups.csv", build_group_rows())
@@ -374,7 +353,6 @@ def main() -> None:
     fields, old_boxes = read_rows("data/app/lesson_variant_teaching_boxes.csv")
     write_rows("data/app/lesson_variant_teaching_boxes.csv", fields, [r for r in old_boxes if r["lesson_variant_group_id"] not in target_group_ids] + boxes)
     replace_target_rows("data/app/lesson_variant_item_scoring.csv", scoring)
-    update_deferred_notes()
     write_priority_layer()
     ensure_style_source_columns()
     print(f"built regional lesson batch targets={len(TARGETS)} groups={len(GROUPS)} scoring={len(scoring)}")
