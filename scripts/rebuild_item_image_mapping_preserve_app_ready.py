@@ -2,9 +2,13 @@
 """Rebuild the historical image-mapping Pilot without downgrading APP_READY rows.
 
 The Pilot generator predates municipality-wide APP_READY promotion. Its internal R
-fixture remains useful for non-promoted municipalities, but it must not overwrite a
-newer committed scoring row once a municipality is APP_READY. Snapshot those rows,
-run the historical builder unchanged, then restore the authoritative rows in place.
+fixture remains useful for non-promoted municipalities, but it must not overwrite or
+drop a newer committed scoring row once a municipality is APP_READY. Snapshot those
+rows, run the historical builder unchanged, restore matching rows in place, then append
+APP_READY rows for municipalities that the historical fixture never knew about.
+
+Regional APP_READY municipalities such as M099 intentionally have no municipality-wide
+image rows, so nothing is fabricated for them here.
 """
 from __future__ import annotations
 
@@ -55,14 +59,23 @@ def main() -> None:
         restored += 1
         seen_frozen.add(key)
 
-    missing = sorted(set(frozen) - seen_frozen)
-    if missing:
-        raise ValueError(f"APP_READY image rows disappeared during rebuild: {missing}")
+    # A newly promoted APP_READY municipality can post-date the historical Pilot
+    # fixture entirely.  Preserve its already-reviewed image rows instead of treating
+    # their absence from that historical fixture as an error.  Deterministic ordering
+    # is re-established for the complete grid below.
+    appended = 0
+    for key in sorted(set(frozen) - seen_frozen):
+        rebuilt.append(dict(frozen[key]))
+        appended += 1
+
+    # The validator requires pair_order to be exactly the committed row order.
+    for order, row in enumerate(rebuilt, start=1):
+        row["pair_order"] = str(order)
 
     write_csv(IMAGE_MAPPING, fields, rebuilt)
     print(
         f"ITEM_IMAGE_PILOT_REBUILT app_ready_municipalities={len(app_ready_mids)} "
-        f"frozen_rows={len(frozen)} restored={restored}"
+        f"frozen_rows={len(frozen)} restored={restored} appended={appended}"
     )
 
 
