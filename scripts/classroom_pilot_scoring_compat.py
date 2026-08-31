@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Compatibility gate for a full APP_READY municipality that keeps regional fixed-10 scoring.
 
-M099 uses the audited regional variant matrix for the ten learner images.  It must not
+M099 uses the audited regional variant matrix for the ten learner images. It must not
 receive a fake municipality-wide image mapping merely to satisfy the legacy validator.
-This wrapper accepts the absence of those ten generic image rows only when M099 has a
-complete 40-item canonical APP_READY promotion and the regional variant validator
-passes with the promotion-aware boundary gate.
+The APP_READY expectation is enabled only after the complete 40-item promotion exists
+in the checked worktree, so unrelated rebuild jobs do not assume an uncommitted state.
 """
 from __future__ import annotations
 
@@ -27,7 +26,11 @@ def configure() -> None:
         return
 
     base.EXPECTED_REGRESSION_STATUS["M105"] = base.APP_READY
-    base.EXPECTED_REGRESSION_STATUS[MID] = base.APP_READY
+    if variant_compat.promotion_is_complete(base.ROOT):
+        base.EXPECTED_REGRESSION_STATUS[MID] = base.APP_READY
+    else:
+        base.EXPECTED_REGRESSION_STATUS.pop(MID, None)
+
     original_validate = base.validate
 
     def compatible_validate(root: Path = base.ROOT):
