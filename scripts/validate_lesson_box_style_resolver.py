@@ -107,8 +107,8 @@ def validate(root: Path = ROOT) -> list[str]:
         if projection.get("color_status") not in OFFICIAL:
             errors.append(f"M094/{row.get('teaching_box_id')}: known official style no longer resolves")
 
-    # FALLBACK is a runtime provenance only.  Official projection rows may use
-    # the status for research decisions but must not carry invented color data.
+    # FALLBACK is runtime provenance only. It must never be persisted into the
+    # official projection table as invented municipality color data.
     for row in projections:
         if row.get("color_status") == "FALLBACK" and any(
             row.get(field) for field in ("display_color", "border_color", "text_color", "selected_style_id")
@@ -123,7 +123,7 @@ def validate(root: Path = ROOT) -> list[str]:
         '"SAME_OFFICIAL_STYLE"', '"VARIANT_OFFICIAL_STYLE"',
         "box.dataset.styleProvenance", "box.dataset.styleReason", "box.dataset.sourceCategoryIds",
         "box.style.backgroundColor = resolution.style.display_color.trim()",
-        '"bucket--fallback-style"',
+        '"bucket--fallback-style"', "box.dataset.fallbackPalette",
     }
     for token in required_js:
         if token not in js:
@@ -139,8 +139,11 @@ def validate(root: Path = ROOT) -> list[str]:
         colors = HEX_RE.findall(body)
         if not colors or any(color.lower() in {"#fff", "#ffffff"} for color in colors):
             errors.append("fallback style is white or lacks an explicit non-white surface")
-        if "repeating-linear-gradient" not in body or "border-color" not in body:
-            errors.append("fallback style lacks pattern or strong border")
+        if "background-image: none" not in body or "border-color" not in body or "border-style: solid" not in body:
+            errors.append("fallback style lacks solid high-contrast surface")
+        palette_rules = re.findall(r'\.bucket--fallback-style\[data-fallback-palette="[1-8]"\]', css)
+        if len(palette_rules) != 8:
+            errors.append("fallback palette does not define all 8 classroom colors")
     if '.bucket--fallback-style[data-box-kind="SIMPLIFIED_ACTION"]' not in css or "border-style: dashed" not in css:
         errors.append("simplified action lacks a non-color visual distinction")
     return errors
@@ -154,7 +157,7 @@ def main() -> int:
             print(f"- {error}")
         return 1
     print("LESSON_BOX_STYLE_RESOLVER_VALIDATION_PASSED")
-    print("provenance=OFFICIAL_CONFIRMED|OFFICIAL_DERIVED|FALLBACK fallback_persisted=0")
+    print("provenance=OFFICIAL_CONFIRMED|OFFICIAL_DERIVED|FALLBACK fallback_persisted=0 fallback_palette=8")
     return 0
 
 
