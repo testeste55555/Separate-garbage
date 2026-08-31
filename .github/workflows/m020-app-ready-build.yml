@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'scripts/apply_app_readiness_m020.py'
+      - 'scripts/normalize_app_readiness_m020.py'
       - 'scripts/validate_app_readiness_m020.py'
       - 'scripts/red_team_app_readiness_m020.py'
       - 'scripts/rebuild_item_image_mapping_preserve_app_ready.py'
@@ -11,6 +12,7 @@ on:
   pull_request:
     paths:
       - 'scripts/apply_app_readiness_m020.py'
+      - 'scripts/normalize_app_readiness_m020.py'
       - 'scripts/validate_app_readiness_m020.py'
       - 'scripts/red_team_app_readiness_m020.py'
       - 'scripts/rebuild_item_image_mapping_preserve_app_ready.py'
@@ -52,6 +54,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 scripts/apply_app_readiness_m020.py
+          python3 scripts/normalize_app_readiness_m020.py
 
       - name: Validate M020 and mutation RED TEAM
         run: |
