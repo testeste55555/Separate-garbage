@@ -32,7 +32,8 @@ jobs:
           python3 scripts/validate_style_research_promotion_compat.py --gate
           python3 scripts/validate_lesson_box_style_resolver.py
           python3 scripts/red_team_lesson_box_style_resolver.py
-          python3 scripts/validate_lesson_variants.py
+          python3 scripts/validate_classroom_pilot_variants.py
+          python3 scripts/red_team_classroom_pilot_variants.py
           python3 scripts/validate_teaching_display_layer.py
           node --check app/app.js
       - name: Commit audited M099 color projection
