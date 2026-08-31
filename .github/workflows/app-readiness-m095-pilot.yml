@@ -8,6 +8,9 @@ on:
       - "scripts/finalize_app_readiness_pilot_m095.py"
       - "scripts/validate_app_readiness_pilot_m095.py"
       - "scripts/red_team_app_readiness_pilot_m095.py"
+      - "scripts/rebuild_item_image_mapping_preserve_app_ready.py"
+      - "scripts/validate_classroom_pilot_scoring_modes.py"
+      - "scripts/red_team_classroom_pilot_scoring_modes.py"
       - ".github/workflows/app-readiness-m095-pilot.yml"
   pull_request:
     paths:
@@ -16,6 +19,9 @@ on:
       - "scripts/finalize_app_readiness_pilot_m095.py"
       - "scripts/validate_app_readiness_pilot_m095.py"
       - "scripts/red_team_app_readiness_pilot_m095.py"
+      - "scripts/rebuild_item_image_mapping_preserve_app_ready.py"
+      - "scripts/validate_classroom_pilot_scoring_modes.py"
+      - "scripts/red_team_classroom_pilot_scoring_modes.py"
       - ".github/workflows/app-readiness-m095-pilot.yml"
   workflow_dispatch:
 
@@ -36,7 +42,7 @@ jobs:
       - name: Rebuild and confirm committed M095 review data
         run: |
           set -euo pipefail
-          python3 scripts/apply_item_image_mapping_pilot_top8.py
+          python3 scripts/rebuild_item_image_mapping_preserve_app_ready.py
           python3 scripts/apply_app_readiness_pilot_m094.py
           python3 scripts/apply_app_readiness_pilot_m104.py
           python3 scripts/apply_app_readiness_pilot_m095.py
@@ -81,8 +87,8 @@ jobs:
           git diff --exit-code -- data/style_research
           python3 scripts/validate_style_research.py --gate
           python3 scripts/red_team_style_research.py
-          python3 scripts/validate_lesson_scoring_modes.py
-          python3 scripts/red_team_lesson_scoring_modes.py
+          python3 scripts/validate_classroom_pilot_scoring_modes.py
+          python3 scripts/red_team_classroom_pilot_scoring_modes.py
           node --check app/app.js
       - name: Confirm global APP gate honestly remains HOLD
         run: |
