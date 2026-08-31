@@ -71,7 +71,7 @@ def main() -> int:
     def expose_selector(d):
         for r in d["groups"]:
             if r.get("municipality_id") == gate.MID:
-                r["learner_region_selector_required"] = "TRUE"
+                r["learner_selection_required"] = "TRUE"
     tests.append(("learner region selector exposed", expose_selector))
 
     def split_district(d):
