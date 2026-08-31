@@ -1,11 +1,11 @@
 ﻿company_id,company_display_name,company_normalized_name,company_aliases,site_id,site_display_name,municipality_id,lesson_variant_group_id,mapping_status,source_url,checked_date,identity_resolution_note,display_order,active
-C001,株式会社スチールサービス,スチールサービス,㈱スチールサービス;株式会社スチールサービス,C001-S01,本社,M098,LV-M098-01,CONFIRMED,https://info.gbiz.go.jp/hojin/ichiran?hojinBango=3240001039110,2026-08-31,尾道市瀬戸田町中野の本店所在地を採用。M098はlearner selection不要の単一教材group。,1,FALSE
+C001,株式会社スチールサービス,スチールサービス,㈱スチールサービス;株式会社スチールサービス,C001-S01,本社,M098,LV-M098-01,CONFIRMED,https://info.gbiz.go.jp/hojin/ichiran?hojinBango=3240001039110,2026-08-31,尾道市瀬戸田町中野の本店所在地を採用。M098はlearner selection不要の単一教材group。,1,TRUE
 C002,紀陽コーテック株式会社,紀陽コーテック,紀陽コーテック;紀陽コーテック株式会社,C002-S01,本社,M094,,CONFIRMED,https://info.gbiz.go.jp/hojin/ichiran?hojinBango=1240001002689,2026-08-31,広島市南区出島の本店所在地を採用。,2,TRUE
 C003,有限会社日基リース,日基リース,(有)日基リース;㈲日基リース;有限会社日基リース,C003-S01,本社,M105,,CONFIRMED,https://info.gbiz.go.jp/hojin/ichiran?hojinBango=5240002036765,2026-08-31,廿日市市串戸の本店所在地をprimary siteとして採用。加計工場・金城工場は将来site追加可能とする。,3,TRUE
-C004,有限会社洋誠工業,洋誠工業,㈲洋誠工業;(有)洋誠工業;有限会社洋誠工業,C004-S01,本社,M098,LV-M098-01,CONFIRMED,https://info.gbiz.go.jp/hojin/ichiran?hojinBango=5240002051764,2026-08-31,尾道市平原の本店所在地を採用。M098はlearner selection不要の単一教材group。,4,FALSE
+C004,有限会社洋誠工業,洋誠工業,㈲洋誠工業;(有)洋誠工業;有限会社洋誠工業,C004-S01,本社,M098,LV-M098-01,CONFIRMED,https://info.gbiz.go.jp/hojin/ichiran?hojinBango=5240002051764,2026-08-31,尾道市平原の本店所在地を採用。M098はlearner selection不要の単一教材group。,4,TRUE
 C005,新舶信鋼業株式会社,新舶信鋼業,新舶信鋼業㈱;新舶信鋼業株式会社,C005-S01,本社,M099,LV-M099-02,CONFIRMED,https://info.gbiz.go.jp/hojin/ichiran?hojinBango=4240001029358,2026-08-31,本店は福山市沼隈町草深。常石造船内就業場所も沼隈町であり既存の内海町・沼隈町教材groupへ一意に解決。,5,TRUE
 C006,大信工業有限会社,大信工業,大信工業㈲;大信工業(有);大信工業有限会社,C006-S01,本社,M099,LV-M099-02,CONFIRMED,https://info.gbiz.go.jp/hojin/ichiran?hojinBango=7240002038421,2026-08-31,現行本店は福山市内海町。常石1083の事業地点情報もあるが双方とも既存の内海町・沼隈町教材groupに属する。,6,TRUE
-C007,株式会社ハルト工業,ハルト工業,㈱ハルト工業;株式会社ハルト工業,C007-S01,本社,M098,LV-M098-01,CONFIRMED,https://info.gbiz.go.jp/hojin/ichiran?hojinBango=9240001047545,2026-08-31,尾道市山波町の本店所在地を採用。M098はlearner selection不要の単一教材group。,7,FALSE
+C007,株式会社ハルト工業,ハルト工業,㈱ハルト工業;株式会社ハルト工業,C007-S01,本社,M098,LV-M098-01,CONFIRMED,https://info.gbiz.go.jp/hojin/ichiran?hojinBango=9240001047545,2026-08-31,尾道市山波町の本店所在地を採用。M098はlearner selection不要の単一教材group。,7,TRUE
 C008,村上工業有限会社,村上工業,村上工業㈲;村上工業(有);村上工業有限会社,C008-S01,本社,M099,LV-M099-01,CONFIRMED,https://info.gbiz.go.jp/hojin/ichiran?hojinBango=7240002043363,2026-08-31,法人番号7240002043363の福山市山手町法人を採用。同名法人との混同を避けるため法人番号で同定。,8,TRUE
 C009,常石三保造船株式会社,常石三保造船,常石三保造船㈱;常石三保造船株式会社,C009-S01,本社・三保工場,M020,,CONFIRMED,https://www.tsuneishi.co.jp/miho/company/about/,2026-08-31,ユーザー指定企業に対応する本社・三保工場（静岡市清水区三保）を採用。新潟工場・三崎工場は今回active siteへ自動追加しない。,9,TRUE
 C010,堂本食品株式会社,堂本食品,堂本食品;堂本食品株式会社,C010-S01,本社,M094,,CONFIRMED,https://www.domoto.co.jp/profile,2026-08-31,広島市安佐南区伴中央の本社所在地を採用。,10,TRUE
