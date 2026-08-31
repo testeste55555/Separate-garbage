@@ -28,16 +28,19 @@ def main():
         rows = rows_by_municipality[municipality_id]
         item_ids = {row.get("internal_item_id", "").strip() for row in rows}
         missing_items = sorted(REQUIRED_ITEMS - item_ids)
-        statuses = Counter(row.get("mapping_status", "").strip() for row in rows)
+        statuses = Counter(row.get("coverage_status", "").strip() for row in rows)
         complete = sum(row.get("branch_completeness_confirmed", "").strip().upper() == "TRUE" for row in rows)
-        app_ready = sum(row.get("mapping_status", "").strip() == "APP_READY" for row in rows)
-        print(f"{municipality_id}: rows={len(rows)} items={len(item_ids)} branch_complete={complete}/40 APP_READY={app_ready}/40 statuses={dict(statuses)}")
+        app_ready = sum(row.get("coverage_status", "").strip() == "APP_READY" for row in rows)
+        print(
+            f"{municipality_id}: rows={len(rows)} items={len(item_ids)} "
+            f"branch_complete={complete}/40 APP_READY={app_ready}/40 statuses={dict(statuses)}"
+        )
         if missing_items:
             print(f"  missing coverage rows: {','.join(missing_items)}")
         not_ready = [
             row.get("internal_item_id", "").strip()
             for row in rows
-            if row.get("mapping_status", "").strip() != "APP_READY" or
+            if row.get("coverage_status", "").strip() != "APP_READY" or
                row.get("branch_completeness_confirmed", "").strip().upper() != "TRUE"
         ]
         if not_ready:
