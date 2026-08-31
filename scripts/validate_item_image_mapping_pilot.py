@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Validate the fixed image10 grid for all municipality-wide scoring scopes."""
+"""Validate the fixed image10 grid for municipality-wide scoring scopes.
+
+Regional learner variants are intentionally excluded from this municipality-wide image
+mapping table even after their canonical 40-item data is promoted to APP_READY.  Their
+fixed-10 scoring remains in lesson_variant_item_scoring.csv, so inventing one municipal
+category here would collapse a real regional difference.
+"""
 
 from __future__ import annotations
 
@@ -52,11 +58,18 @@ def validate_pilot_rows(pilot: list[dict[str, str]], root: Path = ROOT) -> list[
     mappings = rows(root / "data/research/05_item_mapping_master.csv")
     coverage = {(r["municipality_id"], r["internal_item_id"]): r for r in rows(root / "data/research/07_item_mapping_coverage.csv")}
     scoring_scope = rows(root / "data/app/lesson_mode_app_ready_scope.csv")
-    target_mids = tuple(r["municipality_id"] for r in scoring_scope)
+    # A regional APP_READY municipality may legitimately appear in the canonical
+    # 40-item scope.  It still must not enter this single-category-per-item table;
+    # fixed-10 learner scoring is resolved by the audited regional variant layer.
+    target_mids = tuple(
+        r["municipality_id"] for r in scoring_scope
+        if r.get("municipality_id") not in VARIANT_HOLD
+    )
     lesson_ready_mids = {
         r["municipality_id"]
         for r in scoring_scope
         if r.get("scoring_status") == "LESSON_READY_10"
+        and r.get("municipality_id") not in VARIANT_HOLD
     }
     mapping_by_pair: dict[tuple[str, str], list[dict[str, str]]] = defaultdict(list)
     for mapping in mappings:
@@ -148,10 +161,6 @@ def validate_pilot_rows(pilot: list[dict[str, str]], root: Path = ROOT) -> list[
             errors.append(f"verified source URL mismatch: {label}")
 
         if cov.get("coverage_status") == "APP_READY":
-            # Municipality-wide APP review may replace the Pilot's historical
-            # evidence source with a more precise item locator and may add
-            # same-category condition branches. Preserve the category decision,
-            # then validate every matching later branch as complete.
             canonical = [
                 m for m in pair_mappings
                 if m.get("category_id") == row.get("category_id")
@@ -160,10 +169,6 @@ def validate_pilot_rows(pilot: list[dict[str, str]], root: Path = ROOT) -> list[
             if not canonical:
                 errors.append(f"expected a matching later APP_READY branch: {label}")
             for mapping in canonical:
-                # A later municipality-wide review may make the operational
-                # wording more specific and add condition branches.  The image
-                # Pilot must recognize that forward transition without
-                # requiring its historical text/reviewer to overwrite it.
                 if (
                     mapping.get("mapping_status") != "APP_READY"
                     or mapping.get("evidence_scope") != "ITEM_SPECIFIC"
