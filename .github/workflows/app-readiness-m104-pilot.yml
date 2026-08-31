@@ -9,6 +9,7 @@ on:
       - "scripts/red_team_app_readiness_pilot_m104.py"
       - "scripts/validate_app_readiness_pilot_m094.py"
       - "scripts/rebuild_item_image_mapping_preserve_app_ready.py"
+      - "scripts/rebuild_style_research_preserve_app_ready.py"
       - "scripts/validate_style_research_promotion_compat.py"
       - "scripts/red_team_style_research_promotion_compat.py"
       - ".github/workflows/app-readiness-m104-pilot.yml"
@@ -20,6 +21,7 @@ on:
       - "scripts/red_team_app_readiness_pilot_m104.py"
       - "scripts/validate_app_readiness_pilot_m094.py"
       - "scripts/rebuild_item_image_mapping_preserve_app_ready.py"
+      - "scripts/rebuild_style_research_preserve_app_ready.py"
       - "scripts/validate_style_research_promotion_compat.py"
       - "scripts/red_team_style_research_promotion_compat.py"
       - ".github/workflows/app-readiness-m104-pilot.yml"
@@ -68,7 +70,7 @@ jobs:
           python3 scripts/validate_item_image_mapping_pilot.py
           python3 scripts/red_team_item_image_mapping_pilot.py
           python3 scripts/validate_teaching_display_layer.py
-          python3 scripts/build_style_research_pilot.py
+          python3 scripts/rebuild_style_research_preserve_app_ready.py
           git diff --exit-code -- data/style_research
           python3 scripts/validate_style_research_promotion_compat.py --gate
           python3 scripts/red_team_style_research_promotion_compat.py
