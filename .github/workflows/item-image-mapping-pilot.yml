@@ -14,6 +14,8 @@ on:
       - "scripts/rebuild_item_image_mapping_preserve_app_ready.py"
       - "scripts/validate_item_image_mapping_pilot.py"
       - "scripts/red_team_item_image_mapping_pilot.py"
+      - "scripts/validate_style_research_promotion_compat.py"
+      - "scripts/red_team_style_research_promotion_compat.py"
       - "scripts/schema_v12.py"
       - ".github/workflows/item-image-mapping-pilot.yml"
   pull_request:
@@ -29,6 +31,8 @@ on:
       - "scripts/rebuild_item_image_mapping_preserve_app_ready.py"
       - "scripts/validate_item_image_mapping_pilot.py"
       - "scripts/red_team_item_image_mapping_pilot.py"
+      - "scripts/validate_style_research_promotion_compat.py"
+      - "scripts/red_team_style_research_promotion_compat.py"
       - "scripts/schema_v12.py"
       - ".github/workflows/item-image-mapping-pilot.yml"
   workflow_dispatch:
@@ -66,7 +70,7 @@ jobs:
           python3 scripts/validate_teaching_display_layer.py
           python3 scripts/build_style_research_pilot.py
           git diff --exit-code -- data/style_research
-          python3 scripts/validate_style_research.py --gate
-          python3 scripts/red_team_style_research.py
+          python3 scripts/validate_style_research_promotion_compat.py --gate
+          python3 scripts/red_team_style_research_promotion_compat.py
       - name: Check learner UI JavaScript syntax
         run: node --check app/app.js
