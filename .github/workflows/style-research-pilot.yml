@@ -9,6 +9,8 @@ on:
       - 'scripts/build_style_research_pilot.py'
       - 'scripts/validate_style_research.py'
       - 'scripts/red_team_style_research.py'
+      - 'scripts/validate_style_research_promotion_compat.py'
+      - 'scripts/red_team_style_research_promotion_compat.py'
       - '.github/workflows/style-research-pilot.yml'
   pull_request:
     paths:
@@ -18,6 +20,8 @@ on:
       - 'scripts/build_style_research_pilot.py'
       - 'scripts/validate_style_research.py'
       - 'scripts/red_team_style_research.py'
+      - 'scripts/validate_style_research_promotion_compat.py'
+      - 'scripts/red_team_style_research_promotion_compat.py'
       - '.github/workflows/style-research-pilot.yml'
   workflow_dispatch:
 
@@ -38,9 +42,9 @@ jobs:
           python3 scripts/build_style_research_pilot.py
           git diff --exit-code -- data/style_research
       - name: Validate and run Gate
-        run: python3 scripts/validate_style_research.py --gate
+        run: python3 scripts/validate_style_research_promotion_compat.py --gate
       - name: Mutation RED TEAM
-        run: python3 scripts/red_team_style_research.py
+        run: python3 scripts/red_team_style_research_promotion_compat.py
       - name: Existing-layer regression
         run: |
           python3 scripts/validate_research.py
