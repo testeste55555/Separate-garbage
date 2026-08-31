@@ -2,6 +2,7 @@
 M094,広島市,ONLINE_CLASS,APP_READY,40,59,data/research/app_readiness/m094_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETEかつ画像固有mapping VERIFIEDの場合のみ自動正誤判定
 M095,呉市,ONLINE_CLASS,APP_READY,40,56,data/research/app_readiness/m095_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETEかつ画像固有mapping VERIFIEDの場合のみ自動正誤判定
 M097,三原市,ONLINE_CLASS,LESSON_READY_10,10,19,data/research/lesson_readiness/m097_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,画像10品目の全条件枝COMPLETEかつ画像固有mapping VERIFIEDの場合のみ自動正誤判定。40品目APP_READYではない
+M099,福山市,ONLINE_CLASS,APP_READY,40,63,data/research/app_readiness/m099_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目canonicalはAPP_READY。固定10画像の正誤判定は既存3地域variantを使用し、municipality-wideの仮正答を作らない。
 M104,東広島市,ONLINE_CLASS,APP_READY,40,63,data/research/app_readiness/m104_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETEかつ画像固有mapping VERIFIEDの場合のみ自動正誤判定
 M105,廿日市市,ONLINE_CLASS,APP_READY,40,63,data/research/app_readiness/m105_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETE。授業画像は既存固定10品目を使用し、自動正誤判定は画像固有mapping VERIFIEDの場合のみ有効。
 M106,安芸高田市,ONLINE_CLASS,LESSON_READY_10,10,18,data/research/lesson_readiness/m106_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,画像10品目の全条件枝COMPLETE。I029は非通常収集categoryを保持し教材用SIMPLIFIED_ACTIONへ安全に投影。40品目APP_READYではない

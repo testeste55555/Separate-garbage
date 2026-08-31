@@ -44,3 +44,4 @@ M139,S-M139-01,ごみ収集カレンダー,自治体公式Webページ,https://w
 M139,S-M139-02,家庭ごみ分別早見表,自治体公式Webページ,https://www.city.marugame.lg.jp/page/41602.html,丸亀市,現行,2026-03-11,2026-08-28,fixed10の品目別分別,1,現行案内中,品目検索「食品トレー」「電球」「使い捨てライター」等,TRUE,MUNICIPAL_DOMAIN,
 M139,S-M139-03,家庭ごみの分け方・出し方,自治体公式Webページ,https://www.city.marugame.lg.jp/site/life-stage/2403.html,丸亀市,現行,2023-04-01,2026-08-28,資源ごみ・可燃ごみ・不燃ごみの主要区分,1,現行案内中,分別区分一覧,TRUE,MUNICIPAL_DOMAIN,
 M139,S-M139-04,使用済小型家電の回収,自治体公式Webページ,https://www.city.marugame.lg.jp/page/2401.html,丸亀市,現行,2026-03-11,2026-08-28,モバイルバッテリーの回収ボックス等,1,現行案内中,ページ本文「モバイルバッテリー」,TRUE,MUNICIPAL_DOMAIN,
+M099,S-M099-09,2026年度（令和8年度）家庭ごみ収集日程表（内海町）,自治体公式PDF,https://www.city.fukuyama.hiroshima.jp/uploaded/attachment/327009.pdf,福山市,令和8年度／取得時点現行,2026,2026-08-31,内海町の現行5区分・収集日程・小型家電/充電式電池/古紙の拠点回収案内,1,現行,M099 APP_READYの教材正答再現・監査に使用。,TRUE,MUNICIPAL_DOMAIN,

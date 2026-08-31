@@ -3759,6 +3759,46 @@ M097,I037,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M097,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M097,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M097,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M099,I001,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I001: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I002,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-03,https://www.city.fukuyama.hiroshima.jp/uploaded/attachment/273294.pdf,M099 APP_READY review I002: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I003,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-03,https://www.city.fukuyama.hiroshima.jp/uploaded/attachment/273294.pdf,M099 APP_READY review I003: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I004,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I004: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I005,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I005: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I006,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I006: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I007,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I007: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I008,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I008: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I009,APP_READY,3,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I009: 3条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I010,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I010: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I011,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I011: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I012,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I012: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I013,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-01,https://www.city.fukuyama.hiroshima.jp/uploaded/life/395517_2433553_misc.pdf,M099 APP_READY review I013: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I014,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-01,https://www.city.fukuyama.hiroshima.jp/uploaded/life/395517_2433553_misc.pdf,M099 APP_READY review I014: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I015,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-17,https://www.city.fukuyama.hiroshima.jp/site/kankyo/246451.html,M099 APP_READY review I015: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I016,APP_READY,3,TRUE,ITEM_SPECIFIC,S-M099-04,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314393.html,M099 APP_READY review I016: 3条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I017,APP_READY,4,TRUE,ITEM_SPECIFIC,S-M099-03,https://www.city.fukuyama.hiroshima.jp/uploaded/attachment/273294.pdf,M099 APP_READY review I017: 4条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I018,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-01,https://www.city.fukuyama.hiroshima.jp/uploaded/life/395517_2433553_misc.pdf,M099 APP_READY review I018: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I019,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I019: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I020,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-01,https://www.city.fukuyama.hiroshima.jp/uploaded/life/395517_2433553_misc.pdf,M099 APP_READY review I020: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I021,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I021: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I022,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-01,https://www.city.fukuyama.hiroshima.jp/uploaded/life/395517_2433553_misc.pdf,M099 APP_READY review I022: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I023,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I023: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I024,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I024: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I025,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I025: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I026,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I026: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I027,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-10,https://www.city.fukuyama.hiroshima.jp/site/kankyo/213349.html,M099 APP_READY review I027: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I028,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I028: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I029,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-10,https://www.city.fukuyama.hiroshima.jp/site/kankyo/213349.html,M099 APP_READY review I029: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I030,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I030: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I031,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I031: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I032,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I032: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I033,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I033: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I034,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I034: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I035,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-11,https://www.city.fukuyama.hiroshima.jp/site/kankyo/353535.html,M099 APP_READY review I035: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I036,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I036: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I037,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-14,https://www.city.fukuyama.hiroshima.jp/site/kankyo/1452.html,M099 APP_READY review I037: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I038,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-13,https://www.city.fukuyama.hiroshima.jp/site/kankyo/243721.html,M099 APP_READY review I038: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I039,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-01,https://www.city.fukuyama.hiroshima.jp/uploaded/life/395517_2433553_misc.pdf,M099 APP_READY review I039: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I040,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-16,https://www.city.fukuyama.hiroshima.jp/site/kankyo/340035.html,M099 APP_READY review I040: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
 M101,I001,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M101,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M101,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
