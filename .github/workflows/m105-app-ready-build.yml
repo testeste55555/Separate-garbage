@@ -11,13 +11,16 @@ on:
       - ".github/workflows/m105-app-ready-build.yml"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build-validate:
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -37,6 +40,34 @@ jobs:
         run: python scripts/red_team_company_municipality_mapping.py
       - name: Validate canonical research
         run: python scripts/validate_research.py
+      - name: Commit validated M105 generated state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- \
+            data/app/company_municipality_mapping.csv \
+            data/app/lesson_mode_app_ready_scope.csv \
+            data/master/07_implementation_priority.csv \
+            data/research/02_categories_master.csv \
+            data/research/03_sources_master.csv \
+            data/research/04_municipalities_research.csv \
+            data/research/05_item_mapping_master.csv \
+            data/research/06_qa_log.csv \
+            data/research/07_item_mapping_coverage.csv \
+            data/research/app_readiness/m105_item_review.csv \
+            data/research/lesson_readiness/m105_item_review.csv \
+            data/research/batches/batch_10/batch_10_municipalities.csv \
+            data/research/batches/batch_10/batch_10_categories.csv \
+            data/research/batches/batch_10/batch_10_sources.csv \
+            data/research/batches/batch_10/batch_10_qa.csv \
+            data/research/batches/batch_11/batch_11_categories.csv \
+            data/research/batches/batch_11/batch_11_sources.csv
+          if git diff --cached --quiet; then
+            echo "M105 generated state already committed"
+          else
+            git commit -m "Apply M105 APP_READY generated state"
+            git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          fi
       - name: Upload generated M105 state
         if: always()
         uses: actions/upload-artifact@v4
