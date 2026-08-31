@@ -11,6 +11,9 @@
   refreshed to the 2026 system, its historical INITIAL_REVIEW_REQUIRED projections
   must point at those current category rows and copy their category citation fields.
   APP_READY item evidence itself remains canonical-only.
+- Lesson scoring accepts the established evidence-basis vocabulary DIRECT_ITEM and
+  OFFICIAL_RULE_DERIVED. I008 is supported by the official food-tray rule, so normalize
+  its audit label to OFFICIAL_RULE_DERIVED rather than introducing a new synonym.
 """
 from __future__ import annotations
 
@@ -23,7 +26,7 @@ MID = "M020"
 BATCH = ROOT / "data/research/batches/batch_02"
 
 # Historical auto-projections whose old category disappeared or whose 2026 routing
-# materially changed.  Keep them as CATEGORY_LEVEL/UNREVIEWED; this is not a second
+# materially changed. Keep them as CATEGORY_LEVEL/UNREVIEWED; this is not a second
 # copy of the APP_READY audit.
 CURRENT_BATCH_CATEGORY = {
     "I027": "C-M020-02",  # dry cells -> 2026 不燃・粗大ごみ
@@ -58,7 +61,7 @@ def main() -> None:
         write_csv(path, CATEGORY_FIELDS, categories)
 
     # Re-bind only the Batch 02 auto-projection layer to the refreshed category
-    # snapshot.  No item-specific source is claimed here.
+    # snapshot. No item-specific source is claimed here.
     mapping_path = BATCH / "batch_02_item_mapping.csv"
     _, mappings = read_csv(mapping_path)
     refreshed = 0
@@ -94,10 +97,20 @@ def main() -> None:
         refreshed += 1
     write_csv(mapping_path, MAPPING_FIELDS, mappings)
 
+    audit_path = ROOT / "data/research/app_readiness/m020_item_review.csv"
+    audit_fields, audit_rows = read_csv(audit_path)
+    basis_normalized = 0
+    for row in audit_rows:
+        if row.get("municipality_id") == MID and row.get("internal_item_id") == "I008":
+            row["evidence_basis"] = "OFFICIAL_RULE_DERIVED"
+            basis_normalized += 1
+    write_csv(audit_path, audit_fields, audit_rows)
+
     print(
         "M020_APP_READY_NORMALIZED "
         f"batch_item_sources=canonical_only pet_channel=explicitly_unspecified "
-        f"batch_initial_mappings_refreshed={refreshed} rerouted={rerouted}"
+        f"batch_initial_mappings_refreshed={refreshed} rerouted={rerouted} "
+        f"evidence_basis_normalized={basis_normalized}"
     )
 
 
