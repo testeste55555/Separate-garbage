@@ -12,6 +12,7 @@ on:
       - "data/research/07_item_mapping_coverage.csv"
       - "scripts/apply_item_image_mapping_pilot_top8.py"
       - "scripts/rebuild_item_image_mapping_preserve_app_ready.py"
+      - "scripts/rebuild_style_research_preserve_app_ready.py"
       - "scripts/validate_item_image_mapping_pilot.py"
       - "scripts/red_team_item_image_mapping_pilot.py"
       - "scripts/validate_style_research_promotion_compat.py"
@@ -29,6 +30,7 @@ on:
       - "data/research/07_item_mapping_coverage.csv"
       - "scripts/apply_item_image_mapping_pilot_top8.py"
       - "scripts/rebuild_item_image_mapping_preserve_app_ready.py"
+      - "scripts/rebuild_style_research_preserve_app_ready.py"
       - "scripts/validate_item_image_mapping_pilot.py"
       - "scripts/red_team_item_image_mapping_pilot.py"
       - "scripts/validate_style_research_promotion_compat.py"
@@ -68,7 +70,7 @@ jobs:
           python3 scripts/validate_research.py
           python3 scripts/validate_item_image_assets.py
           python3 scripts/validate_teaching_display_layer.py
-          python3 scripts/build_style_research_pilot.py
+          python3 scripts/rebuild_style_research_preserve_app_ready.py
           git diff --exit-code -- data/style_research
           python3 scripts/validate_style_research_promotion_compat.py --gate
           python3 scripts/red_team_style_research_promotion_compat.py

@@ -5,23 +5,33 @@ on:
     paths:
       - 'app/**'
       - 'data/style_research/**'
+      - 'data/app/lesson_variant_teaching_boxes.csv'
       - 'docs/style_research/**'
       - 'scripts/build_style_research_pilot.py'
+      - 'scripts/rebuild_style_research_preserve_app_ready.py'
+      - 'scripts/apply_m099_teaching_box_styles.py'
       - 'scripts/validate_style_research.py'
       - 'scripts/red_team_style_research.py'
       - 'scripts/validate_style_research_promotion_compat.py'
       - 'scripts/red_team_style_research_promotion_compat.py'
+      - 'scripts/validate_lesson_box_style_resolver.py'
+      - 'scripts/red_team_lesson_box_style_resolver.py'
       - '.github/workflows/style-research-pilot.yml'
   pull_request:
     paths:
       - 'app/**'
       - 'data/style_research/**'
+      - 'data/app/lesson_variant_teaching_boxes.csv'
       - 'docs/style_research/**'
       - 'scripts/build_style_research_pilot.py'
+      - 'scripts/rebuild_style_research_preserve_app_ready.py'
+      - 'scripts/apply_m099_teaching_box_styles.py'
       - 'scripts/validate_style_research.py'
       - 'scripts/red_team_style_research.py'
       - 'scripts/validate_style_research_promotion_compat.py'
       - 'scripts/red_team_style_research_promotion_compat.py'
+      - 'scripts/validate_lesson_box_style_resolver.py'
+      - 'scripts/red_team_lesson_box_style_resolver.py'
       - '.github/workflows/style-research-pilot.yml'
   workflow_dispatch:
 
@@ -39,12 +49,16 @@ jobs:
       - name: Rebuild and confirm committed data is reproducible
         run: |
           set -euo pipefail
-          python3 scripts/build_style_research_pilot.py
+          python3 scripts/rebuild_style_research_preserve_app_ready.py
           git diff --exit-code -- data/style_research
       - name: Validate and run Gate
         run: python3 scripts/validate_style_research_promotion_compat.py --gate
       - name: Mutation RED TEAM
         run: python3 scripts/red_team_style_research_promotion_compat.py
+      - name: BOX style resolver regression
+        run: |
+          python3 scripts/validate_lesson_box_style_resolver.py
+          python3 scripts/red_team_lesson_box_style_resolver.py
       - name: Existing-layer regression
         run: |
           python3 scripts/validate_research.py
