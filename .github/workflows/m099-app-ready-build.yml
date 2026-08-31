@@ -18,15 +18,13 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build-validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -79,15 +77,3 @@ jobs:
           rows = list(csv.DictReader(p.open(encoding='utf-8-sig', newline='')))
           print(f'M099_GENERATED_REVIEW items={len({r["internal_item_id"] for r in rows})} branches={len(rows)} complete={sum(r["branch_review_status"] == "COMPLETE" for r in rows)}')
           PY
-      - name: Persist generated M099 APP_READY data to PR branch
-        if: github.event_name == 'pull_request'
-        run: |
-          if git diff --quiet; then
-            echo "M099 generated data already persisted"
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data
-          git commit -m "Promote M099 to APP_READY"
-          git push origin HEAD:${{ github.head_ref }}
