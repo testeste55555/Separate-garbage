@@ -147,7 +147,7 @@ button:disabled, select:disabled { opacity: .55; cursor: not-allowed; }
 
 .bucket-grid {
   display: grid;
-  gap: 16px;
+  gap: 20px;
 }
 
 .bucket-grid[data-columns="1"] { grid-template-columns: 1fr; }
@@ -157,18 +157,18 @@ button:disabled, select:disabled { opacity: .55; cursor: not-allowed; }
 .bucket-grid[data-columns="5"] { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 
 .bucket {
-  min-height: 170px;
+  min-height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 18px;
+  padding: 24px 28px;
   background: #fff;
-  border: 5px solid #222;
-  border-radius: 12px;
-  font-size: clamp(28px, 4vw, 54px);
-  font-weight: 800;
-  line-height: 1.15;
+  border: 6px solid #222;
+  border-radius: 14px;
+  font-size: clamp(38px, 4.6vw, 70px);
+  font-weight: 850;
+  line-height: 1.12;
   line-break: strict;
   overflow-wrap: anywhere;
   text-wrap: balance;
@@ -182,31 +182,28 @@ button.bucket { width: 100%; font-family: inherit; cursor: pointer; }
 .bucket[data-answer-state="correct"] { box-shadow: 0 0 0 8px #24a148, 0 8px 22px rgb(0 0 0 / 20%); }
 .bucket[data-answer-state="incorrect"] { box-shadow: 0 0 0 8px #d83a3a; }
 
-.bucket--compact { font-size: clamp(25px, 3.4vw, 48px); }
-.bucket--long { font-size: clamp(21px, 2.7vw, 38px); line-height: 1.2; }
+.bucket--compact { font-size: clamp(32px, 3.8vw, 58px); }
+.bucket--long { font-size: clamp(27px, 3.1vw, 48px); line-height: 1.16; }
 .bucket--neutral-style,
 .bucket--fallback-style {
-  background-color: #e8edf2;
-  background-image: repeating-linear-gradient(
-    135deg,
-    rgb(255 255 255 / 22%) 0,
-    rgb(255 255 255 / 22%) 12px,
-    rgb(31 41 55 / 7%) 12px,
-    rgb(31 41 55 / 7%) 24px
-  );
-  border-color: #273746;
+  background-color: #FFE082;
+  background-image: none;
+  border-color: #6D4C00;
+  border-style: solid;
   color: #111;
 }
 
+.bucket--fallback-style[data-fallback-palette="1"] { background-color: #FFE082; border-color: #6D4C00; }
+.bucket--fallback-style[data-fallback-palette="2"] { background-color: #90CAF9; border-color: #0D47A1; }
+.bucket--fallback-style[data-fallback-palette="3"] { background-color: #A5D6A7; border-color: #1B5E20; }
+.bucket--fallback-style[data-fallback-palette="4"] { background-color: #F8BBD0; border-color: #880E4F; }
+.bucket--fallback-style[data-fallback-palette="5"] { background-color: #D1C4E9; border-color: #4527A0; }
+.bucket--fallback-style[data-fallback-palette="6"] { background-color: #FFCC80; border-color: #E65100; }
+.bucket--fallback-style[data-fallback-palette="7"] { background-color: #B2EBF2; border-color: #006064; }
+.bucket--fallback-style[data-fallback-palette="8"] { background-color: #CFD8DC; border-color: #263238; }
+
 .bucket--fallback-style[data-box-kind="SIMPLIFIED_ACTION"] {
   border-style: dashed;
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgb(255 255 255 / 28%) 0,
-    rgb(255 255 255 / 28%) 10px,
-    rgb(31 41 55 / 9%) 10px,
-    rgb(31 41 55 / 9%) 20px
-  );
 }
 
 .empty-state {
@@ -239,15 +236,19 @@ body.presentation-mode .practice-stage {
 body.presentation-mode .item-card { min-height: 180px; }
 body.presentation-mode .item-card img { height: 150px; }
 body.presentation-mode .answer-feedback { min-height: 70px; font-size: clamp(50px, 7vw, 90px); }
-body.presentation-mode .bucket-grid { grid-auto-rows: 1fr; }
-body.presentation-mode .bucket {
-  min-height: 0;
-  border-width: 6px;
-  border-radius: 14px;
-  font-size: clamp(30px, 4.2vw, 68px);
+body.presentation-mode .bucket-grid {
+  grid-auto-rows: minmax(220px, 1fr);
+  gap: 20px;
 }
-body.presentation-mode .bucket--compact { font-size: clamp(27px, 3.6vw, 56px); }
-body.presentation-mode .bucket--long { font-size: clamp(22px, 2.8vw, 44px); }
+body.presentation-mode .bucket {
+  min-height: 220px;
+  padding: 22px 26px;
+  border-width: 7px;
+  border-radius: 16px;
+  font-size: clamp(44px, 5vw, 82px);
+}
+body.presentation-mode .bucket--compact { font-size: clamp(36px, 4.1vw, 66px); }
+body.presentation-mode .bucket--long { font-size: clamp(30px, 3.3vw, 54px); }
 
 @media (max-width: 760px) {
   .controls { align-items: stretch; flex-direction: column; }
