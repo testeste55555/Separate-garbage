@@ -18,6 +18,7 @@ on:
       - "scripts/build_lesson_ready_regional_batch.py"
       - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
       - "scripts/classroom_pilot_scoring_compat.py"
+      - "scripts/classroom_pilot_variant_compat.py"
       - "scripts/validate_style_research_promotion_compat.py"
       - "scripts/red_team_style_research_promotion_compat.py"
       - "scripts/validate_lesson_scoring_modes.py"
@@ -26,6 +27,8 @@ on:
       - "scripts/red_team_classroom_pilot_scoring_modes.py"
       - "scripts/validate_lesson_variants.py"
       - "scripts/red_team_lesson_variants.py"
+      - "scripts/validate_classroom_pilot_variants.py"
+      - "scripts/red_team_classroom_pilot_variants.py"
       - "scripts/check_next_batch_gate.py"
       - "scripts/validate_app_ready_lesson_modes.py"
       - "scripts/red_team_app_ready_lesson_modes.py"
@@ -48,6 +51,7 @@ on:
       - "scripts/build_lesson_ready_regional_batch.py"
       - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
       - "scripts/classroom_pilot_scoring_compat.py"
+      - "scripts/classroom_pilot_variant_compat.py"
       - "scripts/validate_style_research_promotion_compat.py"
       - "scripts/red_team_style_research_promotion_compat.py"
       - "scripts/validate_lesson_scoring_modes.py"
@@ -56,6 +60,8 @@ on:
       - "scripts/red_team_classroom_pilot_scoring_modes.py"
       - "scripts/validate_lesson_variants.py"
       - "scripts/red_team_lesson_variants.py"
+      - "scripts/validate_classroom_pilot_variants.py"
+      - "scripts/red_team_classroom_pilot_variants.py"
       - "scripts/check_next_batch_gate.py"
       - "scripts/validate_app_ready_lesson_modes.py"
       - "scripts/red_team_app_ready_lesson_modes.py"
@@ -100,9 +106,9 @@ jobs:
       - name: RED TEAM lesson scoring modes
         run: python scripts/red_team_classroom_pilot_scoring_modes.py
       - name: Validate regional lesson variants
-        run: python scripts/validate_lesson_variants.py
+        run: python scripts/validate_classroom_pilot_variants.py
       - name: RED TEAM regional lesson variants
-        run: python scripts/red_team_lesson_variants.py
+        run: python scripts/red_team_classroom_pilot_variants.py
       - name: Check learner UI JavaScript syntax
         run: node --check app/app.js
       - name: Validate canonical research data
