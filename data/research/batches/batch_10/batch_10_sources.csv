@@ -19,3 +19,5 @@ M104,S-M104-04,市が収集・処理しないごみ（63頁）,自治体公式PD
 M105,S-M105-01,家庭ごみの正しい分け方の早見表（令和8年4月版）,自治体公式Webページ,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78499.html,廿日市市,令和8年度,2026-05-18,2026-08-19,燃やせる・資源・埋立・大型・小型複雑・有害と資源5細分,1,現行,,TRUE,MUNICIPAL_DOMAIN,
 M105,S-M105-02,ごみ分別一覧表（令和8年4月版）,自治体公式Webページ,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,廿日市市,令和8年度,2026,2026-08-19,資源ごみ(1)〜(5)を含む各正式名称と品目条件,2,現行,,TRUE,MUNICIPAL_DOMAIN,
 M105,S-M105-03,収集日一覧,自治体公式Webページ,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/12535.html,廿日市市,令和8年度,現行案内中,2026-08-19,市内各地域で6種10分別が稼働すること,3,現行,,TRUE,MUNICIPAL_DOMAIN,
+M105,S-M105-04,市が処理・収集しないごみ,自治体公式Webページ,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/12524.html,廿日市市,令和8年度／取得時点現行,,2026-08-31,特定家電製品・家庭用パソコンなど市の通常収集外品の処理経路,1,CURRENT,M105 APP_READYで追加した公式参照ソース。,TRUE,MUNICIPAL_DOMAIN,
+M105,S-M105-05,リチウムイオン電池は正しく捨てましょう,自治体公式Webページ,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/128679.html,廿日市市,令和8年度／取得時点現行,,2026-08-31,破損・膨張・発熱など異常がある場合はごみステーション・回収ボックスへ出さず処理施設へ直接持込,1,CURRENT,M105 APP_READYで追加した公式参照ソース。,TRUE,MUNICIPAL_DOMAIN,
