@@ -12,6 +12,7 @@ on:
       - "scripts/validate_app_readiness_pilot_m094.py"
       - "scripts/red_team_app_readiness_pilot_m094.py"
       - "scripts/apply_item_image_mapping_pilot_top8.py"
+      - "scripts/rebuild_item_image_mapping_preserve_app_ready.py"
       - "scripts/validate_item_image_mapping_pilot.py"
       - ".github/workflows/app-readiness-m094-pilot.yml"
   pull_request:
@@ -25,6 +26,7 @@ on:
       - "scripts/validate_app_readiness_pilot_m094.py"
       - "scripts/red_team_app_readiness_pilot_m094.py"
       - "scripts/apply_item_image_mapping_pilot_top8.py"
+      - "scripts/rebuild_item_image_mapping_preserve_app_ready.py"
       - "scripts/validate_item_image_mapping_pilot.py"
       - ".github/workflows/app-readiness-m094-pilot.yml"
   workflow_dispatch:
@@ -43,7 +45,7 @@ jobs:
       - name: Rebuild and confirm committed Pilot data
         run: |
           set -euo pipefail
-          python3 scripts/apply_item_image_mapping_pilot_top8.py
+          python3 scripts/rebuild_item_image_mapping_preserve_app_ready.py
           python3 scripts/apply_app_readiness_pilot_m094.py
           git diff --exit-code -- \
             data/app/item_image_mapping_pilot_top8.csv \
