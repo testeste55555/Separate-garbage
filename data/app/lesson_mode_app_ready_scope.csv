@@ -1,4 +1,5 @@
 ﻿municipality_id,municipality_name,lesson_mode,scoring_status,required_item_count,required_branch_count,review_source,image_mapping_source,note
+M020,静岡市,ONLINE_CLASS,APP_READY,40,43,data/research/app_readiness/m020_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETE。固定10の分別正答は市内共通で、地区差は収集容器・回収場所としてエビデンス層に保持。
 M094,広島市,ONLINE_CLASS,APP_READY,40,59,data/research/app_readiness/m094_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETEかつ画像固有mapping VERIFIEDの場合のみ自動正誤判定
 M095,呉市,ONLINE_CLASS,APP_READY,40,56,data/research/app_readiness/m095_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETEかつ画像固有mapping VERIFIEDの場合のみ自動正誤判定
 M097,三原市,ONLINE_CLASS,LESSON_READY_10,10,19,data/research/lesson_readiness/m097_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,画像10品目の全条件枝COMPLETEかつ画像固有mapping VERIFIEDの場合のみ自動正誤判定。40品目APP_READYではない

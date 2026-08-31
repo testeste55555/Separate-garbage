@@ -759,46 +759,46 @@ M019,I037,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調
 M019,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M019,I039,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M019-02,https://www.city.yamagata.gifu.jp/uploaded/attachment/19770.pdf,text-match:廃食用油 + 廃食用油,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
 M019,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I001,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I004,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I005,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I006,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I007,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I008,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I009,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I010,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I011,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I012,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I013,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I014,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I015,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I016,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I017,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I018,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I019,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I020,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I021,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I022,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I023,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I024,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I026,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I027,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I028,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I029,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I030,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I031,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I032,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I033,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I034,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I035,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I036,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I037,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I038,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M020,I001,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-04,https://www.city.shizuoka.lg.jp/gomi/hinmoku/00258.html,分別区分：葵区・駿河区/清水区ともペットボトル,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I002,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-05,https://www.city.shizuoka.lg.jp/s2487/faq/s000010.html,回答：ペットボトルキャップは可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I003,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-06,https://www.city.shizuoka.lg.jp/gomi/hinmoku/03591.html,分別区分：両地域とも可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I004,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-07,https://www.city.shizuoka.lg.jp/gomi/hinmoku/00121.html,分別区分：資源物（缶）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I005,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-08,https://www.city.shizuoka.lg.jp/gomi/hinmoku/01988.html,分別区分：資源物（缶）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I006,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-09,https://www.city.shizuoka.lg.jp/gomi/s000677.html,びんの出し方・回収対象外,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I007,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-10,https://www.city.shizuoka.lg.jp/gomi/hinmoku/01860.html,分別区分：両地域とも可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I008,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-10,https://www.city.shizuoka.lg.jp/gomi/hinmoku/01860.html,食品トレイの分別区分：両地域とも可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I009,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-11,https://www.city.shizuoka.lg.jp/s2487/seihinpura.html,回収BOXに持込できないもの：お弁当の容器,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I010,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-11,https://www.city.shizuoka.lg.jp/s2487/seihinpura.html,容器包装プラスチックは製品プラ回収対象外という現行ルール,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I011,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-12,https://www.city.shizuoka.lg.jp/gomi/hinmoku/04259.html,分別区分：両地域とも可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I012,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-13,https://www.city.shizuoka.lg.jp/gomi/hinmoku/03084.html,分別区分：両地域とも可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I013,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-14,https://www.city.shizuoka.lg.jp/documents/667/p17-22gominowakekatahayamihyouaosuru.pdf,早見表：新聞紙→古紙・雑がみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I014,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M020-15,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02362.html,分別区分：資源物（古紙・雑がみ類）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I015,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-16,https://www.city.shizuoka.lg.jp/gomi/hinmoku/01530.html,分別区分：資源物（古紙・雑がみ類）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I016,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-17,https://www.city.shizuoka.lg.jp/gomi/hinmoku/00708.html,分別区分：資源物（古紙・雑がみ類）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I017,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M020-18,https://www.city.shizuoka.lg.jp/gomi/hinmoku/00831.html,分別区分：アルミ加工なしは資源物（古紙・雑がみ類）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I018,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-20,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02832.html,分別区分・注意点,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I019,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-21,https://www.city.shizuoka.lg.jp/gomi/s009160.html,鼻水等が付着したティッシュの排出方法,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I020,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-22,https://www.city.shizuoka.lg.jp/gomi/hinmoku/00815.html,分別区分：可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I021,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-23,https://www.city.shizuoka.lg.jp/gomi/hinmoku/00210.html,分別区分：可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I022,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-24,https://www.city.shizuoka.lg.jp/gomi/hinmoku/00695.html,分別区分：不燃・粗大ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I023,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-25,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02399.html,分別区分：不燃・粗大ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I024,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-26,https://www.city.shizuoka.lg.jp/gomi/hinmoku/01367.html,分別区分：不燃・粗大ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I025,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-27,https://www.city.shizuoka.lg.jp/gomi/s000677.html,びん回収対象外：割れたびん・コップ等は不燃・粗大ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I026,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-28,https://www.city.shizuoka.lg.jp/gomi/hinmoku/03713.html,分別区分・注意点：刃を紙等で包む,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I027,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-29,https://www.city.shizuoka.lg.jp/documents/57503/20251210010.pdf,令和8年1月以降：乾電池等を不燃・粗大ごみとして分別,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I028,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-30,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02629.html,分別区分・注意点：ボタン電池,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I029,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-31,https://www.city.shizuoka.lg.jp/gomi/hinmoku/04089.html,分別区分・注意点：モバイルバッテリー,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I030,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-32,https://www.city.shizuoka.lg.jp/gomi/hinmoku/01177.html,分別区分・注意点：蛍光管,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I031,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M020-33,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02990.html,分別区分：白熱電球は不燃・粗大ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I032,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-35,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02049.html,分別区分・注意点：資源物（スプレー缶）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I033,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-36,https://www.city.shizuoka.lg.jp/gomi/hinmoku/04161.html,分別区分・注意点：ライター,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I034,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-37,https://www.city.shizuoka.lg.jp/gomi/s000774.html,注意事項：パソコン以外の小型家電は不燃・粗大ごみとしても排出可,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I035,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-38,https://www.city.shizuoka.lg.jp/gomi/s000679.html,電話申込対象：充電式電池の取りはずしが困難な電化製品,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I036,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-39,https://www.city.shizuoka.lg.jp/gomi/hinmoku/03413.html,分別区分・注意点：布団,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I037,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-40,https://www.city.shizuoka.lg.jp/gomi/s000683.html,家電リサイクル法対象4品目,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I038,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-41,https://www.city.shizuoka.lg.jp/gomi/hinmoku/03029.html,分別区分：使用済小型家電リサイクル（不燃・粗大ごみ不可）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I039,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-42,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02950.html,分別区分・注意点：食用油,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I040,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-43,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02186.html,分別区分・注意点：剪定枝,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
 M021,I001,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,text-match:ペットボトル + ペットボトル（ペット）,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
 M021,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M021,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
