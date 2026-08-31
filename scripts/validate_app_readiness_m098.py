@@ -68,11 +68,11 @@ def validate_context(data) -> list[str]:
         if row.get("rule_status") != "CURRENT":
             errors.append(f"{cid}: category is not CURRENT")
     button_category = category_by.get("C-M098-10", {})
-    if button_category.get("ui_role") != "REFERENCE_ONLY" or button_category.get("collection_channel") != "RETAIL_TAKEBACK":
-        errors.append("C-M098-10: button-battery route must remain internal retail take-back")
+    if button_category.get("ui_role") != "REFERENCE_ONLY" or button_category.get("collection_channel") != "RETAILER_OR_MAKER":
+        errors.append("C-M098-10: button-battery route must remain internal retailer/maker take-back")
     excluded_category = category_by.get("C-M098-09", {})
-    if excluded_category.get("ui_role") != "EXCLUDED_NOTICE" or excluded_category.get("自治体収集外か") != "TRUE":
-        errors.append("C-M098-09: city-not-processed route is not modeled as EXCLUDED_NOTICE")
+    if excluded_category.get("ui_role") != "EXCLUDED_NOTICE" or excluded_category.get("自治体収集外か") != "TRUE" or excluded_category.get("collection_channel") != "NOT_COLLECTED":
+        errors.append("C-M098-09: city-not-processed route is not modeled as NOT_COLLECTED EXCLUDED_NOTICE")
 
     sources = [r for r in data["sources"] if r.get("municipality_id") == MID]
     source_by = {r.get("source_id"): r for r in sources}
