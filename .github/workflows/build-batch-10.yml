@@ -7,6 +7,7 @@ on:
       - 'scripts/build_batch_10.py'
       - 'scripts/build_batch_10_active.py'
       - 'scripts/red_team_batch_10.py'
+      - 'scripts/apply_app_readiness_m098.py'
       - 'scripts/rebuild_app_readiness_m099.py'
       - 'data/master/05_deferred_municipalities.csv'
       - '.github/workflows/build-batch-10.yml'
@@ -15,6 +16,7 @@ on:
       - 'scripts/build_batch_10.py'
       - 'scripts/build_batch_10_active.py'
       - 'scripts/red_team_batch_10.py'
+      - 'scripts/apply_app_readiness_m098.py'
       - 'scripts/rebuild_app_readiness_m099.py'
       - 'data/master/05_deferred_municipalities.csv'
       - '.github/workflows/build-batch-10.yml'
@@ -49,7 +51,7 @@ jobs:
           # The historical Batch 10 builder reconstructs the pre-promotion research
           # bundle. Reapply already-reviewed APP_READY overlays before global gates so
           # a batch verification can never downgrade M094/M095/M104/M105 or the
-          # regional M099 promotion.
+          # regional M098/M099 promotions.
           python3 scripts/apply_app_readiness_pilot_m094.py
           python3 scripts/apply_app_readiness_pilot_m104.py
           python3 scripts/apply_app_readiness_pilot_m095.py
@@ -58,6 +60,7 @@ jobs:
           python3 scripts/finalize_app_readiness_m105.py
           python3 scripts/repair_m105_canonical_union.py
           python3 scripts/rebuild_app_readiness_m099.py
+          python3 scripts/apply_app_readiness_m098.py
       - name: Run global gates
         shell: bash
         run: |
@@ -78,8 +81,8 @@ jobs:
           cat > docs/research/batch_10_ci_status.txt <<EOF
           verified_at_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           batch_10_active_municipalities=7
-          deferred_municipalities=M098,M100
-          promoted_regional_app_ready=M099
+          deferred_municipalities=M100
+          promoted_regional_app_ready=M098,M099
           batch_10_structural_validation=PASS
           batch_10_red_team=PASS
           canonical_merge=PASS
