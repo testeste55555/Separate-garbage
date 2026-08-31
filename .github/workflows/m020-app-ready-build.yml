@@ -1,0 +1,138 @@
+name: M020 APP_READY build
+
+on:
+  push:
+    paths:
+      - 'scripts/apply_app_readiness_m020.py'
+      - 'scripts/validate_app_readiness_m020.py'
+      - 'scripts/red_team_app_readiness_m020.py'
+      - 'scripts/rebuild_item_image_mapping_preserve_app_ready.py'
+      - '.github/workflows/m020-app-ready-build.yml'
+  pull_request:
+    paths:
+      - 'scripts/apply_app_readiness_m020.py'
+      - 'scripts/validate_app_readiness_m020.py'
+      - 'scripts/red_team_app_readiness_m020.py'
+      - 'scripts/rebuild_item_image_mapping_preserve_app_ready.py'
+      - 'data/research/app_readiness/m020_item_review.csv'
+      - 'data/research/02_categories_master.csv'
+      - 'data/research/03_sources_master.csv'
+      - 'data/research/04_municipalities_research.csv'
+      - 'data/research/05_item_mapping_master.csv'
+      - 'data/research/06_qa_log.csv'
+      - 'data/research/07_item_mapping_coverage.csv'
+      - 'data/research/08_category_review_evidence.csv'
+      - 'data/research/batches/batch_02/**'
+      - 'data/app/lesson_mode_app_ready_scope.csv'
+      - 'data/app/item_image_mapping_pilot_top8.csv'
+      - 'data/app/company_municipality_mapping.csv'
+      - 'data/master/07_implementation_priority.csv'
+      - '.github/workflows/m020-app-ready-build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Build M020 atomic APP_READY state
+        run: |
+          set -euo pipefail
+          python3 scripts/apply_app_readiness_m020.py
+
+      - name: Validate M020 and mutation RED TEAM
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_app_readiness_m020.py
+          python3 scripts/red_team_app_readiness_m020.py
+
+      - name: Run established regressions
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_research.py
+          python3 scripts/red_team_schema_v12.py
+          python3 scripts/red_team_operational_category_semantics.py
+          python3 scripts/validate_item_image_mapping_pilot.py
+          python3 scripts/red_team_item_image_mapping_pilot.py
+          python3 scripts/validate_classroom_pilot_scoring_modes.py
+          python3 scripts/red_team_classroom_pilot_scoring_modes.py
+          python3 scripts/validate_company_municipality_mapping.py
+          python3 scripts/red_team_company_municipality_mapping.py
+          python3 scripts/validate_classroom_pilot_variants.py
+          python3 scripts/red_team_classroom_pilot_variants.py
+          python3 scripts/validate_style_research_promotion_compat.py --gate
+          python3 scripts/red_team_style_research_promotion_compat.py
+          python3 scripts/validate_teaching_display_layer.py
+          python3 scripts/validate_item_image_assets.py
+          python3 scripts/check_next_batch_gate.py
+          node --check app/app.js
+
+      - name: Confirm global APP gate honestly remains HOLD
+        run: |
+          set +e
+          python3 scripts/validate_research.py --app-readiness-gate
+          rc=$?
+          set -e
+          if [ "$rc" -ne 2 ]; then
+            echo "Expected global APP_READINESS_GATE HOLD (rc=2), got rc=$rc"
+            exit 1
+          fi
+
+      - name: Confirm PR rebuild is idempotent
+        if: github.event_name == 'pull_request'
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- \
+            data/research/app_readiness/m020_item_review.csv \
+            data/research/02_categories_master.csv \
+            data/research/03_sources_master.csv \
+            data/research/04_municipalities_research.csv \
+            data/research/05_item_mapping_master.csv \
+            data/research/06_qa_log.csv \
+            data/research/07_item_mapping_coverage.csv \
+            data/research/08_category_review_evidence.csv \
+            data/research/batches/batch_02 \
+            data/app/lesson_mode_app_ready_scope.csv \
+            data/app/item_image_mapping_pilot_top8.csv \
+            data/app/company_municipality_mapping.csv \
+            data/master/07_implementation_priority.csv
+
+      - name: Commit reviewed M020 state
+        if: github.event_name == 'push'
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            data/research/app_readiness/m020_item_review.csv \
+            data/research/02_categories_master.csv \
+            data/research/03_sources_master.csv \
+            data/research/04_municipalities_research.csv \
+            data/research/05_item_mapping_master.csv \
+            data/research/06_qa_log.csv \
+            data/research/07_item_mapping_coverage.csv \
+            data/research/08_category_review_evidence.csv \
+            data/research/batches/batch_02 \
+            data/app/lesson_mode_app_ready_scope.csv \
+            data/app/item_image_mapping_pilot_top8.csv \
+            data/app/company_municipality_mapping.csv \
+            data/master/07_implementation_priority.csv
+          if git diff --cached --quiet; then
+            echo 'No generated M020 changes to commit.'
+            exit 0
+          fi
+          git commit -m 'Promote M020 Shizuoka to 40-item APP_READY'
+          git push
