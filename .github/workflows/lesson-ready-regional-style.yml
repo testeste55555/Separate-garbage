@@ -11,12 +11,15 @@ on:
       - "docs/research/lesson_ready_regional_batch_2026-08-28.md"
       - "docs/style_research/15_lesson_box_style_resolver.md"
       - "scripts/build_lesson_ready_regional_batch.py"
+      - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
       - "scripts/validate_lesson_variants.py"
       - "scripts/red_team_lesson_variants.py"
       - "scripts/validate_lesson_box_style_resolver.py"
       - "scripts/red_team_lesson_box_style_resolver.py"
       - "scripts/validate_implementation_priority.py"
       - "scripts/red_team_implementation_priority.py"
+      - "scripts/validate_classroom_pilot_scoring_modes.py"
+      - "scripts/red_team_classroom_pilot_scoring_modes.py"
       - ".github/workflows/lesson-ready-regional-style.yml"
   pull_request:
     paths:
@@ -28,12 +31,15 @@ on:
       - "docs/research/lesson_ready_regional_batch_2026-08-28.md"
       - "docs/style_research/15_lesson_box_style_resolver.md"
       - "scripts/build_lesson_ready_regional_batch.py"
+      - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
       - "scripts/validate_lesson_variants.py"
       - "scripts/red_team_lesson_variants.py"
       - "scripts/validate_lesson_box_style_resolver.py"
       - "scripts/red_team_lesson_box_style_resolver.py"
       - "scripts/validate_implementation_priority.py"
       - "scripts/red_team_implementation_priority.py"
+      - "scripts/validate_classroom_pilot_scoring_modes.py"
+      - "scripts/red_team_classroom_pilot_scoring_modes.py"
       - ".github/workflows/lesson-ready-regional-style.yml"
   workflow_dispatch:
 
@@ -54,7 +60,7 @@ jobs:
       - name: Rebuild and confirm committed regional lesson data
         run: |
           set -euo pipefail
-          python3 scripts/build_lesson_ready_regional_batch.py
+          python3 scripts/rebuild_lesson_ready_regional_preserve_app_ready.py
           git diff --exit-code -- \
             data/app/district_scopes.csv \
             data/app/lesson_teaching_boxes.csv \
@@ -77,10 +83,8 @@ jobs:
       - name: Existing readiness, style, and canonical regressions
         run: |
           set -euo pipefail
-          python3 scripts/validate_lesson_scoring_modes.py
-          python3 scripts/red_team_lesson_scoring_modes.py
-          python3 scripts/validate_app_ready_lesson_modes.py
-          python3 scripts/red_team_app_ready_lesson_modes.py
+          python3 scripts/validate_classroom_pilot_scoring_modes.py
+          python3 scripts/red_team_classroom_pilot_scoring_modes.py
           python3 scripts/validate_style_research.py
           python3 scripts/red_team_style_research.py
           python3 scripts/validation_v12.py
