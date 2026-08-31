@@ -18,6 +18,8 @@ on:
       - "scripts/build_lesson_ready_regional_batch.py"
       - "scripts/validate_lesson_scoring_modes.py"
       - "scripts/red_team_lesson_scoring_modes.py"
+      - "scripts/validate_classroom_pilot_scoring_modes.py"
+      - "scripts/red_team_classroom_pilot_scoring_modes.py"
       - "scripts/validate_lesson_variants.py"
       - "scripts/red_team_lesson_variants.py"
       - "scripts/check_next_batch_gate.py"
@@ -42,6 +44,8 @@ on:
       - "scripts/build_lesson_ready_regional_batch.py"
       - "scripts/validate_lesson_scoring_modes.py"
       - "scripts/red_team_lesson_scoring_modes.py"
+      - "scripts/validate_classroom_pilot_scoring_modes.py"
+      - "scripts/red_team_classroom_pilot_scoring_modes.py"
       - "scripts/validate_lesson_variants.py"
       - "scripts/red_team_lesson_variants.py"
       - "scripts/check_next_batch_gate.py"
@@ -83,9 +87,9 @@ jobs:
             data/research/05_item_mapping_master.csv \
             data/research/07_item_mapping_coverage.csv
       - name: Validate lesson scoring modes
-        run: python scripts/validate_lesson_scoring_modes.py
+        run: python scripts/validate_classroom_pilot_scoring_modes.py
       - name: RED TEAM lesson scoring modes
-        run: python scripts/red_team_lesson_scoring_modes.py
+        run: python scripts/red_team_classroom_pilot_scoring_modes.py
       - name: Validate regional lesson variants
         run: python scripts/validate_lesson_variants.py
       - name: RED TEAM regional lesson variants
