@@ -272,7 +272,7 @@ def main() -> int:
 
     reviewed_counts = {
         "M001": 14, "M002": 20, "M003": 13, "M004": 12, "M006": 16,
-        "M007": 8, "M008": 9, "M009": 8, "M011": 14, "M013": 9, "M030": 10, "M094": 8,
+        "M007": 8, "M008": 9, "M009": 9, "M011": 14, "M013": 9, "M030": 10, "M094": 8,
     }
     municipality_by_id = {row["municipality_id"]: row for row in municipalities}
     category_by_id = {row["category_id"]: row for row in categories}

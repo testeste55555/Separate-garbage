@@ -1,0 +1,66 @@
+name: M105 APP_READY build
+
+on:
+  pull_request:
+    paths:
+      - "scripts/apply_app_readiness_m105.py"
+      - "scripts/rebuild_app_readiness_m105.py"
+      - "scripts/finalize_app_readiness_m105.py"
+      - "scripts/repair_m105_canonical_union.py"
+      - "scripts/validate_classroom_pilot_scoring_modes.py"
+      - "scripts/red_team_classroom_pilot_scoring_modes.py"
+      - "data/research/app_readiness/m105_item_review.csv"
+      - "data/research/02_categories_master.csv"
+      - "data/research/03_sources_master.csv"
+      - "data/research/05_item_mapping_master.csv"
+      - "data/research/07_item_mapping_coverage.csv"
+      - "data/app/lesson_mode_app_ready_scope.csv"
+      - "data/app/company_municipality_mapping.csv"
+      - ".github/workflows/m105-app-ready-build.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Rebuild M105 APP_READY
+        run: python scripts/rebuild_app_readiness_m105.py
+      - name: Finalize M105 APP_READY
+        run: python scripts/finalize_app_readiness_m105.py
+      - name: Repair M105 canonical union
+        run: python scripts/repair_m105_canonical_union.py
+      - name: Validate classroom pilot scoring modes
+        run: python scripts/validate_classroom_pilot_scoring_modes.py
+      - name: RED TEAM classroom pilot scoring modes
+        run: python scripts/red_team_classroom_pilot_scoring_modes.py
+      - name: Validate company routing
+        run: python scripts/validate_company_municipality_mapping.py
+      - name: RED TEAM company routing
+        run: python scripts/red_team_company_municipality_mapping.py
+      - name: Validate canonical research
+        run: python scripts/validate_research.py
+      - name: Confirm M105 rebuild is idempotent
+        run: |
+          git diff --exit-code -- \
+            data/app/company_municipality_mapping.csv \
+            data/app/lesson_mode_app_ready_scope.csv \
+            data/master/07_implementation_priority.csv \
+            data/research/02_categories_master.csv \
+            data/research/03_sources_master.csv \
+            data/research/04_municipalities_research.csv \
+            data/research/05_item_mapping_master.csv \
+            data/research/06_qa_log.csv \
+            data/research/07_item_mapping_coverage.csv \
+            data/research/app_readiness/m105_item_review.csv \
+            data/research/batches/batch_10/batch_10_municipalities.csv \
+            data/research/batches/batch_10/batch_10_categories.csv \
+            data/research/batches/batch_10/batch_10_sources.csv \
+            data/research/batches/batch_10/batch_10_qa.csv \
+            data/research/batches/batch_11/batch_11_categories.csv \
+            data/research/batches/batch_11/batch_11_sources.csv

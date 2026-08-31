@@ -27,7 +27,10 @@ def validate(root: Path = ROOT) -> list[str]:
     priority = rows("data/master/07_implementation_priority.csv", root)
     standard = {row["municipality_id"]: row["scoring_status"] for row in rows("data/app/lesson_mode_app_ready_scope.csv", root)}
     variant = {row["municipality_id"]: row["readiness_status"] for row in rows("data/app/lesson_variant_groups.csv", root)}
-    expected_readiness = standard | variant
+    # A municipality may retain regional learner variants after its full 40-item
+    # canonical promotion.  Full APP_READY is the stronger readiness snapshot and
+    # must take precedence over the older LESSON_READY_10 variant-layer status.
+    expected_readiness = variant | standard
     ids = [row.get("municipality_id", "") for row in priority]
     if len(ids) != 143 or set(ids) != set(municipalities) or len(ids) != len(set(ids)):
         errors.append("priority layer must cover 143 unique master municipalities")

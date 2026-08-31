@@ -1,0 +1,30 @@
+name: M099 Utsumi 40-item PDF audit
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/m099-utsumi-pdf-audit.yml"
+      - "scripts/audit_m099_utsumi_guide.sh"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PDF text tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
+      - name: Audit 2026 Utsumi calendar and supplemental guide
+        run: bash scripts/audit_m099_utsumi_guide.sh
+      - name: Upload extracted source text
+        uses: actions/upload-artifact@v4
+        with:
+          name: m099-utsumi-source-text
+          path: |
+            /tmp/m099-utsumi-2026-calendar.txt
+            /tmp/m099-utsumi-guide.txt

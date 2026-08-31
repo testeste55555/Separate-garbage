@@ -17,7 +17,26 @@
           <option value="">読み込み中…</option>
         </select>
       </div>
-      <div class="control-group">
+      <div class="control-group control-group--mode">
+        <label for="selectionModeSelect">選び方</label>
+        <select id="selectionModeSelect" disabled>
+          <option value="MUNICIPALITY">自治体から選ぶ</option>
+          <option value="COMPANY">会社から選ぶ</option>
+        </select>
+      </div>
+      <div id="companyControl" class="control-group" hidden>
+        <label for="companySelect">会社</label>
+        <select id="companySelect" disabled>
+          <option value="">読み込み中…</option>
+        </select>
+      </div>
+      <div id="companySiteControl" class="control-group" hidden>
+        <label for="companySiteSelect">拠点</label>
+        <select id="companySiteSelect" disabled>
+          <option value="">拠点を選択</option>
+        </select>
+      </div>
+      <div id="municipalityControl" class="control-group">
         <label for="municipalitySelect">自治体</label>
         <select id="municipalitySelect" disabled>
           <option value="">読み込み中…</option>
@@ -58,5 +77,6 @@
   </main>
 
   <script src="./app.js"></script>
+  <script src="./company-selector.js"></script>
 </body>
 </html>

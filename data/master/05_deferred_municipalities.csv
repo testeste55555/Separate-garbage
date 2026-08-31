@@ -2,8 +2,6 @@
 M065,島根県,知夫村,DEFERRED,公式一次資料本文の全区分確認が安定しないため一旦実装対象外。固定IDは保持し後日再開可能とする。,2026-08-19,USER_DECISION
 M076,岡山県,備前市,DEFERRED,令和8年度に資源回収ステーション設置済地区の9種23分別と未設置地区の旧分別が併存し、現行Schema・UIは同一自治体内の地区variantを安全に表現できない。固定IDと調査根拠は保持し、地区scope対応時に再開する。,2026-08-19,SCHEMA_SCOPE_LIMITATION
 M086,岡山県,新庄村,DEFERRED,県の現行公式案内から村のごみ収集公式ページへの導線は確認できるが、村公式ページ本文の取得が安定せず住民向け全分別区分を一次資料で全件照合できない。固定IDを保持し後日再開する。,2026-08-19,OFFICIAL_SOURCE_BODY_UNAVAILABLE
-M098,広島県,尾道市,DEFERRED,令和8年度に尾道・向島・御調・因島・瀬戸田の地域別CURRENT分別ガイドが併存し、住民向けcategory COREに差がある。現行municipality単位Schema/UIでは地域variantを安全に解決できないため一旦対象外。固定IDと公式根拠を保持する。,2026-08-19,SCHEMA_SCOPE_LIMITATION
-M099,広島県,福山市,DEFERRED,市内一般は7種分別だが、令和8年度も内海町は分別体系が異なり、沼隈町も紙類の分別が異なることを市公式が明示。municipality単位Schema/UIで単一体系を適用すると誤案内になるため一旦対象外。,2026-08-19,SCHEMA_SCOPE_LIMITATION
 M100,広島県,府中市,DEFERRED,府中地区は『資源ごみ及び電池』、上下地区は資源ごみの下で『缶・びん・電池・金属・小型家電』『新聞・古着・紙パック』『雑誌・段ボール』を別収集単位としており、住民向け表示単位・正式名称が地域で異なる。現行municipality単位Schema/UIでは地域variantを安全に解決できないため一旦対象外。,2026-08-19,SCHEMA_SCOPE_LIMITATION
 M120,山口県,萩市,DEFERRED,令和8年度も大島・見島・相島地区では一部分別区分が異なることを萩市公式50音表が明示し、地域別CURRENT分別資料が併存する。現行municipality単位Schema/UIでは住民の地域scopeを安全に解決できないため一旦対象外。固定IDと公式根拠を保持する。,2026-08-19,SCHEMA_SCOPE_LIMITATION
 M123,山口県,岩国市,DEFERRED,令和8年度に岩国・由宇・周東・玖珂と錦・美川・美和・本郷等で住民向けCURRENTルールが併存し、食品トレー等で実際の分別先・排出方法が異なる。現行municipality単位Schema/UIでは安全に単一体系化できないため一旦対象外。固定IDと公式根拠を保持する。,2026-08-19,SCHEMA_SCOPE_LIMITATION

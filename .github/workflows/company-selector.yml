@@ -1,0 +1,50 @@
+name: Company selector CI
+
+on:
+  pull_request:
+    paths:
+      - "app/index.html"
+      - "app/company-selector.js"
+      - "data/app/company_municipality_mapping.csv"
+      - "data/app/lesson_mode_app_ready_scope.csv"
+      - "data/app/lesson_variant_groups.csv"
+      - "data/master/01_municipalities_master.csv"
+      - "scripts/validate_company_municipality_mapping.py"
+      - "scripts/red_team_company_municipality_mapping.py"
+      - ".github/workflows/company-selector.yml"
+  push:
+    branches: [main]
+    paths:
+      - "app/index.html"
+      - "app/company-selector.js"
+      - "data/app/company_municipality_mapping.csv"
+      - "data/app/lesson_mode_app_ready_scope.csv"
+      - "data/app/lesson_variant_groups.csv"
+      - "data/master/01_municipalities_master.csv"
+      - "scripts/validate_company_municipality_mapping.py"
+      - "scripts/red_team_company_municipality_mapping.py"
+      - ".github/workflows/company-selector.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate company mapping
+        run: python scripts/validate_company_municipality_mapping.py
+      - name: Mutation RED TEAM
+        run: python scripts/red_team_company_municipality_mapping.py
+      - name: JavaScript syntax
+        run: node --check app/company-selector.js
+      - name: Company selector DOM contract
+        run: |
+          grep -q 'id="selectionModeSelect"' app/index.html
+          grep -q 'id="companySelect"' app/index.html
+          grep -q 'id="companySiteSelect"' app/index.html
+          grep -q 'company-selector.js' app/index.html

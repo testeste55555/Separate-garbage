@@ -319,46 +319,46 @@ M008,I037,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調
 M008,I038,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M008,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M008,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I001,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,text-match:ペットボトル + ペットボトル,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M009,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I004,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I005,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M009,I006,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M009,I007,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I008,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I009,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I010,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I011,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I012,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I013,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I014,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I015,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I016,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I017,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I018,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,text-match:生ごみ + もやせるごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M009,I019,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I020,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I021,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,text-match:衣類 + もやせるごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M009,I022,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I023,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,text-match:陶磁器 + もやせないごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M009,I024,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I026,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I027,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M009,I028,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I029,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I030,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,text-match:蛍光灯 + 水銀含有ごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M009,I031,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I032,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,text-match:スプレー缶 + もやせないごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M009,I033,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I034,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,text-match:小型家電 + もやせないごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M009,I035,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I036,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I037,MAPPED_INITIAL,2,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M009,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M009,I001,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P6・分別早見表『ペットボトル（認識マークあり）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I002,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P6・分別早見表『ペットボトル』注意事項,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I003,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P6・分別早見表『ペットボトル』注意事項,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I004,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『缶（飲料・食料・調味料用）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I005,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『缶（飲料・食料・調味料用）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I006,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『びん（飲料・調味料用）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I007,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P23『食品トレイ（白色トレイ）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I008,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『食品トレイ（白色トレイ以外）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I009,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『コンビニ弁当箱』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I010,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P18『菓子袋（紙・ビニール・プラスチック製）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I011,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P18『買い物袋（レジ袋・エコバッグ）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I012,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『発泡スチロール』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I013,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P23『新聞紙』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I014,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『段ボール』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I015,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『雑誌類』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I016,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P18『菓子箱（木製・紙製）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I017,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P19『紙パック類』／P12店頭回収協力,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I018,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『生ごみ』／もやせるごみ,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I019,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,もやせるごみ『紙くず』／分別早見表,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I020,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P19『紙おむつ』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I021,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P17『衣類』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I022,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P18『傘』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I023,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『陶磁器製品』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I024,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P19『ガラスコップ』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I025,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P19『ガラスくず（窓ガラス等）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I026,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『包丁・刃物』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I027,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P9『有害ごみ／乾電池』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I028,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P9『乾電池』：ボタン電池を対象として明記,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I029,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P9『モバイルバッテリーも乾電池と一緒に出す』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I030,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P20『蛍光管』／水銀含有ごみ,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I031,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『電球（白熱・LED）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I032,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『スプレー缶・カセットボンベ』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I033,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『ライター』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I034,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,もやせないごみ『小型家電』／分別早見表（カメラ等）,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I035,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,もやせないごみ『小型家電』＋P9充電池ルール,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I036,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P17『羽毛布団（1枚）』『ウレタン敷布団（1枚）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I037,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P8『家電4品目』：クリーンセンター受入不可,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I038,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P9『パソコン』：家庭用PCはクリーンセンターへ直接搬入可,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I039,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P18『固めた食用油』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I040,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P1『枝木類』：長さ80cm以下・直径20cm以内,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
 M010,I001,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M010,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M010,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
@@ -759,46 +759,46 @@ M019,I037,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調
 M019,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M019,I039,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M019-02,https://www.city.yamagata.gifu.jp/uploaded/attachment/19770.pdf,text-match:廃食用油 + 廃食用油,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
 M019,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I001,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I004,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I005,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I006,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I007,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I008,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I009,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I010,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I011,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I012,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I013,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I014,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I015,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I016,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I017,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I018,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I019,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I020,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I021,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I022,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I023,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I024,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I026,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I027,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I028,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I029,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I030,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I031,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I032,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I033,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I034,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I035,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I036,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I037,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I038,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M020,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M020,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M020,I001,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-04,https://www.city.shizuoka.lg.jp/gomi/hinmoku/00258.html,分別区分：葵区・駿河区/清水区ともペットボトル,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I002,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-05,https://www.city.shizuoka.lg.jp/s2487/faq/s000010.html,回答：ペットボトルキャップは可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I003,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-06,https://www.city.shizuoka.lg.jp/gomi/hinmoku/03591.html,分別区分：両地域とも可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I004,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-07,https://www.city.shizuoka.lg.jp/gomi/hinmoku/00121.html,分別区分：資源物（缶）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I005,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-08,https://www.city.shizuoka.lg.jp/gomi/hinmoku/01988.html,分別区分：資源物（缶）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I006,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-09,https://www.city.shizuoka.lg.jp/gomi/s000677.html,びんの出し方・回収対象外,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I007,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-10,https://www.city.shizuoka.lg.jp/gomi/hinmoku/01860.html,分別区分：両地域とも可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I008,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-10,https://www.city.shizuoka.lg.jp/gomi/hinmoku/01860.html,食品トレイの分別区分：両地域とも可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I009,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-11,https://www.city.shizuoka.lg.jp/s2487/seihinpura.html,回収BOXに持込できないもの：お弁当の容器,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I010,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-11,https://www.city.shizuoka.lg.jp/s2487/seihinpura.html,容器包装プラスチックは製品プラ回収対象外という現行ルール,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I011,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-12,https://www.city.shizuoka.lg.jp/gomi/hinmoku/04259.html,分別区分：両地域とも可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I012,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-13,https://www.city.shizuoka.lg.jp/gomi/hinmoku/03084.html,分別区分：両地域とも可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I013,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-14,https://www.city.shizuoka.lg.jp/documents/667/p17-22gominowakekatahayamihyouaosuru.pdf,早見表：新聞紙→古紙・雑がみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I014,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M020-15,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02362.html,分別区分：資源物（古紙・雑がみ類）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I015,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-16,https://www.city.shizuoka.lg.jp/gomi/hinmoku/01530.html,分別区分：資源物（古紙・雑がみ類）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I016,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-17,https://www.city.shizuoka.lg.jp/gomi/hinmoku/00708.html,分別区分：資源物（古紙・雑がみ類）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I017,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M020-18,https://www.city.shizuoka.lg.jp/gomi/hinmoku/00831.html,分別区分：アルミ加工なしは資源物（古紙・雑がみ類）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I018,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-20,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02832.html,分別区分・注意点,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I019,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-21,https://www.city.shizuoka.lg.jp/gomi/s009160.html,鼻水等が付着したティッシュの排出方法,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I020,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-22,https://www.city.shizuoka.lg.jp/gomi/hinmoku/00815.html,分別区分：可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I021,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-23,https://www.city.shizuoka.lg.jp/gomi/hinmoku/00210.html,分別区分：可燃ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I022,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-24,https://www.city.shizuoka.lg.jp/gomi/hinmoku/00695.html,分別区分：不燃・粗大ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I023,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-25,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02399.html,分別区分：不燃・粗大ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I024,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-26,https://www.city.shizuoka.lg.jp/gomi/hinmoku/01367.html,分別区分：不燃・粗大ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I025,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-27,https://www.city.shizuoka.lg.jp/gomi/s000677.html,びん回収対象外：割れたびん・コップ等は不燃・粗大ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I026,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-28,https://www.city.shizuoka.lg.jp/gomi/hinmoku/03713.html,分別区分・注意点：刃を紙等で包む,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I027,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-29,https://www.city.shizuoka.lg.jp/documents/57503/20251210010.pdf,令和8年1月以降：乾電池等を不燃・粗大ごみとして分別,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I028,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-30,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02629.html,分別区分・注意点：ボタン電池,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I029,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-31,https://www.city.shizuoka.lg.jp/gomi/hinmoku/04089.html,分別区分・注意点：モバイルバッテリー,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I030,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-32,https://www.city.shizuoka.lg.jp/gomi/hinmoku/01177.html,分別区分・注意点：蛍光管,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I031,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M020-33,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02990.html,分別区分：白熱電球は不燃・粗大ごみ,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I032,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-35,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02049.html,分別区分・注意点：資源物（スプレー缶）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I033,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-36,https://www.city.shizuoka.lg.jp/gomi/hinmoku/04161.html,分別区分・注意点：ライター,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I034,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-37,https://www.city.shizuoka.lg.jp/gomi/s000774.html,注意事項：パソコン以外の小型家電は不燃・粗大ごみとしても排出可,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I035,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-38,https://www.city.shizuoka.lg.jp/gomi/s000679.html,電話申込対象：充電式電池の取りはずしが困難な電化製品,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I036,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-39,https://www.city.shizuoka.lg.jp/gomi/hinmoku/03413.html,分別区分・注意点：布団,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I037,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-40,https://www.city.shizuoka.lg.jp/gomi/s000683.html,家電リサイクル法対象4品目,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I038,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-41,https://www.city.shizuoka.lg.jp/gomi/hinmoku/03029.html,分別区分：使用済小型家電リサイクル（不燃・粗大ごみ不可）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I039,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-42,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02950.html,分別区分・注意点：食用油,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
+M020,I040,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-43,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02186.html,分別区分・注意点：剪定枝,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
 M021,I001,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,text-match:ペットボトル + ペットボトル（ペット）,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
 M021,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M021,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
@@ -3759,6 +3759,86 @@ M097,I037,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M097,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M097,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M097,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M098,I001,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M098-05,https://www.city.onomichi.hiroshima.jp/uploaded/attachment/57662.pdf,M098 APP_READY review I001: 2条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I002,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I002: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I003,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I003: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I004,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I004: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I005,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I005: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I006,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I006: 2条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I007,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M098-05,https://www.city.onomichi.hiroshima.jp/uploaded/attachment/57662.pdf,M098 APP_READY review I007: 2条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I008,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M098-05,https://www.city.onomichi.hiroshima.jp/uploaded/attachment/57662.pdf,M098 APP_READY review I008: 2条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I009,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M098-05,https://www.city.onomichi.hiroshima.jp/uploaded/attachment/57662.pdf,M098 APP_READY review I009: 2条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I010,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M098-05,https://www.city.onomichi.hiroshima.jp/uploaded/attachment/57662.pdf,M098 APP_READY review I010: 2条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I011,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I011: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I012,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M098-06,https://www.city.onomichi.hiroshima.jp/uploaded/attachment/57907.pdf,M098 APP_READY review I012: 2条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I013,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I013: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I014,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I014: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I015,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I015: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I016,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I016: 2条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I017,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I017: 2条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I018,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I018: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I019,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I019: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I020,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I020: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I021,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I021: 2条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I022,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I022: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I023,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I023: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I024,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I024: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I025,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I025: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I026,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-11,https://www.city.onomichi.hiroshima.jp/soshiki/16/3004.html,M098 APP_READY review I026: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I027,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I027: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I028,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-12,https://www.city.onomichi.hiroshima.jp/uploaded/attachment/14216.pdf,M098 APP_READY review I028: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I029,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-07,https://www.city.onomichi.hiroshima.jp/uploaded/attachment/57904.pdf,M098 APP_READY review I029: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I030,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I030: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I031,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-06,https://www.city.onomichi.hiroshima.jp/uploaded/attachment/57907.pdf,M098 APP_READY review I031: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I032,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I032: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I033,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-10,https://www.city.onomichi.hiroshima.jp/soshiki/16/3014.html,M098 APP_READY review I033: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I034,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M098-05,https://www.city.onomichi.hiroshima.jp/uploaded/attachment/57662.pdf,M098 APP_READY review I034: 2条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I035,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-07,https://www.city.onomichi.hiroshima.jp/uploaded/attachment/57904.pdf,M098 APP_READY review I035: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I036,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I036: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I037,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-08,https://www.city.onomichi.hiroshima.jp/soshiki/16/3032.html,M098 APP_READY review I037: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I038,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M098-09,https://www.city.onomichi.hiroshima.jp/soshiki/16/2997.html,M098 APP_READY review I038: 1条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I039,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I039: 2条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M098,I040,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M098-01,https://www.city.onomichi.hiroshima.jp/soshiki/16/3029.html,M098 APP_READY review I040: 2条件枝を全件確認,2026-08-31,OPENAI_M098_APP_READY_V1,全条件枝COMPLETE。
+M099,I001,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I001: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I002,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-03,https://www.city.fukuyama.hiroshima.jp/uploaded/attachment/273294.pdf,M099 APP_READY review I002: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I003,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-03,https://www.city.fukuyama.hiroshima.jp/uploaded/attachment/273294.pdf,M099 APP_READY review I003: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I004,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I004: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I005,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I005: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I006,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I006: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I007,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I007: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I008,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I008: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I009,APP_READY,3,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I009: 3条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I010,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I010: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I011,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I011: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I012,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I012: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I013,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-01,https://www.city.fukuyama.hiroshima.jp/uploaded/life/395517_2433553_misc.pdf,M099 APP_READY review I013: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I014,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-01,https://www.city.fukuyama.hiroshima.jp/uploaded/life/395517_2433553_misc.pdf,M099 APP_READY review I014: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I015,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-17,https://www.city.fukuyama.hiroshima.jp/site/kankyo/246451.html,M099 APP_READY review I015: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I016,APP_READY,3,TRUE,ITEM_SPECIFIC,S-M099-04,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314393.html,M099 APP_READY review I016: 3条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I017,APP_READY,4,TRUE,ITEM_SPECIFIC,S-M099-03,https://www.city.fukuyama.hiroshima.jp/uploaded/attachment/273294.pdf,M099 APP_READY review I017: 4条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I018,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-01,https://www.city.fukuyama.hiroshima.jp/uploaded/life/395517_2433553_misc.pdf,M099 APP_READY review I018: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I019,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I019: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I020,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-01,https://www.city.fukuyama.hiroshima.jp/uploaded/life/395517_2433553_misc.pdf,M099 APP_READY review I020: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I021,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I021: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I022,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-01,https://www.city.fukuyama.hiroshima.jp/uploaded/life/395517_2433553_misc.pdf,M099 APP_READY review I022: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I023,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I023: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I024,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I024: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I025,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I025: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I026,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I026: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I027,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-10,https://www.city.fukuyama.hiroshima.jp/site/kankyo/213349.html,M099 APP_READY review I027: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I028,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I028: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I029,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-10,https://www.city.fukuyama.hiroshima.jp/site/kankyo/213349.html,M099 APP_READY review I029: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I030,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I030: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I031,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I031: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I032,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I032: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I033,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I033: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I034,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I034: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I035,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M099-11,https://www.city.fukuyama.hiroshima.jp/site/kankyo/353535.html,M099 APP_READY review I035: 2条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I036,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-06,https://www.city.fukuyama.hiroshima.jp/site/kankyo/314133.html,M099 APP_READY review I036: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I037,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-14,https://www.city.fukuyama.hiroshima.jp/site/kankyo/1452.html,M099 APP_READY review I037: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I038,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-13,https://www.city.fukuyama.hiroshima.jp/site/kankyo/243721.html,M099 APP_READY review I038: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I039,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-01,https://www.city.fukuyama.hiroshima.jp/uploaded/life/395517_2433553_misc.pdf,M099 APP_READY review I039: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
+M099,I040,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M099-16,https://www.city.fukuyama.hiroshima.jp/site/kankyo/340035.html,M099 APP_READY review I040: 1条件枝を全件確認,2026-08-31,OPENAI_M099_APP_READY_V1,全条件枝COMPLETE。
 M101,I001,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M101,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M101,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
@@ -3919,46 +3999,46 @@ M104,I037,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-13,https://www.city.higashihiro
 M104,I038,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-12,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p64.pdf,ごみブック64頁『パソコンのリサイクルについて』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
 M104,I039,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M104-07,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p33-62.pdf,早見表33頁『油（食用油）』・53頁『廃油（食用）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
 M104,I040,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M104-08,https://www.city.higashihiroshima.lg.jp/material/files/group/18/gomibook_p23-24.pdf,ごみブック23頁『燃やせるごみ（直径8cm未満）』,2026-08-24,OPENAI_CODEX_M104_APP_READINESS_V1,M104の全40品目・全条件枝を公式資料へ手動照合し、自治体単位でatomic APP_READY昇格。
-M105,I001,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M105-01,https://www.city.hatsukaichi.hiroshima.jp/uploaded/attachment/93105.pdf,11～12頁「ペットボトル」および出し方2～3,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
-M105,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I004,VERIFIED,3,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,50音表「アルミ缶（飲料缶、かんづめ缶）」の行,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
-M105,I005,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I006,VERIFIED,3,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,50音表「瓶（薬品、化粧瓶除く）」の行,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
-M105,I007,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M105-01,https://www.city.hatsukaichi.hiroshima.jp/uploaded/attachment/93105.pdf,11～12頁「白色の発泡スチロール製食品トレイ」および出し方2・5,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
-M105,I008,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I009,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I010,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I011,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I012,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I013,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M105-01,https://www.city.hatsukaichi.hiroshima.jp/uploaded/attachment/93105.pdf,13頁「新聞紙・チラシ」および出し方1・3,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
-M105,I014,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M105-01,https://www.city.hatsukaichi.hiroshima.jp/uploaded/attachment/93105.pdf,13頁「ダンボール」および出し方1～2,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
-M105,I015,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I016,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I017,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,50音表「紙パック（内側が白いもの）」「牛乳パック」の行,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
-M105,I018,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I019,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I020,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I021,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M105,I022,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I023,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M105,I024,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I026,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I027,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I028,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I029,VERIFIED,1,TRUE,ITEM_SPECIFIC,IS-M105-05,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/128679.html,「リチウムイオン電池を単独で処分する場合」,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
-M105,I030,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M105,I031,VERIFIED,3,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,50音表「電球（白熱電球）」の行,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
-M105,I032,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M105,I033,VERIFIED,2,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,50音表「ライター」の行,2026-08-25,OPENAI_CODEX_M105_LESSON_READY_10_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
-M105,I034,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I035,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I036,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I037,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M105,I040,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
+M105,I001,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M105-01,https://www.city.hatsukaichi.hiroshima.jp/uploaded/attachment/93105.pdf,11～12頁「ペットボトル」および出し方2～3,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I002,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表：ペットボトルのキャップ・ラベルは燃やせるごみ,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I003,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表：ペットボトルのキャップ・ラベルは燃やせるごみ,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I004,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,50音表「アルミ缶（飲料缶、かんづめ缶）」の行,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I005,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.132『スチール缶（飲料缶、かんづめ缶）』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I006,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,50音表「瓶（薬品、化粧瓶除く）」の行,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I007,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M105-01,https://www.city.hatsukaichi.hiroshima.jp/uploaded/attachment/93105.pdf,11～12頁「白色の発泡スチロール製食品トレイ」および出し方2・5,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I008,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.242『食品トレイ（白色の発泡スチロール製以外）』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I009,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.564『弁当容器(コンビニなど)』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I010,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.87『菓子袋』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I011,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.657『レジ袋』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I012,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.452『発泡スチロール』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I013,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M105-01,https://www.city.hatsukaichi.hiroshima.jp/uploaded/attachment/93105.pdf,13頁「新聞紙・チラシ」および出し方1・3,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I014,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M105-01,https://www.city.hatsukaichi.hiroshima.jp/uploaded/attachment/93105.pdf,13頁「ダンボール」および出し方1～2,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I015,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表：雑誌・雑がみを資源ごみ(3)紙類として束ねる各品目行,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I016,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.86『菓子の箱（紙製）』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I017,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,50音表「紙パック（内側が白いもの）」「牛乳パック」の行,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I018,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.421『生ごみ』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I019,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.102『紙くず』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I020,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.60『おむつ（紙）（布）』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I021,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.432『布類（衣服）』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I022,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.84『傘』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I023,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.398『陶磁器』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I024,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.113『ガラス』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I025,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.113『ガラス』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I026,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.573『包丁』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I027,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.147『乾電池』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I028,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.587『ボタン電池』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I029,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-05,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/128679.html,「リチウムイオン電池を単独で処分する場合」,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I030,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.388『蛍光管』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I031,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,50音表「電球（白熱電球）」の行,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I032,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-07,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/128930.html,スプレー缶の捨て方：使い切り・穴あけ不要・資源ごみびんかん類,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I033,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,50音表「ライター」の行,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I034,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表：デジタルカメラ・電気カミソリ等の小型家電例,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I035,APP_READY,3,TRUE,ITEM_SPECIFIC,IS-M105-05,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/128679.html,『機器からリチウムイオン電池の取り外しが出来ない場合』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I036,APP_READY,2,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表：布団・寝具類の大型ごみ扱い,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I037,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-06,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/12524.html,市が処理しないごみ：特定家電製品,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I038,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-06,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/12524.html,市が処理しないごみ：家庭用パソコン,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I039,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.377『天ぷら油』／No.7『油（食用油）』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
+M105,I040,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M105-04,https://www.city.hatsukaichi.hiroshima.jp/soshiki/31/78355.html,分別50音表 No.46『枝（剪定枝）』,2026-08-31,OPENAI_M105_APP_READY_V1,M105全40品目の必要条件枝を現行公式資料へ照合しatomic APP_READY昇格。
 M106,I001,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M106-01,https://www.akitakata.jp/ja/shisei/section/siminseikatu/gomi22/,ペットボトル欄,2026-08-27,OPENAI_CODEX_M106_LESSON_READY_10_V2,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M106,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M106,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。

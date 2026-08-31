@@ -1,0 +1,79 @@
+name: M099 APP_READY build
+
+on:
+  pull_request:
+    paths:
+      - "scripts/apply_app_readiness_m099.py"
+      - "scripts/rebuild_app_readiness_m099.py"
+      - "scripts/classroom_pilot_variant_compat.py"
+      - "scripts/classroom_pilot_scoring_compat.py"
+      - "scripts/validate_classroom_pilot_variants.py"
+      - "scripts/red_team_classroom_pilot_variants.py"
+      - "scripts/validate_classroom_pilot_scoring_modes.py"
+      - "scripts/red_team_classroom_pilot_scoring_modes.py"
+      - "scripts/validate_implementation_priority.py"
+      - "scripts/validate_style_research_promotion_compat.py"
+      - "scripts/red_team_style_research_promotion_compat.py"
+      - ".github/workflows/m099-app-ready-build.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Build M099 APP_READY in temporary worktree
+        run: python3 scripts/rebuild_app_readiness_m099.py
+      - name: Validate canonical research
+        run: |
+          python3 scripts/validate_research.py
+          python3 scripts/validate_research.py --next-batch-gate
+          python3 scripts/red_team_schema_v12.py
+          python3 scripts/red_team_operational_category_semantics.py
+      - name: Validate M099 regional scoring boundary
+        run: |
+          python3 scripts/validate_classroom_pilot_scoring_modes.py
+          python3 scripts/red_team_classroom_pilot_scoring_modes.py
+          python3 scripts/validate_classroom_pilot_variants.py
+          python3 scripts/red_team_classroom_pilot_variants.py
+      - name: Validate routing and implementation metadata
+        run: |
+          python3 scripts/validate_company_municipality_mapping.py
+          python3 scripts/red_team_company_municipality_mapping.py
+          python3 scripts/validate_implementation_priority.py
+          python3 scripts/red_team_implementation_priority.py
+      - name: Established layer regressions
+        run: |
+          python3 scripts/validate_item_image_assets.py
+          python3 scripts/validate_teaching_display_layer.py
+          python3 scripts/validate_lesson_box_style_resolver.py
+          python3 scripts/red_team_lesson_box_style_resolver.py
+          python3 scripts/validate_style_research_promotion_compat.py
+          python3 scripts/red_team_style_research_promotion_compat.py
+          node --check app/app.js
+          node --check app/company-selector.js
+      - name: Confirm M099 generation is idempotent
+        run: |
+          git diff > /tmp/m099-first.diff
+          python3 scripts/rebuild_app_readiness_m099.py
+          git diff > /tmp/m099-second.diff
+          diff -u /tmp/m099-first.diff /tmp/m099-second.diff
+      - name: Summarize M099 generated scope
+        run: |
+          python3 scripts/audit_classroom_pilot_app_ready.py
+          python3 - <<'PY'
+          import csv
+          from pathlib import Path
+          p = Path('data/research/app_readiness/m099_item_review.csv')
+          rows = list(csv.DictReader(p.open(encoding='utf-8-sig', newline='')))
+          print(f'M099_GENERATED_REVIEW items={len({r["internal_item_id"] for r in rows})} branches={len(rows)} complete={sum(r["branch_review_status"] == "COMPLETE" for r in rows)}')
+          PY

@@ -1,0 +1,32 @@
+name: M098 M099 APP_READY audit
+
+on:
+  pull_request:
+    paths:
+      - "data/research/02_categories_master.csv"
+      - "data/research/03_sources_master.csv"
+      - "data/research/05_item_mapping_master.csv"
+      - "data/research/07_item_mapping_coverage.csv"
+      - "data/app/district_scopes.csv"
+      - "data/app/lesson_variant_groups.csv"
+      - "data/app/lesson_variant_item_scoring.csv"
+      - "scripts/audit_classroom_pilot_app_ready.py"
+      - "scripts/audit_m098_m099_app_ready_detail.py"
+      - ".github/workflows/m098-m099-app-ready-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Classroom pilot preflight
+        run: python scripts/audit_classroom_pilot_app_ready.py
+      - name: M098 M099 detailed inventory
+        run: python scripts/audit_m098_m099_app_ready_detail.py

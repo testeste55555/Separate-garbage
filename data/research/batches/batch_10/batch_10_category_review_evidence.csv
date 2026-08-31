@@ -6,6 +6,13 @@ CRE-M096-01,CR-M096-CATEGORY-COVERAGE,M096,S-M096-01,現行5区分、2024-2025�
 CRE-M096-02,CR-M096-CATEGORY-COVERAGE,M096,S-M096-02,もやせる物・リサイクルする物・資源物・粗大ごみ・有害ごみの5区分,SUPPLEMENTAL_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
 CRE-M097-01,CR-M097-CATEGORY-COVERAGE,M097,S-M097-01,家庭ごみの分別方法は10分別と明記し、10区分の現行分別を確認,OFFICIAL_TOTAL,2026-08-19 Batch 10 resident-facing category completeness review
 CRE-M097-02,CR-M097-CATEGORY-COVERAGE,M097,S-M097-02,10分別の住民向けチェック項目,SUPPLEMENTAL_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
+CRE-M098-S-M098-01,CR-M098-CATEGORY-COVERAGE,M098,S-M098-01,2026-04-01現行：主要8区分・資源回収・有害ごみ,PRIMARY_INDEX,尾道・向島御調因島瀬戸田以外の現行主要区分を基準インデックスとして確認。
+CRE-M098-S-M098-02,CR-M098-CATEGORY-COVERAGE,M098,S-M098-02,2026-04-01現行：向島町の主要区分・資源回収,SUPPLEMENTAL_INDEX,向島町で固定10および主要行動先の互換性を確認。
+CRE-M098-S-M098-03,CR-M098-CATEGORY-COVERAGE,M098,S-M098-03,2026-04-01現行：御調町の主要区分・資源物,SUPPLEMENTAL_INDEX,御調町の資源物表記差をdistrict evidenceへ保持。
+CRE-M098-S-M098-06,CR-M098-CATEGORY-COVERAGE,M098,S-M098-06,令和8年4月版：因島地域の全主要区分・50音表,SUPPLEMENTAL_INDEX,旧HTMLの電球表記を採用せず、2026年4月版を優先。
+CRE-M098-S-M098-07,CR-M098-CATEGORY-COVERAGE,M098,S-M098-07,令和8年4月版：瀬戸田地域の主要区分・充電式電池,SUPPLEMENTAL_INDEX,瀬戸田地域の現行有害ごみ・資源物経路を確認。
+CRE-M099-S-M099-01,CR-M099-CATEGORY-COVERAGE,M099,S-M099-01,1頁の家庭ごみ7区分と4頁の地域別収集体系,PRIMARY_INDEX,7通常収集区分を2026年度実施計画で全件照合。
+CRE-M099-S-M099-12,CR-M099-CATEGORY-COVERAGE,M099,S-M099-12,拠点回収の対象品目・持ち込み場所表,SUPPLEMENTAL_INDEX,通常7区分と別の現行拠点回収経路をREFERENCE_ONLYとして確認。
 CRE-M101-01,CR-M101-CATEGORY-COVERAGE,M101,S-M101-01,毎週3・資源日2・ごみ日4の9定期収集区分,PRIMARY_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
 CRE-M101-02,CR-M101-CATEGORY-COVERAGE,M101,S-M101-02,9区分と拠点回収3系統を区別する現行索引,SUPPLEMENTAL_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
 CRE-M103-01,CR-M103-CATEGORY-COVERAGE,M103,S-M103-01,8ステーション区分、粗大、有害、電池類、せん定枝,PRIMARY_INDEX,2026-08-19 Batch 10 resident-facing category completeness review
