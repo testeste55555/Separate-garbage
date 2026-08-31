@@ -16,6 +16,10 @@ on:
       - "scripts/build_lesson_ready_m107_m109.py"
       - "scripts/build_lesson_ready_batch11.py"
       - "scripts/build_lesson_ready_regional_batch.py"
+      - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
+      - "scripts/classroom_pilot_scoring_compat.py"
+      - "scripts/validate_style_research_promotion_compat.py"
+      - "scripts/red_team_style_research_promotion_compat.py"
       - "scripts/validate_lesson_scoring_modes.py"
       - "scripts/red_team_lesson_scoring_modes.py"
       - "scripts/validate_classroom_pilot_scoring_modes.py"
@@ -42,6 +46,10 @@ on:
       - "scripts/build_lesson_ready_m107_m109.py"
       - "scripts/build_lesson_ready_batch11.py"
       - "scripts/build_lesson_ready_regional_batch.py"
+      - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
+      - "scripts/classroom_pilot_scoring_compat.py"
+      - "scripts/validate_style_research_promotion_compat.py"
+      - "scripts/red_team_style_research_promotion_compat.py"
       - "scripts/validate_lesson_scoring_modes.py"
       - "scripts/red_team_lesson_scoring_modes.py"
       - "scripts/validate_classroom_pilot_scoring_modes.py"
@@ -72,7 +80,7 @@ jobs:
           python scripts/build_lesson_ready_m107_m109.py
           python scripts/build_lesson_ready_batch11.py
           python scripts/sync_lesson_ready_reviews.py
-          python scripts/build_lesson_ready_regional_batch.py
+          python scripts/rebuild_lesson_ready_regional_preserve_app_ready.py
           git diff --exit-code -- \
             data/app/lesson_mode_app_ready_scope.csv \
             data/app/lesson_teaching_boxes.csv \
@@ -85,7 +93,8 @@ jobs:
             data/research/lesson_readiness/m111_item_review.csv \
             data/research/lesson_readiness/m112_item_review.csv \
             data/research/05_item_mapping_master.csv \
-            data/research/07_item_mapping_coverage.csv
+            data/research/07_item_mapping_coverage.csv \
+            data/master/07_implementation_priority.csv
       - name: Validate lesson scoring modes
         run: python scripts/validate_classroom_pilot_scoring_modes.py
       - name: RED TEAM lesson scoring modes
@@ -105,4 +114,4 @@ jobs:
       - name: Validate Teaching Display Layer
         run: python scripts/validate_teaching_display_layer.py
       - name: Validate Style Research gate
-        run: python scripts/validate_style_research.py --gate
+        run: python scripts/validate_style_research_promotion_compat.py --gate
