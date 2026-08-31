@@ -11,6 +11,7 @@ on:
       - "scripts/red_team_classroom_pilot_variants.py"
       - "scripts/validate_classroom_pilot_scoring_modes.py"
       - "scripts/red_team_classroom_pilot_scoring_modes.py"
+      - "scripts/validate_implementation_priority.py"
       - ".github/workflows/m099-app-ready-build.yml"
   workflow_dispatch:
 
