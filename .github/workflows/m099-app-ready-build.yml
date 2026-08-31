@@ -12,6 +12,8 @@ on:
       - "scripts/validate_classroom_pilot_scoring_modes.py"
       - "scripts/red_team_classroom_pilot_scoring_modes.py"
       - "scripts/validate_implementation_priority.py"
+      - "scripts/validate_style_research_promotion_compat.py"
+      - "scripts/red_team_style_research_promotion_compat.py"
       - ".github/workflows/m099-app-ready-build.yml"
   workflow_dispatch:
 
@@ -55,8 +57,8 @@ jobs:
           python3 scripts/validate_teaching_display_layer.py
           python3 scripts/validate_lesson_box_style_resolver.py
           python3 scripts/red_team_lesson_box_style_resolver.py
-          python3 scripts/validate_style_research.py
-          python3 scripts/red_team_style_research.py
+          python3 scripts/validate_style_research_promotion_compat.py
+          python3 scripts/red_team_style_research_promotion_compat.py
           node --check app/app.js
           node --check app/company-selector.js
       - name: Confirm M099 generation is idempotent
