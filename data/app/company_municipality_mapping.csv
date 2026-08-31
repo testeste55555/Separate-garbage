@@ -9,4 +9,4 @@ C007,株式会社ハルト工業,ハルト工業,㈱ハルト工業;株式会社
 C008,村上工業有限会社,村上工業,村上工業㈲;村上工業(有);村上工業有限会社,C008-S01,本社,M099,LV-M099-01,CONFIRMED,https://info.gbiz.go.jp/hojin/ichiran?hojinBango=7240002043363,2026-08-31,法人番号7240002043363の福山市山手町法人を採用。同名法人との混同を避けるため法人番号で同定。,8,TRUE
 C009,常石三保造船株式会社,常石三保造船,常石三保造船㈱;常石三保造船株式会社,C009-S01,本社・三保工場,M020,,CONFIRMED,https://www.tsuneishi.co.jp/miho/company/about/,2026-08-31,ユーザー指定企業に対応する本社・三保工場（静岡市清水区三保）を採用。新潟工場・三崎工場は今回active siteへ自動追加しない。,9,TRUE
 C010,堂本食品株式会社,堂本食品,堂本食品;堂本食品株式会社,C010-S01,本社,M094,,CONFIRMED,https://www.domoto.co.jp/profile,2026-08-31,広島市安佐南区伴中央の本社所在地を採用。,10,TRUE
-C011,Umios株式会社,Umios,umios株式会社 大江工場;Umios株式会社 大江工場;Umios(株) 大江工場,C011-S01,大江工場,M009,,CONFIRMED,https://www.umios.com/jp/saiyo/information/requirements/index.html,2026-08-31,ユーザー指定の大江工場（山形県西村山郡大江町）をsiteとして採用。Umios全社の他拠点へは展開しない。,11,FALSE
+C011,Umios株式会社,Umios,umios株式会社 大江工場;Umios株式会社 大江工場;Umios(株) 大江工場,C011-S01,大江工場,M009,,CONFIRMED,https://www.umios.com/jp/saiyo/information/requirements/index.html,2026-08-31,ユーザー指定の大江工場（山形県西村山郡大江町）をsiteとして採用。Umios全社の他拠点へは展開しない。,11,TRUE

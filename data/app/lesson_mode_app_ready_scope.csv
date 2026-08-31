@@ -1,4 +1,5 @@
 ﻿municipality_id,municipality_name,lesson_mode,scoring_status,required_item_count,required_branch_count,review_source,image_mapping_source,note
+M009,大江町,ONLINE_CLASS,APP_READY,40,41,data/research/app_readiness/m009_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETE。店頭回収・直接搬入は内部根拠に保持し、固定10は町の通常分別区分で採点。
 M020,静岡市,ONLINE_CLASS,APP_READY,40,43,data/research/app_readiness/m020_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETE。固定10の分別正答は市内共通で、地区差は収集容器・回収場所としてエビデンス層に保持。
 M094,広島市,ONLINE_CLASS,APP_READY,40,59,data/research/app_readiness/m094_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETEかつ画像固有mapping VERIFIEDの場合のみ自動正誤判定
 M095,呉市,ONLINE_CLASS,APP_READY,40,56,data/research/app_readiness/m095_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETEかつ画像固有mapping VERIFIEDの場合のみ自動正誤判定

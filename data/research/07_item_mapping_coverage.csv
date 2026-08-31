@@ -319,46 +319,46 @@ M008,I037,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調
 M008,I038,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M008,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M008,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I001,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,text-match:ペットボトル + ペットボトル,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M009,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I004,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I005,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M009,I006,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M009,I007,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I008,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I009,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I010,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I011,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I012,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I013,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I014,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I015,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I016,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I017,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I018,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,text-match:生ごみ + もやせるごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M009,I019,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I020,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I021,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,text-match:衣類 + もやせるごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M009,I022,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I023,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,text-match:陶磁器 + もやせないごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M009,I024,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I026,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I027,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M009,I028,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I029,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I030,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,text-match:蛍光灯 + 水銀含有ごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M009,I031,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I032,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,text-match:スプレー缶 + もやせないごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M009,I033,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I034,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,text-match:小型家電 + もやせないごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M009,I035,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I036,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I037,MAPPED_INITIAL,2,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M009,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M009,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M009,I001,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P6・分別早見表『ペットボトル（認識マークあり）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I002,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P6・分別早見表『ペットボトル』注意事項,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I003,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P6・分別早見表『ペットボトル』注意事項,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I004,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『缶（飲料・食料・調味料用）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I005,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『缶（飲料・食料・調味料用）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I006,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『びん（飲料・調味料用）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I007,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P23『食品トレイ（白色トレイ）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I008,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『食品トレイ（白色トレイ以外）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I009,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『コンビニ弁当箱』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I010,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P18『菓子袋（紙・ビニール・プラスチック製）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I011,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P18『買い物袋（レジ袋・エコバッグ）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I012,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『発泡スチロール』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I013,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P23『新聞紙』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I014,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『段ボール』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I015,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『雑誌類』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I016,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P18『菓子箱（木製・紙製）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I017,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P19『紙パック類』／P12店頭回収協力,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I018,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『生ごみ』／もやせるごみ,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I019,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,もやせるごみ『紙くず』／分別早見表,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I020,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P19『紙おむつ』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I021,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P17『衣類』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I022,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P18『傘』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I023,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『陶磁器製品』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I024,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P19『ガラスコップ』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I025,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P19『ガラスくず（窓ガラス等）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I026,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『包丁・刃物』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I027,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P9『有害ごみ／乾電池』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I028,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P9『乾電池』：ボタン電池を対象として明記,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I029,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P9『モバイルバッテリーも乾電池と一緒に出す』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I030,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P20『蛍光管』／水銀含有ごみ,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I031,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『電球（白熱・LED）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I032,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『スプレー缶・カセットボンベ』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I033,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表『ライター』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I034,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,もやせないごみ『小型家電』／分別早見表（カメラ等）,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I035,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,もやせないごみ『小型家電』＋P9充電池ルール,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I036,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P17『羽毛布団（1枚）』『ウレタン敷布団（1枚）』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I037,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P8『家電4品目』：クリーンセンター受入不可,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I038,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P9『パソコン』：家庭用PCはクリーンセンターへ直接搬入可,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I039,APP_READY,1,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,分別早見表 P18『固めた食用油』,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
+M009,I040,APP_READY,2,TRUE,ITEM_SPECIFIC,S-M009-02,https://www.town.oe.yamagata.jp/files/original/202403191138227511fcddfbe.pdf,P1『枝木類』：長さ80cm以下・直径20cm以内,2026-08-31,OPENAI_M009_APP_READY_V1,M009全40品目の必要条件枝を令和8年度現行案内の公式ガイドへ照合しatomic APP_READY昇格。
 M010,I001,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M010,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M010,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
