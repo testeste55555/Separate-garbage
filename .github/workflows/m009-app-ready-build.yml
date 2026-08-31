@@ -7,6 +7,7 @@ on:
       - 'scripts/normalize_app_readiness_m009.py'
       - 'scripts/validate_app_readiness_m009.py'
       - 'scripts/red_team_app_readiness_m009.py'
+      - 'scripts/red_team_schema_v12.py'
       - '.github/workflows/m009-app-ready-build.yml'
   pull_request:
     paths:
@@ -14,6 +15,7 @@ on:
       - 'scripts/normalize_app_readiness_m009.py'
       - 'scripts/validate_app_readiness_m009.py'
       - 'scripts/red_team_app_readiness_m009.py'
+      - 'scripts/red_team_schema_v12.py'
       - 'data/research/app_readiness/m009_item_review.csv'
       - 'data/research/02_categories_master.csv'
       - 'data/research/04_municipalities_research.csv'
