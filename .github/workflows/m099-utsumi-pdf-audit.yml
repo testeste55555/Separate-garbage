@@ -19,10 +19,12 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq poppler-utils
-      - name: Extract official Utsumi guide text
+      - name: Audit 2026 Utsumi calendar and supplemental guide
         run: bash scripts/audit_m099_utsumi_guide.sh
-      - name: Upload extracted text
+      - name: Upload extracted source text
         uses: actions/upload-artifact@v4
         with:
-          name: m099-utsumi-guide-text
-          path: /tmp/m099-utsumi-guide.txt
+          name: m099-utsumi-source-text
+          path: |
+            /tmp/m099-utsumi-2026-calendar.txt
+            /tmp/m099-utsumi-guide.txt
