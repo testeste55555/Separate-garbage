@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Run the existing scoring mutation RED TEAM with the M105 promotion expectation."""
+"""Run the scoring mutation RED TEAM with classroom-pilot APP_READY expectations."""
 from __future__ import annotations
 
 import validate_lesson_scoring_modes as base
+from classroom_pilot_scoring_compat import configure
 
-base.EXPECTED_REGRESSION_STATUS["M105"] = base.APP_READY
+# Configure before importing the RED TEAM module: it imports validate() by value.
+configure()
 
 import red_team_lesson_scoring_modes as red_team  # noqa: E402
 
