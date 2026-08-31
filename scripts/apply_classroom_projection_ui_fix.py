@@ -4,6 +4,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 APP_JS = ROOT / "app/app.js"
 CSS = ROOT / "app/styles.css"
+VALIDATOR = ROOT / "scripts/validate_lesson_box_style_resolver.py"
+RED_TEAM = ROOT / "scripts/red_team_lesson_box_style_resolver.py"
 
 
 def replace_once(text: str, old: str, new: str, label: str) -> str:
@@ -54,7 +56,7 @@ def patch_css() -> None:
     text = replace_once(
         text,
         '''.bucket--compact { font-size: clamp(25px, 3.4vw, 48px); }\n.bucket--long { font-size: clamp(21px, 2.7vw, 38px); line-height: 1.2; }\n.bucket--neutral-style,\n.bucket--fallback-style {\n  background-color: #e8edf2;\n  background-image: repeating-linear-gradient(\n    135deg,\n    rgb(255 255 255 / 22%) 0,\n    rgb(255 255 255 / 22%) 12px,\n    rgb(31 41 55 / 7%) 12px,\n    rgb(31 41 55 / 7%) 24px\n  );\n  border-color: #273746;\n  color: #111;\n}\n\n.bucket--fallback-style[data-box-kind="SIMPLIFIED_ACTION"] {\n  border-style: dashed;\n  background-image: repeating-linear-gradient(\n    45deg,\n    rgb(255 255 255 / 28%) 0,\n    rgb(255 255 255 / 28%) 10px,\n    rgb(31 41 55 / 9%) 10px,\n    rgb(31 41 55 / 9%) 20px\n  );\n}''',
-        '''.bucket--compact { font-size: clamp(32px, 3.8vw, 58px); }\n.bucket--long { font-size: clamp(27px, 3.1vw, 48px); line-height: 1.16; }\n.bucket--neutral-style,\n.bucket--fallback-style {\n  background-image: none;\n  color: #111;\n}\n\n.bucket--fallback-style[data-fallback-palette="1"] { background-color: #FFE082; border-color: #6D4C00; }\n.bucket--fallback-style[data-fallback-palette="2"] { background-color: #90CAF9; border-color: #0D47A1; }\n.bucket--fallback-style[data-fallback-palette="3"] { background-color: #A5D6A7; border-color: #1B5E20; }\n.bucket--fallback-style[data-fallback-palette="4"] { background-color: #F8BBD0; border-color: #880E4F; }\n.bucket--fallback-style[data-fallback-palette="5"] { background-color: #D1C4E9; border-color: #4527A0; }\n.bucket--fallback-style[data-fallback-palette="6"] { background-color: #FFCC80; border-color: #E65100; }\n.bucket--fallback-style[data-fallback-palette="7"] { background-color: #B2EBF2; border-color: #006064; }\n.bucket--fallback-style[data-fallback-palette="8"] { background-color: #CFD8DC; border-color: #263238; }\n\n.bucket--fallback-style[data-box-kind="SIMPLIFIED_ACTION"] {\n  border-style: dashed;\n}''',
+        '''.bucket--compact { font-size: clamp(32px, 3.8vw, 58px); }\n.bucket--long { font-size: clamp(27px, 3.1vw, 48px); line-height: 1.16; }\n.bucket--neutral-style,\n.bucket--fallback-style {\n  background-color: #FFE082;\n  background-image: none;\n  border-color: #6D4C00;\n  border-style: solid;\n  color: #111;\n}\n\n.bucket--fallback-style[data-fallback-palette="1"] { background-color: #FFE082; border-color: #6D4C00; }\n.bucket--fallback-style[data-fallback-palette="2"] { background-color: #90CAF9; border-color: #0D47A1; }\n.bucket--fallback-style[data-fallback-palette="3"] { background-color: #A5D6A7; border-color: #1B5E20; }\n.bucket--fallback-style[data-fallback-palette="4"] { background-color: #F8BBD0; border-color: #880E4F; }\n.bucket--fallback-style[data-fallback-palette="5"] { background-color: #D1C4E9; border-color: #4527A0; }\n.bucket--fallback-style[data-fallback-palette="6"] { background-color: #FFCC80; border-color: #E65100; }\n.bucket--fallback-style[data-fallback-palette="7"] { background-color: #B2EBF2; border-color: #006064; }\n.bucket--fallback-style[data-fallback-palette="8"] { background-color: #CFD8DC; border-color: #263238; }\n\n.bucket--fallback-style[data-box-kind="SIMPLIFIED_ACTION"] {\n  border-style: dashed;\n}''',
         "fallback styles",
     )
     text = replace_once(
@@ -66,9 +68,39 @@ def patch_css() -> None:
     CSS.write_text(text, encoding="utf-8")
 
 
+def patch_validator() -> None:
+    text = VALIDATOR.read_text(encoding="utf-8")
+    text = replace_once(
+        text,
+        '''        '"bucket--fallback-style"',\n    }''',
+        '''        '"bucket--fallback-style"', "box.dataset.fallbackPalette",\n    }''',
+        "validator required js",
+    )
+    text = replace_once(
+        text,
+        '''        if "repeating-linear-gradient" not in body or "border-color" not in body:\n            errors.append("fallback style lacks pattern or strong border")''',
+        '''        if "background-image: none" not in body or "border-color" not in body or "border-style: solid" not in body:\n            errors.append("fallback style lacks solid high-contrast surface")\n        palette_rules = re.findall(r'\\.bucket--fallback-style\\[data-fallback-palette="[1-8]"\\]', css)\n        if len(palette_rules) != 8:\n            errors.append("fallback palette does not define all 8 classroom colors")''',
+        "validator fallback rule",
+    )
+    VALIDATOR.write_text(text, encoding="utf-8")
+
+
+def patch_red_team() -> None:
+    text = RED_TEAM.read_text(encoding="utf-8")
+    text = replace_once(
+        text,
+        '''        ("fallback surface returned to white", lambda root: replace(root, "app/styles.css", "background-color: #e8edf2;", "background-color: #ffffff;")),\n        ("fallback pattern removed", lambda root: replace(root, "app/styles.css", "background-image: repeating-linear-gradient(", "background-image: linear-gradient(")),''',
+        '''        ("fallback surface returned to white", lambda root: replace(root, "app/styles.css", "background-color: #FFE082;", "background-color: #ffffff;")),\n        ("fallback palette assignment removed", lambda root: replace(root, "app/app.js", "box.dataset.fallbackPalette = String((boxIndex % 8) + 1);", "")),''',
+        "red team fallback mutations",
+    )
+    RED_TEAM.write_text(text, encoding="utf-8")
+
+
 def main() -> None:
     patch_js()
     patch_css()
+    patch_validator()
+    patch_red_team()
     print("CLASSROOM_PROJECTION_UI_FIX_APPLIED")
 
 
