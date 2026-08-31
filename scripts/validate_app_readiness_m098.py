@@ -175,7 +175,7 @@ def validate_context(data) -> list[str]:
         errors.append("M098 APP_READY scope mismatch")
 
     groups = [r for r in data["groups"] if r.get("municipality_id") == MID]
-    if len(groups) != 1 or groups[0].get("lesson_variant_group_id") != "LV-M098-01" or groups[0].get("learner_region_selector_required") != "FALSE":
+    if len(groups) != 1 or groups[0].get("lesson_variant_group_id") != "LV-M098-01" or groups[0].get("learner_selection_required") != "FALSE":
         errors.append("M098 must preserve one hidden learner lesson group")
     districts = [r for r in data["districts"] if r.get("municipality_id") == MID]
     if len(districts) != 6 or {r.get("lesson_variant_group_id") for r in districts} != {"LV-M098-01"} or any(r.get("learner_visible") != "FALSE" for r in districts):
