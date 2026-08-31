@@ -8,6 +8,7 @@ on:
       - 'scripts/red_team_app_readiness_m098.py'
       - 'scripts/classroom_pilot_scoring_compat.py'
       - 'scripts/classroom_pilot_variant_compat.py'
+      - 'scripts/red_team_company_municipality_mapping.py'
       - 'scripts/red_team_schema_v12.py'
       - '.github/workflows/m098-app-ready-build.yml'
   pull_request:
@@ -17,6 +18,7 @@ on:
       - 'scripts/red_team_app_readiness_m098.py'
       - 'scripts/classroom_pilot_scoring_compat.py'
       - 'scripts/classroom_pilot_variant_compat.py'
+      - 'scripts/red_team_company_municipality_mapping.py'
       - 'scripts/red_team_schema_v12.py'
       - 'data/research/app_readiness/m098_item_review.csv'
       - 'data/research/02_categories_master.csv'
