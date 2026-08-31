@@ -8,6 +8,7 @@ CALENDAR_URL="https://www.city.fukuyama.hiroshima.jp/uploaded/attachment/327009.
 GUIDE_URL="https://www.city.fukuyama.hiroshima.jp/uploaded/attachment/273294.pdf"
 CALENDAR_PDF="/tmp/m099-utsumi-2026-calendar.pdf"
 CALENDAR_TXT="/tmp/m099-utsumi-2026-calendar.txt"
+CALENDAR_COMPACT="/tmp/m099-utsumi-2026-calendar-compact.txt"
 GUIDE_PDF="/tmp/m099-utsumi-guide.pdf"
 GUIDE_TXT="/tmp/m099-utsumi-guide.txt"
 
@@ -19,9 +20,13 @@ if [[ ! -s "$CALENDAR_TXT" ]]; then
   exit 1
 fi
 
+# PDF extraction may insert spaces between Japanese glyphs.  Normalize only for
+# assertions; retain the unmodified extracted text as the audit artifact.
+tr -d '[:space:]' < "$CALENDAR_TXT" > "$CALENDAR_COMPACT"
+
 # Human-provided official 2026 calendar must anchor the current Utsumi scope.
 for token in '２０２６年度' '内海町' '燃やせるごみ' '容器包装プラスチックごみ' '資源ごみ' '紙類' '不燃（破砕）ごみ'; do
-  if ! grep -Fq "$token" "$CALENDAR_TXT"; then
+  if ! grep -Fq "$token" "$CALENDAR_COMPACT"; then
     echo "M099_UTSUMI_2026_CALENDAR_AUDIT_FAILED: missing token: $token"
     exit 1
   fi
@@ -30,14 +35,16 @@ done
 # The calendar also explicitly points residents to drop-off collection for
 # small appliances, rechargeable batteries and waste paper.  Keep this as
 # regional/currentness evidence, not as a blanket item-level mapping rule.
-if ! grep -Eq '小型家電|充電式電池|古紙|拠点回収' "$CALENDAR_TXT"; then
-  echo "M099_UTSUMI_2026_CALENDAR_AUDIT_FAILED: drop-off guidance not found"
-  exit 1
-fi
+for token in '小型家電' '充電式電池' '古紙' '拠点回収'; do
+  if ! grep -Fq "$token" "$CALENDAR_COMPACT"; then
+    echo "M099_UTSUMI_2026_CALENDAR_AUDIT_FAILED: missing drop-off token: $token"
+    exit 1
+  fi
+done
 
 echo "M099_UTSUMI_2026_CALENDAR_AUDIT: PASS"
 echo "M099_UTSUMI_2026_CALENDAR_CONTEXT"
-grep -n -E '２０２６年度|内海町|燃やせるごみ|容器包装プラスチックごみ|資源ごみ|紙類|不燃（破砕）ごみ|小型家電|充電式電池|古紙|拠点回収' "$CALENDAR_TXT" || true
+grep -n -E '２０２６年度|内.?海.?町|燃やせるごみ|容器包装プラスチックごみ|資源ごみ|紙類|不燃（破砕）ごみ|小型家電|充電式電池|古紙|拠点回収' "$CALENDAR_TXT" || true
 
 # Supplemental full guide: use only when a common item needs a direct wording,
 # preparation rule, special route or exclusion that the calendar cannot prove.
