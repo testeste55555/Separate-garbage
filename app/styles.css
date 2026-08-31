@@ -184,7 +184,30 @@ button.bucket { width: 100%; font-family: inherit; cursor: pointer; }
 
 .bucket--compact { font-size: clamp(25px, 3.4vw, 48px); }
 .bucket--long { font-size: clamp(21px, 2.7vw, 38px); line-height: 1.2; }
-.bucket--neutral-style { background: #fff; border-color: #333; color: #111; }
+.bucket--neutral-style,
+.bucket--fallback-style {
+  background-color: #e8edf2;
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgb(255 255 255 / 22%) 0,
+    rgb(255 255 255 / 22%) 12px,
+    rgb(31 41 55 / 7%) 12px,
+    rgb(31 41 55 / 7%) 24px
+  );
+  border-color: #273746;
+  color: #111;
+}
+
+.bucket--fallback-style[data-box-kind="SIMPLIFIED_ACTION"] {
+  border-style: dashed;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgb(255 255 255 / 28%) 0,
+    rgb(255 255 255 / 28%) 10px,
+    rgb(31 41 55 / 9%) 10px,
+    rgb(31 41 55 / 9%) 20px
+  );
+}
 
 .empty-state {
   grid-column: 1 / -1;

@@ -1,5 +1,17 @@
-lesson_variant_group_id,municipality_id,display_name,learner_selection_required,display_order,readiness_status,note
+﻿lesson_variant_group_id,municipality_id,display_name,learner_selection_required,display_order,readiness_status,note
 LV-M098-01,M098,尾道市,FALSE,1,LESSON_READY_10,6 district_scopeを固定10品目の教材上1グループへ集約
 LV-M099-01,M099,一般地域,TRUE,1,LESSON_READY_10,内海町・沼隈町・走島町を除く
 LV-M099-02,M099,内海町・沼隈町,TRUE,2,LESSON_READY_10,固定10品目では紙パックを紙類として扱う
 LV-M099-03,M099,走島町,TRUE,3,LESSON_READY_10,新聞・段ボール・紙パックを通常紙類箱へ投影しない
+LV-M076-01,M076,資源回収ステーション9種23分別地域,TRUE,1,LESSON_READY_10,9種23分別地域
+LV-M076-02,M076,旧分別地域,TRUE,2,LESSON_READY_10,資源回収ステーション未設置地域
+LV-M100-01,M100,府中地区,TRUE,1,LESSON_READY_10,府中地区
+LV-M100-02,M100,上下地区,TRUE,2,LESSON_READY_10,上下地区
+LV-M120-01,M120,萩市（本土側）,FALSE,1,LESSON_READY_10,島しょ部は教材対象外
+LV-M123-01,M123,岩国・由宇・周東・玖珂,TRUE,1,LESSON_READY_10,食品トレーは店頭回収BOX
+LV-M123-02,M123,錦・美川・美和・本郷,TRUE,2,LESSON_READY_10,食品トレーは自治体収集経路も選択可
+LV-M127-01,M127,美祢,TRUE,1,LESSON_READY_10,美祢地域
+LV-M127-02,M127,美東,TRUE,2,LESSON_READY_10,美東地域
+LV-M127-03,M127,秋芳,TRUE,3,LESSON_READY_10,秋芳地域
+LV-M136-01,M136,吉野川市,FALSE,1,LESSON_READY_10,カレンダー地区差はfixed10正答を変えない
+LV-M139-01,M139,丸亀市,FALSE,1,LESSON_READY_10,カレンダー地区差はfixed10正答を変えない

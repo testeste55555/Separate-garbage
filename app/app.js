@@ -187,10 +187,83 @@
     for (const row of styleRows) {
       const municipalityId = row.municipality_id?.trim();
       const categoryId = row.category_id?.trim();
-      const scope = row.district_scope?.trim();
-      if (!municipalityId || !categoryId || scope !== MUNICIPAL_SCOPE) continue;
+      const scope = row.district_scope?.trim() || MUNICIPAL_SCOPE;
+      if (!municipalityId || !categoryId) continue;
       stylesByBucket.set(styleKey(municipalityId, categoryId, scope), row);
     }
+  }
+
+  function officialStyleUsable(style) {
+    return Boolean(
+      style && OFFICIAL_STYLE_STATUSES.has(style.color_status?.trim()) &&
+      HEX_RE.test(style.display_color?.trim() ?? "") &&
+      HEX_RE.test(style.border_color?.trim() ?? "") &&
+      HEX_RE.test(style.text_color?.trim() ?? "")
+    );
+  }
+
+  function styleSignature(style) {
+    return [style.display_color, style.border_color, style.text_color]
+      .map((value) => value?.trim().toUpperCase())
+      .join("::");
+  }
+
+  function fallbackStyle(reason, sourceCategoryIds = []) {
+    return {
+      provenance: "FALLBACK",
+      reason,
+      sourceCategoryIds,
+      style: null
+    };
+  }
+
+  function resolveBoxStyle(municipalityId, row, usesTeachingBox) {
+    const boxKind = row.box_kind?.trim();
+    if (boxKind === "SIMPLIFIED_ACTION") {
+      return fallbackStyle("SIMPLIFIED_ACTION");
+    }
+
+    const configuredSources = row.style_source_category_ids?.trim();
+    const defaultSource = row.category_id?.trim();
+    const sourceCategoryIds = (configuredSources || defaultSource || "")
+      .split(";")
+      .map((value) => value.trim())
+      .filter(Boolean);
+    if (sourceCategoryIds.length === 0) {
+      return fallbackStyle(usesTeachingBox ? "LEARNER_CREATED_BOX" : "NO_SOURCE_CATEGORY");
+    }
+
+    const districtScope = row.style_district_scope?.trim() || MUNICIPAL_SCOPE;
+    const resolved = [];
+    const resolvedScopes = [];
+    for (const sourceCategoryId of sourceCategoryIds) {
+      const sortBucket = findSortBucket(municipalityId, sourceCategoryId);
+      if (!sortBucket) return fallbackStyle("SOURCE_CATEGORY_NOT_SORT_BUCKET", sourceCategoryIds);
+      const categoryId = sortBucket.category_id.trim();
+      const exact = stylesByBucket.get(styleKey(municipalityId, categoryId, districtScope));
+      const municipalityWide = stylesByBucket.get(styleKey(municipalityId, categoryId, MUNICIPAL_SCOPE));
+      const usesExactVariant = districtScope !== MUNICIPAL_SCOPE && officialStyleUsable(exact);
+      const style = usesExactVariant ? exact : municipalityWide;
+      if (!officialStyleUsable(style)) return fallbackStyle("OFFICIAL_STYLE_UNAVAILABLE", sourceCategoryIds);
+      resolved.push(style);
+      resolvedScopes.push(usesExactVariant ? districtScope : MUNICIPAL_SCOPE);
+    }
+
+    if (new Set(resolved.map(styleSignature)).size !== 1) {
+      return fallbackStyle("CONFLICTING_OFFICIAL_STYLES", sourceCategoryIds);
+    }
+    const allConfirmed = resolved.every((style) => style.color_status?.trim() === "OFFICIAL_CONFIRMED");
+    const reason = resolvedScopes.some((scope) => scope !== MUNICIPAL_SCOPE)
+      ? "VARIANT_OFFICIAL_STYLE"
+      : sourceCategoryIds.length === 1
+        ? "SINGLE_OFFICIAL_CATEGORY"
+        : "SAME_OFFICIAL_STYLE";
+    return {
+      provenance: allConfirmed ? "OFFICIAL_CONFIRMED" : "OFFICIAL_DERIVED",
+      reason,
+      sourceCategoryIds,
+      style: resolved[0]
+    };
   }
 
   function buildScoringReadyData(scopeRows, reviewRowsByMunicipality) {
@@ -395,11 +468,12 @@
       const status = row.color_status?.trim();
       const municipalityId = row.municipality_id?.trim();
       const categoryId = row.category_id?.trim();
+      const scope = row.district_scope?.trim() || MUNICIPAL_SCOPE;
       const background = row.display_color?.trim();
       const border = row.border_color?.trim();
       const text = row.text_color?.trim();
 
-      if (!OFFICIAL_STYLE_STATUSES.has(status)) continue;
+      if (!OFFICIAL_STYLE_STATUSES.has(status) || scope !== MUNICIPAL_SCOPE) continue;
       if (!SAFE_ID_RE.test(municipalityId ?? "") || !SAFE_ID_RE.test(categoryId ?? "")) continue;
       if (!HEX_RE.test(background ?? "") || !HEX_RE.test(border ?? "") || !HEX_RE.test(text ?? "")) continue;
 
@@ -535,8 +609,8 @@
       const usesTeachingBox = Boolean(row.teaching_box_id?.trim());
       const categoryId = usesTeachingBox ? row.teaching_box_id.trim() : row.category_id.trim();
       const label = usesTeachingBox ? row.display_name.trim() : row["自治体正式名称"].trim();
-      const style = usesTeachingBox ? null : stylesByBucket.get(styleKey(id, categoryId));
-      const status = style?.color_status?.trim() || "NO_STYLE_RESEARCH";
+      const resolution = resolveBoxStyle(id, row, usesTeachingBox);
+      const status = resolution.provenance;
       const box = document.createElement(interactive ? "button" : "div");
       if (box instanceof HTMLButtonElement) box.type = "button";
 
@@ -544,12 +618,22 @@
       box.dataset.municipalityId = id;
       box.dataset.categoryId = categoryId;
       box.dataset.styleStatus = status;
+      box.dataset.styleProvenance = status;
+      box.dataset.styleReason = resolution.reason;
+      box.dataset.sourceCategoryIds = resolution.sourceCategoryIds.join(";");
+      box.dataset.boxKind = row.box_kind?.trim() || "OFFICIAL_CATEGORY";
       box.textContent = label;
+
+      if (resolution.style) {
+        box.style.backgroundColor = resolution.style.display_color.trim();
+        box.style.borderColor = resolution.style.border_color.trim();
+        box.style.color = resolution.style.text_color.trim();
+      }
 
       const length = [...label].length;
       if (length >= 13) box.classList.add("bucket--long");
       else if (length >= 7) box.classList.add("bucket--compact");
-      box.classList.add(OFFICIAL_STYLE_STATUSES.has(status) ? "bucket--official-style" : "bucket--neutral-style");
+      box.classList.add(OFFICIAL_STYLE_STATUSES.has(status) ? "bucket--official-style" : "bucket--fallback-style");
 
       if (interactive) {
         box.classList.add("bucket--interactive");

@@ -48,6 +48,16 @@ def main() -> int:
         mutation("internal district exposed to learner", base, lambda d: row(d["district_scopes"], "district_scope_id", "DS-M098-01").update({"learner_visible": "TRUE"})),
         mutation("fixed-10-only box leaked into in-person mode", base, lambda d: row(d["teaching_boxes"], "teaching_box_id", "TB-M098-IP-01").update({"box_kind": "FIXED_10_SCORING"})),
         mutation("Hashirijima ferry route leaked into learner box", base, lambda d: row(d["teaching_boxes"], "teaching_box_id", "TB-M099-03-IP-07").update({"display_name": "フェリー持込施設"})),
+        mutation("M076 learner selection disabled", base, lambda d: row(d["variant_groups"], "lesson_variant_group_id", "LV-M076-01").update({"learner_selection_required": "FALSE"})),
+        mutation("M076 old-region tray falsely changed to metal", base, lambda d: row([r for r in d["item_scoring"] if r.get("lesson_variant_group_id") == "LV-M076-02"], "internal_item_id", "I007").update({"teaching_box_id": "TB-M076-02-02"})),
+        mutation("M100 Joge collapsed into Fuchu", base, lambda d: row(d["district_scopes"], "district_scope_id", "DS-M100-02").update({"lesson_variant_group_id": "LV-M100-01"})),
+        mutation("M120 island selector exposed", base, lambda d: row(d["variant_groups"], "lesson_variant_group_id", "LV-M120-01").update({"learner_selection_required": "TRUE"})),
+        mutation("M120 fake island group added", base, lambda d: d["variant_groups"].append({**row(d["variant_groups"], "lesson_variant_group_id", "LV-M120-01"), "lesson_variant_group_id": "LV-M120-ISLAND"})),
+        mutation("M123 group B tray collapsed to action box", base, lambda d: row([r for r in d["item_scoring"] if r.get("lesson_variant_group_id") == "LV-M123-02"], "internal_item_id", "I007").update({"teaching_box_id": "TB-M123-02-01"})),
+        mutation("M127 Mine bulb treated as hard plastic", base, lambda d: row([r for r in d["item_scoring"] if r.get("lesson_variant_group_id") == "LV-M127-01"], "internal_item_id", "I031").update({"teaching_box_id": "TB-M127-01-07"})),
+        mutation("M127 Mito lighter treated as PET", base, lambda d: row([r for r in d["item_scoring"] if r.get("lesson_variant_group_id") == "LV-M127-02"], "internal_item_id", "I033").update({"teaching_box_id": "TB-M127-02-01"})),
+        mutation("M136 calendar district split into fake answer group", base, lambda d: row(d["district_scopes"], "district_scope_id", "DS-M136-05").update({"lesson_variant_group_id": "LV-M136-02"})),
+        mutation("M139 learner region selector forced", base, lambda d: row(d["variant_groups"], "lesson_variant_group_id", "LV-M139-01").update({"learner_selection_required": "TRUE"})),
     ]
 
     escaped = [label for label, candidate in cases if not validate_records(candidate)]
