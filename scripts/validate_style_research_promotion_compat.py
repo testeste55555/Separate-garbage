@@ -16,10 +16,14 @@ import validate_style_research as base
 
 PROMOTABLE = {"M098", "M099"}
 APP_READY = "APP_READY"
+ORIGINAL_READ_CSV = base.read_csv
 
 
 def _rows(path: Path):
-    return base.read_csv(path)
+    # Always read the real persisted file. Once configure() monkey-patches
+    # base.read_csv, routing this helper back through base.read_csv would recurse
+    # while checking the deferred snapshot itself.
+    return ORIGINAL_READ_CSV(path)
 
 
 def promotion_is_complete(root: Path, mid: str) -> bool:
@@ -51,10 +55,9 @@ def promotion_is_complete(root: Path, mid: str) -> bool:
 def configure() -> None:
     if getattr(base, "_style_promotion_compat", False):
         return
-    original_read_csv = base.read_csv
 
     def compatible_read_csv(path: Path):
-        rows = original_read_csv(path)
+        rows = ORIGINAL_READ_CSV(path)
         if path.name != "05_deferred_municipalities.csv":
             return rows
         root = path.parents[2]
