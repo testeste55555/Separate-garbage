@@ -13,6 +13,9 @@ on:
       - "scripts/build_lesson_ready_regional_batch.py"
       - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
       - "scripts/classroom_pilot_scoring_compat.py"
+      - "scripts/classroom_pilot_variant_compat.py"
+      - "scripts/validate_classroom_pilot_variants.py"
+      - "scripts/red_team_classroom_pilot_variants.py"
       - "scripts/validate_style_research_promotion_compat.py"
       - "scripts/red_team_style_research_promotion_compat.py"
       - "scripts/validate_lesson_variants.py"
@@ -36,6 +39,9 @@ on:
       - "scripts/build_lesson_ready_regional_batch.py"
       - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
       - "scripts/classroom_pilot_scoring_compat.py"
+      - "scripts/classroom_pilot_variant_compat.py"
+      - "scripts/validate_classroom_pilot_variants.py"
+      - "scripts/red_team_classroom_pilot_variants.py"
       - "scripts/validate_style_research_promotion_compat.py"
       - "scripts/red_team_style_research_promotion_compat.py"
       - "scripts/validate_lesson_variants.py"
@@ -79,8 +85,11 @@ jobs:
       - name: Validate and mutation RED TEAM
         run: |
           set -euo pipefail
-          python3 scripts/validate_lesson_variants.py
-          python3 scripts/red_team_lesson_variants.py
+          # The historical validator required every regional municipality to remain
+          # canonical-DEFERRED forever.  Use the compatibility gate after a separately
+          # proven M099 40-item APP_READY promotion; all other variant invariants remain.
+          python3 scripts/validate_classroom_pilot_variants.py
+          python3 scripts/red_team_classroom_pilot_variants.py
           python3 scripts/validate_lesson_box_style_resolver.py
           python3 scripts/red_team_lesson_box_style_resolver.py
           python3 scripts/validate_implementation_priority.py
