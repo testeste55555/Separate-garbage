@@ -1,17 +1,13 @@
 #!/usr/bin/env python3
-"""Validate scoring modes after the classroom-pilot M105 APP_READY promotion.
-
-All validation logic remains in validate_lesson_scoring_modes.py.  This wrapper only
-updates the explicit regression expectation for the municipality intentionally
-promoted by this PR.
-"""
+"""Validate classroom-pilot scoring after APP_READY promotions."""
 from __future__ import annotations
 
 import sys
 
 import validate_lesson_scoring_modes as base
+from classroom_pilot_scoring_compat import configure
 
-base.EXPECTED_REGRESSION_STATUS["M105"] = base.APP_READY
+configure()
 
 if __name__ == "__main__":
     errors = base.validate()
