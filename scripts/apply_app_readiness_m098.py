@@ -2,7 +2,7 @@
 """Promote M098 Onomichi to 40-item APP_READY while preserving the existing single lesson group.
 
 The municipality-wide canonical layer keeps current official action categories as the
-auditable routing vocabulary.  Regional presentation/container differences remain in
+auditable routing vocabulary. Regional presentation/container differences remain in
 the existing district_scope / lesson_variant evidence layer and are not exposed as a
 learner region selector.
 
@@ -204,8 +204,8 @@ CATEGORIES = [
     category("C-M098-06", "有害ごみ", 6, "蛍光灯・電球・LED・乾電池・充電式電池・内蔵電池製品・ライター等", "S-M098-01", "『有害ごみ』", prep="種類ごとに分け、蛍光灯等は割らず、電池・ライター類は別袋", bag="種類ごとの透明袋又は購入時の箱", note="2026年4月1日新設。旧HTML表記より令和8年4月版ガイドを優先。"),
     category("C-M098-07", "粗大ごみ（有料）", 7, "ソファー・たんす・机・自転車等の1辺50cm超", "S-M098-01", "『粗大ごみ（有料）』", ui_role="REFERENCE_ONLY", channel="DIRECT_HAUL", prep="直接持込又は事前申込による有料個別収集の手続に従う", bag="ごみステーションへ出さない", size="原則1辺50cm超", bulky="TRUE", paid="TRUE", fee="品目ごとの処理手数料"),
     category("C-M098-08", "資源回収", 8, "紙類・布類・缶・びん・スプレー缶・天ぷら油", "S-M098-01", "『資源回収』", prep="紙・布・缶・びん・油等を地域の正式な資源区分と容器に従って分ける", bag="資源物専用ステーション・専用網袋・コンテナ等、地域別指定", note="地域により『資源物』『かん・びん』『古紙類』等の正式表示・容器が異なる。詳細は既存district_scopeに保持。"),
-    category("C-M098-09", "尾道市では処理できないもの", 9, "家電リサイクル4品目・家庭用パソコン等", "S-M098-05", "8～9頁『尾道市では処理できないもの』", ui_role="EXCLUDED_NOTICE", channel="EXTERNAL", excluded="TRUE", prep="販売店・メーカー・指定引取場所等の公式経路を利用", bag="ごみステーションへ出さない", note="通常の尾道市収集・クリーンセンター処理対象外。"),
-    category("C-M098-10", "ボタン電池回収協力店", 10, "使用済みボタン電池", "S-M098-12", "表2.2.11(b)『ボタン電池回収協力店による回収』", ui_role="REFERENCE_ONLY", channel="RETAIL_TAKEBACK", excluded="TRUE", prep="端子を絶縁し回収協力店等へ持ち込む", bag="市の通常ごみ袋へ推測投入しない", note="2026年版日常ガイドに独立行がないため、教材UIには出さず内部回収経路としてのみ保持。"),
+    category("C-M098-09", "尾道市では処理できないもの", 9, "家電リサイクル4品目・家庭用パソコン等", "S-M098-05", "8～9頁『尾道市では処理できないもの』", ui_role="EXCLUDED_NOTICE", channel="NOT_COLLECTED", excluded="TRUE", prep="販売店・メーカー・指定引取場所等の公式経路を利用", bag="ごみステーションへ出さない", note="通常の尾道市収集・クリーンセンター処理対象外。"),
+    category("C-M098-10", "ボタン電池回収協力店", 10, "使用済みボタン電池", "S-M098-12", "表2.2.11(b)『ボタン電池回収協力店による回収』", ui_role="REFERENCE_ONLY", channel="RETAILER_OR_MAKER", excluded="TRUE", prep="端子を絶縁し回収協力店等へ持ち込む", bag="市の通常ごみ袋へ推測投入しない", note="2026年版日常ガイドに独立行がないため、教材UIには出さず内部回収経路としてのみ保持。"),
 ]
 CATEGORY_BY_ID = {row["category_id"]: row for row in CATEGORIES}
 
@@ -219,7 +219,7 @@ MUNICIPALITY = {
     "分別ガイドURL": GUIDE_LANDING_URL,
     "品目検索URL": "",
     "やさしい日本語URL": "",
-    "多言語資料URL": "https://www.city.onomichi.hiroshima.jp/life/1/9/43/",
+    "多言語資料URL": "",
     "対象年度": "令和8年度",
     "最終確認日": CHECKED,
     "確認ステータス": "QA_REQUIRED",
