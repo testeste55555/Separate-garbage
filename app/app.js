@@ -129,9 +129,8 @@
   function displayColumns(count) {
     if (count <= 2) return count || 1;
     if (count <= 4) return 2;
-    if (count <= 6) return 3;
-    if (count <= 12) return 4;
-    return 5;
+    if (count <= 9) return 3;
+    return 4;
   }
 
   function categoryKey(municipalityId, categoryId) {
@@ -605,7 +604,7 @@
       return;
     }
 
-    for (const row of rows) {
+    for (const [boxIndex, row] of rows.entries()) {
       const usesTeachingBox = Boolean(row.teaching_box_id?.trim());
       const categoryId = usesTeachingBox ? row.teaching_box_id.trim() : row.category_id.trim();
       const label = usesTeachingBox ? row.display_name.trim() : row["自治体正式名称"].trim();
@@ -633,7 +632,12 @@
       const length = [...label].length;
       if (length >= 13) box.classList.add("bucket--long");
       else if (length >= 7) box.classList.add("bucket--compact");
-      box.classList.add(OFFICIAL_STYLE_STATUSES.has(status) ? "bucket--official-style" : "bucket--fallback-style");
+      if (OFFICIAL_STYLE_STATUSES.has(status)) {
+        box.classList.add("bucket--official-style");
+      } else {
+        box.classList.add("bucket--fallback-style");
+        box.dataset.fallbackPalette = String((boxIndex % 8) + 1);
+      }
 
       if (interactive) {
         box.classList.add("bucket--interactive");
