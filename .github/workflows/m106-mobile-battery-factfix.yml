@@ -61,6 +61,7 @@ jobs:
                   data/app/lesson_item_scoring_projection.csv \
                   data/app/lesson_teaching_boxes.csv \
                   data/app/lesson_mode_app_ready_scope.csv \
+                  scripts/sync_lesson_ready_reviews.py \
                   scripts/validate_lesson_scoring_modes.py \
                   scripts/red_team_lesson_scoring_modes.py
           git commit -m 'Fix M106 mobile battery hazardous-waste scoring'
