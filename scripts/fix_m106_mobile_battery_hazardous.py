@@ -99,7 +99,9 @@ def patch_boxes() -> None:
     for row in rows:
         if row.get("municipality_id") != "M106" or row.get("class_mode") != "ONLINE_CLASS":
             continue
-        if row.get("teaching_box_id") == "TB-M106-ON-08":
+        if row.get("teaching_box_id") == "TB-M106-ON-06":
+            row["note"] = "電球・モバイルバッテリーの通常状態を採点"
+        elif row.get("teaching_box_id") == "TB-M106-ON-08":
             row["display_order"] = "7"
         elif row.get("teaching_box_id") == "TB-M106-ON-09":
             row["display_order"] = "8"
