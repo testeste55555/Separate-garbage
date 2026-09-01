@@ -20,6 +20,7 @@ BOXES = ROOT / "data/app/lesson_teaching_boxes.csv"
 SCOPE = ROOT / "data/app/lesson_mode_app_ready_scope.csv"
 SCORING_VALIDATOR = ROOT / "scripts/validate_lesson_scoring_modes.py"
 SCORING_RED_TEAM = ROOT / "scripts/red_team_lesson_scoring_modes.py"
+SYNC_SCRIPT = ROOT / "scripts/sync_lesson_ready_reviews.py"
 CHECKED_DATE = "2026-09-01"
 REVIEWER = "OPENAI_M106_MOBILE_BATTERY_FACTCHECK_V1"
 HOUSEHOLD_URL = "https://www.akitakata.jp/ja/shisei/section/siminseikatu/gomi22/"
@@ -138,12 +139,19 @@ def patch_scoring_invariants() -> None:
         raise ValueError("unexpected M106 RED TEAM action-case layout")
 
 
+def patch_mapping_identity_stability() -> None:
+    old = '''    for row in existing_rows:\n        if row.get("branch_order") == branch_order and row.get("category_id") == category_id:\n            return row["mapping_id"]\n    return f"MAP-{municipality_id}-{item_id}-LR10-{int(branch_order):02d}"\n'''
+    new = '''    for row in existing_rows:\n        if row.get("branch_order") == branch_order and row.get("category_id") == category_id:\n            return row["mapping_id"]\n    same_branch = [row for row in existing_rows if row.get("branch_order") == branch_order]\n    if len(same_branch) == 1:\n        # mapping_id is a stable record identity. A reviewed category correction must not\n        # orphan the original completed-batch key merely because its destination changed.\n        return same_branch[0]["mapping_id"]\n    return f"MAP-{municipality_id}-{item_id}-LR10-{int(branch_order):02d}"\n'''
+    replace_once(SYNC_SCRIPT, old, new)
+
+
 def main() -> int:
     patch_review()
     patch_projection()
     patch_boxes()
     patch_scope()
     patch_scoring_invariants()
+    patch_mapping_identity_stability()
     print("M106_MOBILE_BATTERY_FACTFIX_APPLIED category=C-M106-12 box=TB-M106-ON-06")
     return 0
 
