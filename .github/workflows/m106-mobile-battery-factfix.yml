@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Patch M106 source truth
+      - name: Patch M106 source truth and scoring invariants
         run: python scripts/fix_m106_mobile_battery_hazardous.py
       - name: Synchronize LESSON_READY canonical and image mapping
         run: python scripts/sync_lesson_ready_reviews.py
@@ -34,8 +34,8 @@ jobs:
         run: python scripts/red_team_m106_mobile_battery_factfix.py
       - name: Existing lesson scoring regression
         run: |
-          python scripts/validate_lesson_scoring_modes.py
-          python scripts/red_team_lesson_scoring_modes.py
+          python scripts/validate_classroom_pilot_scoring_modes.py
+          python scripts/red_team_classroom_pilot_scoring_modes.py
       - name: Existing teaching display regression
         run: python scripts/validate_teaching_display_layer.py
       - name: Existing image mapping regression
@@ -60,6 +60,8 @@ jobs:
                   data/app/item_image_mapping_pilot_top8.csv \
                   data/app/lesson_item_scoring_projection.csv \
                   data/app/lesson_teaching_boxes.csv \
-                  data/app/lesson_mode_app_ready_scope.csv
+                  data/app/lesson_mode_app_ready_scope.csv \
+                  scripts/validate_lesson_scoring_modes.py \
+                  scripts/red_team_lesson_scoring_modes.py
           git commit -m 'Fix M106 mobile battery hazardous-waste scoring'
           git push origin HEAD:fix/m106-mobile-battery-hazardous
