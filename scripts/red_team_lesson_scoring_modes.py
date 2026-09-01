@@ -144,19 +144,9 @@ def main() -> int:
 
     projection_cases = [
         (
-            "M106/I029 non-normal category misprojected to SORT_BUCKET",
+            "M106/I029 hazardous category regressed to retired retailer route",
             teaching_boxes,
-            mutate_projection("M106", "I029", "category_id", "C-M106-12"),
-        ),
-        (
-            "M106 SIMPLIFIED_ACTION relabeled as normal scoring box",
-            mutate_action_box("M106", "box_kind", "FIXED_10_SCORING"),
-            scoring_projection,
-        ),
-        (
-            "M106 learner label leaks special collection route",
-            mutate_action_box("M106", "display_name", "販売店へ持込"),
-            scoring_projection,
+            mutate_projection("M106", "I029", "category_id", "C-M106-14"),
         ),
         (
             "M107/I007 non-normal category misprojected to SORT_BUCKET",

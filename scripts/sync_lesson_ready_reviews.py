@@ -47,6 +47,11 @@ def stable_mapping_id(
     for row in existing_rows:
         if row.get("branch_order") == branch_order and row.get("category_id") == category_id:
             return row["mapping_id"]
+    same_branch = [row for row in existing_rows if row.get("branch_order") == branch_order]
+    if len(same_branch) == 1:
+        # mapping_id is a stable record identity. A reviewed category correction must not
+        # orphan the original completed-batch key merely because its destination changed.
+        return same_branch[0]["mapping_id"]
     return f"MAP-{municipality_id}-{item_id}-LR10-{int(branch_order):02d}"
 
 

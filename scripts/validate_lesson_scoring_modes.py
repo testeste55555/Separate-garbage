@@ -208,7 +208,7 @@ def validate_teaching_projection(
             errors.append(f"{mid}/{iid}: invalid projection kind")
 
     expected_box_counts = {
-        "M106": (9, 6), "M107": (5, 8), "M108": (9, 8), "M109": (8, 5),
+        "M106": (8, 6), "M107": (5, 8), "M108": (9, 8), "M109": (8, 5),
         "M110": (5, 6), "M111": (10, 6), "M112": (6, 5),
     }
     for mid, (online_count, in_person_count) in expected_box_counts.items():
@@ -223,7 +223,7 @@ def validate_teaching_projection(
         (row.get("municipality_id"), row.get("internal_item_id"))
         for row in scoring_projection if row.get("projection_kind") == "SIMPLIFIED_ACTION"
     }
-    expected_simplified = {("M106", "I029"), ("M107", "I007"), ("M110", "I029"), ("M111", "I029")}
+    expected_simplified = {("M107", "I007"), ("M110", "I029"), ("M111", "I029")}
     if simplified != expected_simplified:
         errors.append(f"SIMPLIFIED_ACTION target mismatch: {sorted(simplified)}")
     return errors
