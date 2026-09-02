@@ -25,6 +25,8 @@ on:
       - "scripts/red_team_lesson_scoring_modes.py"
       - "scripts/validate_classroom_pilot_scoring_modes.py"
       - "scripts/red_team_classroom_pilot_scoring_modes.py"
+      - "scripts/validate_m106_mobile_battery_factfix.py"
+      - "scripts/red_team_m106_mobile_battery_factfix.py"
       - "scripts/validate_lesson_variants.py"
       - "scripts/red_team_lesson_variants.py"
       - "scripts/validate_classroom_pilot_variants.py"
@@ -58,6 +60,8 @@ on:
       - "scripts/red_team_lesson_scoring_modes.py"
       - "scripts/validate_classroom_pilot_scoring_modes.py"
       - "scripts/red_team_classroom_pilot_scoring_modes.py"
+      - "scripts/validate_m106_mobile_battery_factfix.py"
+      - "scripts/red_team_m106_mobile_battery_factfix.py"
       - "scripts/validate_lesson_variants.py"
       - "scripts/red_team_lesson_variants.py"
       - "scripts/validate_classroom_pilot_variants.py"
@@ -105,6 +109,10 @@ jobs:
         run: python scripts/validate_classroom_pilot_scoring_modes.py
       - name: RED TEAM lesson scoring modes
         run: python scripts/red_team_classroom_pilot_scoring_modes.py
+      - name: Validate M106 mobile battery fact fix
+        run: python scripts/validate_m106_mobile_battery_factfix.py
+      - name: RED TEAM M106 mobile battery fact fix
+        run: python scripts/red_team_m106_mobile_battery_factfix.py
       - name: Validate regional lesson variants
         run: python scripts/validate_classroom_pilot_variants.py
       - name: RED TEAM regional lesson variants

@@ -4067,7 +4067,7 @@ M106,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M106,I026,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M106,I027,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M106-01,https://www.akitakata.jp/ja/shisei/section/siminseikatu/gomi22/,text-match:乾電池 + 有害ごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
 M106,I028,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M106-01,https://www.akitakata.jp/ja/shisei/section/siminseikatu/gomi22/,text-match:ボタン電池 + 有害ごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M106,I029,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M106-02,https://www.akitakata.jp/ja/shisei/section/119/m148-copy-5/,3.廃棄方法,2026-08-27,OPENAI_CODEX_M106_LESSON_READY_10_V2,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M106,I029,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M106-01,https://www.akitakata.jp/ja/shisei/section/siminseikatu/gomi22/,有害ごみ欄『小型充電式電池』,2026-09-01,OPENAI_M106_MOBILE_BATTERY_FACTCHECK_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M106,I030,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M106-01,https://www.akitakata.jp/ja/shisei/section/siminseikatu/gomi22/,text-match:蛍光管 + 有害ごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
 M106,I031,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M106-01,https://www.akitakata.jp/ja/shisei/section/siminseikatu/gomi22/,有害ごみ欄（電球）,2026-08-27,OPENAI_CODEX_M106_LESSON_READY_10_V2,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M106,I032,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M106-01,https://www.akitakata.jp/ja/shisei/section/siminseikatu/gomi22/,text-match:スプレー缶 + かん類,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
