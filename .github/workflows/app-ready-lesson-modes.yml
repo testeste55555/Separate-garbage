@@ -21,6 +21,7 @@ on:
       - "scripts/classroom_pilot_variant_compat.py"
       - "scripts/validate_style_research_promotion_compat.py"
       - "scripts/red_team_style_research_promotion_compat.py"
+      - "scripts/validate_lesson_item_set.py"
       - "scripts/validate_lesson_scoring_modes.py"
       - "scripts/red_team_lesson_scoring_modes.py"
       - "scripts/validate_classroom_pilot_scoring_modes.py"
@@ -56,6 +57,7 @@ on:
       - "scripts/classroom_pilot_variant_compat.py"
       - "scripts/validate_style_research_promotion_compat.py"
       - "scripts/red_team_style_research_promotion_compat.py"
+      - "scripts/validate_lesson_item_set.py"
       - "scripts/validate_lesson_scoring_modes.py"
       - "scripts/red_team_lesson_scoring_modes.py"
       - "scripts/validate_classroom_pilot_scoring_modes.py"
@@ -85,6 +87,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Validate formal 15-item lesson set
+        run: python scripts/validate_lesson_item_set.py
       - name: Rebuild and confirm LESSON_READY_10 projections
         run: |
           python scripts/build_lesson_ready_m107_m109.py
