@@ -34,10 +34,17 @@ PILOT_ITEMS = [
     (8, "I014", "I014_cardboard.png"),
     (9, "I033", "I033_disposable_lighter.png"),
     (10, "I017", "I017_milk_carton.png"),
+    (11, "I002", "I002_pet_cap.webp"),
+    (12, "I003", "I003_pet_label.webp"),
+    (13, "I027", "I027_dry_battery.webp"),
+    (14, "I018", "I018_food_waste.webp"),
+    (15, "I010", "I010_snack_bag.webp"),
 ]
 
-IMAGE_FILE_RE = re.compile(r"^(I\d{3})_[a-z0-9]+(?:_[a-z0-9]+)*\.png$")
+IMAGE_FILE_RE = re.compile(r"^(I\d{3})_[a-z0-9]+(?:_[a-z0-9]+)*\.(?:png|webp)$")
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
+WEBP_RIFF = b"RIFF"
+WEBP_TAG = b"WEBP"
 
 
 def fail(message: str) -> None:
@@ -111,9 +118,15 @@ def validate() -> None:
         image_path = ASSET_DIR / image_file
         if not image_path.is_file():
             fail(f"missing image asset: {image_path.relative_to(ROOT)}")
-        with image_path.open("rb") as handle:
-            if handle.read(len(PNG_SIGNATURE)) != PNG_SIGNATURE:
+        data = image_path.read_bytes()[:12]
+        if image_file.endswith(".png"):
+            if not data.startswith(PNG_SIGNATURE):
                 fail(f"image asset is not a PNG: {image_file}")
+        elif image_file.endswith(".webp"):
+            if len(data) < 12 or data[:4] != WEBP_RIFF or data[8:12] != WEBP_TAG:
+                fail(f"image asset is not a WEBP: {image_file}")
+        else:
+            fail(f"unsupported image asset format: {image_file}")
 
     actual_order = [row["internal_item_id"].strip() for row in rows]
     expected_order = [item_id for _, item_id, _ in PILOT_ITEMS]

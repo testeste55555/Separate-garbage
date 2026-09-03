@@ -9,3 +9,8 @@ pilot_order,internal_item_id,canonical_name,display_name,image_file,asset_status
 8,I014,段ボール,段ボール,I014_cardboard.png,CONFIRMED
 9,I033,使い捨てライター,ライター,I033_disposable_lighter.png,CONFIRMED
 10,I017,紙パック,牛乳パック,I017_milk_carton.png,CONFIRMED
+11,I002,ペットボトルのキャップ,キャップ,I002_pet_cap.webp,CONFIRMED
+12,I003,ペットボトルのラベル,ラベル,I003_pet_label.webp,CONFIRMED
+13,I027,乾電池,乾電池,I027_dry_battery.webp,CONFIRMED
+14,I018,生ごみ,生ごみ,I018_food_waste.webp,CONFIRMED
+15,I010,お菓子の袋,お菓子の袋,I010_snack_bag.webp,CONFIRMED
