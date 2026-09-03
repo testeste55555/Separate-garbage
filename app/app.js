@@ -14,14 +14,16 @@
     districtScopes: "../data/app/district_scopes.csv",
     lessonVariantGroups: "../data/app/lesson_variant_groups.csv",
     lessonVariantBoxes: "../data/app/lesson_variant_teaching_boxes.csv",
-    lessonVariantScoring: "../data/app/lesson_variant_item_scoring.csv"
+    lessonVariantScoring: "../data/app/lesson_variant_item_scoring.csv",
+    lessonSupplementalScoring: "../data/app/lesson_supplemental_item_scoring.csv",
+    lessonSupplementalBoxes: "../data/app/lesson_supplemental_teaching_boxes.csv"
   };
 
   const MUNICIPAL_SCOPE = "MUNICIPALITY_WIDE";
   const OFFICIAL_STYLE_STATUSES = new Set(["OFFICIAL_CONFIRMED", "OFFICIAL_DERIVED"]);
   const HEX_RE = /^#[0-9A-Fa-f]{6}$/;
   const SAFE_ID_RE = /^[A-Za-z0-9_-]+$/;
-  const SAFE_IMAGE_RE = /^I\d{3}_[A-Za-z0-9_]+\.png$/;
+  const SAFE_IMAGE_RE = /^I\d{3}_[A-Za-z0-9_]+\.(?:png|webp)$/;
   const ONLINE_CLASS_MODE = "ONLINE_CLASS";
   const IN_PERSON_CLASS_MODE = "IN_PERSON_CLASS";
   const APP_READY_STATUS = "APP_READY";
@@ -32,6 +34,8 @@
     "I001", "I004", "I006", "I007", "I013",
     "I014", "I017", "I029", "I031", "I033"
   ]);
+  const SUPPLEMENTAL_IMAGE_ITEM_IDS = new Set(["I002", "I003", "I027", "I018", "I010"]);
+  const SUPPLEMENTAL_TARGET_MUNICIPALITIES = new Set(["M009", "M020", "M094", "M098", "M099", "M105"]);
   const REVIEW_SOURCE_RE = /^data\/research\/(?:app_readiness|lesson_readiness)\/m\d{3}_item_review\.csv$/;
 
   const lessonModeSelect = document.getElementById("lessonModeSelect");
@@ -64,6 +68,10 @@
   let lessonVariantGroupById = new Map();
   let lessonVariantBoxesByGroupAndMode = new Map();
   let lessonVariantItemsByGroup = new Map();
+  let supplementalItemsByMunicipality = new Map();
+  let supplementalVariantItemsByGroup = new Map();
+  let supplementalBoxesByGroup = new Map();
+  let supplementalImageGateReady = false;
   let activeLessonVariantGroupId = "";
   let activeItems = [];
   let activeItemIndex = 0;
@@ -447,6 +455,67 @@
     }
   }
 
+  function buildLessonSupplementalData(scoringRows, supplementalBoxRows) {
+    supplementalItemsByMunicipality = new Map();
+    supplementalVariantItemsByGroup = new Map();
+    supplementalBoxesByGroup = new Map();
+    supplementalImageGateReady = [...SUPPLEMENTAL_IMAGE_ITEM_IDS].every((itemId) => assetsByItem.has(itemId));
+    if (!supplementalImageGateReady) return;
+
+    for (const row of supplementalBoxRows) {
+      const groupId = row.lesson_variant_group_id?.trim();
+      const boxId = row.teaching_box_id?.trim();
+      if (!groupId || !boxId || row.class_mode?.trim() !== ONLINE_CLASS_MODE) continue;
+      if (!lessonVariantGroupById.has(groupId)) continue;
+      if (!supplementalBoxesByGroup.has(groupId)) supplementalBoxesByGroup.set(groupId, []);
+      supplementalBoxesByGroup.get(groupId).push(row);
+    }
+    for (const rows of supplementalBoxesByGroup.values()) {
+      rows.sort((a, b) => numericOrder(a.display_order) - numericOrder(b.display_order));
+    }
+
+    for (const row of scoringRows) {
+      const municipalityId = row.municipality_id?.trim();
+      const groupId = row.lesson_variant_group_id?.trim();
+      const itemId = row.internal_item_id?.trim();
+      if (!municipalityId || !itemId || row.review_status?.trim() !== "COMPLETE") continue;
+      if (!SUPPLEMENTAL_TARGET_MUNICIPALITIES.has(municipalityId) || !SUPPLEMENTAL_IMAGE_ITEM_IDS.has(itemId)) continue;
+      const asset = assetsByItem.get(itemId);
+      const imageFile = asset?.image_file?.trim();
+      if (!asset || !SAFE_IMAGE_RE.test(imageFile ?? "") || !imageFile.startsWith(`${itemId}_`)) continue;
+
+      if (groupId) {
+        const group = lessonVariantGroupById.get(groupId);
+        if (!group || group.municipality_id?.trim() !== municipalityId) continue;
+        const baseBoxes = lessonVariantBoxesByGroupAndMode.get(`${groupId}::${ONLINE_CLASS_MODE}`) ?? [];
+        const extraBoxes = supplementalBoxesByGroup.get(groupId) ?? [];
+        const boxId = row.teaching_box_id?.trim();
+        if (!boxId || ![...baseBoxes, ...extraBoxes].some((box) => box.teaching_box_id?.trim() === boxId)) continue;
+        if (!supplementalVariantItemsByGroup.has(groupId)) supplementalVariantItemsByGroup.set(groupId, []);
+        supplementalVariantItemsByGroup.get(groupId).push({
+          municipalityId, itemId, imageFile, pairOrder: numericOrder(row.display_order), uiCategoryId: boxId
+        });
+        continue;
+      }
+
+      const sortBucket = findSortBucket(municipalityId, row.category_id?.trim());
+      if (!sortBucket) continue;
+      if (!supplementalItemsByMunicipality.has(municipalityId)) supplementalItemsByMunicipality.set(municipalityId, []);
+      supplementalItemsByMunicipality.get(municipalityId).push({
+        municipalityId, itemId, imageFile, pairOrder: numericOrder(row.display_order), uiCategoryId: sortBucket.category_id.trim()
+      });
+    }
+
+    for (const rows of [...supplementalItemsByMunicipality.values(), ...supplementalVariantItemsByGroup.values()]) {
+      rows.sort((a, b) => a.pairOrder - b.pairOrder);
+    }
+  }
+
+  function supplementalSetReady(rows) {
+    return supplementalImageGateReady && rows.length === SUPPLEMENTAL_IMAGE_ITEM_IDS.size &&
+      new Set(rows.map((row) => row.itemId)).size === SUPPLEMENTAL_IMAGE_ITEM_IDS.size;
+  }
+
   function findAppStyleSheet() {
     return [...document.styleSheets].find((sheet) => {
       if (!sheet.href) return false;
@@ -570,7 +639,19 @@
     if (activeLessonVariantGroupId) {
       const classMode = lessonModeSelect.value;
       if (![ONLINE_CLASS_MODE, IN_PERSON_CLASS_MODE].includes(classMode)) return [];
-      return lessonVariantBoxesByGroupAndMode.get(`${activeLessonVariantGroupId}::${classMode}`) ?? [];
+      const baseRows = lessonVariantBoxesByGroupAndMode.get(`${activeLessonVariantGroupId}::${classMode}`) ?? [];
+      const supplementalItems = supplementalVariantItemsByGroup.get(activeLessonVariantGroupId) ?? [];
+      if (classMode !== ONLINE_CLASS_MODE || !supplementalSetReady(supplementalItems)) return baseRows;
+      const extraRows = supplementalBoxesByGroup.get(activeLessonVariantGroupId) ?? [];
+      const seen = new Set();
+      return [...baseRows, ...extraRows]
+        .filter((row) => {
+          const boxId = row.teaching_box_id?.trim();
+          if (!boxId || seen.has(boxId)) return false;
+          seen.add(boxId);
+          return true;
+        })
+        .sort((a, b) => numericOrder(a.display_order) - numericOrder(b.display_order));
     }
     const classMode = lessonModeSelect.value;
     const lessonRows = lessonBoxesByMunicipalityAndMode.get(`${id}::${classMode}`) ?? [];
@@ -700,11 +781,20 @@
 
   function renderMunicipality(id) {
     const lessonMode = lessonModeSelect.value;
-    activeItems = lessonMode === ONLINE_CLASS_MODE && id
-      ? activeLessonVariantGroupId
-        ? [...(lessonVariantItemsByGroup.get(activeLessonVariantGroupId) ?? [])]
-        : [...(itemsByMunicipality.get(id) ?? [])]
-      : [];
+    activeItems = [];
+    if (lessonMode === ONLINE_CLASS_MODE && id) {
+      if (activeLessonVariantGroupId) {
+        const coreItems = lessonVariantItemsByGroup.get(activeLessonVariantGroupId) ?? [];
+        const supplementalItems = supplementalVariantItemsByGroup.get(activeLessonVariantGroupId) ?? [];
+        activeItems = supplementalSetReady(supplementalItems) ? [...coreItems, ...supplementalItems] : [...coreItems];
+      } else {
+        const coreItems = itemsByMunicipality.get(id) ?? [];
+        const supplementalItems = supplementalItemsByMunicipality.get(id) ?? [];
+        activeItems = SUPPLEMENTAL_TARGET_MUNICIPALITIES.has(id) && supplementalSetReady(supplementalItems)
+          ? [...coreItems, ...supplementalItems]
+          : [...coreItems];
+      }
+    }
     activeItemIndex = 0;
     practiceFinished = false;
     practicePanel.hidden = true;
@@ -790,14 +880,17 @@
         fetchText(DATA_PATHS.districtScopes),
         fetchText(DATA_PATHS.lessonVariantGroups),
         fetchText(DATA_PATHS.lessonVariantBoxes),
-        fetchText(DATA_PATHS.lessonVariantScoring)
+        fetchText(DATA_PATHS.lessonVariantScoring),
+        fetchText(DATA_PATHS.lessonSupplementalScoring),
+        fetchText(DATA_PATHS.lessonSupplementalBoxes)
       ];
 
       const texts = await Promise.all(requests);
       const [
         municipalityText, researchText, categoryText, styleText, assetText, mappingText, scopeText,
         teachingBoxText, scoringProjectionText,
-        districtScopeText, variantGroupText, variantBoxText, variantScoringText
+        districtScopeText, variantGroupText, variantBoxText, variantScoringText,
+        supplementalScoringText, supplementalBoxText
       ] = texts;
       const scopeRows = parseCsv(scopeText);
       const reviewEntries = scopeRows.map((row) => {
@@ -824,6 +917,7 @@
         parseCsv(variantBoxText),
         parseCsv(variantScoringText)
       );
+      buildLessonSupplementalData(parseCsv(supplementalScoringText), parseCsv(supplementalBoxText));
       installOfficialStyleRules();
       populateLessonModeSelect();
       populateMunicipalitySelect();

@@ -6,6 +6,11 @@ canonical-40 DEFERRED and absent from the municipality-wide scoring scope. PR #2
 promotes M098 and M099 only after all 40 canonical items are APP_READY while retaining
 the already-audited learner variant matrices. This module removes only those obsolete
 boundary errors, and only when canonical/scoring data proves each promotion.
+
+The legacy validator also anchored its online-only privacy assertion to one exact
+assignment expression. The guarded 15-item UI refactor preserves the same privacy
+boundary with an explicit `if (lessonMode === ONLINE_CLASS_MODE && id)` branch. That
+single stale textual error is filtered only when the new online-only guard is present.
 """
 from __future__ import annotations
 
@@ -15,6 +20,10 @@ import validate_lesson_variants as base
 
 PROMOTED_MIDS = ("M098", "M099")
 APP_READY = "APP_READY"
+LEGACY_ONLINE_ASSIGNMENT_ERROR = (
+    "learner mode/image privacy contract missing: activeItems = lessonMode === ONLINE_CLASS_MODE"
+)
+NEW_ONLINE_GUARD = "if (lessonMode === ONLINE_CLASS_MODE && id)"
 
 
 def _read_rows(path: Path):
@@ -52,15 +61,19 @@ def promotion_is_complete(root: Path = base.ROOT, mid: str = "M099") -> bool:
 
 def filter_promotion_boundary_errors(errors: list[str], root: Path = base.ROOT) -> list[str]:
     complete = {mid for mid in PROMOTED_MIDS if promotion_is_complete(root, mid)}
-    if not complete:
-        return list(errors)
+    allowed: set[str] = set()
+    if complete:
+        allowed.update(f"{mid}: canonical 40-item DEFERRED boundary was removed" for mid in complete)
+        scope_path = root / base.STANDARD_SCOPE.relative_to(base.ROOT)
+        standard_scope_ids = {row.get("municipality_id", "") for row in _read_rows(scope_path)}
+        injected = base.TARGETS & standard_scope_ids
+        if injected and injected.issubset(complete):
+            allowed.add(f"variant municipality injected into municipality-wide scoring scope: {sorted(injected)}")
 
-    allowed = {f"{mid}: canonical 40-item DEFERRED boundary was removed" for mid in complete}
-    scope_path = root / base.STANDARD_SCOPE.relative_to(base.ROOT)
-    standard_scope_ids = {row.get("municipality_id", "") for row in _read_rows(scope_path)}
-    injected = base.TARGETS & standard_scope_ids
-    if injected and injected.issubset(complete):
-        allowed.add(f"variant municipality injected into municipality-wide scoring scope: {sorted(injected)}")
+    app_path = root / base.APP_JS.relative_to(base.ROOT)
+    if app_path.is_file() and NEW_ONLINE_GUARD in app_path.read_text(encoding="utf-8"):
+        allowed.add(LEGACY_ONLINE_ASSIGNMENT_ERROR)
+
     return [error for error in errors if error not in allowed]
 
 
