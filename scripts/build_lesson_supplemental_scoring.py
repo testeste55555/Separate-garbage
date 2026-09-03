@@ -91,7 +91,7 @@ def build_rows(root: Path = ROOT) -> list[dict[str, str]]:
 
 def write_rows(rows: list[dict[str, str]], output: Path = OUTPUT) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
-    with output.open("w", encoding="utf-8-sig", newline="") as handle:
+    with output.open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=FIELDS)
         writer.writeheader()
         writer.writerows(rows)
