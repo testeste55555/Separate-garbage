@@ -1,0 +1,50 @@
+name: Promote lesson 15 UI
+
+on:
+  push:
+    branches:
+      - feature/lesson-supplemental-5-scoring
+    paths:
+      - "scripts/promote_lesson_15_ui.py"
+      - ".github/workflows/promote-lesson-15-ui.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  promote:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Promote confirmed supplemental assets and guarded UI
+        run: python scripts/promote_lesson_15_ui.py
+      - name: Validate image assets
+        run: python scripts/validate_item_image_assets.py
+      - name: Rebuild supplemental scoring
+        run: |
+          python scripts/build_lesson_supplemental_scoring.py
+          git diff --exit-code -- data/app/lesson_supplemental_item_scoring.csv
+      - name: Validate supplemental scoring
+        run: python scripts/validate_lesson_supplemental_scoring.py
+      - name: RED TEAM supplemental scoring
+        run: python scripts/red_team_lesson_supplemental_scoring.py
+      - name: Check learner UI JavaScript syntax
+        run: node --check app/app.js
+      - name: Commit promoted UI
+        run: |
+          if git diff --quiet; then
+            echo "No promotion changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/app.js data/app/item_image_assets.csv data/app/README.md scripts/validate_item_image_assets.py
+          git commit -m "Enable guarded 15-item lesson UI"
+          git push
