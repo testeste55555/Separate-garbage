@@ -1,0 +1,16 @@
+lesson_set_id,item_role,display_order,internal_item_id,canonical_name,display_name,note
+GARBAGE_LESSON_15_V1,CORE_10,1,I001,ペットボトル,ペットボトル,本体の分別とキャップ・ラベルの分離を扱う
+GARBAGE_LESSON_15_V1,CORE_10,2,I004,アルミ缶,アルミ缶,日常的な飲料容器の分別を扱う
+GARBAGE_LESSON_15_V1,CORE_10,3,I006,ガラスびん,びん,びん類の分別とキャップ等の前処理を扱う
+GARBAGE_LESSON_15_V1,CORE_10,4,I007,白色食品トレー,白いトレー,材質・汚れ・洗浄条件による分別差を扱う
+GARBAGE_LESSON_15_V1,CORE_10,5,I013,新聞,新聞,古紙の分別とまとめ方を扱う
+GARBAGE_LESSON_15_V1,CORE_10,6,I014,段ボール,段ボール,古紙の分別と結束等を扱う
+GARBAGE_LESSON_15_V1,CORE_10,7,I017,紙パック,牛乳パック,洗う・開く・乾かす等の前処理を扱う
+GARBAGE_LESSON_15_V1,CORE_10,8,I029,モバイルバッテリー,モバイルバッテリー,発火性のある充電池類の通常ごみとの違いを扱う
+GARBAGE_LESSON_15_V1,CORE_10,9,I031,電球,電球,自治体ごとに異なる有害・不燃系の扱いを確認する
+GARBAGE_LESSON_15_V1,CORE_10,10,I033,使い捨てライター,ライター,使い切りと危険物としての扱いを確認する
+GARBAGE_LESSON_15_V1,SUPPLEMENTAL_5,11,I002,ペットボトルのキャップ,キャップ,ペットボトル本体から外して別に判断する行動を扱う
+GARBAGE_LESSON_15_V1,SUPPLEMENTAL_5,12,I003,ペットボトルのラベル,ラベル,ペットボトル本体から外して別に判断する行動を扱う
+GARBAGE_LESSON_15_V1,SUPPLEMENTAL_5,13,I027,乾電池,乾電池,モバイルバッテリーとの違いと電池類の安全な分別を扱う
+GARBAGE_LESSON_15_V1,SUPPLEMENTAL_5,14,I018,生ごみ,生ごみ,水切り等の日常的な前処理を扱う
+GARBAGE_LESSON_15_V1,SUPPLEMENTAL_5,15,I010,お菓子の袋,お菓子の袋,容器包装プラスチック等の自治体差を扱う
