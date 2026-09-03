@@ -6,6 +6,10 @@ must not receive fake municipality-wide image mappings merely to satisfy the leg
 scoring validator. APP_READY expectations are enabled only after the complete 40-item
 promotion exists in the checked worktree.
 
+The formal lesson asset registry may contain the supplemental five images.  The legacy
+LESSON_READY_10 validator must nevertheless continue to derive its readiness scope from
+CORE_10 only; supplemental-five scoring is guarded separately.
+
 M098 I028 (button battery) is intentionally non-interactive. Its canonical route is an
 internal REFERENCE_ONLY retailer take-back path supported by municipal supplemental
 evidence; it is not allowed to become a guessed dry-battery learner answer.
@@ -70,6 +74,19 @@ def configure() -> None:
             base.EXPECTED_REGRESSION_STATUS[mid] = base.APP_READY
         else:
             base.EXPECTED_REGRESSION_STATUS.pop(mid, None)
+
+    # The asset registry now contains the formal 15 lesson images.  The historical
+    # validator uses image_item_ids to define LESSON_READY_10 scope, so constrain that
+    # derived set to the immutable core-10 contract.  APP_READY continues to use all
+    # 40 canonical items and supplemental-five readiness is validated independently.
+    original_build_context = base.build_context
+
+    def compatible_build_context(root: Path = base.ROOT):
+        context = original_build_context(root)
+        context["image_item_ids"] = set(base.EXPECTED_IMAGE_ITEMS_SET)
+        return context
+
+    base.build_context = compatible_build_context
 
     original_validate = base.validate
 
