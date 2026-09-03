@@ -1,0 +1,5 @@
+lesson_variant_group_id,municipality_id,teaching_box_id,class_mode,box_kind,category_id,display_name,display_order,note,style_source_category_ids,style_district_scope
+LV-M098-01,M098,TB-M098-SUP-01,ONLINE_CLASS,SUPPLEMENTAL_5_SCORING,C-M098-01,もやせるごみ,5,補助5の生ごみ採点用。既存固定10BOXは変更しない。,C-M098-01,MUNICIPALITY_WIDE
+LV-M099-01,M099,TB-M099-01-SUP-01,ONLINE_CLASS,SUPPLEMENTAL_5_SCORING,C-M099-01,燃やせるごみ,7,補助5の生ごみ採点用。既存固定10BOXは変更しない。,C-M099-01,MUNICIPALITY_WIDE
+LV-M099-02,M099,TB-M099-02-SUP-01,ONLINE_CLASS,SUPPLEMENTAL_5_SCORING,C-M099-01,燃やせるごみ,6,補助5の生ごみ採点用。既存固定10BOXは変更しない。,C-M099-01,MUNICIPALITY_WIDE
+LV-M099-03,M099,TB-M099-03-SUP-01,ONLINE_CLASS,SUPPLEMENTAL_5_SCORING,C-M099-01,燃やせるごみ,6,補助5の生ごみ採点用。既存固定10BOXは変更しない。,C-M099-01,MUNICIPALITY_WIDE
