@@ -7,6 +7,9 @@ on:
       - "data/app/item_image_assets.csv"
       - "data/master/04_common_items_master.csv"
       - "scripts/validate_item_image_assets.py"
+      - "scripts/rebuild_style_research_preserve_app_ready.py"
+      - "scripts/validate_style_research_promotion_compat.py"
+      - "scripts/red_team_style_research_promotion_compat.py"
       - ".github/workflows/item-image-assets-ci.yml"
   pull_request:
     paths:
@@ -14,6 +17,9 @@ on:
       - "data/app/item_image_assets.csv"
       - "data/master/04_common_items_master.csv"
       - "scripts/validate_item_image_assets.py"
+      - "scripts/rebuild_style_research_preserve_app_ready.py"
+      - "scripts/validate_style_research_promotion_compat.py"
+      - "scripts/red_team_style_research_promotion_compat.py"
       - ".github/workflows/item-image-assets-ci.yml"
   workflow_dispatch:
 
@@ -37,7 +43,7 @@ jobs:
       - name: Style Research regression
         run: |
           set -euo pipefail
-          python3 scripts/build_style_research_pilot.py
+          python3 scripts/rebuild_style_research_preserve_app_ready.py
           git diff --exit-code -- data/style_research
-          python3 scripts/validate_style_research.py --gate
-          python3 scripts/red_team_style_research.py
+          python3 scripts/validate_style_research_promotion_compat.py --gate
+          python3 scripts/red_team_style_research_promotion_compat.py
