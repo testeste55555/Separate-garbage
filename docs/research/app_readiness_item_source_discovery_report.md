@@ -2,11 +2,11 @@
 
 checked: 2026-08-20
 
-- seed pages considered: 357
-- discovered relevant official links after cap: 132
-- fetched OK: 102
-- fetch ERROR: 30
-- recommended high-value official item sources: 40
-- municipalities with recommended source: 24
+- seed pages considered: 453
+- discovered relevant official links after cap: 138
+- fetched OK: 107
+- fetch ERROR: 31
+- recommended high-value official item sources: 41
+- municipalities with recommended source: 25
 
 No canonical source/mapping/coverage status is changed by discovery.
