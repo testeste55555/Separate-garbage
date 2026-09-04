@@ -24,6 +24,6 @@ jobs:
         run: |
           set -euo pipefail
           echo '=== ALL ACTION REFERENCES ==='
-          grep -RhnE '^\s*-?\s*uses:\s*[^#[:space:]]+@[^#[:space:]]+' .github/workflows | sed -E 's/^.*uses:[[:space:]]*/uses: /' | sort -u || true
-          echo '=== UNPINNED ACTION REFERENCES ==='
-          grep -RhnE '^\s*-?\s*uses:\s*[^#[:space:]]+@[^#[:space:]]+' .github/workflows | sed -E 's/^.*uses:[[:space:]]*/uses: /' | grep -Ev '@[0-9a-fA-F]{40}([[:space:]]|$)' | sort -u || true
+          grep -RHnE '^\s*-?\s*uses:\s*[^#[:space:]]+@[^#[:space:]]+' .github/workflows | sort || true
+          echo '=== UNPINNED ACTION REFERENCES BY FILE ==='
+          grep -RHnE '^\s*-?\s*uses:\s*[^#[:space:]]+@[^#[:space:]]+' .github/workflows | grep -Ev '@[0-9a-fA-F]{40}([[:space:]]|$)' | sort || true
