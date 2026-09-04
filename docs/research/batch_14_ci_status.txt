@@ -1,4 +1,4 @@
-verified_at_utc=2026-08-19T13:18:07Z
+verified_at_utc=2026-09-04T05:50:33Z
 batch_14_active_municipalities=6
 deferred_municipalities=M136,M139
 batch_14_structural_validation=PASS
