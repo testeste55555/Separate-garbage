@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # pinned v4
         with:
           fetch-depth: 0
       - name: Record workflow run ID
@@ -46,7 +46,7 @@ jobs:
           git commit -m "Record APP evidence run ${GITHUB_RUN_ID}" || true
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push origin HEAD:"${GITHUB_REF_NAME}"
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # pinned v5
         with:
           python-version: '3.12'
       - name: Install extraction dependencies
