@@ -49,7 +49,8 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data/app/company_municipality_mapping.csv scripts/validate_app_readiness_m098.py scripts/red_team_app_readiness_m098.py scripts/validate_company_onboarding_18.py .github/workflows/company-selector.yml
+          git restore --source=HEAD -- .github/workflows/company-selector.yml
+          git add data/app/company_municipality_mapping.csv scripts/validate_app_readiness_m098.py scripts/red_team_app_readiness_m098.py scripts/validate_company_onboarding_18.py
           git add -u scripts/_repair_company_onboarding_once.py
           git diff --cached --check
           git commit -m 'Preserve original routing assertions and validate expanded company registry'
