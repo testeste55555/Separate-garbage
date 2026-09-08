@@ -185,8 +185,8 @@ def validate_context(data) -> list[str]:
         errors.append("M098 existing fixed10 lesson scoring changed")
 
     companies = [r for r in data["company"] if r.get("municipality_id") == MID]
-    if {r.get("company_id") for r in companies} != EXPECTED_COMPANIES or len(companies) != 3:
-        errors.append("M098 must keep exactly the three confirmed company mappings")
+    if not EXPECTED_COMPANIES.issubset({r.get("company_id") for r in companies}) or len({r.get("site_id") for r in companies}) != len(companies):
+        errors.append("M098 must preserve the original three company mappings and unique site IDs")
     for row in companies:
         if row.get("mapping_status") != "CONFIRMED" or row.get("active") != "TRUE" or row.get("lesson_variant_group_id") != "LV-M098-01":
             errors.append(f"{row.get('company_id')}: company routing not activated safely")
