@@ -16,6 +16,7 @@ REQUIRED = {
     "mapping_status", "source_url", "checked_date", "identity_resolution_note",
     "display_order", "active",
 }
+SCORING_READY = {"APP_READY", "LESSON_READY_10"}
 
 
 def read_rows(path: Path):
@@ -38,10 +39,10 @@ def validate(mapping_path=MAPPING, municipality_path=MUNICIPALITIES, scope_path=
         errors.append("unexpected columns: " + ",".join(sorted(extra)))
 
     municipalities = {row["municipality_id"].strip() for row in read_rows(Path(municipality_path))}
-    app_ready = {
+    scoring_ready = {
         row["municipality_id"].strip()
         for row in read_rows(Path(scope_path))
-        if row.get("scoring_status", "").strip() == "APP_READY"
+        if row.get("scoring_status", "").strip() in SCORING_READY
     }
     variants = {
         row["lesson_variant_group_id"].strip(): row["municipality_id"].strip()
@@ -78,8 +79,8 @@ def validate(mapping_path=MAPPING, municipality_path=MUNICIPALITIES, scope_path=
             errors.append(f"line {line_number}: active must be TRUE/FALSE")
         if active == "TRUE" and mapping_status != "CONFIRMED":
             errors.append(f"line {line_number}: active mapping must be CONFIRMED")
-        if active == "TRUE" and municipality_id not in app_ready:
-            errors.append(f"line {line_number}: active site municipality {municipality_id} is not APP_READY")
+        if active == "TRUE" and municipality_id not in scoring_ready:
+            errors.append(f"line {line_number}: active site municipality {municipality_id} is not scoring ready")
 
         variant = row.get("lesson_variant_group_id", "").strip()
         if variant:
