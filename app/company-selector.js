@@ -6,7 +6,7 @@
     lessonScope: "../data/app/lesson_mode_app_ready_scope.csv"
   };
 
-  const APP_READY = "APP_READY";
+  const SCORING_READY_STATUSES = new Set(["APP_READY", "LESSON_READY_10"]);
   const selectionModeSelect = document.getElementById("selectionModeSelect");
   const companyControl = document.getElementById("companyControl");
   const companySelect = document.getElementById("companySelect");
@@ -23,7 +23,7 @@
   }
 
   let companyRows = [];
-  let appReadyMunicipalities = new Set();
+  let scoringReadyMunicipalities = new Set();
   let companiesById = new Map();
 
   function parseCsv(text) {
@@ -36,13 +36,11 @@
       const char = text[i];
       const next = text[i + 1];
       if (quoted) {
-        if (char === '"' && next === '"') {
+        if (next === '"') {
           field += '"';
           i += 1;
-        } else if (char === '"') {
-          quoted = false;
         } else {
-          field += char;
+          quoted = false;
         }
         continue;
       }
@@ -77,7 +75,7 @@
 
   function rowAvailable(row) {
     return row.mapping_status?.trim() === "CONFIRMED" && isTrue(row.active) &&
-      appReadyMunicipalities.has(row.municipality_id?.trim());
+      scoringReadyMunicipalities.has(row.municipality_id?.trim());
   }
 
   function companySortName(row) {
@@ -204,9 +202,9 @@
       ]);
       companyRows = parseCsv(companyText)
         .filter((row) => row.company_id?.trim() && row.site_id?.trim() && row.mapping_status?.trim() === "CONFIRMED");
-      appReadyMunicipalities = new Set(
+      scoringReadyMunicipalities = new Set(
         parseCsv(scopeText)
-          .filter((row) => row.scoring_status?.trim() === APP_READY)
+          .filter((row) => SCORING_READY_STATUSES.has(row.scoring_status?.trim()))
           .map((row) => row.municipality_id?.trim())
           .filter(Boolean)
       );
