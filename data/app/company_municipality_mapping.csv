@@ -1,4 +1,4 @@
-﻿company_id,company_display_name,company_normalized_name,company_aliases,site_id,site_display_name,municipality_id,lesson_variant_group_id,mapping_status,source_url,checked_date,identity_resolution_note,display_order,active
+company_id,company_display_name,company_normalized_name,company_aliases,site_id,site_display_name,municipality_id,lesson_variant_group_id,mapping_status,source_url,checked_date,identity_resolution_note,display_order,active
 C001,株式会社スチールサービス,スチールサービス,㈱スチールサービス;株式会社スチールサービス,C001-S01,本社,M098,LV-M098-01,CONFIRMED,https://info.gbiz.go.jp/hojin/ichiran?hojinBango=3240001039110,2026-08-31,尾道市瀬戸田町中野の本店所在地を採用。M098はlearner selection不要の単一教材group。,1,TRUE
 C002,紀陽コーテック株式会社,紀陽コーテック,紀陽コーテック;紀陽コーテック株式会社,C002-S01,本社,M094,,CONFIRMED,https://info.gbiz.go.jp/hojin/ichiran?hojinBango=1240001002689,2026-08-31,広島市南区出島の本店所在地を採用。,2,TRUE
 C003,有限会社日基リース,日基リース,(有)日基リース;㈲日基リース;有限会社日基リース,C003-S01,本社,M105,,CONFIRMED,https://info.gbiz.go.jp/hojin/ichiran?hojinBango=5240002036765,2026-08-31,廿日市市串戸の本店所在地をprimary siteとして採用。加計工場・金城工場は将来site追加可能とする。,3,TRUE
@@ -10,3 +10,38 @@ C008,村上工業有限会社,村上工業,村上工業㈲;村上工業(有);村
 C009,常石三保造船株式会社,常石三保造船,常石三保造船㈱;常石三保造船株式会社,C009-S01,本社・三保工場,M020,,CONFIRMED,https://www.tsuneishi.co.jp/miho/company/about/,2026-08-31,ユーザー指定企業に対応する本社・三保工場（静岡市清水区三保）を採用。新潟工場・三崎工場は今回active siteへ自動追加しない。,9,TRUE
 C010,堂本食品株式会社,堂本食品,堂本食品;堂本食品株式会社,C010-S01,本社,M094,,CONFIRMED,https://www.domoto.co.jp/profile,2026-08-31,広島市安佐南区伴中央の本社所在地を採用。,10,TRUE
 C011,Umios株式会社,Umios,umios株式会社 大江工場;Umios株式会社 大江工場;Umios(株) 大江工場,C011-S01,大江工場,M009,,CONFIRMED,https://www.umios.com/jp/saiyo/information/requirements/index.html,2026-08-31,ユーザー指定の大江工場（山形県西村山郡大江町）をsiteとして採用。Umios全社の他拠点へは展開しない。,11,TRUE
+C012,株式会社大山どり,大山どり,株式会社大山どり;㈱大山どり,C012-S01,所在地（米子市）,M030,,CONFIRMED,https://daisendori.co.jp/?page_id=502,2026-09-08,ユーザー指定企業マスタの米子市所在地を採用。独立した拠点再調査は未実施。分別採点未整備のため準備中。,12,FALSE
+C013,ウエル・ユーカン株式会社,ウエル・ユーカン,ウエル・ユーカン株式会社;ウエル・ユーカン,C013-S01,広島本社,M094,,CONFIRMED,https://www.welu-kan.co.jp/company/network.html,2026-09-08,ユーザー指定企業マスタの広島本社を採用。所在地は広島市。登録日2026-09-08。,13,TRUE
+C013,ウエル・ユーカン株式会社,ウエル・ユーカン,ウエル・ユーカン株式会社;ウエル・ユーカン,C013-S02,芸南テクニカルセンター,M094,,CONFIRMED,https://www.welu-kan.co.jp/company/network.html,2026-09-08,ユーザー指定企業マスタの芸南テクニカルセンターを採用。所在地は広島市。登録日2026-09-08。,13,TRUE
+C013,ウエル・ユーカン株式会社,ウエル・ユーカン,ウエル・ユーカン株式会社;ウエル・ユーカン,C013-S03,安芸テクニカルセンター,M105,,CONFIRMED,https://www.welu-kan.co.jp/company/network.html,2026-09-08,ユーザー指定企業マスタの安芸テクニカルセンターを採用。所在地は廿日市市。登録日2026-09-08。,13,TRUE
+C014,協産紙工株式会社,協産紙工,協産紙工株式会社;協産紙工;協産紙工㈱,C014-S01,本社工場,M105,,CONFIRMED,https://www.kyousanshiko.com/production,2026-09-08,公式生産設備ページで確認した廿日市市大野2-5-8の現行本社工場。登録日2026-09-08。,14,TRUE
+C014,協産紙工株式会社,協産紙工,協産紙工株式会社;協産紙工;協産紙工㈱,C014-S02,山口工場,M121,,CONFIRMED,https://www.kyousanshiko.com/production,2026-09-08,公式生産設備ページで確認した防府市自力町10-5の現行工場。分別採点未整備のため準備中。,14,FALSE
+C015,株式会社澤井製作所,澤井製作所,株式会社澤井製作所;㈱澤井製作所（三原）;㈱澤井製作所（黒瀬）;澤井製作所,C015-S01,本社工場,M097,,CONFIRMED,https://www.sawai-seisakusho.co.jp/company/profile.html,2026-09-08,ユーザー指定企業マスタの三原市本社工場を採用。既存LESSON_READY_10は維持するが会社選択の現行APP_READYゲートにより準備中。,15,FALSE
+C015,株式会社澤井製作所,澤井製作所,株式会社澤井製作所;㈱澤井製作所（三原）;㈱澤井製作所（黒瀬）;澤井製作所,C015-S02,黒瀬工場,M104,,CONFIRMED,https://www.sawai-seisakusho.co.jp/company/profile.html,2026-09-08,ユーザー指定企業マスタの東広島市黒瀬工場を採用。登録日2026-09-08。,15,TRUE
+C016,中神自動車工業株式会社,中神自動車工業,中神自動車工業株式会社;中神自動車工業㈱,C016-S01,所在地（田布施町）,M133,,CONFIRMED,https://www.nakagami-motors.co.jp/company.html,2026-09-08,ユーザー指定企業マスタの田布施町所在地を採用。独立した拠点再調査は未実施。分別採点未整備のため準備中。,16,FALSE
+C017,島根水道株式会社,島根水道,島根水道株式会社;島根水道,C017-S01,本社,M048,,CONFIRMED,https://www.shimanesuidoh.jp/company/location/,2026-09-08,公式営業拠点一覧で確認した松江市宍道町佐々布213番地25の本社。分別採点未整備のため準備中。,17,FALSE
+C017,島根水道株式会社,島根水道,島根水道株式会社;島根水道,C017-S02,雲南支店,M055,,CONFIRMED,https://www.shimanesuidoh.jp/company/location/,2026-09-08,公式営業拠点一覧で確認した雲南市木次町里方1089番地14の支店。分別採点未整備のため準備中。,17,FALSE
+C017,島根水道株式会社,島根水道,島根水道株式会社;島根水道,C017-S03,松江支店,M048,,CONFIRMED,https://www.shimanesuidoh.jp/company/location/,2026-09-08,公式営業拠点一覧で確認した松江市学園2丁目18番34号の支店。分別採点未整備のため準備中。,17,FALSE
+C017,島根水道株式会社,島根水道,島根水道株式会社;島根水道,C017-S04,玉湯営業所,M048,,CONFIRMED,https://www.shimanesuidoh.jp/company/location/,2026-09-08,公式営業拠点一覧で確認した松江市玉湯町1763番地1の営業所。分別採点未整備のため準備中。,17,FALSE
+C017,島根水道株式会社,島根水道,島根水道株式会社;島根水道,C017-S05,斐川営業所,M050,,CONFIRMED,https://www.shimanesuidoh.jp/company/location/,2026-09-08,公式営業拠点一覧で確認した出雲市斐川町荘原2245番地1の営業所。分別採点未整備のため準備中。,17,FALSE
+C017,島根水道株式会社,島根水道,島根水道株式会社;島根水道,C017-S06,奥出雲営業所,M056,,CONFIRMED,https://www.shimanesuidoh.jp/company/location/,2026-09-08,公式営業拠点一覧で確認した仁多郡奥出雲町三成360番地1の営業所。分別採点未整備のため準備中。,17,FALSE
+C018,南条工業株式会社,南条工業,南条工業株式会社;南条工業,C018-S01,広島工場,M094,,CONFIRMED,https://www.pref.hiroshima.lg.jp/go-hiroshima-database-kigyo/go-data-0175.html,2026-09-08,ユーザー指定企業マスタの広島工場を採用。所在地は広島市。登録日2026-09-08。,18,TRUE
+C018,南条工業株式会社,南条工業,南条工業株式会社;南条工業,C018-S02,高田工場,M106,,CONFIRMED,https://www.pref.hiroshima.lg.jp/go-hiroshima-database-kigyo/go-data-0175.html,2026-09-08,ユーザー指定企業マスタの安芸高田市高田工場を採用。既存LESSON_READY_10は維持するが会社選択の現行APP_READYゲートにより準備中。,18,FALSE
+C018,南条工業株式会社,南条工業,南条工業株式会社;南条工業,C018-S03,防府工場,M121,,CONFIRMED,https://www.pref.hiroshima.lg.jp/go-hiroshima-database-kigyo/go-data-0175.html,2026-09-08,ユーザー指定企業マスタの防府工場を採用。分別採点未整備のため準備中。,18,FALSE
+C019,株式会社シンタニ,シンタニ,株式会社シンタニ;シンタニ,C019-S01,所在地（広島市）,M094,,CONFIRMED,https://map.yahoo.co.jp/v3/place/6c-xSq4FPzU,2026-09-08,ユーザー指定企業マスタの広島市所在地を採用。独立した法人・拠点再調査は未実施。登録日2026-09-08。,19,TRUE
+C020,内海工業株式会社,内海工業,内海工業株式会社;内海工業㈱,C020-S01,所在地（福山市）,M099,,CONFIRMED,https://cnavi.g-search.or.jp/detail/6240001029331.html,2026-09-08,ユーザー指定企業マスタの福山市所在地を採用。居住地域未確定のため既存の地域選択を使用。登録日2026-09-08。,20,TRUE
+C021,三和電機工業株式会社,三和電機工業,三和電機工業株式会社;三和電機工業㈱,C021-S01,所在地（福山市）,M099,,CONFIRMED,https://www.numakuma-k.com/2024/08/09/%E9%98%BF%E4%BC%8F%E5%85%8E%E8%8A%B1%E7%81%AB%E5%A4%A7%E4%BC%9A%E7%94%9F%E4%B8%AD%E7%B6%99%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/,2026-09-08,ユーザー指定企業マスタの福山市所在地を採用。独立した法人・拠点再調査は未実施。居住地域未確定のため既存の地域選択を使用。,21,TRUE
+C022,日東工業有限会社,日東工業,日東工業有限会社;日東工業㈲,C022-S01,所在地（福山市）,M099,,CONFIRMED,https://www.numakuma-k.com/2024/08/09/%E9%98%BF%E4%BC%8F%E5%85%8E%E8%8A%B1%E7%81%AB%E5%A4%A7%E4%BC%9A%E7%94%9F%E4%B8%AD%E7%B6%99%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/,2026-09-08,ユーザー指定企業マスタの福山市所在地を採用。独立した法人・拠点再調査は未実施。居住地域未確定のため既存の地域選択を使用。,22,TRUE
+C023,有限会社平林工業,平林工業,有限会社平林工業;㈲平林工業,C023-S01,所在地（福山市）,M099,,CONFIRMED,https://www.numakuma-k.com/2024/08/09/%E9%98%BF%E4%BC%8F%E5%85%8E%E8%8A%B1%E7%81%AB%E5%A4%A7%E4%BC%9A%E7%94%9F%E4%B8%AD%E7%B6%99%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6/,2026-09-08,ユーザー指定企業マスタの福山市所在地を採用。独立した法人・拠点再調査は未実施。居住地域未確定のため既存の地域選択を使用。,23,TRUE
+C024,有限会社吉岡組塗装,吉岡組塗装,有限会社吉岡組塗装;㈲吉岡組塗装,C024-S01,所在地（尾道市）,M098,LV-M098-01,CONFIRMED,https://yoshiokagumi-p.jp/about/,2026-09-08,ユーザー指定企業マスタの尾道市本社所在地を採用。常石工場は福山市との記載があるが拠点の詳細未確認のため自動追加しない。,24,TRUE
+C025,有限会社渡辺工業所,渡辺工業所,有限会社渡辺工業所;㈲渡辺工業所,C025-S01,所在地（福山市）,M099,,CONFIRMED,https://www.hellowork.mhlw.go.jp/,2026-09-08,ユーザー指定企業マスタの福山市所在地を採用。出典URLは汎用入口のため法人同定の追加確認が必要。居住地域未確定のため既存の地域選択を使用。,25,TRUE
+C026,アスベル株式会社,アスベル,アスベル株式会社;株式会社ASVEL;ASVEL;アスベル,C026-S01,本社,M027,,CONFIRMED,https://www.asvel.co.jp/company,2026-09-08,ユーザー指定企業マスタの奈良県大和郡山市本社を採用。分別採点未整備のため準備中。,26,FALSE
+C026,アスベル株式会社,アスベル,アスベル株式会社;株式会社ASVEL;ASVEL;アスベル,C026-S02,三重工場,M021,,CONFIRMED,https://www.asvel.co.jp/company,2026-09-08,ユーザー指定企業マスタの三重県津市三重工場を採用。分別採点未整備のため準備中。,26,FALSE
+C027,株式会社三好野本店,三好野本店,株式会社三好野本店;三好野本店,C027-S01,本社・桑野工場,M067,,CONFIRMED,https://miyoshinohonten.co.jp/company,2026-09-08,公式会社概要で確認した岡山市中区桑野131-6の本社・工場。分別採点未整備のため準備中。,27,FALSE
+C027,株式会社三好野本店,三好野本店,株式会社三好野本店;三好野本店,C027-S02,JR岡山駅構内売店,M067,,CONFIRMED,https://miyoshinohonten.co.jp/shop,2026-09-08,公式店舗案内で確認した岡山市北区駅元町1-1の売店。分別採点未整備のため準備中。,27,FALSE
+C028,株式会社原田興業,原田興業,株式会社原田興業;原田興業,C028-S01,所在地（広島市）,M094,,CONFIRMED,https://cnavi.g-search.or.jp/detail/4240001020903.html,2026-09-08,ユーザー指定企業マスタの広島市法人を採用。同名法人との混同に注意。登録日2026-09-08。,28,TRUE
+C029,株式会社シンニチロ,シンニチロ,株式会社シンニチロ;シンニチロ,C029-S01,本社,M067,,CONFIRMED,https://shinnichiro.co.jp/company/,2026-09-08,ユーザー指定企業マスタの岡山市本社を採用。分別採点未整備のため準備中。,29,FALSE
+C029,株式会社シンニチロ,シンニチロ,株式会社シンニチロ;シンニチロ,C029-S02,水島事業所,M068,,CONFIRMED,https://shinnichiro.co.jp/company/,2026-09-08,ユーザー指定企業マスタの倉敷市水島事業所を採用。分別採点未整備のため準備中。,29,FALSE
+C029,株式会社シンニチロ,シンニチロ,株式会社シンニチロ;シンニチロ,C029-S03,南畝工場,M068,,CONFIRMED,https://shinnichiro.co.jp/company/,2026-09-08,ユーザー指定企業マスタの倉敷市南畝工場を採用。分別採点未整備のため準備中。,29,FALSE
+C029,株式会社シンニチロ,シンニチロ,株式会社シンニチロ;シンニチロ,C029-S04,倉敷松江工場,M068,,CONFIRMED,https://shinnichiro.co.jp/access/,2026-09-08,ユーザー指定企業マスタの倉敷市倉敷松江工場を採用。分別採点未整備のため準備中。,29,FALSE
+C029,株式会社シンニチロ,シンニチロ,株式会社シンニチロ;シンニチロ,C029-S05,福山営業所,M099,,CONFIRMED,https://shinnichiro.co.jp/access/,2026-09-08,ユーザー指定企業マスタの福山営業所を採用。居住地域未確定のため既存の地域選択を使用。登録日2026-09-08。,29,TRUE
