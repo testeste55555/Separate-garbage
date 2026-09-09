@@ -94,6 +94,12 @@ def main() -> int:
         })
     tests.append(("APP item evidence leaked into Batch 10 ordinary layer", leak_batch_app_mapping))
 
+    def added_company_wrong_variant(d):
+        for r in d["company"]:
+            if r.get("company_id") == "C024" and r.get("municipality_id") == gate.MID:
+                r["lesson_variant_group_id"] = "LV-M099-01"
+    tests.append(("new M098 company routed to wrong variant", added_company_wrong_variant))
+
     for label, mutate in tests:
         reject(label, mutate)
     print(f"M098_APP_READINESS_RED_TEAM_PASSED {len(tests)}/{len(tests)}")

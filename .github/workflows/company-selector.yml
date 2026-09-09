@@ -11,6 +11,7 @@ on:
       - "data/master/01_municipalities_master.csv"
       - "scripts/validate_company_municipality_mapping.py"
       - "scripts/red_team_company_municipality_mapping.py"
+      - "scripts/validate_company_onboarding_18.py"
       - ".github/workflows/company-selector.yml"
   push:
     branches: [main]
@@ -23,6 +24,7 @@ on:
       - "data/master/01_municipalities_master.csv"
       - "scripts/validate_company_municipality_mapping.py"
       - "scripts/red_team_company_municipality_mapping.py"
+      - "scripts/validate_company_onboarding_18.py"
       - ".github/workflows/company-selector.yml"
 
 permissions:
@@ -40,7 +42,9 @@ jobs:
         with:
           node-version: "22"
       - name: Validate company mapping
-        run: python scripts/validate_company_municipality_mapping.py
+        run: |
+          python scripts/validate_company_municipality_mapping.py
+          python scripts/validate_company_onboarding_18.py
       - name: Mutation RED TEAM
         run: python scripts/red_team_company_municipality_mapping.py
       - name: JavaScript syntax
