@@ -45,7 +45,7 @@ ONLINE_SPEC = [
     ("C-M021-09", "びん"),
     ("C-M021-10", "容器包装プラスチック（容プラ）"),
 ]
-IN_PERSON_SPEC = ONLINE_SPEC + [("C-M021-12", "燃やせるごみ（可燃)")]
+IN_PERSON_SPEC = ONLINE_SPEC + [("C-M021-12", "燃やせるごみ（可燃）")]
 
 
 def replace_mid(path: Path, fields: list[str], rows: list[dict[str, str]]) -> None:
