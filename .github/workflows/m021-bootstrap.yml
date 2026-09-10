@@ -1,0 +1,43 @@
+name: M021 bootstrap projections
+
+on:
+  push:
+    branches:
+      - feature/lesson-ready-15-m021
+    paths:
+      - .github/workflows/m021-bootstrap.yml
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf9c7e857fc948e0
+        with:
+          ref: feature/lesson-ready-15-m021
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+      - name: Build M021 lesson projections
+        run: python scripts/build_lesson_ready_m021.py
+      - name: Synchronize lesson review to canonical data
+        run: python scripts/sync_lesson_ready_reviews.py
+      - name: Commit generated projections
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/app/lesson_mode_app_ready_scope.csv \
+            data/app/lesson_teaching_boxes.csv \
+            data/app/lesson_item_scoring_projection.csv \
+            data/app/item_image_mapping_pilot_top8.csv \
+            data/research/05_item_mapping_master.csv \
+            data/research/07_item_mapping_coverage.csv
+          if git diff --cached --quiet; then
+            echo "M021 projections already synchronized"
+          else
+            git commit -m "Build M021 LESSON_READY_10 projections"
+            git push origin HEAD:feature/lesson-ready-15-m021
+          fi
