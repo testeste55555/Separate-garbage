@@ -28,7 +28,7 @@ SCOPE_FIELDS = [
 ]
 BOX_FIELDS = [
     "municipality_id", "teaching_box_id", "class_mode", "box_kind", "category_id",
-    "display_name", "display_order", "note",
+    "display_name", "display_order", "note", "style_source_category_ids", "style_district_scope",
 ]
 PROJECTION_FIELDS = [
     "municipality_id", "internal_item_id", "teaching_box_id", "projection_kind",
@@ -49,7 +49,9 @@ IN_PERSON_SPEC = ONLINE_SPEC + [("C-M021-12", "燃やせるごみ（可燃）")]
 
 
 def replace_mid(path: Path, fields: list[str], rows: list[dict[str, str]]) -> None:
-    existing = read_csv(path)[1]
+    current_fields, existing = read_csv(path)
+    if current_fields != fields:
+        raise ValueError(f"unexpected schema for {path}: {current_fields}")
     kept = [row for row in existing if row.get("municipality_id") != MID]
     write_csv(path, fields, kept + rows)
 
@@ -99,6 +101,8 @@ def build() -> None:
             "display_name": label,
             "display_order": str(order),
             "note": "固定10品目採点用。",
+            "style_source_category_ids": cid,
+            "style_district_scope": "MUNICIPALITY_WIDE",
         })
     for order, (cid, label) in enumerate(IN_PERSON_SPEC, 1):
         boxes.append({
@@ -110,6 +114,8 @@ def build() -> None:
             "display_name": label,
             "display_order": str(order),
             "note": "対面授業用の主要分別箱。",
+            "style_source_category_ids": cid,
+            "style_district_scope": "MUNICIPALITY_WIDE",
         })
 
     online_box_by_category = {
