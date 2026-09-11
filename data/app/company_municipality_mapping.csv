@@ -10,7 +10,7 @@ C008,村上工業有限会社,村上工業,村上工業㈲;村上工業(有);村
 C009,常石三保造船株式会社,常石三保造船,常石三保造船㈱;常石三保造船株式会社,C009-S01,本社・三保工場,M020,,CONFIRMED,https://www.tsuneishi.co.jp/miho/company/about/,2026-08-31,ユーザー指定企業に対応する本社・三保工場（静岡市清水区三保）を採用。新潟工場・三崎工場は今回active siteへ自動追加しない。,9,TRUE
 C010,堂本食品株式会社,堂本食品,堂本食品;堂本食品株式会社,C010-S01,本社,M094,,CONFIRMED,https://www.domoto.co.jp/profile,2026-08-31,広島市安佐南区伴中央の本社所在地を採用。,10,TRUE
 C011,Umios株式会社,Umios,umios株式会社 大江工場;Umios株式会社 大江工場;Umios(株) 大江工場,C011-S01,大江工場,M009,,CONFIRMED,https://www.umios.com/jp/saiyo/information/requirements/index.html,2026-08-31,ユーザー指定の大江工場（山形県西村山郡大江町）をsiteとして採用。Umios全社の他拠点へは展開しない。,11,TRUE
-C012,株式会社大山どり,大山どり,株式会社大山どり;㈱大山どり,C012-S01,所在地（米子市）,M030,,CONFIRMED,https://daisendori.co.jp/?page_id=502,2026-09-08,ユーザー指定企業マスタの米子市所在地を採用。独立した拠点再調査は未実施。分別採点未整備のため準備中。,12,FALSE
+C012,株式会社大山どり,大山どり,株式会社大山どり;㈱大山どり,C012-S01,所在地（米子市）,M030,,CONFIRMED,https://daisendori.co.jp/?page_id=502,2026-09-11,ユーザー指定企業マスタの米子市所在地を採用。M030はLESSON_READY_10整備済みのため固定10問を利用可能。会社所在地はrouting metadataであり居住地・家庭ごみ正答の根拠ではない。,12,TRUE
 C013,ウエル・ユーカン株式会社,ウエル・ユーカン,ウエル・ユーカン株式会社;ウエル・ユーカン,C013-S01,広島本社,M094,,CONFIRMED,https://www.welu-kan.co.jp/company/network.html,2026-09-08,ユーザー指定企業マスタの広島本社を採用。所在地は広島市。登録日2026-09-08。,13,TRUE
 C013,ウエル・ユーカン株式会社,ウエル・ユーカン,ウエル・ユーカン株式会社;ウエル・ユーカン,C013-S02,芸南テクニカルセンター,M094,,CONFIRMED,https://www.welu-kan.co.jp/company/network.html,2026-09-08,ユーザー指定企業マスタの芸南テクニカルセンターを採用。所在地は広島市。登録日2026-09-08。,13,TRUE
 C013,ウエル・ユーカン株式会社,ウエル・ユーカン,ウエル・ユーカン株式会社;ウエル・ユーカン,C013-S03,安芸テクニカルセンター,M105,,CONFIRMED,https://www.welu-kan.co.jp/company/network.html,2026-09-08,ユーザー指定企業マスタの安芸テクニカルセンターを採用。所在地は廿日市市。登録日2026-09-08。,13,TRUE
