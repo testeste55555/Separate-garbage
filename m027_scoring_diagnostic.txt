@@ -1,0 +1,14 @@
+CLASSROOM_PILOT_SCORING_VALIDATION_FAILED
+- M027/I029/1 exception: source URL mismatch
+- M027/I001: image row lacks complete scoring-ready review
+- M027/I007: image row lacks complete scoring-ready review
+- M027/I013: image row lacks complete scoring-ready review
+- M027/I004: image row lacks complete scoring-ready review
+- M027/I006: image row lacks complete scoring-ready review
+- M027/I031: image row lacks complete scoring-ready review
+- M027/I029: image row lacks complete scoring-ready review
+- M027/I014: image row lacks complete scoring-ready review
+- M027/I033: image row lacks complete scoring-ready review
+- M027/I017: image row lacks complete scoring-ready review
+- M027: expected 10 interactive image questions, got 0
+- interactive image pair count mismatch: expected=180 actual=150
