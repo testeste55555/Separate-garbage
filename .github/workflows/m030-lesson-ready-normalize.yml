@@ -95,8 +95,7 @@ jobs:
 
           path = Path('scripts/red_team_lesson_scoring_modes.py')
           text = path.read_text(encoding='utf-8')
-          marker = '''    for name, candidate_boxes, candidate_projection in projection_cases:
-          '''
+          marker = '    for name, candidate_boxes, candidate_projection in projection_cases:\n'
           if 'M030/I029 DROP_OFF route misprojected to normal SORT_BUCKET' not in text:
               if marker not in text:
                   raise SystemExit('red-team projection loop anchor missing')
@@ -126,29 +125,28 @@ jobs:
 
           path = Path('.github/workflows/app-ready-lesson-modes.yml')
           text = path.read_text(encoding='utf-8')
-          needle = '      - "scripts/build_lesson_ready_m021.py"\n'
-          replacement = needle + '      - "scripts/build_lesson_ready_m030.py"\n'
-          if 'scripts/build_lesson_ready_m030.py' not in text:
-              text = text.replace(needle, replacement)
-          run_old = '''          python scripts/build_lesson_ready_m021.py
-                      python scripts/sync_lesson_ready_reviews.py'''
-          run_new = '''          python scripts/build_lesson_ready_m021.py
-                      python scripts/build_lesson_ready_m030.py
-                      python scripts/sync_lesson_ready_reviews.py'''
-          if run_old in text:
-              text = text.replace(run_old, run_new)
-          elif 'python scripts/build_lesson_ready_m030.py' not in text:
-              raise SystemExit('normal CI run anchor missing')
-          diff_anchor = '''            data/master/07_implementation_priority.csv'''
-          if 'data/research/06_qa_log.csv' not in text[text.find('git diff --exit-code --'):]:
-              text = text.replace(
-                  diff_anchor,
-                  diff_anchor + ''' \\
-                      data/research/03_sources_master.csv \\
-                      data/research/06_qa_log.csv \\
-                      data/app/company_municipality_mapping.csv''',
-                  1,
+          path_line = '      - "scripts/build_lesson_ready_m021.py"\n'
+          m030_path_line = '      - "scripts/build_lesson_ready_m030.py"\n'
+          if m030_path_line not in text:
+              text = text.replace(path_line, path_line + m030_path_line)
+          run_line = '          python scripts/build_lesson_ready_m021.py\n'
+          m030_run_line = '          python scripts/build_lesson_ready_m030.py\n'
+          if m030_run_line not in text:
+              if run_line not in text:
+                  raise SystemExit('normal CI run anchor missing')
+              text = text.replace(run_line, run_line + m030_run_line, 1)
+          qa_line = '            data/research/06_qa_log.csv'
+          if qa_line not in text[text.find('git diff --exit-code --'):]:
+              anchor_line = '            data/master/07_implementation_priority.csv\n'
+              replacement = (
+                  '            data/master/07_implementation_priority.csv \\\n'
+                  '            data/research/03_sources_master.csv \\\n'
+                  '            data/research/06_qa_log.csv \\\n'
+                  '            data/app/company_municipality_mapping.csv\n'
               )
+              if anchor_line not in text:
+                  raise SystemExit('normal CI diff anchor missing')
+              text = text.replace(anchor_line, replacement, 1)
           path.write_text(text, encoding='utf-8')
 
           path = Path('data/research/lesson_readiness/m030_item_review.csv')
