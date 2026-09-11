@@ -9,13 +9,16 @@ on:
       - "data/research/lesson_readiness/**"
       - "data/research/03_sources_master.csv"
       - "data/research/05_item_mapping_master.csv"
+      - "data/research/06_qa_log.csv"
       - "data/research/07_item_mapping_coverage.csv"
       - "data/research/02_categories_master.csv"
+      - "data/research/batches/batch_03/**"
       - "data/style_research/**"
       - "scripts/sync_lesson_ready_reviews.py"
       - "scripts/build_lesson_ready_m107_m109.py"
       - "scripts/build_lesson_ready_batch11.py"
       - "scripts/build_lesson_ready_m021.py"
+      - "scripts/build_lesson_ready_m027.py"
       - "scripts/build_lesson_ready_regional_batch.py"
       - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
       - "scripts/classroom_pilot_scoring_compat.py"
@@ -51,13 +54,16 @@ on:
       - "data/research/lesson_readiness/**"
       - "data/research/03_sources_master.csv"
       - "data/research/05_item_mapping_master.csv"
+      - "data/research/06_qa_log.csv"
       - "data/research/07_item_mapping_coverage.csv"
       - "data/research/02_categories_master.csv"
+      - "data/research/batches/batch_03/**"
       - "data/style_research/**"
       - "scripts/sync_lesson_ready_reviews.py"
       - "scripts/build_lesson_ready_m107_m109.py"
       - "scripts/build_lesson_ready_batch11.py"
       - "scripts/build_lesson_ready_m021.py"
+      - "scripts/build_lesson_ready_m027.py"
       - "scripts/build_lesson_ready_regional_batch.py"
       - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
       - "scripts/classroom_pilot_scoring_compat.py"
@@ -118,18 +124,22 @@ jobs:
           python scripts/sync_lesson_ready_reviews.py
           python scripts/rebuild_lesson_ready_regional_preserve_app_ready.py
           python scripts/build_lesson_ready_m021.py
+          python scripts/build_lesson_ready_m027.py
           python scripts/sync_lesson_ready_reviews.py
           git diff --exit-code -- \
             data/app/lesson_mode_app_ready_scope.csv \
             data/app/lesson_teaching_boxes.csv \
             data/app/lesson_item_scoring_projection.csv \
             data/app/item_image_mapping_pilot_top8.csv \
+            data/app/company_municipality_mapping.csv \
+            data/research/03_sources_master.csv \
             data/research/lesson_readiness/m107_item_review.csv \
             data/research/lesson_readiness/m108_item_review.csv \
             data/research/lesson_readiness/m109_item_review.csv \
             data/research/lesson_readiness/m110_item_review.csv \
             data/research/lesson_readiness/m111_item_review.csv \
             data/research/lesson_readiness/m112_item_review.csv \
+            data/research/batches/batch_03/batch_03_sources.csv \
             data/research/05_item_mapping_master.csv \
             data/research/07_item_mapping_coverage.csv \
             data/master/07_implementation_priority.csv
