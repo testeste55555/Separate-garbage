@@ -48,12 +48,21 @@ ONLINE_SPEC = [
 IN_PERSON_SPEC = ONLINE_SPEC + [("C-M021-12", "燃やせるごみ（可燃）")]
 
 
-def replace_mid(path: Path, fields: list[str], rows: list[dict[str, str]]) -> None:
+def replace_mid(
+    path: Path,
+    fields: list[str],
+    rows: list[dict[str, str]],
+    *,
+    sort_by_municipality: bool = False,
+) -> None:
     current_fields, existing = read_csv(path)
     if current_fields != fields:
         raise ValueError(f"unexpected schema for {path}: {current_fields}")
     kept = [row for row in existing if row.get("municipality_id") != MID]
-    write_csv(path, fields, kept + rows)
+    output = kept + rows
+    if sort_by_municipality:
+        output.sort(key=lambda row: row.get("municipality_id", ""))
+    write_csv(path, fields, output)
 
 
 def build() -> None:
@@ -138,7 +147,11 @@ def build() -> None:
             "note": "公式分別区分へ投影。詳細条件・例外は教師用reviewに保持。",
         })
 
-    replace_mid(SCOPE, SCOPE_FIELDS, scope_rows)
+    # Scope is the ordering source used by sync_lesson_ready_reviews.py for the
+    # shared image mapping.  Existing APP_READY builders also keep it in
+    # municipality-id order, so preserve that canonical order here instead of
+    # appending M021 at the end and creating cross-builder idempotence drift.
+    replace_mid(SCOPE, SCOPE_FIELDS, scope_rows, sort_by_municipality=True)
     replace_mid(BOXES, BOX_FIELDS, boxes)
     replace_mid(PROJECTION, PROJECTION_FIELDS, projection)
     print(f"M021_LESSON_READY_BUILT items={len(scoring)} branches={len(review_rows)} online_boxes={len(ONLINE_SPEC)} in_person_boxes={len(IN_PERSON_SPEC)}")
