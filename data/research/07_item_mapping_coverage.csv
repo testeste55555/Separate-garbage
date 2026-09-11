@@ -799,23 +799,23 @@ M020,I037,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-40,https://www.city.shizuoka.lg
 M020,I038,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-41,https://www.city.shizuoka.lg.jp/gomi/hinmoku/03029.html,分別区分：使用済小型家電リサイクル（不燃・粗大ごみ不可）,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
 M020,I039,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-42,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02950.html,分別区分・注意点：食用油,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
 M020,I040,APP_READY,1,TRUE,ITEM_SPECIFIC,IS-M020-43,https://www.city.shizuoka.lg.jp/gomi/hinmoku/02186.html,分別区分・注意点：剪定枝,2026-08-31,OPENAI_M020_APP_READY_V1,M020全40品目の必要条件枝を2026現行公式資料へ照合しatomic APP_READY昇格。
-M021,I001,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,text-match:ペットボトル + ペットボトル（ペット）,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
+M021,I001,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,p16 ペットボトル（ペット）,2026-09-11,OPENAI_GPT56_M021_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M021,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M021,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M021,I004,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M021,I004,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M021-03,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/bessatu20240606.pdf,品目一覧『アルミ缶・アルミボトル（飲料・食品用）』＝金属,2026-09-11,OPENAI_GPT56_M021_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M021,I005,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M021,I006,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,text-match:空きびん + びん,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M021,I007,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M021,I006,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,p16 びん,2026-09-11,OPENAI_GPT56_M021_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M021,I007,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,p17 容器包装プラスチック（トレイ類・汚れ条件）,2026-09-11,OPENAI_GPT56_M021_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M021,I008,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M021,I009,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M021,I010,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M021,I011,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M021,I012,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M021,I013,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,text-match:新聞 + 新聞,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M021,I014,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,text-match:ダンボール + ダンボール,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
+M021,I013,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,p13 新聞,2026-09-11,OPENAI_GPT56_M021_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M021,I014,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,資源・ダンボール欄,2026-09-11,OPENAI_GPT56_M021_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M021,I015,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,text-match:雑誌 + 雑誌・雑紙,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
 M021,I016,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,text-match:紙箱 + 雑誌・雑紙,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M021,I017,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,text-match:牛乳パック + 飲料用紙パック,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
+M021,I017,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M021-03,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/bessatu20240606.pdf,品目一覧『牛乳パック』＝飲料用紙パック,2026-09-11,OPENAI_GPT56_M021_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M021,I018,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,text-match:生ごみ + 燃やせるごみ（可燃）,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
 M021,I019,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M021,I020,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
@@ -827,11 +827,11 @@ M021,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M021,I026,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M021,I027,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M021,I028,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M021,I029,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M021,I029,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M021-03,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/bessatu20240606.pdf,品目一覧『モバイルバッテリー』＝危険,2026-09-11,OPENAI_GPT56_M021_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M021,I030,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,text-match:蛍光管 + 危険ごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M021,I031,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
+M021,I031,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M021-03,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/bessatu20240606.pdf,品目一覧『電球（白熱電球・LED電球）』＝不燃,2026-09-11,OPENAI_GPT56_M021_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M021,I032,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,text-match:スプレー缶 + 危険ごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
-M021,I033,VERIFIED,1,FALSE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,text-match:ライター + 危険ごみ,2026-08-20,AUTO_DIRECT_ITEM_EVIDENCE_V1,全既存branchに直接ITEM_SPECIFIC候補あり。条件枝完全性は未確定のためAPP_READYではない。
+M021,I033,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M021-02,https://www.info.city.tsu.mie.jp/_res/projects/default_project/_page_/001/001/598/8.4guidebook.pdf,p11 使い捨てライター・電子ライター,2026-09-11,OPENAI_GPT56_M021_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M021,I034,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M021,I035,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M021,I036,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。

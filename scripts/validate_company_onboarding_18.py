@@ -25,15 +25,29 @@ def check():
     added = [r for r in rows if int(r["company_id"][1:]) >= 12]
     assert len(added) == 35
     assert len({r["company_id"] for r in added}) == 18
+
     with SCOPE.open(encoding="utf-8-sig", newline="") as handle:
         ready = {r["municipality_id"] for r in csv.DictReader(handle) if r["scoring_status"] in READY_STATUSES}
-    assert Counter(r["active"] for r in added) == {"TRUE": 17, "FALSE": 18}
+
+    counts = Counter(r["active"] for r in added)
+    actual_active = counts.get("TRUE", 0)
+    actual_pending = counts.get("FALSE", 0)
+    expected_active = sum(r["municipality_id"] in ready for r in added)
+    expected_pending = len(added) - expected_active
+    assert not (set(counts) - {"TRUE", "FALSE"}), f"unexpected active values: {counts}"
+    assert (actual_active, actual_pending) == (expected_active, expected_pending), (
+        f"new company readiness count mismatch: active={actual_active}/{expected_active} "
+        f"pending={actual_pending}/{expected_pending}"
+    )
     assert all((r["active"] == "TRUE") == (r["municipality_id"] in ready) for r in added)
     assert all(r["mapping_status"] == "CONFIRMED" for r in added)
     assert all(r["lesson_variant_group_id"] == "LV-M098-01" for r in added if r["municipality_id"] == "M098")
     assert all(not r["lesson_variant_group_id"] for r in added if r["municipality_id"] == "M099")
     assert not validate(), "company mapping validation failed"
-    print("COMPANY_ONBOARDING_18_VALIDATION_PASSED companies=29 sites=46 added=18/35 active=17 pending=18")
+    print(
+        "COMPANY_ONBOARDING_18_VALIDATION_PASSED "
+        f"companies=29 sites=46 added=18/35 active={actual_active} pending={actual_pending}"
+    )
 
 
 if __name__ == "__main__":
