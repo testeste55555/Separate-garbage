@@ -1,0 +1,54 @@
+name: M021 company routing sync
+
+on:
+  push:
+    branches:
+      - feature/lesson-ready-15-m021
+    paths:
+      - .github/workflows/m021-company-routing-sync.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: feature/lesson-ready-15-m021
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+      - name: Activate C026-S02 for M021
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+
+          path = Path('data/app/company_municipality_mapping.csv')
+          with path.open(encoding='utf-8-sig', newline='') as f:
+              reader = csv.DictReader(f)
+              fields = reader.fieldnames
+              rows = list(reader)
+          assert fields
+          hits = [r for r in rows if r['company_id'] == 'C026' and r['site_id'] == 'C026-S02' and r['municipality_id'] == 'M021']
+          assert len(hits) == 1, f'unexpected C026-S02/M021 rows: {len(hits)}'
+          row = hits[0]
+          row['active'] = 'TRUE'
+          row['note'] = '自治体教材LESSON_READY_10。固定10問を利用可能。会社所在地はrouting metadataであり居住地の正答根拠ではない。'
+          with path.open('w', encoding='utf-8-sig', newline='') as f:
+              writer = csv.DictWriter(f, fieldnames=fields, lineterminator='\n')
+              writer.writeheader()
+              writer.writerows(rows)
+          PY
+          python scripts/validate_company_municipality_mapping.py
+          python scripts/validate_company_onboarding_18.py
+      - name: Commit routing update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/app/company_municipality_mapping.csv
+          git diff --cached --exit-code && exit 0 || true
+          git commit -m "Activate C026-S02 routing for M021 lesson readiness"
+          git push origin HEAD:feature/lesson-ready-15-m021
