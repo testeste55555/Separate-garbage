@@ -52,7 +52,7 @@ jobs:
           if git diff --cached --quiet; then
             echo 'No generated M027 state changes.'
           else
-            git commit -m 'Capture M027 generated state and scoring diagnostic'
+            git commit -m 'Refresh M027 generated state after evidence fix'
             git push origin HEAD:feature/lesson-ready-15-m027
           fi
       - name: Run remaining validation gates
