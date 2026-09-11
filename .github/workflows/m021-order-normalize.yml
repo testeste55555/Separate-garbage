@@ -1,0 +1,51 @@
+name: M021 order normalize
+
+on:
+  push:
+    branches:
+      - feature/lesson-ready-15-m021
+    paths:
+      - .github/workflows/m021-order-normalize.yml
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: feature/lesson-ready-15-m021
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+      - name: Rebuild M021 in canonical shared order
+        run: |
+          set -euo pipefail
+          python scripts/build_lesson_ready_m021.py
+          python scripts/sync_lesson_ready_reviews.py
+          python scripts/validate_lesson_item_set.py
+          python scripts/validate_classroom_pilot_scoring_modes.py
+          python scripts/red_team_classroom_pilot_scoring_modes.py
+          python scripts/validate_company_municipality_mapping.py
+          python scripts/validate_company_onboarding_18.py
+          python scripts/validate_research.py
+      - name: Commit canonical shared order
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/app/lesson_mode_app_ready_scope.csv \
+            data/app/item_image_mapping_pilot_top8.csv \
+            data/app/lesson_teaching_boxes.csv \
+            data/app/lesson_item_scoring_projection.csv \
+            data/research/05_item_mapping_master.csv \
+            data/research/07_item_mapping_coverage.csv
+          if git diff --cached --quiet; then
+            echo "No order normalization changes to commit."
+            exit 0
+          fi
+          git commit -m "Normalize M021 shared projection order"
+          git push origin HEAD:feature/lesson-ready-15-m021
