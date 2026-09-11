@@ -44,13 +44,16 @@ LESSON_EXTRA_FIELDS = [
 ]
 EXPECTED_REGRESSION_STATUS = {
     "M094": APP_READY, "M095": APP_READY, "M104": APP_READY,
-    "M097": LESSON_READY, "M105": LESSON_READY, "M106": LESSON_READY,
-    "M107": LESSON_READY, "M108": LESSON_READY, "M109": LESSON_READY,
-    "M110": LESSON_READY, "M111": LESSON_READY, "M112": LESSON_READY,
+    "M027": LESSON_READY, "M030": LESSON_READY, "M097": LESSON_READY,
+    "M105": LESSON_READY, "M106": LESSON_READY, "M107": LESSON_READY,
+    "M108": LESSON_READY, "M109": LESSON_READY, "M110": LESSON_READY,
+    "M111": LESSON_READY, "M112": LESSON_READY,
 }
 FORBIDDEN_LEARNER_ROUTE_TERMS = {
     "販売店", "リサイクル業者", "施設", "持込", "持ち込み", "引取", "小型家電回収ボックス",
 }
+SIMPLIFIED_ACTION_CHANNELS = {"NOT_COLLECTED", "DROP_OFF", "RETAILER_OR_MAKER"}
+SIMPLIFIED_ACTION_UI_ROLES = {"EXCLUDED_NOTICE", "REFERENCE_ONLY"}
 
 
 def read_csv(path: Path) -> tuple[list[str], list[dict[str, str]]]:
@@ -199,7 +202,11 @@ def validate_teaching_projection(
         if projection_kind == "SIMPLIFIED_ACTION":
             if box.get("box_kind") != "SIMPLIFIED_ACTION":
                 errors.append(f"{mid}/{iid}: SIMPLIFIED_ACTION is not distinct from official scoring boxes")
-            if sort_bucket or category.get("ui_role") != "EXCLUDED_NOTICE" or category.get("collection_channel") != "NOT_COLLECTED":
+            if (
+                sort_bucket
+                or category.get("ui_role") not in SIMPLIFIED_ACTION_UI_ROLES
+                or category.get("collection_channel") not in SIMPLIFIED_ACTION_CHANNELS
+            ):
                 errors.append(f"{mid}/{iid}: simplified action does not preserve a non-normal category")
         elif projection_kind == "OFFICIAL_CATEGORY":
             if box.get("box_kind") != "FIXED_10_SCORING" or not sort_bucket:
@@ -208,6 +215,7 @@ def validate_teaching_projection(
             errors.append(f"{mid}/{iid}: invalid projection kind")
 
     expected_box_counts = {
+        "M030": (7, 9),
         "M106": (8, 6), "M107": (5, 8), "M108": (9, 8), "M109": (8, 5),
         "M110": (5, 6), "M111": (10, 6), "M112": (6, 5),
     }
@@ -223,7 +231,7 @@ def validate_teaching_projection(
         (row.get("municipality_id"), row.get("internal_item_id"))
         for row in scoring_projection if row.get("projection_kind") == "SIMPLIFIED_ACTION"
     }
-    expected_simplified = {("M107", "I007"), ("M110", "I029"), ("M111", "I029")}
+    expected_simplified = {("M030", "I029"), ("M107", "I007"), ("M110", "I029"), ("M111", "I029")}
     if simplified != expected_simplified:
         errors.append(f"SIMPLIFIED_ACTION target mismatch: {sorted(simplified)}")
     return errors
