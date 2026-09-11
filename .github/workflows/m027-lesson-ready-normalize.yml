@@ -32,21 +32,7 @@ jobs:
         run: python scripts/validate_lesson_item_set.py
       - name: Capture scoring validator diagnostic
         run: python scripts/validate_classroom_pilot_scoring_modes.py > m027_scoring_diagnostic.txt 2>&1 || true
-      - name: Run remaining validation gates
-        run: |
-          set -euo pipefail
-          python scripts/red_team_classroom_pilot_scoring_modes.py
-          python scripts/validate_company_municipality_mapping.py
-          python scripts/red_team_company_municipality_mapping.py
-          python scripts/validate_company_onboarding_18.py
-          python scripts/validate_classroom_pilot_variants.py
-          python scripts/red_team_classroom_pilot_variants.py
-          python scripts/validate_item_image_mapping_pilot.py
-          python scripts/red_team_item_image_mapping_pilot.py
-          python scripts/validate_research.py
-          python scripts/check_next_batch_gate.py
-          node --check app/app.js
-      - name: Commit canonical M027 generated state and diagnostic
+      - name: Save generated M027 state and diagnostic
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
@@ -63,5 +49,23 @@ jobs:
             data/app/item_image_mapping_pilot_top8.csv \
             data/app/company_municipality_mapping.csv \
             data/master/07_implementation_priority.csv
-          git commit -m 'Capture M027 generated state and scoring diagnostic'
-          git push origin HEAD:feature/lesson-ready-15-m027
+          if git diff --cached --quiet; then
+            echo 'No generated M027 state changes.'
+          else
+            git commit -m 'Capture M027 generated state and scoring diagnostic'
+            git push origin HEAD:feature/lesson-ready-15-m027
+          fi
+      - name: Run remaining validation gates
+        run: |
+          set -euo pipefail
+          python scripts/red_team_classroom_pilot_scoring_modes.py
+          python scripts/validate_company_municipality_mapping.py
+          python scripts/red_team_company_municipality_mapping.py
+          python scripts/validate_company_onboarding_18.py
+          python scripts/validate_classroom_pilot_variants.py
+          python scripts/red_team_classroom_pilot_variants.py
+          python scripts/validate_item_image_mapping_pilot.py
+          python scripts/red_team_item_image_mapping_pilot.py
+          python scripts/validate_research.py
+          python scripts/check_next_batch_gate.py
+          node --check app/app.js
