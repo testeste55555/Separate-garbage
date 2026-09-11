@@ -30,6 +30,23 @@ def mutate(rows: list[dict[str, str]], iid: str, branch: str, field: str, value:
     raise AssertionError(f"row not found: {iid}/{branch}")
 
 
+def first_non_scoring_branch(rows: list[dict[str, str]]) -> tuple[str, str]:
+    """Return an audited condition branch that is not the learner image answer.
+
+    LESSON_READY_10 reviews are allowed to model different real condition trees.
+    RED TEAM must therefore not assume that every municipality has, for example,
+    I001/2 or I033/2.  It only needs one real non-scoring condition branch to test
+    branch completeness and the exactly-one-scoring-branch invariant.
+    """
+    for row in rows:
+        if row.get("scoring_branch") == "FALSE":
+            iid = row.get("internal_item_id", "")
+            branch = row.get("branch_order", "")
+            if iid and branch:
+                return iid, branch
+    raise AssertionError("LESSON_READY_10 review has no non-scoring condition branch")
+
+
 def main() -> int:
     baseline_errors = validate()
     if baseline_errors:
@@ -45,6 +62,7 @@ def main() -> int:
         municipality_id = scope["municipality_id"]
         fields, baseline = read_csv(ROOT / scope["review_source"])
         prefix = f"{municipality_id}: "
+        branch_iid, branch_order = first_non_scoring_branch(baseline)
         cases.append(
             (
                 prefix + "item removed",
@@ -61,7 +79,10 @@ def main() -> int:
                 [
                     row
                     for row in baseline
-                    if not (row.get("internal_item_id") == "I004" and row.get("branch_order") == "2")
+                    if not (
+                        row.get("internal_item_id") == branch_iid
+                        and row.get("branch_order") == branch_order
+                    )
                 ],
             )
         )
@@ -70,7 +91,7 @@ def main() -> int:
                 prefix + "second scoring branch enabled",
                 scope,
                 fields,
-                mutate(baseline, "I001", "2", "scoring_branch", "TRUE"),
+                mutate(baseline, branch_iid, branch_order, "scoring_branch", "TRUE"),
             )
         )
         cases.append(
@@ -78,7 +99,7 @@ def main() -> int:
                 prefix + "condition branch incomplete",
                 scope,
                 fields,
-                mutate(baseline, "I033", "2", "branch_review_status", "INCOMPLETE"),
+                mutate(baseline, branch_iid, branch_order, "branch_review_status", "INCOMPLETE"),
             )
         )
         cases.append(
@@ -192,7 +213,10 @@ def main() -> int:
         (
             "M110/I029 action projection removed",
             teaching_boxes,
-            [row for row in scoring_projection if not (row.get("municipality_id") == "M110" and row.get("internal_item_id") == "I029")],
+            [
+                row for row in scoring_projection
+                if not (row.get("municipality_id") == "M110" and row.get("internal_item_id") == "I029")
+            ],
         ),
         (
             "M111/I029 non-normal category misprojected to SORT_BUCKET",
@@ -207,7 +231,10 @@ def main() -> int:
         (
             "M111/I029 action projection removed",
             teaching_boxes,
-            [row for row in scoring_projection if not (row.get("municipality_id") == "M111" and row.get("internal_item_id") == "I029")],
+            [
+                row for row in scoring_projection
+                if not (row.get("municipality_id") == "M111" and row.get("internal_item_id") == "I029")
+            ],
         ),
     ]
     for name, candidate_boxes, candidate_projection in projection_cases:
