@@ -1,4 +1,4 @@
-﻿municipality_id,source_id,資料名,資料種別,公式URL,発行主体,対象年度,ページ更新日,取得確認日,使用した情報,優先度,現行性,備考,official_verified,official_basis,official_linking_url
+municipality_id,source_id,資料名,資料種別,公式URL,発行主体,対象年度,ページ更新日,取得確認日,使用した情報,優先度,現行性,備考,official_verified,official_basis,official_linking_url
 M001,S-M001-01,令和8年度ごみ収集日程表及び家庭ごみの分別方法,自治体公式Webページ,https://www.town.yamada.iwate.jp/docs/8354.html,山田町,令和8年度,2026-04-01,2026-08-17,現行資料への公式導線・処理主体,1,現行,,TRUE,MUNICIPAL_DOMAIN,
 M001,S-M001-02,家庭ごみの正しい分け方・出し方,自治体公式PDF,https://www.town.yamada.iwate.jp/fs/1/2/9/3/6/3/_/gominodashikataposter6_3.pdf,山田町,令和6年3月,2024-03,2026-08-18,全区分・粗大ごみ・有害ごみ・収集外,2,現行案内中,令和8年度ページから現行資料として案内,TRUE,MUNICIPAL_DOMAIN,
 M001,S-M001-03,資源ごみの分別収集について,自治体公式PDF,https://www.town.yamada.iwate.jp/fs/1/2/9/3/6/2/_/bunbetu.pdf,山田町,令和6年度,2024,2026-08-17,資源品目・条件分岐・前処理,2,現行案内中,,TRUE,MUNICIPAL_DOMAIN,
@@ -16,6 +16,8 @@ M030,S-M030-01,家庭ごみの分別・出し方,自治体公式Webページ,htt
 M030,S-M030-02,家庭ごみの分別・出し方早見表,公式分別辞典,https://www.city.yonago.lg.jp/10367.htm,米子市,現行,,2026-08-17,品目別検索導線・さんあーる,3,現行,,TRUE,MUNICIPAL_DOMAIN,
 M030,S-M030-03,市指定ごみ袋・収集シール,自治体公式Webページ,https://www.city.yonago.lg.jp/6357.htm,米子市,現行,2026-02,2026-08-17,可燃・不燃指定袋と粗大ごみ収集シール,2,現行,,TRUE,MUNICIPAL_DOMAIN,
 M030,S-M030-04,ごみ・資源物分別アプリ「さんあーる」,公式ごみ検索サービス,https://www.city.yonago.lg.jp/23285.htm,米子市,現行,,2026-08-17,検索機能・対応言語,4,現行,,TRUE,MUNICIPAL_DOMAIN,
+M030,S-M030-05,モバイルバッテリーの処分方法,自治体公式Webページ,https://www.city.yonago.lg.jp/48303.htm,米子市,現行,2026-05-20,2026-09-11,モバイルバッテリーはごみ置場不可、端子絶縁、協力店・小型家電回収BOX・クリーン推進課、破損膨張品はクリーン推進課のみ,1,現行,一般の電池収集と混同せず、教材では非通常ルートとして扱う。,TRUE,MUNICIPAL_DOMAIN,
+M030,S-M030-06,ペットボトルの水平リサイクルへの協力のお願い,自治体公式Webページ,https://www.city.yonago.lg.jp/45409.htm,米子市,現行,2025-02-20,2026-09-11,ペットボトルのラベルは可燃ごみ、ふたは不燃ごみ、本体は中をすすぐ,1,現行,PET本体から外したキャップ・ラベルの教材正答根拠。,TRUE,MUNICIPAL_DOMAIN,
 M094,S-M094-01,家庭ごみの正しい出し方,自治体公式Webページ,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026095/1026096/1003182.html,広島市,令和8年度,2026-04-02,2026-08-18,全区分・前処理・袋条件・大型ごみ・収集外・多言語,1,現行,令和8年4月変更反映,TRUE,MUNICIPAL_DOMAIN,
 M094,S-M094-02,令和8年度版「家庭ごみの正しい出し方」,自治体公式PDF,https://www.city.hiroshima.lg.jp/_res/projects/default_project/_page_/001/003/182/2026.pdf,広島市,令和8年度,,2026-08-17,不燃ごみ・有害ごみ・大型ごみ補足,2,現行,公式ページからリンク,TRUE,MUNICIPAL_DOMAIN,
 M094,S-M094-03,家庭ごみ分別50音事典,公式分別辞典,https://www.city.hiroshima.lg.jp/living/gomi-kankyo/1021277/1003072/1026094/1003180.html,広島市,現行,,2026-08-17,品目検索導線・分別区分,3,現行,,TRUE,MUNICIPAL_DOMAIN,
