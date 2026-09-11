@@ -28,22 +28,32 @@ jobs:
           set -euo pipefail
           python scripts/build_lesson_ready_m027.py
           python scripts/sync_lesson_ready_reviews.py
-      - name: Validate M027 and established contracts
-        run: |
-          set -euo pipefail
-          python scripts/validate_lesson_item_set.py
-          python scripts/validate_classroom_pilot_scoring_modes.py
-          python scripts/red_team_classroom_pilot_scoring_modes.py
-          python scripts/validate_company_municipality_mapping.py
-          python scripts/red_team_company_municipality_mapping.py
-          python scripts/validate_company_onboarding_18.py
-          python scripts/validate_classroom_pilot_variants.py
-          python scripts/red_team_classroom_pilot_variants.py
-          python scripts/validate_item_image_mapping_pilot.py
-          python scripts/red_team_item_image_mapping_pilot.py
-          python scripts/validate_research.py
-          python scripts/check_next_batch_gate.py
-          node --check app/app.js
+      - name: Validate formal lesson item set
+        run: python scripts/validate_lesson_item_set.py
+      - name: Validate scoring modes
+        run: python scripts/validate_classroom_pilot_scoring_modes.py
+      - name: RED TEAM scoring modes
+        run: python scripts/red_team_classroom_pilot_scoring_modes.py
+      - name: Validate company mapping
+        run: python scripts/validate_company_municipality_mapping.py
+      - name: RED TEAM company mapping
+        run: python scripts/red_team_company_municipality_mapping.py
+      - name: Validate company onboarding readiness sync
+        run: python scripts/validate_company_onboarding_18.py
+      - name: Validate regional variants
+        run: python scripts/validate_classroom_pilot_variants.py
+      - name: RED TEAM regional variants
+        run: python scripts/red_team_classroom_pilot_variants.py
+      - name: Validate item image mapping
+        run: python scripts/validate_item_image_mapping_pilot.py
+      - name: RED TEAM item image mapping
+        run: python scripts/red_team_item_image_mapping_pilot.py
+      - name: Validate canonical research
+        run: python scripts/validate_research.py
+      - name: Check canonical next-batch gate
+        run: python scripts/check_next_batch_gate.py
+      - name: Check learner UI JavaScript syntax
+        run: node --check app/app.js
       - name: Commit canonical M027 generated state
         run: |
           set -euo pipefail
