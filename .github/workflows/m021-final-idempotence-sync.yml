@@ -24,9 +24,10 @@ jobs:
         run: |
           python scripts/build_lesson_ready_m107_m109.py
           python scripts/build_lesson_ready_batch11.py
-          python scripts/build_lesson_ready_m021.py
           python scripts/sync_lesson_ready_reviews.py
           python scripts/rebuild_lesson_ready_regional_preserve_app_ready.py
+          python scripts/build_lesson_ready_m021.py
+          python scripts/sync_lesson_ready_reviews.py
       - name: Commit canonical state
         run: |
           git config user.name "github-actions[bot]"
