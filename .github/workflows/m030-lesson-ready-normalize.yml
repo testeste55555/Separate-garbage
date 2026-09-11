@@ -1,0 +1,218 @@
+name: M030 LESSON_READY normalize
+
+on:
+  push:
+    branches:
+      - feature/lesson-ready-15-m030
+    paths:
+      - '.github/workflows/m030-lesson-ready-normalize.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: feature/lesson-ready-15-m030
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Patch shared non-normal action contract and normal CI
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('scripts/validate_lesson_scoring_modes.py')
+          text = path.read_text(encoding='utf-8')
+          old = '''EXPECTED_REGRESSION_STATUS = {
+              "M094": APP_READY, "M095": APP_READY, "M104": APP_READY,
+              "M097": LESSON_READY, "M105": LESSON_READY, "M106": LESSON_READY,
+              "M107": LESSON_READY, "M108": LESSON_READY, "M109": LESSON_READY,
+              "M110": LESSON_READY, "M111": LESSON_READY, "M112": LESSON_READY,
+          }'''
+          new = '''EXPECTED_REGRESSION_STATUS = {
+              "M094": APP_READY, "M095": APP_READY, "M104": APP_READY,
+              "M027": LESSON_READY, "M030": LESSON_READY, "M097": LESSON_READY,
+              "M105": LESSON_READY, "M106": LESSON_READY, "M107": LESSON_READY,
+              "M108": LESSON_READY, "M109": LESSON_READY, "M110": LESSON_READY,
+              "M111": LESSON_READY, "M112": LESSON_READY,
+          }'''
+          if old in text:
+              text = text.replace(old, new)
+          elif '"M030": LESSON_READY' not in text:
+              raise SystemExit('EXPECTED_REGRESSION_STATUS patch anchor missing')
+
+          anchor = '''FORBIDDEN_LEARNER_ROUTE_TERMS = {
+              "販売店", "リサイクル業者", "施設", "持込", "持ち込み", "引取", "小型家電回収ボックス",
+          }'''
+          if 'SIMPLIFIED_ACTION_CHANNELS' not in text:
+              if anchor not in text:
+                  raise SystemExit('route-term anchor missing')
+              text = text.replace(anchor, anchor + '''
+          SIMPLIFIED_ACTION_CHANNELS = {"NOT_COLLECTED", "DROP_OFF", "RETAILER_OR_MAKER"}
+          SIMPLIFIED_ACTION_UI_ROLES = {"EXCLUDED_NOTICE", "REFERENCE_ONLY"}''')
+
+          old = '''            if sort_bucket or category.get("ui_role") != "EXCLUDED_NOTICE" or category.get("collection_channel") != "NOT_COLLECTED":
+                          errors.append(f"{mid}/{iid}: simplified action does not preserve a non-normal category")'''
+          new = '''            if (
+                          sort_bucket
+                          or category.get("ui_role") not in SIMPLIFIED_ACTION_UI_ROLES
+                          or category.get("collection_channel") not in SIMPLIFIED_ACTION_CHANNELS
+                      ):
+                          errors.append(f"{mid}/{iid}: simplified action does not preserve a non-normal category")'''
+          if old in text:
+              text = text.replace(old, new)
+          elif 'category.get("collection_channel") not in SIMPLIFIED_ACTION_CHANNELS' not in text:
+              raise SystemExit('SIMPLIFIED_ACTION validation patch anchor missing')
+
+          old = '''    expected_box_counts = {
+                  "M106": (8, 6), "M107": (5, 8), "M108": (9, 8), "M109": (8, 5),
+                  "M110": (5, 6), "M111": (10, 6), "M112": (6, 5),
+              }'''
+          new = '''    expected_box_counts = {
+                  "M030": (7, 9),
+                  "M106": (8, 6), "M107": (5, 8), "M108": (9, 8), "M109": (8, 5),
+                  "M110": (5, 6), "M111": (10, 6), "M112": (6, 5),
+              }'''
+          if old in text:
+              text = text.replace(old, new)
+          elif '"M030": (7, 9)' not in text:
+              raise SystemExit('expected_box_counts patch anchor missing')
+
+          old = 'expected_simplified = {("M107", "I007"), ("M110", "I029"), ("M111", "I029")}'
+          new = 'expected_simplified = {("M030", "I029"), ("M107", "I007"), ("M110", "I029"), ("M111", "I029")}'
+          if old in text:
+              text = text.replace(old, new)
+          elif '("M030", "I029")' not in text:
+              raise SystemExit('expected_simplified patch anchor missing')
+          path.write_text(text, encoding='utf-8')
+
+          path = Path('scripts/red_team_lesson_scoring_modes.py')
+          text = path.read_text(encoding='utf-8')
+          marker = '''    for name, candidate_boxes, candidate_projection in projection_cases:
+          '''
+          if 'M030/I029 DROP_OFF route misprojected to normal SORT_BUCKET' not in text:
+              if marker not in text:
+                  raise SystemExit('red-team projection loop anchor missing')
+              addition = '''    projection_cases.extend([
+                  (
+                      "M030/I029 DROP_OFF route misprojected to normal SORT_BUCKET",
+                      teaching_boxes,
+                      mutate_projection("M030", "I029", "category_id", "C-M030-02"),
+                  ),
+                  (
+                      "M030 learner label leaks special collection route",
+                      mutate_action_box("M030", "display_name", "販売店へ持込"),
+                      scoring_projection,
+                  ),
+                  (
+                      "M030/I029 action projection removed",
+                      teaching_boxes,
+                      [
+                          row for row in scoring_projection
+                          if not (row.get("municipality_id") == "M030" and row.get("internal_item_id") == "I029")
+                      ],
+                  ),
+              ])
+          '''
+              text = text.replace(marker, addition + marker)
+          path.write_text(text, encoding='utf-8')
+
+          path = Path('.github/workflows/app-ready-lesson-modes.yml')
+          text = path.read_text(encoding='utf-8')
+          needle = '      - "scripts/build_lesson_ready_m021.py"\n'
+          replacement = needle + '      - "scripts/build_lesson_ready_m030.py"\n'
+          if 'scripts/build_lesson_ready_m030.py' not in text:
+              text = text.replace(needle, replacement)
+          run_old = '''          python scripts/build_lesson_ready_m021.py
+                      python scripts/sync_lesson_ready_reviews.py'''
+          run_new = '''          python scripts/build_lesson_ready_m021.py
+                      python scripts/build_lesson_ready_m030.py
+                      python scripts/sync_lesson_ready_reviews.py'''
+          if run_old in text:
+              text = text.replace(run_old, run_new)
+          elif 'python scripts/build_lesson_ready_m030.py' not in text:
+              raise SystemExit('normal CI run anchor missing')
+          diff_anchor = '''            data/master/07_implementation_priority.csv'''
+          if 'data/research/06_qa_log.csv' not in text[text.find('git diff --exit-code --'):]:
+              text = text.replace(
+                  diff_anchor,
+                  diff_anchor + ''' \\
+                      data/research/03_sources_master.csv \\
+                      data/research/06_qa_log.csv \\
+                      data/app/company_municipality_mapping.csv''',
+                  1,
+              )
+          path.write_text(text, encoding='utf-8')
+
+          path = Path('data/research/lesson_readiness/m030_item_review.csv')
+          text = path.read_text(encoding='utf-8')
+          text = text.replace(
+              '中身が残っているものは収集に出さず処理方法をクリーン推進課へ確認する',
+              '中身が残っている状態は採点画像の条件外であり必ず使い切ってから不燃ごみへ出す',
+          )
+          path.write_text(text, encoding='utf-8')
+          PY
+      - name: Build and synchronize M030
+        run: |
+          set -euo pipefail
+          python scripts/build_lesson_ready_m030.py
+          python scripts/sync_lesson_ready_reviews.py
+      - name: Commit normalized M030 state
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            scripts/validate_lesson_scoring_modes.py \
+            scripts/red_team_lesson_scoring_modes.py \
+            .github/workflows/app-ready-lesson-modes.yml \
+            data/research/lesson_readiness/m030_item_review.csv \
+            data/research/03_sources_master.csv \
+            data/research/05_item_mapping_master.csv \
+            data/research/06_qa_log.csv \
+            data/research/07_item_mapping_coverage.csv \
+            data/app/lesson_mode_app_ready_scope.csv \
+            data/app/lesson_teaching_boxes.csv \
+            data/app/lesson_item_scoring_projection.csv \
+            data/app/item_image_mapping_pilot_top8.csv \
+            data/app/company_municipality_mapping.csv \
+            data/master/07_implementation_priority.csv
+          if git diff --cached --quiet; then
+            echo 'No normalized M030 changes.'
+          else
+            git commit -m 'Generate M030 LESSON_READY_10 state and non-normal route guard'
+            git push origin HEAD:feature/lesson-ready-15-m030
+          fi
+      - name: Validate formal lesson item set
+        run: python scripts/validate_lesson_item_set.py
+      - name: Validate scoring modes
+        run: python scripts/validate_classroom_pilot_scoring_modes.py
+      - name: RED TEAM scoring modes
+        run: python scripts/red_team_classroom_pilot_scoring_modes.py
+      - name: Validate company mapping
+        run: python scripts/validate_company_municipality_mapping.py
+      - name: RED TEAM company mapping
+        run: python scripts/red_team_company_municipality_mapping.py
+      - name: Validate company onboarding readiness sync
+        run: python scripts/validate_company_onboarding_18.py
+      - name: Validate regional variants
+        run: python scripts/validate_classroom_pilot_variants.py
+      - name: RED TEAM regional variants
+        run: python scripts/red_team_classroom_pilot_variants.py
+      - name: Validate item image mapping
+        run: python scripts/validate_item_image_mapping_pilot.py
+      - name: RED TEAM item image mapping
+        run: python scripts/red_team_item_image_mapping_pilot.py
+      - name: Validate canonical research
+        run: python scripts/validate_research.py
+      - name: Check canonical next-batch gate
+        run: python scripts/check_next_batch_gate.py
+      - name: Check learner UI JavaScript syntax
+        run: node --check app/app.js
