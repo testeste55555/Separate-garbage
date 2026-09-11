@@ -1,0 +1,53 @@
+name: M021 final idempotence sync
+
+on:
+  push:
+    branches:
+      - feature/lesson-ready-15-m021
+    paths:
+      - .github/workflows/m021-final-idempotence-sync.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: feature/lesson-ready-15-m021
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+      - name: Rebuild using committed CI order
+        run: |
+          python scripts/build_lesson_ready_m107_m109.py
+          python scripts/build_lesson_ready_batch11.py
+          python scripts/build_lesson_ready_m021.py
+          python scripts/sync_lesson_ready_reviews.py
+          python scripts/rebuild_lesson_ready_regional_preserve_app_ready.py
+      - name: Commit canonical state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/app/lesson_mode_app_ready_scope.csv \
+            data/app/lesson_teaching_boxes.csv \
+            data/app/lesson_item_scoring_projection.csv \
+            data/app/item_image_mapping_pilot_top8.csv \
+            data/research/lesson_readiness/m107_item_review.csv \
+            data/research/lesson_readiness/m108_item_review.csv \
+            data/research/lesson_readiness/m109_item_review.csv \
+            data/research/lesson_readiness/m110_item_review.csv \
+            data/research/lesson_readiness/m111_item_review.csv \
+            data/research/lesson_readiness/m112_item_review.csv \
+            data/research/05_item_mapping_master.csv \
+            data/research/07_item_mapping_coverage.csv \
+            data/master/07_implementation_priority.csv
+          if git diff --cached --quiet; then
+            echo "Canonical state already matches CI rebuild"
+          else
+            git commit -m "Align M021 generated data with CI rebuild order"
+            git push origin HEAD:feature/lesson-ready-15-m021
+          fi
