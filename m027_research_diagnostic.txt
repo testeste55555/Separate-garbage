@@ -1,3 +1,0 @@
-CANONICAL_STRUCTURAL_VALIDATION_FAILED
-- stored QA differs from recomputation: M027 確認日
-- QA date is not newest evidence date: M027 2026-08-19!=2026-09-11
