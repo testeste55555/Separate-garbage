@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rebuild regional LESSON_READY data without regressing promoted APP_READY metadata."""
+"""Rebuild regional LESSON_READY data without regressing unrelated priority metadata."""
 from __future__ import annotations
 
 from pathlib import Path
@@ -20,10 +20,16 @@ def _signature(rows: list[dict[str, str]], fields: list[str]) -> list[tuple[str,
 def main() -> None:
     fields, before = read_csv(PRIORITY)
     source_fields, sources_before = read_csv(VARIANT_SOURCES)
+
+    # The historical regional builder owns only regional.TARGETS.  Preserve every
+    # non-target municipality exactly as committed so a regional rebuild cannot
+    # regress a newly promoted non-regional municipality (for example M021/M027).
+    # Also preserve APP_READY rows even when a regional target was later promoted.
     frozen = {
         row["municipality_id"]: dict(row)
         for row in before
-        if row.get("readiness_status_snapshot") == APP_READY
+        if row.get("municipality_id") not in regional.TARGETS
+        or row.get("readiness_status_snapshot") == APP_READY
     }
 
     regional.main()
@@ -40,20 +46,21 @@ def main() -> None:
         row.update(authoritative)
         restored += 1
     if restored != len(frozen):
-        raise ValueError(f"APP_READY priority rows disappeared: expected={len(frozen)} restored={restored}")
+        raise ValueError(
+            f"preserved priority rows disappeared: expected={len(frozen)} restored={restored}"
+        )
     write_csv(PRIORITY, fields, after)
 
-    # APP_READY promotion may append a provenance source that the historical regional
-    # builder already knows how to retain, but that builder normalizes row ordering.
-    # Ordering alone is not evidence. If the rebuilt file has the exact same rows,
-    # restore the committed order so an idempotence check does not report false drift.
+    # The regional builder may normalize provenance row ordering. Ordering alone is
+    # not evidence; if row content is unchanged, retain the committed order so the
+    # rebuild remains idempotent.
     rebuilt_source_fields, sources_after = read_csv(VARIANT_SOURCES)
     if rebuilt_source_fields != source_fields:
         raise ValueError("lesson variant source header changed during regional rebuild")
     if _signature(sources_before, source_fields) == _signature(sources_after, source_fields):
         write_csv(VARIANT_SOURCES, source_fields, sources_before)
 
-    print(f"REGIONAL_LESSON_REBUILT app_ready_priority_rows_preserved={restored}")
+    print(f"REGIONAL_LESSON_REBUILT preserved_priority_rows={restored}")
 
 
 if __name__ == "__main__":
