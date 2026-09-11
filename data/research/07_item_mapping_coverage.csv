@@ -1039,7 +1039,7 @@ M026,I037,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調
 M026,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M026,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M026,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M027,I001,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M027-08,https://www.city.yamatokoriyama.lg.jp/material/files/group/22/gomirule_R8.pdf,令和8年5月版 中面「ペットボトル」,2026-09-11,OPENAI_GPT56_M027_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M027,I001,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M027-08,https://www.city.yamatokoriyama.lg.jp/material/files/group/22/gomirule_R8.pdf,令和8年5月版 中面「ペットボトル」,2026-09-11,OPENAI_GPT56_M027_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M027,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M027,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M027,I004,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M027-04,https://www.city.yamatokoriyama.lg.jp/material/files/group/22/gomibunbetsu.pdf,分別辞典「あ」『空き缶』＝燃えないごみ（カン・ビン）,2026-09-11,OPENAI_GPT56_M027_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
