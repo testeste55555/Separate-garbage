@@ -36,7 +36,8 @@ jobs:
           assert len(hits) == 1, f'unexpected C026-S02/M021 rows: {len(hits)}'
           row = hits[0]
           row['active'] = 'TRUE'
-          row['note'] = '自治体教材LESSON_READY_10。固定10問を利用可能。会社所在地はrouting metadataであり居住地の正答根拠ではない。'
+          row['checked_date'] = '2026-09-11'
+          row['identity_resolution_note'] = 'ユーザー指定企業マスタの津市三重工場を採用。M021はLESSON_READY_10整備済みのため固定10問を利用可能。会社所在地はrouting metadataであり居住地の正答根拠ではない。'
           with path.open('w', encoding='utf-8-sig', newline='') as f:
               writer = csv.DictWriter(f, fieldnames=fields, lineterminator='\n')
               writer.writeheader()
