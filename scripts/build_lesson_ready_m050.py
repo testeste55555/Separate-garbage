@@ -212,7 +212,7 @@ def upsert_alt_category(path: Path) -> None:
         raise ValueError(f"unexpected category schema for {path}: {fields}")
     rows = [row for row in rows if not (row.get("municipality_id") == MID and row.get("category_id") == ALT_CATEGORY["category_id"])]
     rows.append(dict(ALT_CATEGORY))
-    rows.sort(key=lambda row: (row.get("municipality_id", ""), int(row.get("表示順") or 999), row.get("category_id", "")))
+    rows.sort(key=lambda row: (row.get("municipality_id", ""), row.get("category_id", "")))
     write_csv(path, fields, rows)
 
 def sync_category_review_pair() -> None:
