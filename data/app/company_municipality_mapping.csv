@@ -23,7 +23,7 @@ C017,島根水道株式会社,島根水道,島根水道株式会社;島根水道
 C017,島根水道株式会社,島根水道,島根水道株式会社;島根水道,C017-S02,雲南支店,M055,,CONFIRMED,https://www.shimanesuidoh.jp/company/location/,2026-09-08,公式営業拠点一覧で確認した雲南市木次町里方1089番地14の支店。分別採点未整備のため準備中。,17,FALSE
 C017,島根水道株式会社,島根水道,島根水道株式会社;島根水道,C017-S03,松江支店,M048,,CONFIRMED,https://www.shimanesuidoh.jp/company/location/,2026-09-14,公式営業拠点一覧で確認した松江支店の松江市所在地をrouting metadataとして採用。M048はLESSON_READY_10整備済みのため固定10問を利用可能。会社所在地は居住地・家庭ごみ正答の根拠ではない。,17,TRUE
 C017,島根水道株式会社,島根水道,島根水道株式会社;島根水道,C017-S04,玉湯営業所,M048,,CONFIRMED,https://www.shimanesuidoh.jp/company/location/,2026-09-14,公式営業拠点一覧で確認した玉湯営業所の松江市所在地をrouting metadataとして採用。M048はLESSON_READY_10整備済みのため固定10問を利用可能。会社所在地は居住地・家庭ごみ正答の根拠ではない。,17,TRUE
-C017,島根水道株式会社,島根水道,島根水道株式会社;島根水道,C017-S05,斐川営業所,M050,,CONFIRMED,https://www.shimanesuidoh.jp/company/location/,2026-09-08,公式営業拠点一覧で確認した出雲市斐川町荘原2245番地1の営業所。分別採点未整備のため準備中。,17,FALSE
+C017,島根水道株式会社,島根水道,島根水道株式会社;島根水道,C017-S05,斐川営業所,M050,,CONFIRMED,https://www.shimanesuidoh.jp/company/location/,2026-09-14,公式営業拠点一覧で確認した斐川営業所の出雲市所在地をrouting metadataとして採用。M050はLESSON_READY_10整備済みのため固定10問を利用可能。会社所在地は居住地・家庭ごみ正答の根拠ではない。,17,TRUE
 C017,島根水道株式会社,島根水道,島根水道株式会社;島根水道,C017-S06,奥出雲営業所,M056,,CONFIRMED,https://www.shimanesuidoh.jp/company/location/,2026-09-08,公式営業拠点一覧で確認した仁多郡奥出雲町三成360番地1の営業所。分別採点未整備のため準備中。,17,FALSE
 C018,南条工業株式会社,南条工業,南条工業株式会社;南条工業,C018-S01,広島工場,M094,,CONFIRMED,https://www.pref.hiroshima.lg.jp/go-hiroshima-database-kigyo/go-data-0175.html,2026-09-08,ユーザー指定企業マスタの広島工場を採用。所在地は広島市。登録日2026-09-08。,18,TRUE
 C018,南条工業株式会社,南条工業,南条工業株式会社;南条工業,C018-S02,高田工場,M106,,CONFIRMED,https://www.pref.hiroshima.lg.jp/go-hiroshima-database-kigyo/go-data-0175.html,2026-09-09,ユーザー指定企業マスタの安芸高田市高田工場を採用。既存LESSON_READY_10の10問採点を再利用する。15問への偽昇格は行わない。,18,TRUE
