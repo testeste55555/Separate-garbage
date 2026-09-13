@@ -363,7 +363,8 @@ def build() -> None:
             "class_mode": "ONLINE_CLASS", "box_kind": kind, "category_id": cid,
             "display_name": label, "display_order": str(order),
             "note": "固定10品目採点用。詳細条件・例外は教師用reviewに保持。",
-            "style_source_category_ids": cid, "style_district_scope": "MUNICIPALITY_WIDE",
+            "style_source_category_ids": cid if kind == "FIXED_10_SCORING" else "",
+            "style_district_scope": "MUNICIPALITY_WIDE" if kind == "FIXED_10_SCORING" else "",
         })
     for order, (cid, label) in enumerate(IN_PERSON_SPEC, 1):
         boxes.append({
