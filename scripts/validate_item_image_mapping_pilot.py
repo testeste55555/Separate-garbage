@@ -12,7 +12,8 @@ from __future__ import annotations
 import re
 import sys
 from collections import Counter, defaultdict
-from datetime import date
+from datetime import date, datetime
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 from schema_v12 import read_csv
@@ -43,7 +44,7 @@ def rows(path: Path) -> list[dict[str, str]]:
 
 def valid_date(value: str) -> bool:
     try:
-        return bool(re.fullmatch(r"\d{4}-\d{2}-\d{2}", value)) and date.fromisoformat(value) <= date.today()
+        return bool(re.fullmatch(r"\d{4}-\d{2}-\d{2}", value)) and date.fromisoformat(value) <= datetime.now(ZoneInfo("Asia/Tokyo")).date()
     except ValueError:
         return False
 
