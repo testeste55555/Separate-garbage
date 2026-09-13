@@ -23,13 +23,12 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '22'
-      - name: Patch M050 permanent CI contracts
+      - name: Patch M050 scoring validator
         run: |
           python - <<'PY'
           from pathlib import Path
-
-          validator = Path('scripts/validate_lesson_scoring_modes.py')
-          text = validator.read_text(encoding='utf-8')
+          path = Path('scripts/validate_lesson_scoring_modes.py')
+          text = path.read_text(encoding='utf-8')
           text = text.replace(
               '"M027": LESSON_READY, "M030": LESSON_READY, "M048": LESSON_READY, "M097": LESSON_READY,',
               '"M027": LESSON_READY, "M030": LESSON_READY, "M048": LESSON_READY, "M050": LESSON_READY, "M097": LESSON_READY,',
@@ -45,32 +44,7 @@ jobs:
           for marker in ['"M050": LESSON_READY', '"M050": (8, 7)', '("M050", "I029")']:
               if marker not in text:
                   raise SystemExit(f'M050 validator patch failed: {marker}')
-          validator.write_text(text, encoding='utf-8')
-
-          workflow = Path('.github/workflows/app-ready-lesson-modes.yml')
-          w = workflow.read_text(encoding='utf-8')
-          w = w.replace(
-              '      - "scripts/build_lesson_ready_m048.py"\n',
-              '      - "scripts/build_lesson_ready_m048.py"\n      - "scripts/build_lesson_ready_m050.py"\n',
-          )
-          w = w.replace(
-              '          python scripts/build_lesson_ready_m048.py\n          python scripts/sync_lesson_ready_reviews.py',
-              '          python scripts/build_lesson_ready_m048.py\n          python scripts/build_lesson_ready_m050.py\n          python scripts/sync_lesson_ready_reviews.py',
-          )
-          w = w.replace(
-              '            data/research/03_sources_master.csv \\\n',
-              '            data/research/02_categories_master.csv \\\n            data/research/03_sources_master.csv \\\n',
-          )
-          w = w.replace(
-              '            data/research/batches/batch_05/batch_05_sources.csv \\\n            data/research/batches/batch_05/batch_05_qa.csv \\\n',
-              '            data/research/batches/batch_05/batch_05_sources.csv \\\n            data/research/batches/batch_05/batch_05_categories.csv \\\n            data/research/batches/batch_05/batch_05_qa.csv \\\n',
-          )
-          if w.count('scripts/build_lesson_ready_m050.py') < 3:
-              raise SystemExit('M050 workflow builder patch failed')
-          for marker in ['data/research/02_categories_master.csv \\', 'data/research/batches/batch_05/batch_05_categories.csv \\']:
-              if marker not in w:
-                  raise SystemExit(f'M050 workflow diff patch failed: {marker}')
-          workflow.write_text(w, encoding='utf-8')
+          path.write_text(text, encoding='utf-8')
           PY
       - name: Build and synchronize M050
         run: |
@@ -83,7 +57,6 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add \
-            .github/workflows/app-ready-lesson-modes.yml \
             scripts/validate_lesson_scoring_modes.py \
             data/research/02_categories_master.csv \
             data/research/03_sources_master.csv \
