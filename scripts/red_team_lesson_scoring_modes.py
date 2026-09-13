@@ -237,6 +237,15 @@ def main() -> int:
             ],
         ),
     ]
+    projection_cases.extend([
+        ("M030/I029 DROP_OFF route misprojected to normal SORT_BUCKET", teaching_boxes, mutate_projection("M030", "I029", "category_id", "C-M030-02")),
+        ("M030 learner label leaks special collection route", mutate_action_box("M030", "display_name", "販売店へ持込"), scoring_projection),
+        (
+            "M030/I029 action projection removed",
+            teaching_boxes,
+            [row for row in scoring_projection if not (row.get("municipality_id") == "M030" and row.get("internal_item_id") == "I029")],
+        ),
+    ])
     for name, candidate_boxes, candidate_projection in projection_cases:
         if not validate_teaching_projection(candidate_boxes, candidate_projection, category_by_key):
             escaped.append(name)

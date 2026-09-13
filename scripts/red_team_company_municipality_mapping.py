@@ -4,7 +4,7 @@ import csv
 import tempfile
 from pathlib import Path
 
-from validate_company_municipality_mapping import MAPPING, MUNICIPALITIES, SCOPE, VARIANTS, read_rows, validate
+from validate_company_municipality_mapping import MAPPING, MUNICIPALITIES, SCORING_READY, SCOPE, VARIANTS, read_rows, validate
 
 
 def write_rows(path: Path, rows):
@@ -27,10 +27,25 @@ def mutate_and_expect_failure(name, mutator):
 
 
 def activate_non_ready(rows):
-    # M097 is now legitimately LESSON_READY_10. M030 remains unready.
-    rows[0]["municipality_id"] = "M030"
-    rows[0]["lesson_variant_group_id"] = ""
-    rows[0]["active"] = "TRUE"
+    """Activate one confirmed site whose municipality is outside the current scoring scope.
+
+    The negative fixture follows the readiness data instead of hard-coding a municipality
+    that may legitimately become LESSON_READY in a later batch.
+    """
+    scoring_ready = {
+        row["municipality_id"].strip()
+        for row in read_rows(SCOPE)
+        if row.get("scoring_status", "").strip() in SCORING_READY
+    }
+    for row in rows:
+        if (
+            row.get("mapping_status", "").strip() == "CONFIRMED"
+            and row.get("municipality_id", "").strip() not in scoring_ready
+        ):
+            row["lesson_variant_group_id"] = ""
+            row["active"] = "TRUE"
+            return
+    raise AssertionError("no confirmed non-ready company site available for RED TEAM mutation")
 
 
 def main():
