@@ -23,10 +23,11 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '22'
-      - name: Patch M048 regression contract
+      - name: Patch M048 regression and timezone contracts
         run: |
           python - <<'PY'
           from pathlib import Path
+
           path = Path('scripts/validate_lesson_scoring_modes.py')
           text = path.read_text(encoding='utf-8')
           text = text.replace(
@@ -39,6 +40,17 @@ jobs:
           )
           if '"M048": LESSON_READY' not in text or '"M048": (5, 6)' not in text:
               raise SystemExit('M048 validator patch failed')
+          path.write_text(text, encoding='utf-8')
+
+          path = Path('scripts/validate_item_image_mapping_pilot.py')
+          text = path.read_text(encoding='utf-8')
+          text = text.replace('from datetime import date\n', 'from datetime import date, datetime\nfrom zoneinfo import ZoneInfo\n')
+          text = text.replace(
+              'return bool(re.fullmatch(r"\\d{4}-\\d{2}-\\d{2}", value)) and date.fromisoformat(value) <= date.today()',
+              'return bool(re.fullmatch(r"\\d{4}-\\d{2}-\\d{2}", value)) and date.fromisoformat(value) <= datetime.now(ZoneInfo("Asia/Tokyo")).date()',
+          )
+          if 'ZoneInfo("Asia/Tokyo")' not in text:
+              raise SystemExit('Japan date patch failed')
           path.write_text(text, encoding='utf-8')
           PY
       - name: Build and synchronize M048
@@ -53,6 +65,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add \
             scripts/validate_lesson_scoring_modes.py \
+            scripts/validate_item_image_mapping_pilot.py \
             data/research/03_sources_master.csv \
             data/research/05_item_mapping_master.csv \
             data/research/06_qa_log.csv \
@@ -68,7 +81,7 @@ jobs:
           if git diff --cached --quiet; then
             echo 'No normalized M048 data changes.'
           else
-            git commit -m 'Generate M048 LESSON_READY_10 state'
+            git commit -m 'Generate M048 LESSON_READY_10 state and Japan-date validation'
             git push origin HEAD:feature/lesson-ready-15-m048
           fi
       - name: Validate M048 and regressions
