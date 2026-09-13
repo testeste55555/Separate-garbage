@@ -30,6 +30,10 @@ CATEGORIES_MASTER = ROOT / "data/research/02_categories_master.csv"
 BATCH_CATEGORIES = ROOT / "data/research/batches/batch_05/batch_05_categories.csv"
 QA = ROOT / "data/research/06_qa_log.csv"
 BATCH_QA = ROOT / "data/research/batches/batch_05/batch_05_qa.csv"
+MUNICIPALITIES = ROOT / "data/research/04_municipalities_research.csv"
+BATCH_MUNICIPALITIES = ROOT / "data/research/batches/batch_05/batch_05_municipalities.csv"
+REVIEW_EVIDENCE = ROOT / "data/research/08_category_review_evidence.csv"
+BATCH_REVIEW_EVIDENCE = ROOT / "data/research/batches/batch_05/batch_05_category_review_evidence.csv"
 
 FIXED_10 = {"I001", "I004", "I006", "I007", "I013", "I014", "I017", "I029", "I031", "I033"}
 SUPPLEMENTAL_5 = {"I002", "I003", "I010", "I018", "I027"}
@@ -211,6 +215,53 @@ def upsert_alt_category(path: Path) -> None:
     rows.sort(key=lambda row: (row.get("municipality_id", ""), int(row.get("表示順") or 999), row.get("category_id", "")))
     write_csv(path, fields, rows)
 
+def sync_category_review_pair() -> None:
+    reviewer = "OPENAI_GPT56_M050_LESSON_READY_15_V1"
+    basis = (
+        "S-M050-01の家庭ごみ13葉区分を基礎に、S-M050-05の現行充電式電池の協力店・"
+        "市役所窓口回収経路を公式ALTERNATIVEとして追加確認。CURRENT非EXCLUDED_NOTICEは14区分。"
+    )
+    canonical_row = None
+    for path in (MUNICIPALITIES, BATCH_MUNICIPALITIES):
+        fields, rows = read_csv(path)
+        hits = 0
+        for row in rows:
+            if row.get("municipality_id") != MID:
+                continue
+            row["最終確認日"] = CHECKED
+            row["reviewed_category_count"] = "14"
+            row["category_count_basis"] = basis
+            row["category_count_verified"] = "TRUE"
+            row["category_count_check_status"] = "MANUAL_INDEX_REVIEW"
+            row["category_count_review_id"] = "CR-M050-CATEGORY-COVERAGE"
+            row["category_count_reviewed_date"] = CHECKED
+            row["category_count_reviewed_by"] = reviewer
+            hits += 1
+            if path == MUNICIPALITIES:
+                canonical_row = dict(row)
+        if hits != 1:
+            raise ValueError(f"expected one M050 municipality row in {path}, got {hits}")
+        write_csv(path, fields, rows)
+    if canonical_row is None:
+        raise ValueError("missing canonical M050 municipality row")
+
+    evidence = {
+        "review_evidence_id": "CRE-M050-04",
+        "review_id": "CR-M050-CATEGORY-COVERAGE",
+        "municipality_id": MID,
+        "source_id": "S-M050-05",
+        "locator": "充電式電池のリサイクルマーク・状態別処分経路",
+        "evidence_role": "SUPPLEMENTAL_INDEX",
+        "notes": "2026-09-14 category completeness再監査。通常13葉区分に公式ALTERNATIVE回収経路を追加。",
+    }
+    for path in (REVIEW_EVIDENCE, BATCH_REVIEW_EVIDENCE):
+        fields, rows = read_csv(path)
+        rows = [row for row in rows if row.get("review_evidence_id") != evidence["review_evidence_id"]]
+        rows.append(dict(evidence))
+        rows.sort(key=lambda row: row.get("review_evidence_id", ""))
+        write_csv(path, fields, rows)
+
+
 def sync_qa_pair() -> None:
     fields, rows = read_csv(QA)
     hits = [row for row in rows if row.get("municipality_id") == MID]
@@ -288,6 +339,7 @@ def build() -> None:
     upsert_sources(BATCH_SOURCES)
     upsert_alt_category(CATEGORIES_MASTER)
     upsert_alt_category(BATCH_CATEGORIES)
+    sync_category_review_pair()
     sync_qa_pair()
 
     scope_fields, scope_existing = read_csv(SCOPE)
