@@ -23,51 +23,21 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '22'
-      - name: Patch M050 permanent contracts
+      - name: Align builder ordering with canonical merge
         run: |
           python - <<'PY'
           from pathlib import Path
-
-          validator = Path('scripts/validate_lesson_scoring_modes.py')
-          text = validator.read_text(encoding='utf-8')
-          if '"M050": LESSON_READY' not in text:
-              text = text.replace(
-                  '"M027": LESSON_READY, "M030": LESSON_READY, "M048": LESSON_READY, "M097": LESSON_READY,',
-                  '"M027": LESSON_READY, "M030": LESSON_READY, "M048": LESSON_READY, "M050": LESSON_READY, "M097": LESSON_READY,',
-              )
-          if '"M050": (8, 7)' not in text:
-              text = text.replace(
-                  '"M030": (7, 9), "M048": (5, 6),',
-                  '"M030": (7, 9), "M048": (5, 6), "M050": (8, 7),',
-              )
-          if '("M050", "I029")' not in text:
-              text = text.replace(
-                  'expected_simplified = {("M030", "I029"), ("M107", "I007"), ("M110", "I029"), ("M111", "I029")}',
-                  'expected_simplified = {("M030", "I029"), ("M050", "I029"), ("M107", "I007"), ("M110", "I029"), ("M111", "I029")}',
-              )
-          for marker in ['"M050": LESSON_READY', '"M050": (8, 7)', '("M050", "I029")']:
-              if marker not in text:
-                  raise SystemExit(f'M050 validator patch failed: {marker}')
-          validator.write_text(text, encoding='utf-8')
-
-          builder = Path('scripts/build_lesson_ready_m050.py')
-          b = builder.read_text(encoding='utf-8')
-          path_anchor = 'BATCH_QA = ROOT / "data/research/batches/batch_05/batch_05_qa.csv"\n'
-          if 'BATCH_MUNICIPALITIES' not in b:
-              b = b.replace(path_anchor, path_anchor + '''MUNICIPALITIES = ROOT / "data/research/04_municipalities_research.csv"\nBATCH_MUNICIPALITIES = ROOT / "data/research/batches/batch_05/batch_05_municipalities.csv"\nREVIEW_EVIDENCE = ROOT / "data/research/08_category_review_evidence.csv"\nBATCH_REVIEW_EVIDENCE = ROOT / "data/research/batches/batch_05/batch_05_category_review_evidence.csv"\n''')
-          if 'def sync_category_review_pair()' not in b:
-              anchor = 'def sync_qa_pair() -> None:\n'
-              block = '''def sync_category_review_pair() -> None:\n    reviewer = "OPENAI_GPT56_M050_LESSON_READY_15_V1"\n    basis = (\n        "S-M050-01の家庭ごみ13葉区分を基礎に、S-M050-05の現行充電式電池の協力店・"\n        "市役所窓口回収経路を公式ALTERNATIVEとして追加確認。CURRENT非EXCLUDED_NOTICEは14区分。"\n    )\n    canonical_row = None\n    for path in (MUNICIPALITIES, BATCH_MUNICIPALITIES):\n        fields, rows = read_csv(path)\n        hits = 0\n        for row in rows:\n            if row.get("municipality_id") != MID:\n                continue\n            row["最終確認日"] = CHECKED\n            row["reviewed_category_count"] = "14"\n            row["category_count_basis"] = basis\n            row["category_count_verified"] = "TRUE"\n            row["category_count_check_status"] = "MANUAL_INDEX_REVIEW"\n            row["category_count_review_id"] = "CR-M050-CATEGORY-COVERAGE"\n            row["category_count_reviewed_date"] = CHECKED\n            row["category_count_reviewed_by"] = reviewer\n            hits += 1\n            if path == MUNICIPALITIES:\n                canonical_row = dict(row)\n        if hits != 1:\n            raise ValueError(f"expected one M050 municipality row in {path}, got {hits}")\n        write_csv(path, fields, rows)\n    if canonical_row is None:\n        raise ValueError("missing canonical M050 municipality row")\n\n    evidence = {\n        "review_evidence_id": "CRE-M050-04",\n        "review_id": "CR-M050-CATEGORY-COVERAGE",\n        "municipality_id": MID,\n        "source_id": "S-M050-05",\n        "locator": "充電式電池のリサイクルマーク・状態別処分経路",\n        "evidence_role": "SUPPLEMENTAL_INDEX",\n        "notes": "2026-09-14 category completeness再監査。通常13葉区分に公式ALTERNATIVE回収経路を追加。",\n    }\n    for path in (REVIEW_EVIDENCE, BATCH_REVIEW_EVIDENCE):\n        fields, rows = read_csv(path)\n        rows = [row for row in rows if row.get("review_evidence_id") != evidence["review_evidence_id"]]\n        rows.append(dict(evidence))\n        rows.sort(key=lambda row: row.get("review_evidence_id", ""))\n        write_csv(path, fields, rows)\n\n\n'''
-              b = b.replace(anchor, block + anchor)
-          call_anchor = '    upsert_alt_category(BATCH_CATEGORIES)\n    sync_qa_pair()\n'
-          if '    sync_category_review_pair()\n' not in b:
-              b = b.replace(call_anchor, '    upsert_alt_category(BATCH_CATEGORIES)\n    sync_category_review_pair()\n    sync_qa_pair()\n')
-          for marker in ['BATCH_MUNICIPALITIES', 'def sync_category_review_pair()', '    sync_category_review_pair()']:
-              if marker not in b:
-                  raise SystemExit(f'M050 builder review patch failed: {marker}')
-          builder.write_text(b, encoding='utf-8')
+          path = Path('scripts/build_lesson_ready_m050.py')
+          text = path.read_text(encoding='utf-8')
+          old = 'rows.sort(key=lambda row: (row.get("municipality_id", ""), int(row.get("表示順") or 999), row.get("category_id", "")))'
+          new = 'rows.sort(key=lambda row: (row.get("municipality_id", ""), row.get("category_id", "")))'
+          if old in text:
+              text = text.replace(old, new)
+          if new not in text:
+              raise SystemExit('M050 canonical category ordering patch failed')
+          path.write_text(text, encoding='utf-8')
           PY
-      - name: Build and synchronize M050
+      - name: Rebuild and synchronize M050
         run: |
           set -euo pipefail
           python scripts/build_lesson_ready_m050.py
@@ -79,8 +49,8 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add \
             scripts/build_lesson_ready_m050.py \
-            scripts/validate_lesson_scoring_modes.py \
             data/research/02_categories_master.csv \
+            data/research/batches/batch_05/batch_05_categories.csv \
             data/research/03_sources_master.csv \
             data/research/04_municipalities_research.csv \
             data/research/05_item_mapping_master.csv \
@@ -88,7 +58,6 @@ jobs:
             data/research/07_item_mapping_coverage.csv \
             data/research/08_category_review_evidence.csv \
             data/research/batches/batch_05/batch_05_sources.csv \
-            data/research/batches/batch_05/batch_05_categories.csv \
             data/research/batches/batch_05/batch_05_municipalities.csv \
             data/research/batches/batch_05/batch_05_qa.csv \
             data/research/batches/batch_05/batch_05_category_review_evidence.csv \
@@ -101,7 +70,7 @@ jobs:
           if git diff --cached --quiet; then
             echo 'No normalized M050 changes.'
           else
-            git commit -m 'Synchronize M050 category review and lesson state'
+            git commit -m 'Align M050 builder with canonical merge order'
             git push origin HEAD:feature/lesson-ready-15-m050
           fi
       - name: Validate M050 and regressions
