@@ -7,11 +7,13 @@ on:
       - "data/app/**"
       - "data/research/app_readiness/**"
       - "data/research/lesson_readiness/**"
+      - "data/research/02_categories_master.csv"
       - "data/research/03_sources_master.csv"
+      - "data/research/04_municipalities_research.csv"
       - "data/research/05_item_mapping_master.csv"
       - "data/research/06_qa_log.csv"
       - "data/research/07_item_mapping_coverage.csv"
-      - "data/research/02_categories_master.csv"
+      - "data/research/08_category_review_evidence.csv"
       - "data/research/batches/batch_03/**"
       - "data/research/batches/batch_05/**"
       - "data/style_research/**"
@@ -57,11 +59,13 @@ on:
       - "data/app/**"
       - "data/research/app_readiness/**"
       - "data/research/lesson_readiness/**"
+      - "data/research/02_categories_master.csv"
       - "data/research/03_sources_master.csv"
+      - "data/research/04_municipalities_research.csv"
       - "data/research/05_item_mapping_master.csv"
       - "data/research/06_qa_log.csv"
       - "data/research/07_item_mapping_coverage.csv"
-      - "data/research/02_categories_master.csv"
+      - "data/research/08_category_review_evidence.csv"
       - "data/research/batches/batch_03/**"
       - "data/research/batches/batch_05/**"
       - "data/style_research/**"
@@ -147,7 +151,11 @@ jobs:
             data/app/company_municipality_mapping.csv \
             data/research/02_categories_master.csv \
             data/research/03_sources_master.csv \
+            data/research/04_municipalities_research.csv \
+            data/research/05_item_mapping_master.csv \
             data/research/06_qa_log.csv \
+            data/research/07_item_mapping_coverage.csv \
+            data/research/08_category_review_evidence.csv \
             data/research/lesson_readiness/m107_item_review.csv \
             data/research/lesson_readiness/m108_item_review.csv \
             data/research/lesson_readiness/m109_item_review.csv \
@@ -157,7 +165,9 @@ jobs:
             data/research/batches/batch_03/batch_03_sources.csv \
             data/research/batches/batch_05/batch_05_sources.csv \
             data/research/batches/batch_05/batch_05_categories.csv \
+            data/research/batches/batch_05/batch_05_municipalities.csv \
             data/research/batches/batch_05/batch_05_qa.csv \
+            data/research/batches/batch_05/batch_05_category_review_evidence.csv \
             data/research/05_item_mapping_master.csv \
             data/research/07_item_mapping_coverage.csv \
             data/master/07_implementation_priority.csv
