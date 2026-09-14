@@ -166,6 +166,7 @@ CRE-M067-03,CR-M067-CATEGORY-COVERAGE,M067,S-M067-03,プラスチック資源分
 CRE-M067-04,CR-M067-CATEGORY-COVERAGE,M067,S-M067-04,資源化物・廃乾電池体温計・粗大ごみの住民区分,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
 CRE-M068-01,CR-M068-CATEGORY-COVERAGE,M068,S-M068-01,ステーションの燃やせる・資源・埋立・使用済乾電池,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
 CRE-M068-02,CR-M068-CATEGORY-COVERAGE,M068,S-M068-02,現行分別区分と品目条件,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M068-03,CR-M068-CATEGORY-COVERAGE,M068,S-M068-07,真備地区の燃えるごみ・燃えないごみ・資源ごみ・体温計 乾電池,SUPPLEMENTAL_INDEX,2026-09-15 地域variant再監査。真備地区固有の正式区分をcanonicalへ追加。
 CRE-M069-01,CR-M069-CATEGORY-COVERAGE,M069,S-M069-01,家庭ごみを6種類に分ける住民向け公式説明,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
 CRE-M069-02,CR-M069-CATEGORY-COVERAGE,M069,S-M069-02,現行の分別注意点・粗大/資源/古紙等の住民向け補強証拠,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
 CRE-M070-01,CR-M070-CATEGORY-COVERAGE,M070,S-M070-01,令和8年度現行運用と分別辞典区分,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review

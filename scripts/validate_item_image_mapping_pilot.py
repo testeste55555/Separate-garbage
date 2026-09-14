@@ -22,7 +22,7 @@ from schema_v12 import read_csv
 ROOT = Path(__file__).resolve().parents[1]
 PILOT_PATH = ROOT / "data" / "app" / "item_image_mapping_pilot_top8.csv"
 ITEMS = ("I001", "I007", "I013", "I004", "I006", "I031", "I029", "I014", "I033", "I017")
-VARIANT_HOLD = {"M055", "M098", "M099"}
+VARIANT_HOLD = {"M055", "M068", "M098", "M099"}
 EXPECTED_UNRESOLVED: set[tuple[str, str]] = set()
 EXPECTED_FIELDS = [
     "pair_order", "municipality_id", "municipality_name", "internal_item_id",
@@ -86,7 +86,7 @@ def validate_pilot_rows(pilot: list[dict[str, str]], root: Path = ROOT) -> list[
     if set(actual_pairs) != expected_pairs:
         errors.append(f"pilot grid mismatch: missing={sorted(expected_pairs-set(actual_pairs))} extra={sorted(set(actual_pairs)-expected_pairs)}")
     if VARIANT_HOLD & {mid for mid, _ in actual_pairs}:
-        errors.append("variant-only M055/M098/M099 must not enter this municipality-wide pilot")
+        errors.append("variant-only M055/M068/M098/M099 must not enter this municipality-wide pilot")
 
     status_counts = Counter(r.get("review_status", "") for r in pilot)
     if status_counts != Counter({"VERIFIED": expected_count}):

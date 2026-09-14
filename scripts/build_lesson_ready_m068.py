@@ -11,7 +11,7 @@ from __future__ import annotations
 from collections import defaultdict
 from pathlib import Path
 
-from schema_v12 import read_csv, write_csv
+from schema_v12 import build_coverage, read_csv, reconcile_mappings, write_csv
 from sync_lesson_ready_reviews import VARIANT_ONLY_LESSON_READY, synchronize as sync_lesson_reviews
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -64,7 +64,7 @@ NEW_SOURCES = [
         "ページ更新日": "2026-02-20", "取得確認日": CHECKED,
         "使用した情報": "真備地区以外の燃やせるごみ・資源ごみ・埋立ごみ・使用済乾電池、缶・びん・古紙・紙パック・PET・電球等の条件。",
         "優先度": "1", "現行性": "現行", "備考": "真備地区以外の固定10・補助5の主根拠。",
-        "official_verified": "TRUE", "official_basis": "MUNICIPALITY_DOMAIN", "official_linking_url": "",
+        "official_verified": "TRUE", "official_basis": "MUNICIPAL_DOMAIN", "official_linking_url": "",
     },
     {
         "municipality_id": MID, "source_id": "S-M068-04", "資料名": "ごみの分別区分と出し方（あ～そ）",
@@ -72,7 +72,7 @@ NEW_SOURCES = [
         "ページ更新日": "2025-03-12", "取得確認日": CHECKED,
         "使用した情報": "空き缶・空きびん・紙パック・プラスチック製キャップ等の品目別条件。",
         "優先度": "1", "現行性": "現行", "備考": "品目別条件の補強証拠。",
-        "official_verified": "TRUE", "official_basis": "MUNICIPALITY_DOMAIN", "official_linking_url": "",
+        "official_verified": "TRUE", "official_basis": "MUNICIPAL_DOMAIN", "official_linking_url": "",
     },
     {
         "municipality_id": MID, "source_id": "S-M068-05", "資料名": "ごみの分別区分と出し方（た～わ）",
@@ -80,7 +80,7 @@ NEW_SOURCES = [
         "ページ更新日": "2026-03-04", "取得確認日": CHECKED,
         "使用した情報": "トレイ、使い捨てライター、ペットボトル・キャップ等の品目別条件。",
         "優先度": "1", "現行性": "現行", "備考": "トレイ・ライターの直接品目根拠。",
-        "official_verified": "TRUE", "official_basis": "MUNICIPALITY_DOMAIN", "official_linking_url": "",
+        "official_verified": "TRUE", "official_basis": "MUNICIPAL_DOMAIN", "official_linking_url": "",
     },
     {
         "municipality_id": MID, "source_id": "S-M068-06", "資料名": "ペットボトルのリサイクル",
@@ -88,7 +88,7 @@ NEW_SOURCES = [
         "ページ更新日": "2026-08-03", "取得確認日": CHECKED,
         "使用した情報": "PET1対象、キャップ・ラベル除去、水洗い、つぶす、対象外ボトルの燃える系分岐。",
         "優先度": "1", "現行性": "現行", "備考": "PET本体と付属物の現行手順。",
-        "official_verified": "TRUE", "official_basis": "MUNICIPALITY_DOMAIN", "official_linking_url": "",
+        "official_verified": "TRUE", "official_basis": "MUNICIPAL_DOMAIN", "official_linking_url": "",
     },
     {
         "municipality_id": MID, "source_id": "S-M068-07", "資料名": "ごみステーションに出せるもの（真備地区）",
@@ -96,7 +96,7 @@ NEW_SOURCES = [
         "ページ更新日": "2026-01-30", "取得確認日": CHECKED,
         "使用した情報": "真備地区の燃えるごみ・燃えないごみ・資源ごみ・体温計/乾電池と、PET・白色トレイ・古紙・びん・モバイルバッテリー等の条件。",
         "優先度": "1", "現行性": "現行", "備考": "真備地区の地域variant正本。",
-        "official_verified": "TRUE", "official_basis": "MUNICIPALITY_DOMAIN", "official_linking_url": "",
+        "official_verified": "TRUE", "official_basis": "MUNICIPAL_DOMAIN", "official_linking_url": "",
     },
     {
         "municipality_id": MID, "source_id": "S-M068-08", "資料名": "ごみステーションでリチウムイオン充電池等の回収を開始します",
@@ -104,7 +104,7 @@ NEW_SOURCES = [
         "ページ更新日": "2026-03-25", "取得確認日": CHECKED,
         "使用した情報": "2026年4月からモバイルバッテリー等を使用済み電池として回収。真備地区は従来どおり乾電池・体温計。絶縁・透明袋。",
         "優先度": "1", "現行性": "現行", "備考": "I029/I027の2026年度現行ルール。",
-        "official_verified": "TRUE", "official_basis": "MUNICIPALITY_DOMAIN", "official_linking_url": "",
+        "official_verified": "TRUE", "official_basis": "MUNICIPAL_DOMAIN", "official_linking_url": "",
     },
     {
         "municipality_id": MID, "source_id": "S-M068-09", "資料名": "水銀を含むごみの出し方",
@@ -112,7 +112,7 @@ NEW_SOURCES = [
         "ページ更新日": "2025-02-05", "取得確認日": CHECKED,
         "使用した情報": "LED・白熱電球は埋立ごみ、真備地区は燃えないごみという地域差。",
         "優先度": "1", "現行性": "現行", "備考": "I031の地域差を直接明示。",
-        "official_verified": "TRUE", "official_basis": "MUNICIPALITY_DOMAIN", "official_linking_url": "",
+        "official_verified": "TRUE", "official_basis": "MUNICIPAL_DOMAIN", "official_linking_url": "",
     },
     {
         "municipality_id": MID, "source_id": "S-M068-10", "資料名": "発火の危険性があるごみの出し方",
@@ -120,7 +120,7 @@ NEW_SOURCES = [
         "ページ更新日": "2026-03-16", "取得確認日": CHECKED,
         "使用した情報": "充電池の安全処理と使い捨てライター等の発火危険物への注意。",
         "優先度": "1", "現行性": "現行", "備考": "発火危険物ルールの補強証拠。",
-        "official_verified": "TRUE", "official_basis": "MUNICIPALITY_DOMAIN", "official_linking_url": "",
+        "official_verified": "TRUE", "official_basis": "MUNICIPAL_DOMAIN", "official_linking_url": "",
     },
 ]
 
@@ -252,17 +252,50 @@ def upsert_categories(path: Path) -> None:
             continue
         cid = row.get("category_id")
         if cid == "C-M068-01":
-            row.update({"適用条件": "真備地区以外", "条件外の扱い": "真備地区はC-M068-07 燃えるごみ", "source_id": "S-M068-03", "出典URL": URL03, "出典ページ・該当箇所": "真備地区以外／燃やせるごみ", "確認日": CHECKED})
+            row.update({"適用条件": "真備地区以外", "条件外の扱い": "真備地区はC-M068-07 燃えるごみ", "確認日": CHECKED})
         elif cid == "C-M068-02":
-            row.update({"適用条件": "市内（品目・排出方法は地域別公式資料に従う）", "source_id": "S-M068-03", "出典URL": URL03, "出典ページ・該当箇所": "資源ごみ。真備地区はS-M068-07でも確認", "確認日": CHECKED})
+            row.update({"適用条件": "市内（品目・排出方法は地域別公式資料に従う）", "確認日": CHECKED})
         elif cid == "C-M068-03":
-            row.update({"適用条件": "真備地区以外", "条件外の扱い": "真備地区の該当品はC-M068-08 燃えないごみ", "source_id": "S-M068-03", "出典URL": URL03, "出典ページ・該当箇所": "真備地区以外／埋立ごみ", "確認日": CHECKED})
+            row.update({"適用条件": "真備地区以外", "条件外の扱い": "真備地区の該当品はC-M068-08 燃えないごみ", "確認日": CHECKED})
         elif cid == "C-M068-04":
-            row.update({"適用条件": "真備地区以外", "条件外の扱い": "真備地区はC-M068-09 体温計・乾電池", "代表品目": "乾電池・モバイルバッテリー等の対象使用済み電池", "source_id": "S-M068-08", "出典URL": URL08, "出典ページ・該当箇所": "令和8年4月から使用済み電池をステーション回収", "確認日": CHECKED})
+            row.update({"適用条件": "真備地区以外", "条件外の扱い": "真備地区はC-M068-09 体温計・乾電池", "代表品目": "乾電池・モバイルバッテリー等の対象使用済み電池", "確認日": CHECKED})
     rows = [row for row in rows if not (row.get("municipality_id") == MID and row.get("category_id") in new_ids)]
     rows.extend(dict(row) for row in NEW_CATEGORIES)
-    rows.sort(key=lambda row: (row.get("municipality_id", ""), int(row.get("表示順") or 999), row.get("category_id", "")))
+    rows.sort(key=lambda row: (row.get("municipality_id", ""), row.get("category_id", "")))
     write_csv(path, fields, rows)
+
+
+def refresh_initial_mapping_layer() -> None:
+    """Refresh only M068 category-derived initial mappings and coverage.
+
+    The new M068 regional categories create legitimate automatic candidates for
+    non-lesson items. Reconcile only M068 so unrelated municipalities and their
+    manually reviewed coverage remain byte-for-byte untouched.
+    """
+    _, all_categories = read_csv(CATEGORIES)
+    mapping_fields, all_mappings = read_csv(MAPPINGS)
+    _, all_municipalities = read_csv(MUNICIPALITIES)
+    coverage_fields, all_coverage = read_csv(COVERAGE)
+    _, items = read_csv(ROOT / "data/master/04_common_items_master.csv")
+
+    categories = [row for row in all_categories if row.get("municipality_id") == MID]
+    mappings = [row for row in all_mappings if row.get("municipality_id") == MID]
+    municipalities = [row for row in all_municipalities if row.get("municipality_id") == MID]
+    coverage = [row for row in all_coverage if row.get("municipality_id") == MID]
+
+    refreshed_mappings = reconcile_mappings(categories, mappings)
+    refreshed_coverage = build_coverage(municipalities, items, refreshed_mappings, coverage)
+
+    merged_mappings = [row for row in all_mappings if row.get("municipality_id") != MID] + refreshed_mappings
+    merged_mappings.sort(key=lambda row: (
+        row.get("municipality_id", ""), row.get("internal_item_id", ""),
+        int(row.get("branch_order") or 0), row.get("mapping_id", ""),
+    ))
+    merged_coverage = [row for row in all_coverage if row.get("municipality_id") != MID] + refreshed_coverage
+    merged_coverage.sort(key=lambda row: (row.get("municipality_id", ""), row.get("internal_item_id", "")))
+
+    write_csv(MAPPINGS, mapping_fields, merged_mappings)
+    write_csv(COVERAGE, coverage_fields, merged_coverage)
 
 
 def sync_category_evidence(path: Path) -> None:
@@ -454,7 +487,7 @@ def sync_batch_from_canonical() -> None:
         replacement = [dict(row) for row in canonical_rows if row.get("municipality_id") == MID]
         batch_rows = [row for row in batch_rows if row.get("municipality_id") != MID] + replacement
         batch_rows.sort(key=lambda row: (
-            row.get("municipality_id", ""), row.get("category_id", row.get("source_id", row.get("internal_item_id", row.get("review_evidence_id", ""))))),
+            row.get("municipality_id", ""), row.get("category_id", row.get("source_id", row.get("internal_item_id", row.get("review_evidence_id", "")))),
             int(row.get("branch_order") or 0) if str(row.get("branch_order", "")).isdigit() else 0,
         ))
         write_csv(batch_path, batch_fields, batch_rows)
@@ -466,6 +499,7 @@ def main() -> None:
         raise ValueError("sync_lesson_ready_reviews.py must classify M068 as variant-only before running builder")
     upsert_sources(SOURCES)
     upsert_categories(CATEGORIES)
+    refresh_initial_mapping_layer()
     sync_category_evidence(CATEGORY_EVIDENCE)
     update_municipality_qa()
     sync_variant_sources()

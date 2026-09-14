@@ -23,7 +23,7 @@ CATEGORY_PATH = ROOT / "data/research/02_categories_master.csv"
 IMAGE_MAPPING_PATH = ROOT / "data/app/item_image_mapping_pilot_top8.csv"
 
 LESSON_STATUS = "LESSON_READY_10"
-VARIANT_ONLY_LESSON_READY = {"M055"}
+VARIANT_ONLY_LESSON_READY = {"M055", "M068"}
 IMAGE_ITEM_ORDER = ["I001", "I007", "I013", "I004", "I006", "I031", "I029", "I014", "I033", "I017"]
 REVIEW_FIELDS = [
     "municipality_id", "internal_item_id", "branch_order", "canonical_name", "display_name",
