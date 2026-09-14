@@ -117,6 +117,7 @@ CRE-M049-03,CR-M049-CATEGORY-COVERAGE,M049,S-M049-03,電池・小型充電式電
 CRE-M050-01,CR-M050-CATEGORY-COVERAGE,M050,S-M050-01,家庭ごみ13葉区分・資源化ルート,PRIMARY_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
 CRE-M050-02,CR-M050-CATEGORY-COVERAGE,M050,S-M050-02,2026年度ごみ収集カレンダー・最新ガイドへの公式導線,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
 CRE-M050-03,CR-M050-CATEGORY-COVERAGE,M050,S-M050-03,日本語・多言語最新版ガイド,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
+CRE-M050-04,CR-M050-CATEGORY-COVERAGE,M050,S-M050-05,充電式電池のリサイクルマーク・状態別処分経路,SUPPLEMENTAL_INDEX,2026-09-14 category completeness再監査。通常13葉区分に公式ALTERNATIVE回収経路を追加。
 CRE-M051-01,CR-M051-CATEGORY-COVERAGE,M051,S-M051-01,燃やせる・プラ・埋立・資源5葉・家電金属・発泡・廃油・木製家具等,PRIMARY_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
 CRE-M051-02,CR-M051-CATEGORY-COVERAGE,M051,S-M051-02,現行収集運用・分別大図鑑への導線,SUPPLEMENTAL_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
 CRE-M052-01,CR-M052-CATEGORY-COVERAGE,M052,S-M052-01,資源A/B/C・プラ・可燃・不燃・不燃粗大の住民向け体系,PRIMARY_INDEX,2026-08-19 Batch 05 resident-facing category completeness review
