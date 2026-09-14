@@ -118,10 +118,11 @@ def configure() -> None:
             if image_rows:
                 return errors + [f"{mid}: generic image mapping must remain absent for regional APP_READY"]
 
-        expected_total = base.EXPECTED_IMAGE_ITEMS * len(scope)
+        variant_only = set(getattr(base, "VARIANT_ONLY_LESSON_READY", set())) & set(scope_by_mid)
+        expected_total = base.EXPECTED_IMAGE_ITEMS * (len(scope) - len(variant_only))
         regional_delta = base.EXPECTED_IMAGE_ITEMS * len(active_regional)
         allowed = {
-            f"{mid}: expected {base.EXPECTED_IMAGE_ITEMS} interactive image questions, got 0"
+            f"{mid}: expected {base.EXPECTED_IMAGE_ITEMS} municipality-wide interactive image questions, got 0"
             for mid in active_regional
         }
         allowed.add(
