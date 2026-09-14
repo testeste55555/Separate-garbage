@@ -22,6 +22,7 @@ jobs:
         run: |
           python scripts/tmp_fix_m068_builder.py
           python scripts/tmp_patch_m068.py
+          python scripts/tmp_patch_m068_image_validator.py
           python -m py_compile scripts/build_lesson_ready_m068.py
       - name: Build M068 and prove idempotence
         run: |
