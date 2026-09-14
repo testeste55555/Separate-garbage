@@ -27,6 +27,13 @@ if old_import in text:
 elif new_import not in text:
     raise SystemExit('M068 mapping refresh import anchor not found')
 
+old_category_sort = '    rows.sort(key=lambda row: (row.get("municipality_id", ""), int(row.get("表示順") or 999), row.get("category_id", "")))'
+new_category_sort = '    rows.sort(key=lambda row: (row.get("municipality_id", ""), row.get("category_id", "")))'
+if old_category_sort in text:
+    text = text.replace(old_category_sort, new_category_sort)
+elif new_category_sort not in text:
+    raise SystemExit('M068 canonical category sort anchor not found')
+
 refresh_fn = '''\n\ndef refresh_initial_mapping_layer() -> None:\n    """Refresh only M068 category-derived initial mappings and coverage.\n\n    The new M068 regional categories create legitimate automatic candidates for\n    non-lesson items. Reconcile only M068 so unrelated municipalities and their\n    manually reviewed coverage remain byte-for-byte untouched.\n    """\n    _, all_categories = read_csv(CATEGORIES)\n    mapping_fields, all_mappings = read_csv(MAPPINGS)\n    _, all_municipalities = read_csv(MUNICIPALITIES)\n    coverage_fields, all_coverage = read_csv(COVERAGE)\n    _, items = read_csv(ROOT / "data/master/04_common_items_master.csv")\n\n    categories = [row for row in all_categories if row.get("municipality_id") == MID]\n    mappings = [row for row in all_mappings if row.get("municipality_id") == MID]\n    municipalities = [row for row in all_municipalities if row.get("municipality_id") == MID]\n    coverage = [row for row in all_coverage if row.get("municipality_id") == MID]\n\n    refreshed_mappings = reconcile_mappings(categories, mappings)\n    refreshed_coverage = build_coverage(municipalities, items, refreshed_mappings, coverage)\n\n    merged_mappings = [row for row in all_mappings if row.get("municipality_id") != MID] + refreshed_mappings\n    merged_mappings.sort(key=lambda row: (\n        row.get("municipality_id", ""), row.get("internal_item_id", ""),\n        int(row.get("branch_order") or 0), row.get("mapping_id", ""),\n    ))\n    merged_coverage = [row for row in all_coverage if row.get("municipality_id") != MID] + refreshed_coverage\n    merged_coverage.sort(key=lambda row: (row.get("municipality_id", ""), row.get("internal_item_id", "")))\n\n    write_csv(MAPPINGS, mapping_fields, merged_mappings)\n    write_csv(COVERAGE, coverage_fields, merged_coverage)\n'''
 anchor = '\n\ndef sync_category_evidence(path: Path) -> None:'
 if 'def refresh_initial_mapping_layer() -> None:' not in text:
