@@ -33,6 +33,7 @@ jobs:
           }
           run python scripts/tmp_fix_m068_builder.py || exit 0
           run python scripts/tmp_patch_m068.py || exit 0
+          run python scripts/tmp_patch_m068_image_validator.py || exit 0
           run python -m py_compile scripts/build_lesson_ready_m068.py || exit 0
           run python scripts/build_lesson_ready_m068.py || exit 0
           run python scripts/sync_lesson_ready_reviews.py || exit 0
