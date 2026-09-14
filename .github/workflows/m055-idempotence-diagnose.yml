@@ -1,0 +1,48 @@
+name: M055 idempotence diagnose
+on:
+  push:
+    branches: [feature/lesson-ready-15-m055]
+    paths: ['.github/workflows/m055-idempotence-diagnose.yml']
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: feature/lesson-ready-15-m055
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Diagnose merge-sync drift
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, subprocess, sys
+          from pathlib import Path
+          sys.path.insert(0,'scripts')
+          from merge_research import main as merge_main
+          from sync_lesson_ready_reviews import synchronize
+          files = [
+            Path('data/research/04_municipalities_research.csv'),
+            Path('data/research/02_categories_master.csv'),
+            Path('data/research/03_sources_master.csv'),
+            Path('data/research/06_qa_log.csv'),
+            Path('data/research/05_item_mapping_master.csv'),
+            Path('data/research/07_item_mapping_coverage.csv'),
+            Path('data/research/08_category_review_evidence.csv'),
+          ]
+          def hashes(): return {str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in files}
+          before=hashes(); print('--- merge ---'); merge_main(); after_merge=hashes()
+          print('changed after merge:', [p for p in before if before[p]!=after_merge[p]])
+          print(subprocess.run(['git','diff','--stat','--']+[str(p) for p in files],capture_output=True,text=True).stdout)
+          print('--- sync ---'); synchronize(); after_sync=hashes()
+          print('changed before->sync:', [p for p in before if before[p]!=after_sync[p]])
+          print('changed merge->sync:', [p for p in before if after_merge[p]!=after_sync[p]])
+          print(subprocess.run(['git','diff','--stat','--']+[str(p) for p in files],capture_output=True,text=True).stdout)
+          for p in files:
+              if before[str(p)]!=after_sync[str(p)]:
+                  print('DRIFT',p)
+                  print(subprocess.run(['git','diff','--',str(p)],capture_output=True,text=True).stdout[:12000])
+          PY
