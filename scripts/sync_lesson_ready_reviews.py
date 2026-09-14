@@ -23,6 +23,7 @@ CATEGORY_PATH = ROOT / "data/research/02_categories_master.csv"
 IMAGE_MAPPING_PATH = ROOT / "data/app/item_image_mapping_pilot_top8.csv"
 
 LESSON_STATUS = "LESSON_READY_10"
+VARIANT_ONLY_LESSON_READY = {"M055"}
 IMAGE_ITEM_ORDER = ["I001", "I007", "I013", "I004", "I006", "I031", "I029", "I014", "I033", "I017"]
 REVIEW_FIELDS = [
     "municipality_id", "internal_item_id", "branch_order", "canonical_name", "display_name",
@@ -146,9 +147,14 @@ def synchronize() -> tuple[int, int, int]:
     new_coverage = [coverage_by_pair[pair] for pair in sorted(coverage_by_pair)]
 
     image_fields, image_rows = read_csv(IMAGE_MAPPING_PATH)
+    image_rows = [row for row in image_rows if row.get("municipality_id") not in VARIANT_ONLY_LESSON_READY]
     scoring_branch_by_pair: dict[tuple[str, str], dict[str, str]] = {}
     for pair, review_rows in review_by_pair.items():
         scoring = [row for row in review_rows if row.get("scoring_branch") == "TRUE"]
+        if pair[0] in VARIANT_ONLY_LESSON_READY:
+            if scoring or any(row.get("scoring_branch") != "FALSE" for row in review_rows):
+                raise ValueError(f"{pair} variant-only review must not define a municipality-wide scoring branch")
+            continue
         if len(scoring) != 1:
             raise ValueError(f"{pair} must have exactly one scoring branch")
         scoring_branch_by_pair[pair] = scoring[0]

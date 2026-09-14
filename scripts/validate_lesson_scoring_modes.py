@@ -29,6 +29,7 @@ LESSON_READY = "LESSON_READY_10"
 EXPECTED_APP_READY_ITEMS = {f"I{i:03d}" for i in range(1, 41)}
 EXPECTED_IMAGE_ITEMS = 10
 EXPECTED_IMAGE_ITEMS_SET = {"I001", "I004", "I006", "I007", "I013", "I014", "I017", "I029", "I031", "I033"}
+VARIANT_ONLY_LESSON_READY = {"M055"}
 IMAGE_RE = re.compile(r"I\d{3}_[A-Za-z0-9_]+\.png")
 REVIEW_PATH_RE = re.compile(r"data/research/(?:app_readiness|lesson_readiness)/m\d{3}_item_review\.csv")
 CURRENT_SOURCE = {"CURRENT", "現行", "現行案内中"}
@@ -44,7 +45,7 @@ LESSON_EXTRA_FIELDS = [
 ]
 EXPECTED_REGRESSION_STATUS = {
     "M094": APP_READY, "M095": APP_READY, "M104": APP_READY,
-    "M027": LESSON_READY, "M030": LESSON_READY, "M048": LESSON_READY, "M050": LESSON_READY, "M097": LESSON_READY,
+    "M027": LESSON_READY, "M030": LESSON_READY, "M048": LESSON_READY, "M050": LESSON_READY, "M055": LESSON_READY, "M097": LESSON_READY,
     "M105": LESSON_READY, "M106": LESSON_READY, "M107": LESSON_READY,
     "M108": LESSON_READY, "M109": LESSON_READY, "M110": LESSON_READY,
     "M111": LESSON_READY, "M112": LESSON_READY,
@@ -297,7 +298,10 @@ def validate_scope_review(
             errors.append(f"{mid}/{iid}: non-contiguous condition branches")
         if status == LESSON_READY:
             scoring = [row for row in rows if row.get("scoring_branch") == "TRUE"]
-            if len(scoring) != 1 or any(row.get("scoring_branch") not in {"TRUE", "FALSE"} for row in rows):
+            if mid in VARIANT_ONLY_LESSON_READY:
+                if scoring or any(row.get("scoring_branch") != "FALSE" for row in rows):
+                    errors.append(f"{mid}/{iid}: variant-only municipality must not invent a municipality-wide scoring branch")
+            elif len(scoring) != 1 or any(row.get("scoring_branch") not in {"TRUE", "FALSE"} for row in rows):
                 errors.append(f"{mid}/{iid}: exactly one scoring branch is required")
 
         coverage = coverage_by_key.get((mid, iid), {})
@@ -454,6 +458,9 @@ def validate(root: Path = ROOT) -> list[str]:
         iid = row.get("internal_item_id", "")
         if mid not in scope_by_mid:
             continue
+        if mid in VARIANT_ONLY_LESSON_READY:
+            errors.append(f"{mid}/{iid}: variant-only municipality must not publish municipality-wide image scoring")
+            continue
         if row.get("review_status") != "VERIFIED":
             errors.append(f"{mid}/{iid}: scoped image mapping is not VERIFIED")
             continue
@@ -491,13 +498,15 @@ def validate(root: Path = ROOT) -> list[str]:
         interactive.append((mid, iid))
 
     counts = Counter(mid for mid, _ in interactive)
+    expected_total = 0
     for mid in scope_by_mid:
-        if counts[mid] != EXPECTED_IMAGE_ITEMS:
-            errors.append(f"{mid}: expected 10 interactive image questions, got {counts[mid]}")
-    if len(interactive) != EXPECTED_IMAGE_ITEMS * len(scope_by_mid):
+        expected = 0 if mid in VARIANT_ONLY_LESSON_READY else EXPECTED_IMAGE_ITEMS
+        expected_total += expected
+        if counts[mid] != expected:
+            errors.append(f"{mid}: expected {expected} municipality-wide interactive image questions, got {counts[mid]}")
+    if len(interactive) != expected_total:
         errors.append(
-            f"interactive image pair count mismatch: expected={EXPECTED_IMAGE_ITEMS * len(scope_by_mid)} "
-            f"actual={len(interactive)}"
+            f"interactive image pair count mismatch: expected={expected_total} actual={len(interactive)}"
         )
 
     html = (root / HTML.relative_to(ROOT)).read_text(encoding="utf-8")
