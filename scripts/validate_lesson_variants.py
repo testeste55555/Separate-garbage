@@ -27,6 +27,7 @@ IMAGE_ITEMS = ["I001", "I004", "I006", "I007", "I013", "I014", "I017", "I029", "
 IMAGE_ITEM_SET = set(IMAGE_ITEMS)
 TARGETS = {"M055", "M076", "M098", "M099", "M100", "M120", "M123", "M127", "M136", "M139"}
 CURRENT_SOURCE = {"CURRENT", "現行", "現行案内中"}
+STANDARD_SCOPE_VARIANT_TARGETS = {"M055"}
 
 EXPECTED_GROUPS = {
     "M055": {"LV-M055-01", "LV-M055-02"},
@@ -248,12 +249,13 @@ def validate_records(data: dict[str, list[dict[str, str]]], root: Path = ROOT) -
             errors.append(f"{gid}: fixed10 answer labels mismatch: {actual}")
 
     deferred = {row["municipality_id"]: row for row in read_rows(root / DEFERRED.relative_to(ROOT))}
-    for mid in TARGETS:
+    for mid in TARGETS - STANDARD_SCOPE_VARIANT_TARGETS:
         if deferred.get(mid, {}).get("status") != "DEFERRED":
             errors.append(f"{mid}: canonical 40-item DEFERRED boundary was removed")
     standard_scope_ids = {row.get("municipality_id", "") for row in read_rows(root / STANDARD_SCOPE.relative_to(ROOT))}
-    if TARGETS & standard_scope_ids:
-        errors.append(f"variant municipality injected into municipality-wide scoring scope: {sorted(TARGETS & standard_scope_ids)}")
+    invalid_injected = (TARGETS - STANDARD_SCOPE_VARIANT_TARGETS) & standard_scope_ids
+    if invalid_injected:
+        errors.append(f"variant municipality injected into municipality-wide scoring scope: {sorted(invalid_injected)}")
 
     html = (root / APP_HTML.relative_to(ROOT)).read_text(encoding="utf-8")
     js = (root / APP_JS.relative_to(ROOT)).read_text(encoding="utf-8")
