@@ -45,7 +45,7 @@ LESSON_EXTRA_FIELDS = [
 ]
 EXPECTED_REGRESSION_STATUS = {
     "M094": APP_READY, "M095": APP_READY, "M104": APP_READY,
-    "M027": LESSON_READY, "M030": LESSON_READY, "M048": LESSON_READY, "M050": LESSON_READY, "M055": LESSON_READY, "M097": LESSON_READY,
+    "M027": LESSON_READY, "M030": LESSON_READY, "M048": LESSON_READY, "M050": LESSON_READY, "M055": LESSON_READY, "M056": LESSON_READY, "M097": LESSON_READY,
     "M105": LESSON_READY, "M106": LESSON_READY, "M107": LESSON_READY,
     "M108": LESSON_READY, "M109": LESSON_READY, "M110": LESSON_READY,
     "M111": LESSON_READY, "M112": LESSON_READY,
@@ -216,7 +216,7 @@ def validate_teaching_projection(
             errors.append(f"{mid}/{iid}: invalid projection kind")
 
     expected_box_counts = {
-        "M030": (7, 9), "M048": (5, 6), "M050": (8, 7),
+        "M030": (7, 9), "M048": (5, 6), "M050": (8, 7), "M056": (8, 7),
         "M106": (8, 6), "M107": (5, 8), "M108": (9, 8), "M109": (8, 5),
         "M110": (5, 6), "M111": (10, 6), "M112": (6, 5),
     }
@@ -232,7 +232,7 @@ def validate_teaching_projection(
         (row.get("municipality_id"), row.get("internal_item_id"))
         for row in scoring_projection if row.get("projection_kind") == "SIMPLIFIED_ACTION"
     }
-    expected_simplified = {("M030", "I029"), ("M050", "I029"), ("M107", "I007"), ("M110", "I029"), ("M111", "I029")}
+    expected_simplified = {("M030", "I029"), ("M050", "I029"), ("M056", "I013"), ("M056", "I014"), ("M056", "I017"), ("M107", "I007"), ("M110", "I029"), ("M111", "I029")}
     if simplified != expected_simplified:
         errors.append(f"SIMPLIFIED_ACTION target mismatch: {sorted(simplified)}")
     return errors
