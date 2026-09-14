@@ -8,6 +8,7 @@ M048,松江市,ONLINE_CLASS,LESSON_READY_10,10,12,data/research/lesson_readiness
 M050,出雲市,ONLINE_CLASS,LESSON_READY_10,10,15,data/research/lesson_readiness/m050_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,固定10品目の画像採点枝をCOMPLETE。モバイルバッテリーは画像のみで分岐確定不能のため回収・確認へ安全投影。補助5はreview済みだが15問Gate未接続。APP_READYには昇格しない。
 M055,雲南市,ONLINE_CLASS,LESSON_READY_10,10,15,data/research/lesson_readiness/m055_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,固定10は2地域groupの公式正答で採点。電球・ライターの地域差をmunicipality-wideへ潰さない。補助5はreview済みだが15問Gate未接続。
 M056,奥出雲町,ONLINE_CLASS,LESSON_READY_10,10,16,data/research/lesson_readiness/m056_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,固定10品目16条件枝COMPLETE。古紙3品目は通常収集BOXに偽装せず古紙回収へ簡略投影。補助5はreview済みだが15問Gate未接続。APP_READYには昇格しない。
+M067,岡山市,ONLINE_CLASS,LESSON_READY_10,10,15,data/research/lesson_readiness/m067_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,固定10品目15条件枝COMPLETE。市内共通5採点区分。補助5はreview済みだが15問Gate未接続。APP_READYには昇格しない。
 M094,広島市,ONLINE_CLASS,APP_READY,40,59,data/research/app_readiness/m094_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETEかつ画像固有mapping VERIFIEDの場合のみ自動正誤判定
 M095,呉市,ONLINE_CLASS,APP_READY,40,56,data/research/app_readiness/m095_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,40品目全条件枝COMPLETEかつ画像固有mapping VERIFIEDの場合のみ自動正誤判定
 M097,三原市,ONLINE_CLASS,LESSON_READY_10,10,19,data/research/lesson_readiness/m097_item_review.csv,data/app/item_image_mapping_pilot_top8.csv,画像10品目の全条件枝COMPLETEかつ画像固有mapping VERIFIEDの場合のみ自動正誤判定。40品目APP_READYではない

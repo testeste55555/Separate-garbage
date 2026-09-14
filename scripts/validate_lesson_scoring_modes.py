@@ -45,7 +45,7 @@ LESSON_EXTRA_FIELDS = [
 ]
 EXPECTED_REGRESSION_STATUS = {
     "M094": APP_READY, "M095": APP_READY, "M104": APP_READY,
-    "M027": LESSON_READY, "M030": LESSON_READY, "M048": LESSON_READY, "M050": LESSON_READY, "M055": LESSON_READY, "M056": LESSON_READY, "M097": LESSON_READY,
+    "M027": LESSON_READY, "M030": LESSON_READY, "M048": LESSON_READY, "M050": LESSON_READY, "M055": LESSON_READY, "M056": LESSON_READY, "M067": LESSON_READY, "M097": LESSON_READY,
     "M105": LESSON_READY, "M106": LESSON_READY, "M107": LESSON_READY,
     "M108": LESSON_READY, "M109": LESSON_READY, "M110": LESSON_READY,
     "M111": LESSON_READY, "M112": LESSON_READY,
@@ -216,7 +216,7 @@ def validate_teaching_projection(
             errors.append(f"{mid}/{iid}: invalid projection kind")
 
     expected_box_counts = {
-        "M030": (7, 9), "M048": (5, 6), "M050": (8, 7), "M056": (8, 7),
+        "M030": (7, 9), "M048": (5, 6), "M050": (8, 7), "M056": (8, 7), "M067": (5, 5),
         "M106": (8, 6), "M107": (5, 8), "M108": (9, 8), "M109": (8, 5),
         "M110": (5, 6), "M111": (10, 6), "M112": (6, 5),
     }

@@ -17,6 +17,7 @@ on:
       - "data/research/batches/batch_03/**"
       - "data/research/batches/batch_05/**"
       - "data/research/batches/batch_06/**"
+      - "data/research/batches/batch_07/**"
       - "data/style_research/**"
       - "scripts/sync_lesson_ready_reviews.py"
       - "scripts/build_lesson_ready_m107_m109.py"
@@ -28,6 +29,7 @@ on:
       - "scripts/build_lesson_ready_m050.py"
       - "scripts/build_lesson_ready_m055.py"
       - "scripts/build_lesson_ready_m056.py"
+      - "scripts/build_lesson_ready_m067.py"
       - "scripts/build_lesson_ready_regional_batch.py"
       - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
       - "scripts/classroom_pilot_scoring_compat.py"
@@ -72,6 +74,7 @@ on:
       - "data/research/batches/batch_03/**"
       - "data/research/batches/batch_05/**"
       - "data/research/batches/batch_06/**"
+      - "data/research/batches/batch_07/**"
       - "data/style_research/**"
       - "scripts/sync_lesson_ready_reviews.py"
       - "scripts/build_lesson_ready_m107_m109.py"
@@ -83,6 +86,7 @@ on:
       - "scripts/build_lesson_ready_m050.py"
       - "scripts/build_lesson_ready_m055.py"
       - "scripts/build_lesson_ready_m056.py"
+      - "scripts/build_lesson_ready_m067.py"
       - "scripts/build_lesson_ready_regional_batch.py"
       - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
       - "scripts/classroom_pilot_scoring_compat.py"
@@ -150,6 +154,7 @@ jobs:
           python scripts/build_lesson_ready_m050.py
           python scripts/build_lesson_ready_m055.py
           python scripts/build_lesson_ready_m056.py
+          python scripts/build_lesson_ready_m067.py
           python scripts/sync_lesson_ready_reviews.py
           git diff --exit-code -- \
             data/app/lesson_mode_app_ready_scope.csv \
@@ -184,6 +189,9 @@ jobs:
             data/research/batches/batch_06/batch_06_sources.csv \
             data/research/batches/batch_06/batch_06_municipalities.csv \
             data/research/batches/batch_06/batch_06_qa.csv \
+            data/research/batches/batch_07/batch_07_sources.csv \
+            data/research/batches/batch_07/batch_07_municipalities.csv \
+            data/research/batches/batch_07/batch_07_qa.csv \
             data/master/07_implementation_priority.csv
       - name: Validate lesson scoring modes
         run: python scripts/validate_classroom_pilot_scoring_modes.py
