@@ -233,9 +233,8 @@ def build_variants() -> None:
             bid = f"TB-{gid.replace('LV-', '')}-ON-{order:02d}"
             box_by_cid[cid] = bid
             box_rows.append({"lesson_variant_group_id": gid, "teaching_box_id": bid, "class_mode": "ONLINE_CLASS", "box_kind": "FIXED_10_SCORING", "display_name": label, "display_order": str(order), "note": "固定10品目の地域別採点用", "style_source_category_ids": cid, "style_district_scope": "MUNICIPALITY_WIDE"})
-        for order, cid in enumerate(["C-M055-01","C-M055-02","C-M055-03","C-M055-04","C-M055-05","C-M055-06","C-M055-08","C-M055-09"], 1):
-            label = next(r["自治体正式名称"] for r in read_csv(CATEGORIES)[1] if r.get("municipality_id") == MID and r.get("category_id") == cid)
-            box_rows.append({"lesson_variant_group_id": gid, "teaching_box_id": f"TB-{gid.replace('LV-', '')}-IP-{order:02d}", "class_mode": "IN_PERSON_CLASS", "box_kind": "MAJOR_CATEGORY", "display_name": label, "display_order": str(order), "note": "対面授業用の主要分別箱", "style_source_category_ids": cid, "style_district_scope": "MUNICIPALITY_WIDE"})
+        for order, (cid, label) in enumerate(unique, 1):
+            box_rows.append({"lesson_variant_group_id": gid, "teaching_box_id": f"TB-{gid.replace('LV-', '')}-IP-{order:02d}", "class_mode": "IN_PERSON_CLASS", "box_kind": "MAJOR_CATEGORY", "display_name": label, "display_order": str(order), "note": "対面授業用の主要分別箱。固定10で実際に使う区分のみ表示。", "style_source_category_ids": cid, "style_district_scope": "MUNICIPALITY_WIDE"})
         for iid in FIXED:
             cid, label, condition, prep, exc = answers[iid]
             sid, url, locator = variant_evidence(gid, iid)
