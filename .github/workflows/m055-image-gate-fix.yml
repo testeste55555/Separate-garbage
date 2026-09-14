@@ -1,0 +1,55 @@
+name: M055 image gate fix
+on:
+  push:
+    branches: [feature/lesson-ready-15-m055]
+    paths: ['.github/workflows/m055-image-gate-fix.yml']
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: feature/lesson-ready-15-m055
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Exclude M055 from municipality-wide image grid
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('scripts/validate_item_image_mapping_pilot.py')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('VARIANT_HOLD = {"M098", "M099"}', 'VARIANT_HOLD = {"M055", "M098", "M099"}')
+          s=s.replace('district-variant M098/M099 must not enter this municipality-wide pilot', 'variant-only M055/M098/M099 must not enter this municipality-wide pilot')
+          if 'VARIANT_HOLD = {"M055", "M098", "M099"}' not in s: raise SystemExit('variant hold patch failed')
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit image-gate contract
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add scripts/validate_item_image_mapping_pilot.py
+          git commit -m 'Exclude variant-only M055 from municipality-wide image grid'
+          git push origin HEAD:feature/lesson-ready-15-m055
+      - name: Validate image mapping and remaining gates
+        run: |
+          set -euo pipefail
+          python scripts/validate_item_image_mapping_pilot.py
+          python scripts/red_team_item_image_mapping_pilot.py
+          python scripts/validate_research.py
+          python scripts/check_next_batch_gate.py
+          python scripts/rebuild_lesson_ready_regional_preserve_app_ready.py
+          git diff --exit-code -- \
+            data/app/district_scopes.csv \
+            data/app/lesson_variant_groups.csv \
+            data/app/lesson_variant_item_scoring.csv \
+            data/app/lesson_variant_teaching_boxes.csv \
+            data/research/lesson_readiness/lesson_variant_sources.csv \
+            data/master/07_implementation_priority.csv
+          node --check app/app.js
