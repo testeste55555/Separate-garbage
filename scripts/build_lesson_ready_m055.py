@@ -240,10 +240,9 @@ def build_variants() -> None:
             cid, label, condition, prep, exc = answers[iid]
             sid, url, locator = variant_evidence(gid, iid)
             scoring_rows.append({"lesson_variant_group_id": gid, "municipality_id": MID, "internal_item_id": iid, "teaching_box_id": box_by_cid[cid], "condition": condition, "preparation": prep, "exception_destination": exc, "evidence_source_id": sid, "evidence_url": url, "evidence_locator": locator, "review_status": "COMPLETE", "checked_date": CHECKED, "reviewer": REVIEWER, "note": "画像の通常状態を地域groupの公式正答で採点"})
-    replace_mid(BOXES, box_rows, mid_field="lesson_variant_group_id", before_regional_targets=False)
-    # box file has no municipality_id; insert M055 before regional rows using group IDs.
+    # box file has no municipality_id; replace M055 group rows explicitly and place them before historical regional-builder targets.
     fields, rows = read_csv(BOXES)
-    m055 = [r for r in rows if r.get("lesson_variant_group_id", "").startswith("LV-M055-")]
+    m055 = box_rows
     other = [r for r in rows if not r.get("lesson_variant_group_id", "").startswith("LV-M055-")]
     idx = next((i for i,r in enumerate(other) if r.get("lesson_variant_group_id", "").split("-")[1] in REGIONAL_BUILDER_TARGETS), len(other))
     other[idx:idx] = m055
