@@ -32,6 +32,7 @@ STANDARD_SCOPE_VARIANT_TARGETS = {"M055", "M068"}
 EXPECTED_GROUPS = {
     "M055": {"LV-M055-01", "LV-M055-02"},
     "M068": {"LV-M068-01", "LV-M068-02"},
+    "M068": {"LV-M068-01", "LV-M068-02"},
     "M076": {"LV-M076-01", "LV-M076-02"},
     "M098": {"LV-M098-01"},
     "M099": {"LV-M099-01", "LV-M099-02", "LV-M099-03"},
@@ -43,12 +44,13 @@ EXPECTED_GROUPS = {
     "M139": {"LV-M139-01"},
 }
 SELECTION_REQUIRED = {
-    "M055": "TRUE", "M068": "TRUE",
+    "M055": "TRUE", "M068": "TRUE", "M068": "TRUE",
     "M076": "TRUE", "M098": "FALSE", "M099": "TRUE", "M100": "TRUE",
     "M120": "FALSE", "M123": "TRUE", "M127": "TRUE", "M136": "FALSE", "M139": "FALSE",
 }
 EXPECTED_SCOPE_GROUPS = {
     "M055": {"LV-M055-01": 4, "LV-M055-02": 2},
+    "M068": {"LV-M068-01": 1, "LV-M068-02": 1},
     "M068": {"LV-M068-01": 1, "LV-M068-02": 1},
     "M076": {"LV-M076-01": 1, "LV-M076-02": 1},
     "M098": {"LV-M098-01": 6},
