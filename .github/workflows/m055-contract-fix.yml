@@ -1,0 +1,112 @@
+name: M055 contract fix
+
+on:
+  push:
+    branches:
+      - feature/lesson-ready-15-m055
+    paths:
+      - '.github/workflows/m055-contract-fix.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: feature/lesson-ready-15-m055
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Allow audited M055 variant-only standard readiness
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('scripts/validate_lesson_variants.py')
+          s = p.read_text(encoding='utf-8')
+          if 'STANDARD_SCOPE_VARIANT_TARGETS = {"M055"}' not in s:
+              s = s.replace('CURRENT_SOURCE = {"CURRENT", "現行", "現行案内中"}\n', 'CURRENT_SOURCE = {"CURRENT", "現行", "現行案内中"}\nSTANDARD_SCOPE_VARIANT_TARGETS = {"M055"}\n')
+              old = '''    deferred = {row["municipality_id"]: row for row in read_rows(root / DEFERRED.relative_to(ROOT))}\n    for mid in TARGETS:\n        if deferred.get(mid, {}).get("status") != "DEFERRED":\n            errors.append(f"{mid}: canonical 40-item DEFERRED boundary was removed")\n    standard_scope_ids = {row.get("municipality_id", "") for row in read_rows(root / STANDARD_SCOPE.relative_to(ROOT))}\n    if TARGETS & standard_scope_ids:\n        errors.append(f"variant municipality injected into municipality-wide scoring scope: {sorted(TARGETS & standard_scope_ids)}")\n'''
+              new = '''    deferred = {row["municipality_id"]: row for row in read_rows(root / DEFERRED.relative_to(ROOT))}\n    for mid in TARGETS - STANDARD_SCOPE_VARIANT_TARGETS:\n        if deferred.get(mid, {}).get("status") != "DEFERRED":\n            errors.append(f"{mid}: canonical 40-item DEFERRED boundary was removed")\n    standard_scope_ids = {row.get("municipality_id", "") for row in read_rows(root / STANDARD_SCOPE.relative_to(ROOT))}\n    invalid_injected = (TARGETS - STANDARD_SCOPE_VARIANT_TARGETS) & standard_scope_ids\n    if invalid_injected:\n        errors.append(f"variant municipality injected into municipality-wide scoring scope: {sorted(invalid_injected)}")\n'''
+              if old not in s: raise SystemExit('variant boundary block not found')
+              s = s.replace(old, new)
+          if 'STANDARD_SCOPE_VARIANT_TARGETS = {"M055"}' not in s: raise SystemExit('M055 scope contract patch failed')
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Rebuild M055 twice and confirm idempotence
+        run: |
+          set -euo pipefail
+          python scripts/build_lesson_ready_m055.py
+          git diff --exit-code -- \
+            data/app/lesson_mode_app_ready_scope.csv \
+            data/app/lesson_variant_groups.csv \
+            data/app/district_scopes.csv \
+            data/app/lesson_variant_teaching_boxes.csv \
+            data/app/lesson_variant_item_scoring.csv \
+            data/app/company_municipality_mapping.csv \
+            data/master/07_implementation_priority.csv \
+            data/research/03_sources_master.csv \
+            data/research/04_municipalities_research.csv \
+            data/research/05_item_mapping_master.csv \
+            data/research/06_qa_log.csv \
+            data/research/07_item_mapping_coverage.csv \
+            data/research/batches/batch_06/batch_06_sources.csv \
+            data/research/batches/batch_06/batch_06_municipalities.csv \
+            data/research/batches/batch_06/batch_06_qa.csv \
+            data/research/lesson_readiness/lesson_variant_sources.csv
+          python scripts/build_lesson_ready_m055.py
+          git diff --exit-code -- \
+            data/app/lesson_mode_app_ready_scope.csv \
+            data/app/lesson_variant_groups.csv \
+            data/app/district_scopes.csv \
+            data/app/lesson_variant_teaching_boxes.csv \
+            data/app/lesson_variant_item_scoring.csv \
+            data/app/company_municipality_mapping.csv \
+            data/master/07_implementation_priority.csv \
+            data/research/03_sources_master.csv \
+            data/research/04_municipalities_research.csv \
+            data/research/05_item_mapping_master.csv \
+            data/research/06_qa_log.csv \
+            data/research/07_item_mapping_coverage.csv \
+            data/research/batches/batch_06/batch_06_sources.csv \
+            data/research/batches/batch_06/batch_06_municipalities.csv \
+            data/research/batches/batch_06/batch_06_qa.csv \
+            data/research/lesson_readiness/lesson_variant_sources.csv
+      - name: Commit validator contract
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add scripts/validate_lesson_variants.py
+          if git diff --cached --quiet; then
+            echo 'No validator changes.'
+          else
+            git commit -m 'Validate M055 as variant-only LESSON_READY_10'
+            git push origin HEAD:feature/lesson-ready-15-m055
+          fi
+      - name: Validate current compatibility gates
+        run: |
+          set -euo pipefail
+          python scripts/validate_classroom_pilot_scoring_modes.py
+          python scripts/red_team_classroom_pilot_scoring_modes.py
+          python scripts/validate_classroom_pilot_variants.py
+          python scripts/red_team_classroom_pilot_variants.py
+          python scripts/validate_company_municipality_mapping.py
+          python scripts/red_team_company_municipality_mapping.py
+          python scripts/validate_company_onboarding_18.py
+          python scripts/validate_research.py
+          python scripts/check_next_batch_gate.py
+          python scripts/rebuild_lesson_ready_regional_preserve_app_ready.py
+          git diff --exit-code -- \
+            data/app/district_scopes.csv \
+            data/app/lesson_variant_groups.csv \
+            data/app/lesson_variant_item_scoring.csv \
+            data/app/lesson_variant_teaching_boxes.csv \
+            data/research/lesson_readiness/lesson_variant_sources.csv \
+            data/master/07_implementation_priority.csv
+          node --check app/app.js
