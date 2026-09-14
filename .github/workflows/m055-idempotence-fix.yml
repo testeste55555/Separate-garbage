@@ -1,0 +1,61 @@
+name: M055 idempotence fix
+on:
+  push:
+    branches: [feature/lesson-ready-15-m055]
+    paths: ['.github/workflows/m055-idempotence-fix.yml']
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: feature/lesson-ready-15-m055
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Align M055 canonical notes with generic synchronizer
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('scripts/build_lesson_ready_m055.py')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('"reviewed_date": CHECKED, "reviewed_by": REVIEWER, "備考": r["note"],', '"reviewed_date": CHECKED, "reviewed_by": REVIEWER, "備考": "LESSON_READY_10の全条件枝レビュー済み。40品目APP_READYとは独立。",')
+          s=s.replace('"reviewed_date": CHECKED, "reviewed_by": REVIEWER, "notes": "fixed10 regional branches COMPLETE; learner answer is selected by M055 lesson variant group",', '"reviewed_date": CHECKED, "reviewed_by": REVIEWER, "notes": "LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。",')
+          for token in ['LESSON_READY_10の全条件枝レビュー済み。40品目APP_READYとは独立。', 'LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。']:
+              if token not in s: raise SystemExit(f'missing standard note: {token}')
+          p.write_text(s,encoding='utf-8')
+          PY
+          python scripts/build_lesson_ready_m055.py
+      - name: Commit aligned builder state
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add scripts/build_lesson_ready_m055.py data/research/05_item_mapping_master.csv data/research/07_item_mapping_coverage.csv
+          git commit -m 'Align M055 canonical notes with lesson synchronizer'
+          git push origin HEAD:feature/lesson-ready-15-m055
+      - name: Confirm canonical idempotence and full gates
+        run: |
+          set -euo pipefail
+          python scripts/build_lesson_ready_m055.py
+          python scripts/sync_lesson_ready_reviews.py
+          git diff --exit-code -- data/research/05_item_mapping_master.csv data/research/07_item_mapping_coverage.csv data/app/item_image_mapping_pilot_top8.csv
+          python scripts/check_next_batch_gate.py
+          python scripts/validate_classroom_pilot_scoring_modes.py
+          python scripts/red_team_classroom_pilot_scoring_modes.py
+          python scripts/validate_classroom_pilot_variants.py
+          python scripts/red_team_classroom_pilot_variants.py
+          python scripts/validate_item_image_mapping_pilot.py
+          python scripts/red_team_item_image_mapping_pilot.py
+          python scripts/validate_company_municipality_mapping.py
+          python scripts/red_team_company_municipality_mapping.py
+          python scripts/validate_company_onboarding_18.py
+          python scripts/validate_research.py
+          python scripts/rebuild_lesson_ready_regional_preserve_app_ready.py
+          git diff --exit-code -- data/app/district_scopes.csv data/app/lesson_variant_groups.csv data/app/lesson_variant_item_scoring.csv data/app/lesson_variant_teaching_boxes.csv data/research/lesson_readiness/lesson_variant_sources.csv data/master/07_implementation_priority.csv
+          node --check app/app.js
