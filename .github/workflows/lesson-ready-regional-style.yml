@@ -12,6 +12,7 @@ on:
       - "docs/style_research/15_lesson_box_style_resolver.md"
       - "scripts/build_lesson_ready_regional_batch.py"
       - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
+      - "scripts/build_lesson_ready_m068.py"
       - "scripts/classroom_pilot_scoring_compat.py"
       - "scripts/classroom_pilot_variant_compat.py"
       - "scripts/validate_classroom_pilot_variants.py"
@@ -38,6 +39,7 @@ on:
       - "docs/style_research/15_lesson_box_style_resolver.md"
       - "scripts/build_lesson_ready_regional_batch.py"
       - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
+      - "scripts/build_lesson_ready_m068.py"
       - "scripts/classroom_pilot_scoring_compat.py"
       - "scripts/classroom_pilot_variant_compat.py"
       - "scripts/validate_classroom_pilot_variants.py"
@@ -73,6 +75,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 scripts/rebuild_lesson_ready_regional_preserve_app_ready.py
+          python3 scripts/build_lesson_ready_m068.py
           git diff --exit-code -- \
             data/app/district_scopes.csv \
             data/app/lesson_teaching_boxes.csv \
