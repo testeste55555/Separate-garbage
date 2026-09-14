@@ -2159,23 +2159,23 @@ M054,I037,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M054,I038,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M054,I039,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M054,I040,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M055,I001,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,5頁「燃やせるごみ」ペットボトル・フタはくつ類・プラスチック類,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,fixed10 regional branches COMPLETE; learner answer is selected by M055 lesson variant group
+M055,I001,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,5頁「燃やせるごみ」ペットボトル・フタはくつ類・プラスチック類,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M055,I002,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M055,I003,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M055,I004,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,資源ごみ「ビン・カン」飲食用缶,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,fixed10 regional branches COMPLETE; learner answer is selected by M055 lesson variant group
+M055,I004,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,資源ごみ「ビン・カン」飲食用缶,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M055,I005,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M055,I006,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,資源ごみ「ビン・カン」飲食用びん,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,fixed10 regional branches COMPLETE; learner answer is selected by M055 lesson variant group
-M055,I007,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,27頁分別表「トレイ（食品用）」燃やせるごみ,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,fixed10 regional branches COMPLETE; learner answer is selected by M055 lesson variant group
+M055,I006,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,資源ごみ「ビン・カン」飲食用びん,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M055,I007,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,27頁分別表「トレイ（食品用）」燃やせるごみ,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M055,I008,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M055,I009,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M055,I010,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M055,I011,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M055,I012,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M055,I013,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,7頁「資源ごみ〈古紙〉」新聞紙・折込チラシ,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,fixed10 regional branches COMPLETE; learner answer is selected by M055 lesson variant group
-M055,I014,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,7頁「資源ごみ〈古紙〉」ダンボール,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,fixed10 regional branches COMPLETE; learner answer is selected by M055 lesson variant group
+M055,I013,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,7頁「資源ごみ〈古紙〉」新聞紙・折込チラシ,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
+M055,I014,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,7頁「資源ごみ〈古紙〉」ダンボール,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M055,I015,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M055,I016,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M055,I017,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,7頁「資源ごみ〈古紙〉」紙パック,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,fixed10 regional branches COMPLETE; learner answer is selected by M055 lesson variant group
+M055,I017,VERIFIED,2,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,7頁「資源ごみ〈古紙〉」紙パック,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M055,I018,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M055,I019,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M055,I020,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
@@ -2187,11 +2187,11 @@ M055,I025,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しな�
 M055,I026,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M055,I027,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M055,I028,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M055,I029,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M055-05,https://www.unnan-yume.net/files/5/20250718094309_6879989d183ab.pdf,雲南市向けチラシ「リチウム蓄電池（電子タバコ、モバイルバッテリー等）」,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,fixed10 regional branches COMPLETE; learner answer is selected by M055 lesson variant group
+M055,I029,VERIFIED,1,TRUE,ITEM_SPECIFIC,S-M055-05,https://www.unnan-yume.net/files/5/20250718094309_6879989d183ab.pdf,雲南市向けチラシ「リチウム蓄電池（電子タバコ、モバイルバッテリー等）」,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M055,I030,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
-M055,I031,VERIFIED,3,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,50音順分別表「電球」有害ごみ／12頁LED電球は陶器・ガラス類,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,fixed10 regional branches COMPLETE; learner answer is selected by M055 lesson variant group
+M055,I031,VERIFIED,3,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,50音順分別表「電球」有害ごみ／12頁LED電球は陶器・ガラス類,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M055,I032,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
-M055,I033,VERIFIED,3,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,50音順分別表「使い捨てガスライター」くつ類・プラスチック類,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,fixed10 regional branches COMPLETE; learner answer is selected by M055 lesson variant group
+M055,I033,VERIFIED,3,TRUE,ITEM_SPECIFIC,S-M055-02,https://www.unnan-yume.net/files/format/kankyo_ebook_enesen.pdf,50音順分別表「使い捨てガスライター」くつ類・プラスチック類,2026-09-14,OPENAI_GPT56_M055_LESSON_READY_15_V1,LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。
 M055,I034,MAPPED_INITIAL,1,FALSE,CATEGORY_LEVEL,,,,,,機械抽出。品目別調査と条件枝レビューは未完了。
 M055,I035,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。
 M055,I036,NOT_RESEARCHED,0,FALSE,NONE,,,,,,未調査。不存在を意味しない。

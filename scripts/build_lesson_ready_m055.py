@@ -182,7 +182,7 @@ def sync_mapping_coverage(review_rows: list[dict[str, str]]) -> None:
             "category_source_id": cat["source_id"], "category_source_url": csrc["公式URL"], "category_source_locator": cat["出典ページ・該当箇所"],
             "item_evidence_source_id": r["item_evidence_source_id"], "item_evidence_url": r["item_evidence_url"], "item_evidence_locator": r["item_evidence_locator"],
             "確認日": CHECKED, "mapping_status": "VERIFIED", "evidence_scope": "ITEM_SPECIFIC", "branch_review_status": "COMPLETE",
-            "reviewed_date": CHECKED, "reviewed_by": REVIEWER, "備考": r["note"],
+            "reviewed_date": CHECKED, "reviewed_by": REVIEWER, "備考": "LESSON_READY_10の全条件枝レビュー済み。40品目APP_READYとは独立。",
         })
     mappings.sort(key=lambda r: (r.get("municipality_id", ""), r.get("internal_item_id", ""), int(r.get("branch_order") or 0), r.get("mapping_id", "")))
     write_csv(MAPPINGS, map_fields, mappings)
@@ -198,7 +198,7 @@ def sync_mapping_coverage(review_rows: list[dict[str, str]]) -> None:
             "coverage_status": "VERIFIED", "mapping_branch_count": str(len(branches)), "branch_completeness_confirmed": "TRUE",
             "evidence_scope": "ITEM_SPECIFIC", "item_evidence_source_id": first["item_evidence_source_id"],
             "item_evidence_url": first["item_evidence_url"], "item_evidence_locator": first["item_evidence_locator"],
-            "reviewed_date": CHECKED, "reviewed_by": REVIEWER, "notes": "fixed10 regional branches COMPLETE; learner answer is selected by M055 lesson variant group",
+            "reviewed_date": CHECKED, "reviewed_by": REVIEWER, "notes": "LESSON_READY_10の全条件枝COMPLETE。残り30品目未完のためAPP_READYではない。",
         })
     write_csv(COVERAGE, cov_fields, coverage)
 
