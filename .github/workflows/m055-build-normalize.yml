@@ -1,0 +1,132 @@
+name: M055 build normalize
+
+on:
+  push:
+    branches:
+      - feature/lesson-ready-15-m055
+    paths:
+      - '.github/workflows/m055-build-normalize.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: feature/lesson-ready-15-m055
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Patch M055 regional contracts
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          b = Path('scripts/build_lesson_ready_m055.py')
+          text = b.read_text(encoding='utf-8')
+          old = '    replace_mid(BOXES, box_rows, mid_field="lesson_variant_group_id", before_regional_targets=False)\n    # box file has no municipality_id; insert M055 before regional rows using group IDs.\n    fields, rows = read_csv(BOXES)\n    m055 = [r for r in rows if r.get("lesson_variant_group_id", "").startswith("LV-M055-")]\n    other = [r for r in rows if not r.get("lesson_variant_group_id", "").startswith("LV-M055-")]'
+          new = '    # box file has no municipality_id; replace M055 group rows explicitly and place them before historical regional-builder targets.\n    fields, rows = read_csv(BOXES)\n    m055 = box_rows\n    other = [r for r in rows if not r.get("lesson_variant_group_id", "").startswith("LV-M055-")]'
+          if old in text:
+              text = text.replace(old, new)
+          if 'm055 = box_rows' not in text:
+              raise SystemExit('M055 box idempotence patch failed')
+          b.write_text(text, encoding='utf-8')
+
+          p = Path('scripts/validate_lesson_scoring_modes.py')
+          s = p.read_text(encoding='utf-8')
+          if 'VARIANT_ONLY_LESSON_READY = {"M055"}' not in s:
+              s = s.replace('EXPECTED_IMAGE_ITEMS_SET = {"I001", "I004", "I006", "I007", "I013", "I014", "I017", "I029", "I031", "I033"}\n', 'EXPECTED_IMAGE_ITEMS_SET = {"I001", "I004", "I006", "I007", "I013", "I014", "I017", "I029", "I031", "I033"}\nVARIANT_ONLY_LESSON_READY = {"M055"}\n')
+              s = s.replace('"M027": LESSON_READY, "M030": LESSON_READY, "M048": LESSON_READY, "M050": LESSON_READY, "M097": LESSON_READY,', '"M027": LESSON_READY, "M030": LESSON_READY, "M048": LESSON_READY, "M050": LESSON_READY, "M055": LESSON_READY, "M097": LESSON_READY,')
+              old_block = '''        if status == LESSON_READY:\n            scoring = [row for row in rows if row.get("scoring_branch") == "TRUE"]\n            if len(scoring) != 1 or any(row.get("scoring_branch") not in {"TRUE", "FALSE"} for row in rows):\n                errors.append(f"{mid}/{iid}: exactly one scoring branch is required")\n'''
+              new_block = '''        if status == LESSON_READY:\n            scoring = [row for row in rows if row.get("scoring_branch") == "TRUE"]\n            if mid in VARIANT_ONLY_LESSON_READY:\n                if scoring or any(row.get("scoring_branch") != "FALSE" for row in rows):\n                    errors.append(f"{mid}/{iid}: variant-only municipality must not invent a municipality-wide scoring branch")\n            elif len(scoring) != 1 or any(row.get("scoring_branch") not in {"TRUE", "FALSE"} for row in rows):\n                errors.append(f"{mid}/{iid}: exactly one scoring branch is required")\n'''
+              if old_block not in s:
+                  raise SystemExit('scoring branch block not found')
+              s = s.replace(old_block, new_block)
+              marker = '''        if mid not in scope_by_mid:\n            continue\n        if row.get("review_status") != "VERIFIED":\n'''
+              replacement = '''        if mid not in scope_by_mid:\n            continue\n        if mid in VARIANT_ONLY_LESSON_READY:\n            errors.append(f"{mid}/{iid}: variant-only municipality must not publish municipality-wide image scoring")\n            continue\n        if row.get("review_status") != "VERIFIED":\n'''
+              if marker not in s:
+                  raise SystemExit('image mapping loop marker not found')
+              s = s.replace(marker, replacement)
+              old_counts = '''    counts = Counter(mid for mid, _ in interactive)\n    for mid in scope_by_mid:\n        if counts[mid] != EXPECTED_IMAGE_ITEMS:\n            errors.append(f"{mid}: expected 10 interactive image questions, got {counts[mid]}")\n    if len(interactive) != EXPECTED_IMAGE_ITEMS * len(scope_by_mid):\n        errors.append(\n            f"interactive image pair count mismatch: expected={EXPECTED_IMAGE_ITEMS * len(scope_by_mid)} "\n            f"actual={len(interactive)}"\n        )\n'''
+              new_counts = '''    counts = Counter(mid for mid, _ in interactive)\n    expected_total = 0\n    for mid in scope_by_mid:\n        expected = 0 if mid in VARIANT_ONLY_LESSON_READY else EXPECTED_IMAGE_ITEMS\n        expected_total += expected\n        if counts[mid] != expected:\n            errors.append(f"{mid}: expected {expected} municipality-wide interactive image questions, got {counts[mid]}")\n    if len(interactive) != expected_total:\n        errors.append(\n            f"interactive image pair count mismatch: expected={expected_total} actual={len(interactive)}"\n        )\n'''
+              if old_counts not in s:
+                  raise SystemExit('interactive count block not found')
+              s = s.replace(old_counts, new_counts)
+          for token in ['VARIANT_ONLY_LESSON_READY = {"M055"}', '"M055": LESSON_READY', 'variant-only municipality must not invent']:
+              if token not in s: raise SystemExit(f'missing scoring validator token {token}')
+          p.write_text(s, encoding='utf-8')
+
+          p = Path('scripts/validate_lesson_variants.py')
+          s = p.read_text(encoding='utf-8')
+          if '"M055"' not in s.split('CURRENT_SOURCE')[0]:
+              s = s.replace('TARGETS = {"M076", "M098", "M099", "M100", "M120", "M123", "M127", "M136", "M139"}', 'TARGETS = {"M055", "M076", "M098", "M099", "M100", "M120", "M123", "M127", "M136", "M139"}')
+              s = s.replace('EXPECTED_GROUPS = {\n', 'EXPECTED_GROUPS = {\n    "M055": {"LV-M055-01", "LV-M055-02"},\n')
+              s = s.replace('SELECTION_REQUIRED = {\n', 'SELECTION_REQUIRED = {\n    "M055": "TRUE",\n')
+              s = s.replace('EXPECTED_SCOPE_GROUPS = {\n', 'EXPECTED_SCOPE_GROUPS = {\n    "M055": {"LV-M055-01": 4, "LV-M055-02": 2},\n')
+              s = s.replace('NEW_EXPECTED_LABELS = {\n', 'NEW_EXPECTED_LABELS = {\n    "LV-M055-01": ["燃やせるごみ", "資源ごみ（ビン・カン）", "資源ごみ（ビン・カン）", "燃やせるごみ", "資源ごみ（古紙）", "資源ごみ（古紙）", "資源ごみ（古紙）", "有害ごみ2", "有害ごみ1", "くつ類・プラスチック類"],\n    "LV-M055-02": ["燃やせるごみ", "資源ごみ（ビン・カン）", "資源ごみ（ビン・カン）", "燃やせるごみ", "資源ごみ（古紙）", "資源ごみ（古紙）", "資源ごみ（古紙）", "有害ごみ2", "陶器・ガラス類", "金属類（小型家電類含む）"],\n')
+          for token in ['"M055": {"LV-M055-01", "LV-M055-02"}', '"M055": "TRUE"', '"M055": {"LV-M055-01": 4, "LV-M055-02": 2}']:
+              if token not in s: raise SystemExit(f'missing variant validator token {token}')
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Build M055
+        run: |
+          set -euo pipefail
+          python scripts/build_lesson_ready_m055.py
+      - name: Commit M055 generated state
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            scripts/build_lesson_ready_m055.py \
+            scripts/validate_lesson_scoring_modes.py \
+            scripts/validate_lesson_variants.py \
+            data/app/lesson_mode_app_ready_scope.csv \
+            data/app/lesson_variant_groups.csv \
+            data/app/district_scopes.csv \
+            data/app/lesson_variant_teaching_boxes.csv \
+            data/app/lesson_variant_item_scoring.csv \
+            data/app/company_municipality_mapping.csv \
+            data/master/07_implementation_priority.csv \
+            data/research/03_sources_master.csv \
+            data/research/04_municipalities_research.csv \
+            data/research/05_item_mapping_master.csv \
+            data/research/06_qa_log.csv \
+            data/research/07_item_mapping_coverage.csv \
+            data/research/batches/batch_06/batch_06_sources.csv \
+            data/research/batches/batch_06/batch_06_municipalities.csv \
+            data/research/batches/batch_06/batch_06_qa.csv \
+            data/research/lesson_readiness/lesson_variant_sources.csv
+          if git diff --cached --quiet; then
+            echo 'No generated changes.'
+          else
+            git commit -m 'Generate M055 regional LESSON_READY_10 state'
+            git push origin HEAD:feature/lesson-ready-15-m055
+          fi
+      - name: Validate M055 gates
+        run: |
+          set -euo pipefail
+          python scripts/validate_lesson_scoring_modes.py
+          python scripts/red_team_lesson_scoring_modes.py
+          python scripts/validate_lesson_variants.py
+          python scripts/red_team_lesson_variants.py
+          python scripts/validate_company_municipality_mapping.py
+          python scripts/red_team_company_municipality_mapping.py
+          python scripts/validate_company_onboarding_18.py
+          python scripts/validate_research.py
+          python scripts/check_next_batch_gate.py
+          python scripts/rebuild_lesson_ready_regional_preserve_app_ready.py
+          git diff --exit-code -- \
+            data/app/district_scopes.csv \
+            data/app/lesson_variant_groups.csv \
+            data/app/lesson_variant_item_scoring.csv \
+            data/app/lesson_variant_teaching_boxes.csv \
+            data/research/lesson_readiness/lesson_variant_sources.csv \
+            data/master/07_implementation_priority.csv
+          node --check app/app.js
