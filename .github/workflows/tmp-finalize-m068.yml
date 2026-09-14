@@ -33,26 +33,55 @@ jobs:
           python scripts/sync_lesson_ready_reviews.py
           git diff > /tmp/m068-second.diff
           cmp /tmp/m068-first.diff /tmp/m068-second.diff
-      - name: Run required gates
+      - name: Run required gates with diagnostic log
+        shell: bash
         run: |
-          python scripts/validate_lesson_item_set.py
-          python scripts/build_lesson_supplemental_scoring.py
-          git diff --exit-code -- data/app/lesson_supplemental_item_scoring.csv
-          python scripts/validate_lesson_supplemental_scoring.py
-          python scripts/red_team_lesson_supplemental_scoring.py
-          python scripts/validate_lesson_15_ui.py
-          python scripts/red_team_lesson_15_ui.py
-          python scripts/validate_classroom_pilot_scoring_modes.py
-          python scripts/red_team_classroom_pilot_scoring_modes.py
-          python scripts/validate_classroom_pilot_variants.py
-          python scripts/red_team_classroom_pilot_variants.py
-          python scripts/validate_item_image_mapping_pilot.py
-          for f in scripts/red_team_item_image_mapping*.py scripts/validate_*company*.py scripts/red_team_*company*.py scripts/*company*onboarding*.py; do [ -e "$f" ] && python "$f"; done
-          node --check app/app.js
-          python scripts/validate_research.py
-          python scripts/check_next_batch_gate.py
-          python scripts/validate_item_image_assets.py
-          python scripts/validate_teaching_display_layer.py
+          set +e
+          LOG=/tmp/m068-gates.log
+          STATUS=/tmp/m068-status
+          : > "$LOG"
+          fail=0
+          run() {
+            echo "===== $* =====" >> "$LOG"
+            "$@" >> "$LOG" 2>&1
+            p=$?
+            echo "exit_code=$p" >> "$LOG"
+            if [ $p -ne 0 ]; then fail=$p; return $p; fi
+            return 0
+          }
+          run python scripts/validate_lesson_item_set.py || true
+          [ $fail -ne 0 ] || run python scripts/build_lesson_supplemental_scoring.py || true
+          [ $fail -ne 0 ] || run git diff --exit-code -- data/app/lesson_supplemental_item_scoring.csv || true
+          [ $fail -ne 0 ] || run python scripts/validate_lesson_supplemental_scoring.py || true
+          [ $fail -ne 0 ] || run python scripts/red_team_lesson_supplemental_scoring.py || true
+          [ $fail -ne 0 ] || run python scripts/validate_lesson_15_ui.py || true
+          [ $fail -ne 0 ] || run python scripts/red_team_lesson_15_ui.py || true
+          [ $fail -ne 0 ] || run python scripts/validate_classroom_pilot_scoring_modes.py || true
+          [ $fail -ne 0 ] || run python scripts/red_team_classroom_pilot_scoring_modes.py || true
+          [ $fail -ne 0 ] || run python scripts/validate_classroom_pilot_variants.py || true
+          [ $fail -ne 0 ] || run python scripts/red_team_classroom_pilot_variants.py || true
+          [ $fail -ne 0 ] || run python scripts/validate_item_image_mapping_pilot.py || true
+          if [ $fail -eq 0 ]; then
+            for f in scripts/red_team_item_image_mapping*.py scripts/validate_*company*.py scripts/red_team_*company*.py scripts/*company*onboarding*.py; do
+              [ -e "$f" ] || continue
+              run python "$f" || break
+            done
+          fi
+          [ $fail -ne 0 ] || run node --check app/app.js || true
+          [ $fail -ne 0 ] || run python scripts/validate_research.py || true
+          [ $fail -ne 0 ] || run python scripts/check_next_batch_gate.py || true
+          [ $fail -ne 0 ] || run python scripts/validate_item_image_assets.py || true
+          [ $fail -ne 0 ] || run python scripts/validate_teaching_display_layer.py || true
+          if [ $fail -eq 0 ]; then echo PASS > "$STATUS"; echo ALL_REQUIRED_GATES_PASSED >> "$LOG"; else echo FAIL > "$STATUS"; fi
+          exit 0
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: m068-finalize-log
+          path: |
+            /tmp/m068-gates.log
+            /tmp/m068-status
+      - name: Require all gates
+        run: grep -qx PASS /tmp/m068-status
       - name: Commit generated implementation
         run: |
           git config user.name github-actions[bot]
