@@ -27,6 +27,7 @@ on:
       - "scripts/build_lesson_ready_m048.py"
       - "scripts/build_lesson_ready_m050.py"
       - "scripts/build_lesson_ready_m055.py"
+      - "scripts/build_lesson_ready_m056.py"
       - "scripts/build_lesson_ready_regional_batch.py"
       - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
       - "scripts/classroom_pilot_scoring_compat.py"
@@ -81,6 +82,7 @@ on:
       - "scripts/build_lesson_ready_m048.py"
       - "scripts/build_lesson_ready_m050.py"
       - "scripts/build_lesson_ready_m055.py"
+      - "scripts/build_lesson_ready_m056.py"
       - "scripts/build_lesson_ready_regional_batch.py"
       - "scripts/rebuild_lesson_ready_regional_preserve_app_ready.py"
       - "scripts/classroom_pilot_scoring_compat.py"
@@ -147,6 +149,7 @@ jobs:
           python scripts/build_lesson_ready_m048.py
           python scripts/build_lesson_ready_m050.py
           python scripts/build_lesson_ready_m055.py
+          python scripts/build_lesson_ready_m056.py
           python scripts/sync_lesson_ready_reviews.py
           git diff --exit-code -- \
             data/app/lesson_mode_app_ready_scope.csv \
