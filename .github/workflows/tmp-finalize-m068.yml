@@ -70,6 +70,7 @@ jobs:
           fi
           [ $fail -ne 0 ] || run node --check app/app.js || true
           [ $fail -ne 0 ] || run python scripts/validate_research.py || true
+          [ $fail -ne 0 ] || run python scripts/tmp_diagnose_m068_merge.py || true
           [ $fail -ne 0 ] || run python scripts/check_next_batch_gate.py || true
           [ $fail -ne 0 ] || run python scripts/validate_item_image_assets.py || true
           [ $fail -ne 0 ] || run python scripts/validate_teaching_display_layer.py || true
