@@ -66,7 +66,8 @@ def filter_promotion_boundary_errors(errors: list[str], root: Path = base.ROOT) 
         allowed.update(f"{mid}: canonical 40-item DEFERRED boundary was removed" for mid in complete)
         scope_path = root / base.STANDARD_SCOPE.relative_to(base.ROOT)
         standard_scope_ids = {row.get("municipality_id", "") for row in _read_rows(scope_path)}
-        injected = base.TARGETS & standard_scope_ids
+        explicitly_allowed = set(getattr(base, "STANDARD_SCOPE_VARIANT_TARGETS", set()))
+        injected = (base.TARGETS - explicitly_allowed) & standard_scope_ids
         if injected and injected.issubset(complete):
             allowed.add(f"variant municipality injected into municipality-wide scoring scope: {sorted(injected)}")
 
