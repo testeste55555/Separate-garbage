@@ -1,4 +1,5 @@
 name: TEMP M070 build and gate
+# idempotence confirmation after generated data commit
 
 on:
   push:
