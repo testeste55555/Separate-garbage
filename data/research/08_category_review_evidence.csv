@@ -169,7 +169,9 @@ CRE-M068-02,CR-M068-CATEGORY-COVERAGE,M068,S-M068-02,現行分別区分と品目
 CRE-M068-03,CR-M068-CATEGORY-COVERAGE,M068,S-M068-07,真備地区の燃えるごみ・燃えないごみ・資源ごみ・体温計 乾電池,SUPPLEMENTAL_INDEX,2026-09-15 地域variant再監査。真備地区固有の正式区分をcanonicalへ追加。
 CRE-M069-01,CR-M069-CATEGORY-COVERAGE,M069,S-M069-01,家庭ごみを6種類に分ける住民向け公式説明,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
 CRE-M069-02,CR-M069-CATEGORY-COVERAGE,M069,S-M069-02,現行の分別注意点・粗大/資源/古紙等の住民向け補強証拠,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
-CRE-M070-01,CR-M070-CATEGORY-COVERAGE,M070,S-M070-01,令和8年度現行運用と分別辞典区分,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
+CRE-M070-01,CR-M070-CATEGORY-COVERAGE,M070,S-M070-02,令和8年度カレンダーの可燃・不燃A・不燃B・危険・PET・その他プラ・缶・びん・古紙,PRIMARY_INDEX,2026-09-15再監査。資料章見出しではなく住民が排出時に選ぶ9葉区分として確認。
+CRE-M070-02,CR-M070-CATEGORY-COVERAGE,M070,S-M070-03,50音順品目表の区分列,SUPPLEMENTAL_INDEX,固定10・補助5の品目別正答と例外条件を照合。
+CRE-M070-03,CR-M070-CATEGORY-COVERAGE,M070,S-M070-04,充電池類の出し方,SUPPLEMENTAL_INDEX,小型充電式電池・モバイルバッテリーの拠点回収を通常収集と分離。
 CRE-M071-01,CR-M071-CATEGORY-COVERAGE,M071,S-M071-01,令和8年度の家庭ごみ分別体系への公式索引,PRIMARY_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
 CRE-M071-02,CR-M071-CATEGORY-COVERAGE,M071,S-M071-02,カン・紙・布・びん・PET・白色トレイ・プラその他・ガススプレー缶・金属類の9資源区分,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review
 CRE-M071-03,CR-M071-CATEGORY-COVERAGE,M071,S-M071-03,令和8年度の可燃ごみ住民向け名称,SUPPLEMENTAL_INDEX,2026-08-19 Batch 07 resident-facing category completeness review

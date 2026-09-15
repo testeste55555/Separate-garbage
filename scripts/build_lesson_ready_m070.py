@@ -326,8 +326,8 @@ def update_municipality_qa() -> None:
         if row.get("municipality_id") == MID:
             row["最終確認日"] = CHECKED
             row["備考"] = "2026年度カレンダーで9つのステーション分別葉を確認。粗大ごみを加えた10住民区分をPRIMARYとして保持。古布・廃食用油と小型充電式電池は拠点回収ALTERNATIVE。"
-            row["reviewed_category_count"] = "10"
-            row["category_count_basis"] = "可燃・不燃A・不燃B・危険・PET・その他プラ・缶・びん・古紙の9ステーション葉＋粗大ごみ。拠点回収2系統と収集外は件数外。"
+            row["reviewed_category_count"] = "12"
+            row["category_count_basis"] = "現行公式leafをschema規約で計数。可燃・不燃A・不燃B・危険・PET・その他プラ・缶・びん・古紙の9ステーション葉＋粗大ごみ＋古布・廃食用油と小型充電式電池の2拠点回収＝12。収集外EXCLUDEDは件数外。"
             row["category_count_verified"] = "TRUE"
             row["category_count_check_status"] = "MANUAL_INDEX_REVIEW"
             row["category_count_review_id"] = "CR-M070-CATEGORY-COVERAGE"
