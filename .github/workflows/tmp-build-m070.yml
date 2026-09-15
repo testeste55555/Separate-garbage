@@ -23,13 +23,14 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Register M070 in scoring validator
+      - name: Register M070 permanent contracts
         run: |
           set -euo pipefail
           python - <<'PY'
           from pathlib import Path
-          path = Path("scripts/validate_lesson_scoring_modes.py")
-          text = path.read_text()
+
+          validator = Path("scripts/validate_lesson_scoring_modes.py")
+          text = validator.read_text()
           if '"M070": LESSON_READY' not in text:
               old = '"M067": LESSON_READY, "M068": LESSON_READY, "M097": LESSON_READY,'
               new = '"M067": LESSON_READY, "M068": LESSON_READY, "M070": LESSON_READY, "M097": LESSON_READY,'
@@ -49,7 +50,18 @@ jobs:
               if old not in text:
                   raise SystemExit("simplified-action anchor not found")
               text = text.replace(old, new, 1)
-          path.write_text(text)
+          validator.write_text(text)
+
+          builder = Path("scripts/build_lesson_ready_m070.py")
+          text = builder.read_text()
+          text = text.replace('row["reviewed_category_count"] = "10"', 'row["reviewed_category_count"] = "12"', 1)
+          old_basis = '可燃・不燃A・不燃B・危険・PET・その他プラ・缶・びん・古紙の9ステーション葉＋粗大ごみ。拠点回収2系統と収集外は件数外。'
+          new_basis = '現行公式leafをschema規約で計数。可燃・不燃A・不燃B・危険・PET・その他プラ・缶・びん・古紙の9ステーション葉＋粗大ごみ＋古布・廃食用油と小型充電式電池の2拠点回収＝12。収集外EXCLUDEDは件数外。'
+          if old_basis in text:
+              text = text.replace(old_basis, new_basis, 1)
+          elif new_basis not in text:
+              raise SystemExit("category-count basis anchor not found")
+          builder.write_text(text)
           PY
 
       - name: Build M070 and prove builder idempotence
@@ -76,15 +88,15 @@ jobs:
           python scripts/validate_item_image_assets.py
           python scripts/validate_teaching_display_layer.py
 
-      - name: Commit generated M070 data and validator contract
+      - name: Commit generated M070 data and permanent scripts
         run: |
           set -euo pipefail
-          if git diff --quiet -- data scripts/validate_lesson_scoring_modes.py; then
+          if git diff --quiet -- data scripts/validate_lesson_scoring_modes.py scripts/build_lesson_ready_m070.py; then
             echo "No generated M070 changes to commit"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data scripts/validate_lesson_scoring_modes.py
+          git add data scripts/validate_lesson_scoring_modes.py scripts/build_lesson_ready_m070.py
           git commit -m "Build M070 Tamano LESSON_READY_10 data"
           git push origin HEAD:feature/lesson-ready-15-m070
