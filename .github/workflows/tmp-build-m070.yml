@@ -1,0 +1,61 @@
+name: TEMP M070 build and gate
+
+on:
+  push:
+    branches:
+      - feature/lesson-ready-15-m070
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "22"
+
+      - name: Build M070 and prove builder idempotence
+        run: |
+          set -euo pipefail
+          python scripts/build_lesson_ready_m070.py
+          git diff --binary > /tmp/m070-first.diff
+          python scripts/build_lesson_ready_m070.py
+          git diff --binary > /tmp/m070-second.diff
+          cmp /tmp/m070-first.diff /tmp/m070-second.diff
+
+      - name: Core lesson and canonical gates
+        run: |
+          set -euo pipefail
+          python scripts/validate_lesson_item_set.py
+          python scripts/validate_classroom_pilot_scoring_modes.py
+          python scripts/red_team_classroom_pilot_scoring_modes.py
+          python scripts/validate_item_image_mapping_pilot.py
+          python scripts/validate_classroom_pilot_variants.py
+          python scripts/red_team_classroom_pilot_variants.py
+          node --check app/app.js
+          python scripts/validate_research.py
+          python scripts/check_next_batch_gate.py
+          python scripts/validate_item_image_assets.py
+          python scripts/validate_teaching_display_layer.py
+
+      - name: Commit generated M070 data only
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- data; then
+            echo "No generated data changes to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git commit -m "Build M070 Tamano LESSON_READY_10 data"
+          git push origin HEAD:feature/lesson-ready-15-m070
