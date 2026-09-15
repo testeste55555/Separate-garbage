@@ -23,6 +23,35 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Register M070 in scoring validator
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("scripts/validate_lesson_scoring_modes.py")
+          text = path.read_text()
+          if '"M070": LESSON_READY' not in text:
+              old = '"M067": LESSON_READY, "M068": LESSON_READY, "M097": LESSON_READY,'
+              new = '"M067": LESSON_READY, "M068": LESSON_READY, "M070": LESSON_READY, "M097": LESSON_READY,'
+              if old not in text:
+                  raise SystemExit("regression-status anchor not found")
+              text = text.replace(old, new, 1)
+          if '"M070": (7, 9)' not in text:
+              old = '"M030": (7, 9), "M048": (5, 6), "M050": (8, 7), "M056": (8, 7), "M067": (5, 5),'
+              new = '"M030": (7, 9), "M048": (5, 6), "M050": (8, 7), "M056": (8, 7), "M067": (5, 5), "M070": (7, 9),'
+              if old not in text:
+                  raise SystemExit("box-count anchor not found")
+              text = text.replace(old, new, 1)
+          target = '("M070", "I029")'
+          if target not in text:
+              old = 'expected_simplified = {("M030", "I029"), ("M050", "I029"),'
+              new = 'expected_simplified = {("M030", "I029"), ("M070", "I029"), ("M050", "I029"),'
+              if old not in text:
+                  raise SystemExit("simplified-action anchor not found")
+              text = text.replace(old, new, 1)
+          path.write_text(text)
+          PY
+
       - name: Build M070 and prove builder idempotence
         run: |
           set -euo pipefail
@@ -47,15 +76,15 @@ jobs:
           python scripts/validate_item_image_assets.py
           python scripts/validate_teaching_display_layer.py
 
-      - name: Commit generated M070 data only
+      - name: Commit generated M070 data and validator contract
         run: |
           set -euo pipefail
-          if git diff --quiet -- data; then
-            echo "No generated data changes to commit"
+          if git diff --quiet -- data scripts/validate_lesson_scoring_modes.py; then
+            echo "No generated M070 changes to commit"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data
+          git add data scripts/validate_lesson_scoring_modes.py
           git commit -m "Build M070 Tamano LESSON_READY_10 data"
           git push origin HEAD:feature/lesson-ready-15-m070
