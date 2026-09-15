@@ -1,5 +1,4 @@
-name: TEMP M070 build and gate
-# idempotence confirmation after generated data commit
+name: TEMP M070 full pre-PR gate
 
 on:
   push:
@@ -8,10 +7,10 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  build-gate:
+  full-gate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -24,80 +23,59 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Register M070 permanent contracts
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-
-          validator = Path("scripts/validate_lesson_scoring_modes.py")
-          text = validator.read_text()
-          if '"M070": LESSON_READY' not in text:
-              old = '"M067": LESSON_READY, "M068": LESSON_READY, "M097": LESSON_READY,'
-              new = '"M067": LESSON_READY, "M068": LESSON_READY, "M070": LESSON_READY, "M097": LESSON_READY,'
-              if old not in text:
-                  raise SystemExit("regression-status anchor not found")
-              text = text.replace(old, new, 1)
-          if '"M070": (7, 9)' not in text:
-              old = '"M030": (7, 9), "M048": (5, 6), "M050": (8, 7), "M056": (8, 7), "M067": (5, 5),'
-              new = '"M030": (7, 9), "M048": (5, 6), "M050": (8, 7), "M056": (8, 7), "M067": (5, 5), "M070": (7, 9),'
-              if old not in text:
-                  raise SystemExit("box-count anchor not found")
-              text = text.replace(old, new, 1)
-          target = '("M070", "I029")'
-          if target not in text:
-              old = 'expected_simplified = {("M030", "I029"), ("M050", "I029"),'
-              new = 'expected_simplified = {("M030", "I029"), ("M070", "I029"), ("M050", "I029"),'
-              if old not in text:
-                  raise SystemExit("simplified-action anchor not found")
-              text = text.replace(old, new, 1)
-          validator.write_text(text)
-
-          builder = Path("scripts/build_lesson_ready_m070.py")
-          text = builder.read_text()
-          text = text.replace('row["reviewed_category_count"] = "10"', 'row["reviewed_category_count"] = "12"', 1)
-          old_basis = '可燃・不燃A・不燃B・危険・PET・その他プラ・缶・びん・古紙の9ステーション葉＋粗大ごみ。拠点回収2系統と収集外は件数外。'
-          new_basis = '現行公式leafをschema規約で計数。可燃・不燃A・不燃B・危険・PET・その他プラ・缶・びん・古紙の9ステーション葉＋粗大ごみ＋古布・廃食用油と小型充電式電池の2拠点回収＝12。収集外EXCLUDEDは件数外。'
-          if old_basis in text:
-              text = text.replace(old_basis, new_basis, 1)
-          elif new_basis not in text:
-              raise SystemExit("category-count basis anchor not found")
-          builder.write_text(text)
-          PY
-
-      - name: Build M070 and prove builder idempotence
+      - name: Confirm M070 builder and review sync are idempotent
         run: |
           set -euo pipefail
           python scripts/build_lesson_ready_m070.py
-          git diff --binary > /tmp/m070-first.diff
-          python scripts/build_lesson_ready_m070.py
-          git diff --binary > /tmp/m070-second.diff
-          cmp /tmp/m070-first.diff /tmp/m070-second.diff
+          git diff --exit-code -- data scripts/build_lesson_ready_m070.py scripts/validate_lesson_scoring_modes.py
+          python scripts/sync_lesson_ready_reviews.py
+          git diff --exit-code -- data scripts/build_lesson_ready_m070.py scripts/validate_lesson_scoring_modes.py
 
-      - name: Core lesson and canonical gates
+      - name: Validate formal and supplemental lesson item layers
         run: |
           set -euo pipefail
           python scripts/validate_lesson_item_set.py
+          python scripts/build_lesson_supplemental_scoring.py
+          git diff --exit-code -- data/app/lesson_supplemental_item_scoring.csv
+          python scripts/validate_lesson_supplemental_scoring.py
+          python scripts/red_team_lesson_supplemental_scoring.py
+          python scripts/validate_lesson_15_ui.py
+          python scripts/red_team_lesson_15_ui.py
+
+      - name: Validate fixed-10 scoring and regional regressions
+        run: |
+          set -euo pipefail
           python scripts/validate_classroom_pilot_scoring_modes.py
           python scripts/red_team_classroom_pilot_scoring_modes.py
           python scripts/validate_item_image_mapping_pilot.py
+          python scripts/validate_m106_mobile_battery_factfix.py
+          python scripts/red_team_m106_mobile_battery_factfix.py
           python scripts/validate_classroom_pilot_variants.py
           python scripts/red_team_classroom_pilot_variants.py
           node --check app/app.js
+
+      - name: Validate company mapping regressions
+        run: |
+          set -euo pipefail
+          python scripts/validate_company_municipality_mapping.py
+          python scripts/validate_company_onboarding_18.py
+          python scripts/red_team_company_municipality_mapping.py
+          node --check app/company-selector.js
+          grep -q 'id="selectionModeSelect"' app/index.html
+          grep -q 'id="companySelect"' app/index.html
+          grep -q 'id="companySiteSelect"' app/index.html
+          grep -q 'company-selector.js' app/index.html
+
+      - name: Validate canonical, schema, assets, display, and style gates
+        run: |
+          set -euo pipefail
           python scripts/validate_research.py
           python scripts/check_next_batch_gate.py
           python scripts/validate_item_image_assets.py
           python scripts/validate_teaching_display_layer.py
+          python scripts/validate_style_research_promotion_compat.py --gate
 
-      - name: Commit generated M070 data and permanent scripts
+      - name: Confirm clean worktree for permanent files
         run: |
           set -euo pipefail
-          if git diff --quiet -- data scripts/validate_lesson_scoring_modes.py scripts/build_lesson_ready_m070.py; then
-            echo "No generated M070 changes to commit"
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data scripts/validate_lesson_scoring_modes.py scripts/build_lesson_ready_m070.py
-          git commit -m "Build M070 Tamano LESSON_READY_10 data"
-          git push origin HEAD:feature/lesson-ready-15-m070
+          git diff --exit-code -- data app scripts
